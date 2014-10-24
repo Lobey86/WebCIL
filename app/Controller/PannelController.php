@@ -9,18 +9,25 @@ public $uses=array('Pannel', 'Fiche', 'User');
         $this->set('users', $this->User->find('all', array('fields'=>array('User.id', 'User.nom', 'User.prenom'), 'order'=>'User.nom')));
     }
 
+
+
     public function add() {
 
     }
+
+
 
     public function test(){
         $this->Session->setFlash('La fiche a correctement été envoyée', 'flashsuccess');
         $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
     }
 
+
+
     public function relancer(){
         $this->Session->setFlash('La fiche a été replacée en cours de rédaction', 'flashsuccess');
         $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
     }
+
 
 }

@@ -85,7 +85,7 @@ $cakeDescription = 'WebCIL';
                                         <ul class="dropdown-menu" role="menu">
                                             <li><?php echo $this->Html->link('Mon pannel', array('controller' => 'pannel', 'action' => 'index'));?></li>
                                             <li class="divider"></li>
-                                            <li class="dropdown-header">Votre Compte</li>
+                                            <li class="dropdown-header">Votre Compte</li> 
                                             <li><?php echo $this->Html->link('Modifier mon compte', array('controller' => 'users', 'action' => 'edit', $userId));?></li>
                                             <li><?php echo $this->Html->link('Déconnexion', array('controller' => 'users', 'action' => 'logout'));?></li>
                                             <li class="divider"></li>
