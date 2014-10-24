@@ -1,0 +1,29 @@
+3.1
+======
+- Ajout de la fonctionnalité de réglage du retard pour la validation des étapes.
+- Délégation de validation vers parapheur désormais générique. Usage de PASTELL disponible.
+- La création d'un circuit est désormais plus rapide.
+- Corrections de bugs.
+
+3.0.02
+======
+- Correction listeSousTypesParapheur pour le parapheur
+- Correction lien entre les models Traitement et Visa
+- Correction pour prendre en compte "IN" comme "RI" dans positionTrigger
+- Correction nouveau paramétrage sur l'ajout d'un traitement "IN"
+- Correction de la fonction "retourner à" : ne recrée que les étapes précédentes et non plus tout le circuit précédent
+
+3.0.01
+======
+- Correction du saut d'étape automatique (validation des visas)
+- Remise de l'attribut état parapheur à 0 après récupération du dossier
+- Correction sur la récupération de validation parapheur (délégation)
+
+
+3.0
+======
+- Mise en place d'une étape de type délégation
+- Correction sur la création d'étape de circuit
+- Correction du saut d'étape automatique
+
+

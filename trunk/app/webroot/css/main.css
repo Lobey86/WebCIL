@@ -1,0 +1,251 @@
+/*
+Page pannel
+Div affichant les infos concernées.
+N'apparaissent que lors d'un clic sur le lien
+JS dans Pannel.js
+*/
+#publicAutresPrec, #informerAutresPrec, #droitsQui, #droitsAdresseMail, #donneesExterne, #interconnexionPrec, #archivagePrec{
+    display: none;
+    clear: both;
+}
+#listEnCours{
+    display: none;
+}
+#listValidees{
+    display: none;
+}
+#listARevoir{
+    display: none;
+}
+
+#tabsVosFiches{
+    margin-bottom: 15px;
+}
+
+.page-header{
+    clear: both;
+}
+
+#fichesAControler{
+    display: none;
+    margin-bottom: 25px;
+}
+
+#fichesAValider{
+    display: none;
+    margin-bottom: 25px;
+}
+
+#fichesASigner{
+    display: none;
+    margin-bottom: 25px;
+}
+#sousTitre{
+    display: none;
+}
+.h2Deroulant{
+    cursor: default;
+}
+#formulaire{
+    display: none;
+}
+.labelFormulaire{
+    display: block;
+    font-style: italic;
+    clear: both;
+    margin-top: 20px;
+    font-weight: bold;
+}
+.inputsForm{
+    width: 100%;
+}
+.inputsFormLeft{
+    width: 49%;
+    Float: left;
+}
+.inputsFormRight{
+    width: 49%;
+    float: right;
+}
+.pop{
+    height: 100%;
+    width: 100%;
+    margin:auto;
+}
+.thcent{
+    text-align: center;
+}
+.tdcent{
+    text-align: center;
+}
+.thleft{
+    text-align: left;
+}
+.tdleft{
+    text-align: left;
+}
+.thright{
+    text-align: right;
+}
+.tdright{
+    text-align: right;
+}
+.donneesCat{
+    display: none;
+}
+legend{
+    padding-top: 30px;
+    margin-bottom: 0;
+    clear: both;
+}
+#FicheUpload{
+    margin-top:15px;
+}
+.sender{
+    margin-top:30px;
+    margin-right: 30px;
+}
+.login{
+    margin-bottom: 25px;
+}
+.boutonsAction5{
+    margin-left:5px;
+}
+.boutonsAction15{
+    margin-left: 15px;
+}
+tr[class^='selectDest']{
+    display: none;
+    margin-top: 30px;
+}
+tr[class^='commentaireRefus']{
+    display: none;
+    margin-top: 30px;
+}
+tr[class^='commentaireRepondre']{
+    display: none;
+    margin-top: 30px;
+}
+.btnDivSend{
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.cinquante{
+    width: 50%;
+}
+.tuilesStatuts{
+    margin-top: 15px;
+    padding:10px;
+}
+.tuilesStatutsNom{
+    clear:both;
+    margin-top: 5px;
+}
+.tuilesStatutsDateCrea{
+    margin-top: 15px;
+}
+.tuilesStatutsDateSend{
+    margin-top: 15px;
+}
+.listeValidation, .listeValidee, .listeRefusee, .listeAValider{
+    display: none;
+}
+#footer{
+    margin-top: 35px;
+}
+#flashsuccess{
+    position: absolute;
+    top:10px;
+    left: 25px;
+    right:25px;
+}
+#flasherror{
+    position: absolute;
+    top:10px;
+    left: 25px;
+    right:25px;
+}
+#flashinfo{
+    position: absolute;
+    top:10px;
+    left: 25px;
+    right:25px;
+}
+#flasherror{
+    position: absolute;
+    top:10px;
+    left: 25px;
+    right:25px;
+}
+#relatif{
+    position: relative;
+}
+.tableauFichiers{
+    margin-top: 10px;
+}
+.recherche{
+    margin-bottom: 20px;
+}
+#caretFichesAControler, #caretVosFiches{
+    margin-right: 20px;
+}
+.glyph{
+    height: 20px;
+    width: 18px;
+}
+.droitsVille{
+    display: none;
+}
+.droitsParticuliers{
+    display: none;
+}
+
+
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu>.dropdown-menu {
+    top:0;
+    left:100%;
+    margin-top:-6px;
+    margin-left:-1px;
+    -webkit-border-radius:0 6px 6px 6px;
+    -moz-border-radius:0 6px 6px 6px;
+    border-radius:0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+    display:block;
+}
+.dropdown-submenu>a:after {
+    display:block;
+    content:" ";
+    float:right;
+    width:0;
+    height:0;
+    border-color:transparent;
+    border-style:solid;
+    border-width:5px 0 5px 5px;
+    border-left-color:#cccccc;
+    margin-top:5px;
+    margin-right:-10px;
+}
+.dropdown-submenu:hover>a:after {
+    border-left-color:#ffffff;
+}
+.dropdown-submenu.pull-left {
+    float:none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left:-100%;
+    margin-left:10px;
+    -webkit-border-radius:6px 0 6px 6px;
+    -moz-border-radius:6px 0 6px 6px;
+    border-radius:6px 0 6px 6px;
+}
+.obligatoire{
+    color:red;
+}
+legend{
+    background-color: #F4F4F4;
+    padding: 5px;
+}
