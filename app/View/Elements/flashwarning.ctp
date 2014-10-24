@@ -1,0 +1,1 @@
+<div id="flashwarning" class=" alert alert-warning"><?php echo h($message); ?></div>

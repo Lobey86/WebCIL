@@ -1,0 +1,55 @@
+.circuit{
+    /*width: 100%;*/
+    text-align: center;
+    color: black;
+    padding: 5px 0 15px 30px;
+}
+.etape {
+    text-align: center;
+    width: 200px;        
+    margin: 8px;
+    border:  1px solid black;
+    border-bottom:  3px solid;
+    border-right:  5px solid;
+    box-shadow: 8px 8px 12px #aaa;
+    -moz-box-shadow: 8px 8px 12px #aaa; 
+    -webkit-box-shadow: 8px 8px 12px #aaa;
+}
+.etape div{
+    padding: 2px;
+}
+.nom {
+    background: #f2f2f2;
+}
+
+.nomcourante{
+    font-weight: bold; 
+}
+
+.type {
+    border-top: 1px dashed;
+    background: #fff;
+}
+.utilisateurs {
+    border-top: 1px dashed;
+    background: #f2f2f2;
+}
+.utilisateuravise {
+    border-top: 1px dashed;
+    background: #f2f2f2;
+    text-decoration: line-through;
+}
+.infobulle{
+    border-bottom-color: #999;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px;
+    cursor: help;
+    color: black;
+    text-decoration: none;
+}
+.tooltip{
+    text-align: left;
+}
+dd .circuit{
+    text-indent: 0;
+}

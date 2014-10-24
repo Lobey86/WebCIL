@@ -1,0 +1,31 @@
+/* 
+    Document   : design
+    Created on : 22 mars 2013, 09:43:23
+    Author     : fajir
+    Description:
+        Eléments de style
+*/
+
+.btn-group>.btn {
+    float: none;
+    margin-top: 10px;
+}
+
+h2{
+    margin-bottom: 20px;
+}
+label{
+    width: auto;
+    text-align: left;
+    float: none;
+}
+legend{
+    font-size: larger;
+    margin-bottom: 10px;
+}
+dt.viewEtapes{
+    margin-top: 15px;
+}
+#ckb_actif label{
+    text-align:left;
+}
