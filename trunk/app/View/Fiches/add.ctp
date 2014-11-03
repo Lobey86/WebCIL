@@ -6,18 +6,33 @@ echo $this->Html->script('pannel.js');
 </div>
 
 <div id="vosInfos">
+
     <?php
     echo $this->Form->create('Fiche', array('action'=>'add', 'type'=>'file'));
+
     echo "<fieldset>";
-    echo "<legend>Vos informations</legend>";
-    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Direction / service </span>', 'class'=>'form-control'));
+    echo "<legend>Déclarant</legend>";
 
-    echo $this->Form->input('nomcpu', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom CPU</span>', 'class'=>'form-control'));
+    echo "<div class='inputsFormLeft75'>";
+    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
 
-    echo $this->Form->input('nomcpi', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom CPI</span>', 'class'=>'form-control'));
+    echo $this->Form->input('nomcpu', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Service</span>', 'class'=>'form-control'));
+
+    echo $this->Form->input('nomcpi', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'type'=>'textarea'));
+    echo $this->Form->input('nomcpu', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo "</div>";
+    echo "<div class='inputsFormRight25'>";
+    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class'=>'form-control'));
+    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class'=>'form-control'));
+
+    echo "</div>";
 
     echo "</fieldset>";
     ?>
+
 </div>
 <div class="page-header">
     <h2>Déclaration <small>de traitement automatisé</small></h2>
