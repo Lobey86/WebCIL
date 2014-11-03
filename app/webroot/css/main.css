@@ -67,6 +67,21 @@ JS dans Pannel.js
     width: 49%;
     float: right;
 }
+.inputsFormLeft75{
+    width: 60%;
+    Float: left;
+    padding: 10px;
+    border-right: 1px dashed black;
+    margin-top: 5px;
+    margin-bottom: 5px
+}
+.inputsFormRight25{
+    width: 40%;
+    float: right;
+    padding:10px;
+    margin-top: 5px;
+    margin-bottom: 5px
+}
 .pop{
     height: 100%;
     width: 100%;
@@ -246,6 +261,9 @@ tr[class^='commentaireRepondre']{
     color:red;
 }
 legend{
-    background-color: #F4F4F4;
-    padding: 25px;
+    background-color: #E9E9E9;
+    padding: 15px;
+}
+.conteneur{
+    border: 1px solid grey;
 }
