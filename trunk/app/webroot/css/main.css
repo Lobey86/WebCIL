@@ -263,7 +263,40 @@ tr[class^='commentaireRepondre']{
 legend{
     background-color: #E9E9E9;
     padding: 15px;
+    border: 1px solid darkgray;
+    border-radius: 10px;
 }
-.conteneur{
-    border: 1px solid grey;
+
+.precision{
+    clear: both;
+    padding:10px;
+    font-style: italic;
+    border-radius: 10px;
+    background-color: #F2F2F2;
+    margin-top:25px;
+}
+
+fieldset{
+    margin-top: 20px;
+}
+.check{
+    text-decoration: none;
+    font-style: normal;
+}
+.tableDonnees{
+    margin-top: 10px;
+}
+.infoSensibles{
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+.listCheckBox{
+    margin-left: 35px;
+}
+.small{
+    font-size: 0.9em;
+}
+#transfertdiv, #transfert6div, #transfertconcerneautresdiv, #accesinformationautresdiv, #coordoneesreponse, #miseenoeuvreexternecoordonneesdiv, #finalitecibleautresdiv, #technologiesparticulieresautresdiv{
+    display: none;
 }

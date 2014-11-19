@@ -50,10 +50,10 @@ class UsersController extends AppController {
             }
         }
         else{
-            $listeOrganisations = $this->Organisation->find('all', array('fields' => array('id', 'nom')));
+            $listeOrganisations = $this->Organisation->find('all', array('fields' => array('id', 'raisonsociale')));
             $listingOrganisations = array();
             foreach ($listeOrganisations as $donnees){
-                $listingOrganisations[$donnees['Organisation']['id']] = $donnees['Organisation']['nom'];
+                $listingOrganisations[$donnees['Organisation']['id']] = $donnees['Organisation']['raisonsociale'];
             }
             $this->set('listeOrganisations', $listingOrganisations);
             $listeRoles = $this->Role->find('all');
@@ -64,7 +64,6 @@ class UsersController extends AppController {
             $this->set('listeroles', $listingRoles);
         }
     }
-
 
 
 
@@ -81,11 +80,11 @@ class UsersController extends AppController {
                 $this->Session->setFlash('L\'user n\'a pas été sauvegardé. Merci de réessayer.', "flasherror");
             }
         } else {
-            $listeOrganisations = $this->Organisation->find('all', array('fields' => array('id', 'nom')));
+            $listeOrganisations = $this->Organisation->find('all', array('fields' => array('id', 'raisonsociale')));
 
 
             foreach ($listeOrganisations as $donnees){
-                $listingOrganisations[$donnees['Organisation']['id']] = $donnees['Organisation']['nom'];
+                $listingOrganisations[$donnees['Organisation']['id']] = $donnees['Organisation']['raisonsociale'];
             }
             $this->set('listeOrganisations', $listingOrganisations);
 
@@ -99,8 +98,6 @@ class UsersController extends AppController {
             unset($this->request->data['User']['password']);
         }
     }
-
-
 
 
     public function delete($id = null) {
