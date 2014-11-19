@@ -2,11 +2,12 @@
 class FichesController extends AppController {
 
     public $helpers = array('Html', 'Form', 'Session');
-    public $uses=array('Fiche');
+    public $uses=array('Fiche', 'Organisation');
 
 
 
     public function index(){
+    $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
     }
 
 
@@ -19,6 +20,13 @@ class FichesController extends AppController {
                 $this->Session->setFlash('La fiche a été enregistrée', 'flashsuccess');
                 $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
             }
+            else{
+                $this->Session->setFlash('La fiche n\'a pas été enregistrée', 'flasherror');
+                $this->redirect($this->referer());
+            }
+        }
+        else{
+            $this->set('organisation', $this->Organisation->findById($this->Session->read('orgaid')));
         }
     }
 
@@ -51,7 +59,7 @@ class FichesController extends AppController {
                         $this->Session->setFlash('La fiche a été modifiée', 'flashsuccess');
                         $this->redirect(array('controller'=>'pannel', 'action' => 'index'));
                     }
-                    $this->Session->setFlash('La modification a échoué.');
+                    $this->Session->setFlash('La modification a échoué.', 'flasherror');
                     $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
                 }
             }
@@ -60,6 +68,9 @@ class FichesController extends AppController {
             $this->request->data = $fiche;
         }
     }
+
+
+
     public function show($id = null) {
         if (!$id) {
             $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');

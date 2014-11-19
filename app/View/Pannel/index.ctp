@@ -39,13 +39,13 @@ echo $this->Html->script('pannel.js');
                 ?>
                 <tr>
                     <td class='tdleft'>
-                        <?php echo $donnee['Fiche']['nomoutil']; ?>
+                        <?php echo $donnee['Fiche']['outilnom']; ?>
                     </td>
                     <td class='tdleft'>
                         <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>
                     </td>
                     <td class='tdleft'>
-                        <?php echo $this->Time->format($donnee['Fiche']['modified'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['UserM']['prenom']." ".$donnee['UserM']['nom']; ?></i>
+                        <?php echo $this->Time->format($donnee['Fiche']['modified'], '%e-%m-%Y'); ?><i> par </i>
                     </td>
                     <td class='tdleft'>
                         <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'fiches', 'action'=>'show', $donnee['Fiche']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false)).$this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'fiches', 'action'=>'edit', $donnee['Fiche']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false)); ?>
@@ -60,7 +60,7 @@ echo $this->Html->script('pannel.js');
                                 <li role='presentation'><?php echo $this->Html->link('Envoyer au CIL pour clôture', array('controller'=>'pannel', 'action'=>'test'), array('role'=>'menuitem', 'tabindex'=>'-1')); ?></li>
                             </ul>
                         </span>
-                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'fiches', 'action'=>'delete', $donnee['Fiche']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous supprimer la fiche de '.$donnee['Fiche']['nomoutil'].'?'); ?>
+                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'fiches', 'action'=>'delete', $donnee['Fiche']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous supprimer la fiche de '.$donnee['Fiche']['outilnom'].'?'); ?>
                     </td>
                 </tr>
                 <tr class='selectDest<?php echo $donnee['Fiche']['id']; ?>'>
@@ -119,7 +119,7 @@ echo $this->Html->script('pannel.js');
 
                 <tr id='ligneValidation<?php echo $donnee['Fiche']['id']; ?>'>
                     <td class='tdleft'>
-                        <?php echo $donnee['Fiche']['nomoutil']; ?>
+                        <?php echo $donnee['Fiche']['outilnom']; ?>
                     </td>
                     <td class='tdleft'>
                         <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>
@@ -135,7 +135,7 @@ echo $this->Html->script('pannel.js');
                         <button type='button' class='btn btn-default boutonReorienter boutonsAction5' value='<?php echo $donnee['Fiche']['id']; ?>'>
                             <span class='glyphicon glyphicon-transfer'></span>
                         </button>
-                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'fiches', 'action'=>'delete', $donnee['Fiche']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous supprimer la fiche de '.$donnee['Fiche']['nomoutil'].'?'); ?>
+                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'fiches', 'action'=>'delete', $donnee['Fiche']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous supprimer la fiche de '.$donnee['Fiche']['outilnom'].'?'); ?>
                     </td>
                 </tr>
                 <tr class='listeValidation' id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
@@ -234,7 +234,7 @@ echo $this->Html->script('pannel.js');
 
                 <tr id='ligneValidation<?php echo $donnee['Fiche']['id']; ?>'>
                     <td class='tdleft'>
-                        <?php echo $donnee['Fiche']['nomoutil']; ?>
+                        <?php echo $donnee['Fiche']['outilnom']; ?>
                     </td>
                     <td class='tdleft'>
                         <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>
@@ -320,7 +320,7 @@ echo $this->Html->script('pannel.js');
             ?>
                 <tr id='ligneValidation<?php echo $donnee['Fiche']['id']; ?>'>
                     <td class='tdleft'>
-                        <?php echo $donnee['Fiche']['nomoutil']; ?>
+                        <?php echo $donnee['Fiche']['outilnom']; ?>
                     </td>
                     <td class='tdleft'>
                         <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>
@@ -332,7 +332,7 @@ echo $this->Html->script('pannel.js');
                         <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'fiches', 'action'=>'show', $donnee['Fiche']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false)); ?>
                         <button type='button' class='btn btn-default boutonListRefusee boutonsAction5' value='<?php echo $donnee['Fiche']['id']; ?>'><span class='glyphicon glyphicon-list-alt'></span></button>
                         <?php echo $this->Html->link('<span class="glyphicon glyphicon-repeat"></span>', array('controller'=>'pannel', 'action'=>'relancer', $donnee['Fiche']['id']), array('class'=>'btn btn-default boutonRelancer boutonsAction5', 'escapeTitle'=>false)); ?>
-                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'fiches', 'action'=>'delete', $donnee['Fiche']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous supprimer la fiche de '.$donnee['Fiche']['nomoutil'].'?'); ?>
+                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'fiches', 'action'=>'delete', $donnee['Fiche']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous supprimer la fiche de '.$donnee['Fiche']['outilnom'].'?'); ?>
                     </td>
                 </tr>
                 <tr class='listeRefusee' id='listeRefusee<?php echo $donnee['Fiche']['id']; ?>'>
@@ -425,7 +425,7 @@ echo $this->Html->script('pannel.js');
                 ?>
                 <tr id='ligneAValider<?php echo $donnee['Fiche']['id']; ?>'>
                     <td class='tdleft'>
-                        <?php echo $donnee['Fiche']['nomoutil']; ?>
+                        <?php echo $donnee['Fiche']['outilnom']; ?>
                     </td>
                     <td class='tdleft'>
                         <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>
@@ -556,7 +556,7 @@ echo $this->Html->script('pannel.js');
                 <tbody>
                 <tr id='ligneAValider<?php echo $donnee['Fiche']['id']; ?>'>
                     <td class='tdleft'>
-                        <?php echo $donnee['Fiche']['nomoutil']; ?>
+                        <?php echo $donnee['Fiche']['outilnom']; ?>
                     </td>
                     <td class='tdleft'>
                         <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>

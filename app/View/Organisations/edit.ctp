@@ -2,37 +2,67 @@
 echo $this->Html->script('organisations.js');
 ?>
 <div class="well">
-    <h2>Veuillez entrer les nouvelles informations de l'organisation</h2>
+    <h2>Veuillez entrer les informations de la nouvelle organisation</h2>
 </div>
 
 <div class="users form">
-    <?php echo $this->Form->create('Organisation');?>
+    <?php echo $this->Form->create('Organisation', array('action'=>'edit', 'type'=>'file'));?>
     <div class="input-group login">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-tag"></span>
             </span>
-        <?php echo $this->Form->input('nom', array('class'=>'form-control', 'placeholder'=>'Nom de l\'organisation', 'label'=>false, 'value'=>'ADULLACT')); ?>
+        <?php echo $this->Form->input('raisonsociale', array('class'=>'form-control', 'placeholder'=>'Raison sociale (requis)', 'label'=>false, 'required'=>'required')); ?>
     </div>
     <div class="input-group login">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-phone-alt"></span>
             </span>
-        <?php echo $this->Form->input('telephone', array('class'=>'form-control', 'placeholder'=>'Téléphone', 'label'=>false, 'value'=>'04 67 65 96 44')); ?>
+        <?php echo $this->Form->input('telephone', array('class'=>'form-control', 'placeholder'=>'Téléphone (requis)', 'label'=>false, 'required'=>'required')); ?>
+    </div>
+    <div class="input-group login">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-print"></span>
+            </span>
+        <?php echo $this->Form->input('fax', array('class'=>'form-control', 'placeholder'=>'Fax (facultatif)', 'label'=>false)); ?>
     </div>
     <div class="input-group login">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-home"></span>
             </span>
-        <?php echo $this->Form->input('adresse', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea', 'placeholder'=>'Adresse', 'value'=>str_replace('<br>', "\n", 'Bât Le Tucano <br>836, rue du mas de Verchant<br>34000 Montpellier'))); ?>
+        <?php echo $this->Form->input('adresse', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea', 'placeholder'=>'Adresse (requis)', 'required'=>'required')); ?>
+    </div>
+    <div class="input-group login">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-envelope"></span>
+            </span>
+        <?php echo $this->Form->input('email', array('class'=>'form-control', 'placeholder'=>'E-mail (requis)', 'label'=>false, 'required'=>'required')); ?>
+    </div>
+    <div class="input-group login">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-tag"></span>
+            </span>
+        <?php echo $this->Form->input('sigle', array('class'=>'form-control', 'placeholder'=>'Sigle (facultatif)', 'label'=>false)); ?>
+    </div>
+    <div class="input-group login">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-barcode"></span>
+            </span>
+        <?php echo $this->Form->input('siret', array('class'=>'form-control', 'placeholder'=>'N° SIRET (requis)', 'label'=>false, 'required'=>'required')); ?>
+    </div>
+    <div class="input-group login">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-barcode"></span>
+            </span>
+        <?php echo $this->Form->input('ape', array('class'=>'form-control', 'placeholder'=>'Code APE (requis)', 'label'=>false, 'required'=>'required')); ?>
     </div>
     <div class="input-group login">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-picture"></span>
             </span>
-        <?php echo $this->Form->input('upload', array('div'=>'input-group inputsForm', 'type' => 'file', 'multiple'=>'multiple', 'class'=>'form-control', 'label'=>false)); ?>
+        <?php echo $this->Form->input('upload', array('div'=>'input-group inputsForm', 'type' => 'file', 'class'=>'form-control', 'label'=>false)); ?>
     </div>
     <?php
     echo $this->Html->link('Annuler', array('controller'=>'organisations', 'action'=>'index'), array('class'=>'btn btn-danger pull-right sender'));
-    echo $this->Html->link('Modifier', array('controller'=>'organisations', 'action'=>'index'), array('class'=>'btn btn-primary sender pull-right'));
+    echo $this->Form->submit('Enregistrer', array('class'=>'btn btn-primary pull-right sender'));
     ?>
 </div>

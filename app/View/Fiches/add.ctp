@@ -1,5 +1,5 @@
 <?php
-echo $this->Html->script('pannel.js');
+echo $this->Html->script('formulaire.js');
 ?>
 <div class="well">
     <h1>Créer une fiche</h1>
@@ -9,567 +9,429 @@ echo $this->Html->script('pannel.js');
 
     <?php
     echo $this->Form->create('Fiche', array('action'=>'add', 'type'=>'file'));
-
     echo "<fieldset>";
     echo "<legend>Déclarant</legend>";
-
     echo "<div class='inputsFormLeft75'>";
-    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
-
-    echo $this->Form->input('nomcpu', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Service</span>', 'class'=>'form-control'));
-
-    echo $this->Form->input('nomcpi', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'type'=>'textarea'));
-    echo $this->Form->input('nomcpu', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
-echo "</div>";
-    echo "<div class='inputsFormRight25'>";
-    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class'=>'form-control'));
-    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
-    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
-    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
-    echo $this->Form->input('dirserv', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class'=>'form-control'));
-
+    echo $this->Form->input('declarantraisonsociale', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required', 'value'=>$organisation['Organisation']['raisonsociale'], 'disabled'=>'disabled'));
+    echo $this->Form->input('declarantservice', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Service</span>', 'class'=>'form-control'));
+    echo $this->Form->input('declarantadresse', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'type'=>'textarea', 'required'=>'required', 'value'=>$organisation['Organisation']['adresse'], 'disabled'=>'disabled'));
+    echo $this->Form->input('declarantemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required', 'value'=>$organisation['Organisation']['email'], 'disabled'=>'disabled'));
     echo "</div>";
-
+    echo "<div class='inputsFormRight25'>";
+    echo $this->Form->input('declarantsigle', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class'=>'form-control', 'value'=>$organisation['Organisation']['sigle'], 'disabled'=>'disabled'));
+    echo $this->Form->input('declarantsiret', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required', 'value'=>$organisation['Organisation']['siret'], 'disabled'=>'disabled'));
+    echo $this->Form->input('declarantape', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required', 'value'=>$organisation['Organisation']['ape'], 'disabled'=>'disabled'));
+    echo $this->Form->input('declaranttelephone', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required', 'value'=>$organisation['Organisation']['telephone'], 'disabled'=>'disabled'));
+    echo $this->Form->input('declarantfax', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class'=>'form-control', 'value'=>$organisation['Organisation']['fax'], 'disabled'=>'disabled'));
+    echo "</div>";
+    echo "<div class='precision'>";
+    echo "<span class='labelFormulaire'>Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé:</span>";
+    echo $this->Form->input('declarantpersonnenom', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom et prénom <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
+    echo $this->Form->input('declarantpersonneemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
+    echo "</div>";
     echo "</fieldset>";
     ?>
-
-</div>
-<div class="page-header">
-    <h2>Déclaration <small>de traitement automatisé</small></h2>
 </div>
 <div id="outil">
 <?php
 echo "<fieldset>";
-echo "<legend>Informations sur l'outil</legend>";
-echo $this->Form->input('datemeo', array('div'=>'input-group input-group-sm inputsFormRight', 'type'=>'text', 'label'=>false, 'before' => '<span class="labelFormulaire">Date de mise en oeuvre</span>', 'id'=>'datepicker', 'class'=>'form-control'));
-echo $this->Form->input('nomoutil', array('div'=>'input-group input-group-sm inputsFormLeft', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom de l\'outil <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-echo $this->Form->input('finalite', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Finalité principale</span>', 'class'=>'form-control', 'type'=>'textarea'));
-
-echo "</fieldset>";
+echo "<legend>Outil</legend>";
+echo $this->Form->input('outilnom', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom de l\'outil <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
 
 echo "<fieldset>";
-echo "<legend>Fonctionnalités du traitement</legend>";
-echo $this->Form->input('fonctionstraitement', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Décrire les fonctions du traitement</span>', 'class'=>'form-control', 'type'=>'textarea'));
-echo '<span class="labelFormulaire">Public concerné par le traitement <span class="obligatoire">*</span></span>';
-echo '<div class="inputsFormRight">';
-echo $this->Form->input('publiccitoyens', array('type'=>'checkbox', 'label'=>'Citoyens'));
-echo $this->Form->input('publicagents', array('type'=>'checkbox', 'label'=>'Agents'));
-echo $this->Form->input('publicautres', array('type'=>'checkbox', 'label'=>'Autres'));
-echo '</div>';
-echo '<div class="inputsFormLeft">';
-echo $this->Form->input('publicusagers', array('type'=>'checkbox', 'label'=>'Usagers'));
-echo $this->Form->input('publicvisiteurs', array('type'=>'checkbox', 'label'=>'Visiteurs'));
-echo $this->Form->input('publiccollegiens', array('type'=>'checkbox', 'label'=>'Collégiens'));
-echo '</div>';
-echo '<div id="publicAutresPrec">';
-echo $this->Form->input('publicautresprec', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez</span>', 'class'=>'form-control'));
-echo '</div>';
-echo "</fieldset>";
-echo "<fieldset>";
-echo "<legend>Informations, droit d'accès et sécurité</legend>";
-echo '<span class="labelFormulaire">Mesures prises pour informer les personnes concernées</span>';
-echo '<div class="inputsFormRight">';
-echo $this->Form->input('informeraffichage', array('type'=>'checkbox', 'label'=>'Affichage dans les locaux recevant la personne'));
-echo $this->Form->input('informerinternet', array('type'=>'checkbox', 'label'=>'Mentions sur le site internet'));
-echo $this->Form->input('informerintranet', array('type'=>'checkbox', 'label'=>'Mentions sur le site intranet'));
-echo '</div>';
-echo '<div class="inputsFormLeft">';
-echo $this->Form->input('informerquestionnaire', array('type'=>'checkbox', 'label'=>'Mentions légales sur le questionnaire de collecte'));
-echo $this->Form->input('informerdocuments', array('type'=>'checkbox', 'label'=>'Documents remis à la personne'));
-echo $this->Form->input('informercourrier', array('type'=>'checkbox', 'label'=>'Envoi d\'un courier personnalisé'));
-echo $this->Form->input('informerautres', array('type'=>'checkbox', 'label'=>'Autre moyen'));
-echo '</div>';
-echo '<div id="informerAutresPrec">';
-echo $this->Form->input('informerautresprec', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez</span>', 'class'=>'form-control'));
-echo '</div>';
-
-echo '<span class="labelFormulaire">Moyen(s) prévu(s) pour que les personnes exercent leur droit d\'accès</span>';
-echo '<div class="inputsFormRight">';
-echo $this->Form->input('droitspostal', array('type'=>'checkbox', 'label'=>'Voie postale'));
-echo $this->Form->input('droitsinternet', array('type'=>'checkbox', 'label'=>'Accès en ligne prévu sur le site'));
+echo "<legend>Service chargé de la mise en oeuvre du traitement</legend>";
+echo "<div class='precision'>";
+echo "<span class='labelFormulaire'>Veuillez préciser quel est le service ou l'organisme qui effectue, en pratique, le traitement:</span>";
+echo $this->Form->input('miseenoeuvreinterne', array('type'=>'checkbox', 'label'=>'Il s\'agit du déclarant lui-même', 'class'=>'check'));
+echo $this->Form->input('miseenoeuvreexterne', array('type'=>'checkbox', 'label'=>'Le traitement est assuré par un tiers <span class="small">(prestataires, sous traitants)</span> ou un service différent du déclarant.', 'class'=>'check'));
 echo "</div>";
-echo '<div class="inputsFormLeft">';
-echo $this->Form->input('droitssurplace', array('type'=>'checkbox', 'label'=>'Sur place dans le service'));
-echo $this->Form->input('droitsemail', array('type'=>'checkbox', 'label'=>'Par courrier éléctronique'));
+echo "<div id='miseenoeuvreexternecoordonneesdiv'>";
+echo "<div class='inputsFormLeft75'>";
+echo $this->Form->input('miseenoeuvreexterneraisonsociale', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom et prénom ou raison sociale <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+
+echo $this->Form->input('miseenoeuvreexterneservice', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Service</span>', 'class'=>'form-control'));
+
+echo $this->Form->input('miseenoeuvreexterneadresse', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'type'=>'textarea'));
+echo $this->Form->input('miseenoeuvreexterneemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
 echo "</div>";
-echo '<div id="droitsQui">';
-echo $this->Form->input('droitsqui', array('div'=>'input-group input-group-sm inputsFormLeft', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez auprès de qui</span>', 'class'=>'form-control'));
+echo "<div class='inputsFormRight25'>";
+echo $this->Form->input('miseenoeuvreexternesigle', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class'=>'form-control'));
+echo $this->Form->input('miseenoeuvreexternesiret', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo $this->Form->input('miseenoeuvreexterneape', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo $this->Form->input('miseenoeuvreexternetelephone', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo $this->Form->input('miseenoeuvreexternefax', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class'=>'form-control'));
+echo "</div>";
+echo "</div>";
+
+echo "</fieldset>";
+
+echo "<fieldset>";
+echo "<legend>Finalité du traitement</legend>";
+echo $this->Form->input('finalitedescriptif', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Quelle est la finalité ou l\'objectif de votre traitement <span class="small">(ex: gestion du recrutement)</span> ?</span>', 'class'=>'form-control', 'type'=>'textarea'));
+echo '<span class="labelFormulaire">Quelles sont les personnes concernées par le traitement? <span class="obligatoire">*</span></span>';
+echo '<div class="inputsFormRight">';
+echo $this->Form->input('finaliteciblesalaries', array('type'=>'checkbox', 'label'=>'Salariés'));
+echo $this->Form->input('finalitecibleusagers', array('type'=>'checkbox', 'label'=>'Usagers'));
+echo $this->Form->input('finalitecibleautres', array('type'=>'checkbox', 'label'=>'Autres'));
 echo '</div>';
-echo '<div id="droitsAdresseMail">';
-echo $this->Form->input('droitsadressemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez l\'adresse e-mail</span>', 'class'=>'form-control'));
+echo '<div class="inputsFormLeft">';
+echo $this->Form->input('finalitecibleclients', array('type'=>'checkbox', 'label'=>'Clients <span class="small">(actuels ou potentiels)</span>'));
+echo $this->Form->input('finaliteciblevisiteurs', array('type'=>'checkbox', 'label'=>'Visiteurs'));
+echo $this->Form->input('finalitecibleadherents', array('type'=>'checkbox', 'label'=>'Adhérents'));
 echo '</div>';
-echo '<span class="labelFormulaire">Sécurité du traitement</span>';
-echo "<div class='inputsForm'>";
-echo $this->Form->input('securiteinterne', array('type'=>'checkbox', 'label'=>'Le traitement est réalisé uniquement sur un réseau interne dédié et les échanges de données sont protégés'));
-echo $this->Form->input('securiteacces', array('type'=>'checkbox', 'label'=>'Un contrôle d’accès et d’authentification aux données (mot de passe, certificat, protection des intrusions sur le réseau, carte à puce, signature)'));
-echo $this->Form->input('securitephysique', array('type'=>'checkbox', 'label'=>'L\'accès physique au traitement est protégé (local sécurisé, badge, gardien)'));
-echo $this->Form->input('securitetransport', array('type'=>'checkbox', 'label'=>'Le canal de transport des données est protégé lors des échanges sur Internet'));
-echo $this->Form->input('securiteprec', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisions complémentaires</span>', 'class'=>'form-control'));
+echo '<div id="finalitecibleautresdiv">';
+echo $this->Form->input('finalitecibleautresdetails', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez</span>', 'class'=>'form-control'));
+echo '</div>';
+echo '<span class="labelFormulaire">Si vous utilisez une technologie particulière, merci de préciser laquelle</span>';
+echo '<div class="inputsFormRight">';
+echo $this->Form->input('technologiesparticulieressanscontact', array('type'=>'checkbox', 'label'=>'Dispositif sans contact <span class="small">(ex: RFID, NFC)</span>'));
+echo $this->Form->input('technologiesparticulierescartepuce', array('type'=>'checkbox', 'label'=>'Carte à puce'));
+echo $this->Form->input('technologiesparticulieresvideoprotection', array('type'=>'checkbox', 'label'=>'Vidéoprotection'));
+
+echo '</div>';
+echo '<div class="inputsFormLeft">';
+echo $this->Form->input('technologiesparticulieresanonymisation', array('type'=>'checkbox', 'label'=>'Mécanisme d\'anonymisation'));
+echo $this->Form->input('technologiesparticulieresgeolocalisation', array('type'=>'checkbox', 'label'=>'Géolocalisation'));
+echo $this->Form->input('technologiesparticulieresnanotechnologies', array('type'=>'checkbox', 'label'=>'Nanotechnologie'));
+echo $this->Form->input('technologiesparticulieresautres', array('type'=>'checkbox', 'label'=>'Autres'));
+echo '</div>';
+echo '<div id="technologiesparticulieresautresdiv">';
+echo $this->Form->input('TechnologiesParticulieresAutresdetails', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez</span>', 'class'=>'form-control'));
 echo '</div>';
 echo "</fieldset>";
 echo "<fieldset>";
-echo "<legend>Echanges et transferts de données</legend>";
-echo '<span class="labelFormulaire">Le traitement est-il externalisé</span>';
-echo '<div class="inputsForm">';
-$options = array('O' => 'Oui', 'N' => 'Non');
-$attributes = array('legend' => false, 'separator'=> ' | ');
-echo $this->Form->radio('externradio', $options, $attributes);
-echo '</div>';
-echo' <div class="panel panel-default inputsForm" id="donneesExterne">
-        <div class="panel-heading">
-            <h3 class="panel-title">Données sur l\'organisme externe</h3>
-        </div>
-        <div class="panel-body">';
-echo $this->Form->input('externenom', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom de l\'entreprise ou organisation</span>', 'class'=>'form-control'));
-echo $this->Form->input('externeadresse', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse</span>', 'class'=>'form-control'));
-echo $this->Form->input('externetelephone', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Numéro de téléphone</span>', 'class'=>'form-control'));
-echo $this->Form->input('externeemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique</span>', 'class'=>'form-control'));
-echo $this->Form->input('externesiret', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Numéro de SIRET</span>', 'class'=>'form-control'));
-echo '</div></div>';
-
-echo '<span class="labelFormulaire">Existe-t-il des interconnexions</span>';
-echo '<div class="inputsForm">';
-echo $this->Form->input('interconnexionnon', array('type'=>'checkbox', 'label'=>'Non'));
-echo $this->Form->input('interconnexionouiinterne', array('type'=>'checkbox', 'label'=>'Oui, avec d\'autres services / traitements du département'));
-echo $this->Form->input('interconnexionouiexterne', array('type'=>'checkbox', 'label'=>'Oui, avec des organismes extérieurs'));
-echo '<div id="interconnexionPrec">';
-echo $this->Form->input('interconnexionprec', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez pour chacun des sous-traitants, les finalités, les modalités d\'échange et si l\'interconnexion est prévue par un texte réglementaire</span>', 'class'=>'form-control', 'type'=>'textarea'));
-echo '</div></div>';
+echo "<legend>Données traitées</legend>";
+echo '
+<table class="table table-hover table-bordered tabledonnees">
+    <thead>
+        <tr>
+            <th class="thcent">Catégorie de données</th>
+            <th class="thcent">Origine</th>
+            <th class="thcent">Durée de conservation</th>
+            <th class="thcent">Destinataires</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categorie1general', array('type'=>'checkbox', 'label'=>'Etat civil, identité, données d\'identification')).'</td>
+            <td class="tdleft">'.$this->Form->input('categorie1originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categorie1origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categorie1originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categorie1duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categorie1duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categorie1duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+                $this->Form->input('categorie1dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categorie1dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categorie1dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categorie1destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categorie2general', array('type'=>'checkbox', 'label'=>'Vie personelle <br/><span class="small">(habitudes de vie, situation familiale, etc.)</span>')).'</td>
+            <td class="tdleft">'.$this->Form->input('categorie2originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categorie2origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categorie2originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categorie2duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categorie2duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categorie2duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+                $this->Form->input('categorie2dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categorie2dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categorie2dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categorie2destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categorie3general', array('type'=>'checkbox', 'label'=>'Vie professionelle <br/><span class="small">(CV, scolarité, formation professionnelle, distinctions ...)</span>')).'</td>
+            <td class="tdleft">'.$this->Form->input('categorie3originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categorie3origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+    $this->Form->input('categorie3originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categorie3duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+    $this->Form->input('categorie3duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+    $this->Form->input('categorie3duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+    $this->Form->input('categorie3dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+    $this->Form->input('categorie3dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+    $this->Form->input('categorie3dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categorie3destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categorie4general', array('type'=>'checkbox', 'label'=>'Informations d\'ordre économique et financier <br/> <span class="small">(revenus, situation financière, situation fiscale, etc.)</span>')).'</td>
+            <td class="tdleft">'.$this->Form->input('categorie4originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categorie4origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categorie4originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categorie4duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categorie4duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categorie4duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+             $this->Form->input('categorie4dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categorie4dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categorie4dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categorie4destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categorie5general', array('type'=>'checkbox', 'label'=>'Données de connexion <br/> <span class="small">(Adresse IP, logs, etc.)</span>')).'</td>
+            <td class="tdleft">'.$this->Form->input('categorie5originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categorie5origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categorie5originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categorie5duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categorie5duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categorie5duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+                $this->Form->input('categorie5dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categorie5dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categorie5dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categorie5destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categorie6general', array('type'=>'checkbox', 'label'=>'Données de localisations <br/><span class="small">(Déplaceents, données GPS, GSM, etc.)</span>')).'</td>
+            <td class="tdleft">'.$this->form->input('categorie6originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categorie6origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categorie6originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categorie6duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categorie6duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categorie6duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+                $this->Form->input('categorie6dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categorie6dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categorie6dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categorie6destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+    </tbody>
+</table>';
 echo "</fieldset>";
 echo "<fieldset>";
-echo "<legend>Données du traitement</legend>";
-echo '<span class="labelFormulaire">Pour chaque catégorie de données collectées, préciser le détail, l\'origine, le(s) destinataire(s), la durée légale de conservation</span>';
-echo '<div class="inputsForm">';
-?>
-<table>
-    <tr>
-        <th class="thcent"><div id="popovera">A</div></th>
-        <th class="thcent"><div id="popoverb">B</div></th>
-        <th class="thcent"><div id="popoverc">C</div></th>
-        <th class="thcent"><div id="popovere">E</div></th>
-        <th class="thcent"><div id="popoverh">H</div></th>
-        <th class="thcent"><div id="popoveri">I</div></th>
-        <th class="thcent"><div id="popoverj">J</div></th>
-        <th class="thcent"><div id="popoverk">K</div></th>
-        <th class="thcent"><div id="popoverl">L</div></th>
-        <th class="thcent"><div id="popoverm">M</div></th>
-        <th class="thcent"><div id="popoverp">P</div></th>
-    </tr>
-    <tr>
-        <td class="tdcent"><?php echo $this->Form->input('donneesa', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkA', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesb', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkB', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesc', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkC', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneese', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkE', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesh', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkH', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesi', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkI', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesj', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkJ', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesk', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkK', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesl', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkL', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesm', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkM', 'div'=>false)); ?></td>
-        <td class="tdcent"><?php echo $this->Form->input('donneesp', array('type'=>'checkbox', 'label'=>false, 'id'=>'checkP', 'div'=>false)); ?></td>
-    </tr>
-</table>
-<?php
+echo "<legend>Données sensibles</legend>";
+echo '
+<div class="precision"> Le traitement des données sensibles est particulièrement encadré par la loi: ces données ne peuvent être enregistrées dans un traitement que si elles sont absolument nécéssaires à sa réalisation.</div>
+<table class="table table-hover table-bordered tabledonnees">
+    <thead>
+        <tr>
+            <th class="thcent">Catégorie de données</th>
+            <th class="thcent">Origine</th>
+            <th class="thcent">Durée de conservation</th>
+            <th class="thcent">Destinataires</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categoriesensible1general', array('type'=>'checkbox', 'label'=>'N° de sécurité sociale')).'</td>
+            <td class="tdleft">'.$this->Form->input('categoriesensible1originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categoriesensible1origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categoriesensible1originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categoriesensible1duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categoriesensible1duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categoriesensible1duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+                $this->Form->input('categoriesensible1dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categoriesensible1dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categoriesensible1dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categoriesensible1destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categoriesensible2general', array('type'=>'checkbox', 'label'=>'Infractions, condamnations, mesures de sûreté <br/><span class="small">(réservé aux auxiliaires de justice)</span>')).'</td>
+            <td class="tdleft">'.$this->Form->input('categoriesensible2originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categoriesensible2origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categoriesensible2originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categoriesensible2duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categoriesensible2duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categoriesensible2duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+                $this->Form->input('categoriesensible2dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categoriesensible2dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categoriesensible2dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categoriesensible2destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+        <tr>
+            <td class="tdleft">'.$this->Form->input('categoriesensible3general', array('type'=>'checkbox', 'label'=>'Opinions philosophiques, politiques, religieuses, syndicales, vie sexuelle, données de santé, origine raciale ou ethnique')).'</td>
+            <td class="tdleft">'.$this->Form->input('categoriesensible3originedirecte', array('type'=>'checkbox', 'label'=>'Directement auprés de la personne concernée')).'
+                '.$this->Form->input('categoriesensible3origineindirecte', array('type'=>'checkbox', 'label'=>'De manière indirecte')).
+                $this->Form->input('categoriesensible3originedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">
+                '.$this->Form->input('categoriesensible3duree1mois', array('type'=>'checkbox', 'label'=>'1 mois')).
+                $this->Form->input('categoriesensible3duree3mois', array('type'=>'checkbox', 'label'=>'3 mois')).
+                $this->Form->input('categoriesensible3duree1an', array('type'=>'checkbox', 'label'=>'1 an')).
+                $this->Form->input('categoriesensible3dureecontractuelle', array('type'=>'checkbox', 'label'=>'Pendant la durée de la relation contractuelle')).
+                $this->Form->input('categoriesensible3dureeautre', array('type'=>'checkbox', 'label'=>'Autre')).
+                $this->Form->input('categoriesensible3dureedetails', array('label'=>false, 'placeholder'=>'Précisez', 'class'=>'inputsForm')).'
+            </td>
+            <td class="tdleft">Destinataires:
+                '.$this->Form->input('categoriesensible3destinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea')).'
+            </td>
+        </tr>
+    </tbody>
+</table>';
+echo "</fieldset>";
 
+echo "<fieldset>";
+echo "<legend>Echanges de données / interconnexions <span class='obligatoire'>*</span></legend>";
+
+echo '<span class="labelFormulaire">Procédez vous à des échanges de données?</span>';
+echo $this->Form->input('echangenon', array('type'=>'checkbox', 'label'=>'Non'));
+echo $this->Form->input('echangeinterne', array('type'=>'checkbox', 'label'=>'Oui, avec d\'autres services au sein de l\'organisme déclarant'));
+echo $this->Form->input('echangeexterne', array('type'=>'checkbox', 'label'=>'Oui, avec des organismes extérieurs au déclarant'));
+echo "</fieldset>";
+
+echo "<fieldset>";
+echo "<legend>Sécurité / Confidentialité <span class='obligatoire'>*</span></legend>";
+
+echo '<span class="labelFormulaire">Veuillez cocher les cases correspondant aux mesures de sécurité que vous prenez:</span>';
+echo $this->Form->input('securitephysique', array('type'=>'checkbox', 'label'=>'L\'accès physique au traitement est protégé <span class="small">(bâtiment ou local sécurisé)</span>' ));
+echo $this->Form->input('securiteauthentification', array('type'=>'checkbox', 'label'=>'Un procédé d\'authentification des utilisateurs est mis en oeuvre <span class="small">(mot de passe individuel, puce, certificat, signature ...)</span>'));
+echo $this->Form->input('securitejournalisation', array('type'=>'checkbox', 'label'=>'Une journalisation des connexions est effectuée'));
+echo $this->Form->input('securiteinterne', array('type'=>'checkbox', 'label'=>'Le traitement est réalisé sur un réseau interne dédié <span class="small">(non relié à internet)</span>'));
+echo $this->Form->input('securitecrypte', array('type'=>'checkbox', 'label'=>'Si les données sont échangées en réseau, le canal de transport ou les données sont chiffrés'));
+echo "</fieldset>";
+
+echo "<fieldset>";
+echo "<legend>Transferts de données hors de l'Union européenne <span class='obligatoire'>*</span></legend>";
+echo $this->Form->input('transferthorsuenon', array('type'=>'checkbox', 'label'=>'Vous ne transmettez pas les données vers un pays situé hors de l\'Union européenne'));
+echo $this->Form->input('transferthorsuesuffisant', array('type'=>'checkbox', 'label'=>'Vous transmettez tout ou partie des données traitées vers un pays assurant un niveau de protection suffisant <span class="small">('.$this->Html->link('cf. liste à jour des pays sur le site de la CNIL', 'http://www.cnil.fr/linstitution/international/les-autorites-de-controle-dans-le-monde/', array('target'=>'_blank')).')</span>, ou vers une société américaine adhérant au safe harbor.'));
+echo $this->Form->input('transferthorsueinsuffisant', array('type'=>'checkbox', 'label'=>'Vous transmettez tout ou partie des données traitées vers un pays n\'assurant pas un niveau de protection suffisant'));
+
+echo '<div id="transfertdiv">';
+echo '<div class="panel panel-default">';
+echo '<div class="panel-heading"><h3 class="panel-title">Organisme destinataire des données transférées</h3></div>';
+echo '<div class="panel-body">';
+
+echo $this->Form->input('transfertciblepays', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Pays <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+
+echo "<div class='inputsFormLeft75'>";
+echo $this->Form->input('transfertcibleraisonsociale', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+
+echo $this->Form->input('transfertcibleservice', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Service</span>', 'class'=>'form-control'));
+
+echo $this->Form->input('transfertcibleadresse', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'type'=>'textarea'));
+echo "</div>";
+echo "<div class='inputsFormRight25'>";
+echo $this->Form->input('transfertcibletelephone', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo $this->Form->input('transfertciblefax', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class'=>'form-control'));
+echo $this->Form->input('transfertcibleemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+
+echo "</div>";
+echo "</div>";
+echo "</div>";
+echo '<span class="labelFormulaire">Quelle est la finalité du transfert <span class="small">(centrale d\'appel, assistance clientèle, saisie des données ...)</span>? <span class="obligatoire">*</span></span>';
+echo $this->Form->input('transfertfinalite', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea'));
+echo '<span class="labelFormulaire">Quelles sont les catégories des personnes concernées par le transfert? <span class="obligatoire">*</span></span>';
+echo '<div class="inputsFormRight">';
+echo $this->Form->input('transfertconcernesalarie', array('type'=>'checkbox', 'label'=>'Salariés'));
+echo $this->Form->input('transfertconcerneusagers', array('type'=>'checkbox', 'label'=>'Usagers'));
+echo $this->Form->input('transfertconcernepatients', array('type'=>'checkbox', 'label'=>'Patients'));
+echo $this->Form->input('transfertconcerneautres', array('type'=>'checkbox', 'label'=>'Autres'));
+echo '</div>';
+echo '<div class="inputsFormLeft">';
+echo $this->Form->input('transfertconcerneclients', array('type'=>'checkbox', 'label'=>'Clients (actuels ou potentiels)'));
+echo $this->Form->input('transfertconcernevisiteurs', array('type'=>'checkbox', 'label'=>'Visiteurs'));
+echo $this->Form->input('transfertconcerneadherents', array('type'=>'checkbox', 'label'=>'Adhérents'));
+echo $this->Form->input('transfertconcerneetudiants', array('type'=>'checkbox', 'label'=>'Etudiants / Elèves'));
+echo '</div>';
+echo '<div id="transfertconcerneautresdiv">';
+echo $this->Form->input('transfertconcerneautresdetails', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez</span>', 'class'=>'form-control'));
 echo '</div>';
 
-?>
+echo '<span class="labelFormulaire">Quelle est la nature des traitements opérés par les destinataires des données <span class="small">(lecture seule, saisie, ...)</span>? <span class="obligatoire">*</span></span>';
+echo $this->Form->input('transfertnaturetraitement', array('div'=>'input-group inputsForm', 'label'=>false, 'class'=>'form-control', 'type'=>'textarea'));
 
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatA">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie A</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('adetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('aoriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('aorigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('adestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('adureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('adureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('adureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('adureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatB">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie B</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('bdetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('boriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('borigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('bdestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('bdureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('bdureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('bdureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('bdureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatC">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie C</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('cdetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('coriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('corigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('cdestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('cdureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('cdureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('cdureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('cdureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatE">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie E</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('edetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('eoriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('eorigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('edestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('edureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('edureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('edureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('edureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatH">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie H</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('hdetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('horiginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('horigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('hdestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('hdureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('hdureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('hdureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('hdureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatI">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie I</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('idetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('ioriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('iorigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('idestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('idureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('idureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('idureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('idureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatJ">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie J</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('jdetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('joriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('jorigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('jdestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('jdureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('jdureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('jdureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('jdureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatK">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie K</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('kdetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('koriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('korigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('kdestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('kdureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('kdureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('kdureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('kdureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatL">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie L</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('ldetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('loriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('lorigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('ldestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('ldureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('ldureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('ldureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('ldureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatM">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie M</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('mdetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('moriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('morigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('mdestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('mdureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('mdureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('mdureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('mdureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-
-            ?>
-        </div>
-    </div>
-</div>
-<div class="panel panel-default inputsForm donneesCat" id="donneesCatP">
-    <div class="panel-heading">
-        <h3 class="panel-title">Données de catégorie P</h3>
-    </div>
-    <div class="panel-body">
-        <?php
-        echo $this->Form->input('pdetails', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Détails des données</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Origine</span>';
-        echo $this->Form->input('poriginepersonne', array('type'=>'checkbox', 'label'=>'par la personne'));
-        echo $this->Form->input('porigineindirecte', array('type'=>'checkbox', 'label'=>'indirecte'));
-        echo $this->Form->input('pdestinataires', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Destinataires</span>', 'class'=>'form-control', 'type'=>'textarea'));
-        echo '<span class="labelFormulaire">Durée de conservation</span>';
-        ?>
-        <div class="input-group inputsFormRight">
-            <span class="input-group-addon">Années</span>
-            <?php
-            echo $this->Form->input('pdureeannees', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div>
-        <div class="input-group inputsFormLeft">
-            <span class="input-group-addon">Mois</span>
-            <?php
-            echo $this->Form->input('pdureemois', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'class'=>'form-control'));
-            ?>
-        </div><!-- /input-group -->
-        <div class="input-group">
-            <?php
-            echo $this->Form->input('pdureecontractuelle', array('type'=>'checkbox', 'label'=>'Durée relation contractuelle'));
-            echo $this->Form->input('pdureeautre', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Autre', 'class'=>'form-control'));
-            ?>
-        </div>
-    </div>
-</div>
-<?php
-echo '<span class="labelFormulaire">Existe-t-il un système d\'archivage, après la durée légale de conservation</span>';
-echo '<div class="inputsForm">';
-$options = array('O' => 'Oui', 'N' => 'Non');
-$attributes = array('legend' => false, 'separator'=> ' | ');
-echo $this->Form->radio('archivage', $options, $attributes);
+echo '<span class="labelFormulaire">Quelles sont les catégories des données transférées? <span class="obligatoire">*</span></span>';
+echo '<div class="inputsFormRight">';
+echo $this->Form->input('transfertcategoriesensible1', array('type'=>'checkbox', 'label'=>'N° de sécurité sociale'));
+echo $this->Form->input('transfertcategoriesensible2', array('type'=>'checkbox', 'label'=>'Infractions, condamnations, mesures de sûreté'));
+echo $this->Form->input('transfertcategoriesensible3', array('type'=>'checkbox', 'label'=>'Origines raciales ou ethniques, opinions politiques, philosophiques, religieuses, appartenance syndicale, vie sexuelle'));
 echo '</div>';
-echo '<div  id="archivagePrec">';
-echo $this->Form->input('archivageprec', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => 'Lequel', 'class'=>'form-control'));
+echo '<div class="inputsFormLeft">';
+echo $this->Form->input('transfertcategorie1', array('type'=>'checkbox', 'label'=>'Etat civil / identité / données d\'idenfication'));
+echo $this->Form->input('transfertcategorie2', array('type'=>'checkbox', 'label'=>'Vie personelle'));
+echo $this->Form->input('transfertcategorie3', array('type'=>'checkbox', 'label'=>'Vie professionnelle'));
+echo $this->Form->input('transfertcategorie4', array('type'=>'checkbox', 'label'=>'Information d\'ordre économique et financier'));
+echo $this->Form->input('transfertcategorie5', array('type'=>'checkbox', 'label'=>'Données de connexion'));
+echo $this->Form->input('transfertcategorie6', array('type'=>'checkbox', 'label'=>'Données de localisation'));
 echo '</div>';
+echo '</div>';
+echo '<div id="transfert6div">';
+echo '<span class="labelFormulaire">Si le transfert s\'effectue vers un pays n\'assurant pas un niveau de protection suffisant, sélectionnez les garanties mises en oeuvre pour permettre le transfert  <span class="small">('.$this->Html->link('cf. liste à jour des pays sur le site de la CNIL', 'http://www.cnil.fr/linstitution/international/les-autorites-de-controle-dans-le-monde/', array('target'=>'_blank')).')</span></span>';
 
-?>
+echo $this->Form->input('transfertgarantiesresponsabletraitement', array('type'=>'checkbox', 'label'=>'Contrat de responsable de traitement à responsable de traitement <span class="small">(clauses contractuelles types de la commission européenne)</span>'));
+echo $this->Form->input('transfertgarantiessoustraitant', array('type'=>'checkbox', 'label'=>'Contrat de responsable de traitement à sous-traitant <span class="small">(clauses contractuelles types de la commission européenne)</span>'));
+echo $this->Form->input('transfertgarantiessafeharbor', array('type'=>'checkbox', 'label'=>'Certification "safe harbor" (concerne uniquement les Etats-Unis)'));
+echo $this->Form->input('transfertgarantiesbcr', array('type'=>'checkbox', 'label'=>'Règles internes <span class="small">(ou "BCR - Binding Corporate Rules")</span>'));
+echo $this->Form->input('transfertgarantiesliste', array('type'=>'checkbox', 'label'=>'Un des cas suivants, prévus par l\'article 69 de la loi du 6 janvier 1978 modifiée:'));
+echo $this->Form->input('transfertgarantiesviepersonne', array('type'=>'checkbox', 'label'=>'La sauvegarde de la vie de la personne', 'div'=>'input checkbox listCheckBox'));
+echo $this->Form->input('transfertgarantiesinteretpublic', array('type'=>'checkbox', 'label'=>'La sauvegarde de l\'intérêt public', 'div'=>'input checkbox listCheckBox'));
+echo $this->Form->input('transfertgarantiesrespectobligation', array('type'=>'checkbox', 'label'=>'Le respect d\'obligations permettant d\assurer la constatation, l\'exercice ou la défense d\un droit en justice', 'div'=>'input checkbox listCheckBox'));
+echo $this->Form->input('transfertgarantiesregistrepublic', array('type'=>'checkbox', 'label'=>'La consultation d\'un registre public', 'div'=>'input checkbox listCheckBox'));
+echo $this->Form->input('transfertgarantiescontratinteresse', array('type'=>'checkbox', 'label'=>'L\'exécution d\'un contrat entre le responsable du traitement et l\'intérressé', 'div'=>'input checkbox listCheckBox'));
+echo $this->Form->input('transfertgarantiescontrattiers', array('type'=>'checkbox', 'label'=>'La conclusion ou l\'exécution d\'un contrat conclu dans l\'intérêt de la personne concernée entre le responsable du traitment et un tiers', 'div'=>'input checkbox listCheckBox'));
+echo $this->Form->input('transfertgarantiesconsentement', array('type'=>'checkbox', 'label'=>'Le consentement de la personne', 'div'=>'input checkbox listCheckBox'));
+echo '</div>';
+echo "</fieldset>";
+echo "<fieldset>";
+echo "<legend>Le droit d'accès des personnes fichées <span class='obligatoire'>*</span></legend>";
+echo '<div class="precision">Le droit d\'accès est le droit reconnu à toute personne d\'interroger le responsable d\'un traitement pour savoir s\'il détient des informations sur elle, et le cas échéant d\'en obtenir communication. (Cf. article 32 de la loi + modûles de mentions dans la notice)</div>';
+echo '<span class="labelFormulaire">Comment informez-vous les personnes concernées par votre traitement de leur droit d\'accès? <span class="obligatoire">*</span></span>';
+echo $this->Form->input('accesinformationformulaire', array('type'=>'checkbox', 'label'=>'Mentions légales sur formulaire'));
+echo $this->Form->input('accesinformationcourier', array('type'=>'checkbox', 'label'=>'Envoi d\'un courrier personnalisé'));
+echo $this->Form->input('accesinformationaffichage', array('type'=>'checkbox', 'label'=>'Affichage'));
+echo $this->Form->input('accesinformationsite', array('type'=>'checkbox', 'label'=>'Mentions sur site internet'));
+echo $this->Form->input('accesinformationautres', array('type'=>'checkbox', 'label'=>'Autres mesures'));
+echo '<div id="accesinformationautresdiv">';
+echo $this->Form->input('accesinformationdetails', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Précisez</span>', 'class'=>'form-control'));
+echo '</div>';
+echo '<span class="labelFormulaire">Veuillez indiquer les coordonnées du service chargé de répondre aux demandes de droits d\'accès: <span class="obligatoire">*</span></span>';
+echo $this->Form->input('accesreponseinterne', array('type'=>'checkbox', 'label'=>'Il s\'agit du déclarant lui-même'));
+echo $this->Form->input('accesreponseexterne', array('type'=>'checkbox', 'label'=>'Le traitement est assuré par un tiers <span class="small">(prestataire, sous-traitant)</span> ou un service différent du déclarant'));
+echo '<div id="coordoneesreponse">';
+echo "<div class='inputsFormLeft75'>";
+echo $this->Form->input('accesreponseraisonsociale', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
 
-<fieldset>
-    <legend>Pieces jointes et justificatifs</legend>
-    <?php
-    echo $this->Form->input('upload', array('type' => 'file', 'multiple'=>'multiple', 'label'=>false));
-    echo $this->Form->input('created_user_id', array('type'=>'hidden', 'value'=>$userId));
-    echo $this->Form->input('modified_user_id', array('type'=>'hidden', 'value'=>$userId));
-    ?>
-</fieldset>
-<?php
+echo $this->Form->input('accesreponseservice', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Service</span>', 'class'=>'form-control'));
+
+echo $this->Form->input('accesreponseadresse', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'type'=>'textarea'));
+echo $this->Form->input('accesreponseemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo "</div>";
+echo "<div class='inputsFormRight25'>";
+echo $this->Form->input('accesreponsesigle', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class'=>'form-control'));
+echo $this->Form->input('accesreponsesiret', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo $this->Form->input('accesreponseape', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo $this->Form->input('accesreponsetelephone', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class'=>'form-control'));
+echo $this->Form->input('accesreponsefax', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class'=>'form-control'));
+echo "</div>";
+echo "</div>";
+echo "</fieldset>";
+
+echo $this->Form->input('created_user_id', array('type'=>'hidden', 'value'=>$userId));
 echo $this->Form->submit('Enregistrer', array('class'=>'btn btn-primary pull-right sender'));
 echo $this->Form->end();
 

@@ -93,7 +93,7 @@ $cakeDescription = 'WebCIL';
                                             <?php
                                             foreach($organisations as $datas){
                                                 ?>
-                                                <li><?php echo $this->Html->link($datas['Organisation']['nom'], array('controller' => 'organisations', 'action' => 'change', $datas['Organisation']['id']));?></li>
+                                                <li><?php echo $this->Html->link($datas['Organisation']['raisonsociale'], array('controller' => 'organisations', 'action' => 'change', $datas['Organisation']['id']));?></li>
                                             <?php
                                             }
                                             ?>

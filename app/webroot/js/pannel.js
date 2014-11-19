@@ -1,5 +1,4 @@
 $(document).ready(function(){
-
     $(".boutonList").click(function(){
         var variable=$(this).attr('value');
         if($('#listeValidation' + variable).is(':visible')){
@@ -10,7 +9,6 @@ $(document).ready(function(){
             $('.listeValidation').hide();
             $('#listeValidation' + variable).show();
         }
-
     });
     $(".boutonListValidee").click(function(){
         var variable=$(this).attr('value');
@@ -21,9 +19,7 @@ $(document).ready(function(){
             $('.listeValidee').hide();
             $('#listeValidee' + variable).show();
         }
-
     });
-
     $(".boutonListRefusee").click(function(){
         var variable=$(this).attr('value');
         if($('#listeRefusee' + variable).is(':visible')){
@@ -33,9 +29,7 @@ $(document).ready(function(){
             $('.listeRefusee').hide();
             $('#listeRefusee' + variable).show();
         }
-
     });
-
     $(".boutonListAValider").click(function(){
         var variable=$(this).attr('value');
         if($('#listeAValider' + variable).is(':visible')){
@@ -45,9 +39,7 @@ $(document).ready(function(){
             $('.listeAValider').hide();
             $('#listeAValider' + variable).show();
         }
-
     });
-
     $('.sendCancel').click(function(){
         $("tr[class^='selectDest']").hide();
     });
@@ -57,14 +49,11 @@ $(document).ready(function(){
     $('.refusCancel').click(function(){
         $("tr[class^='commentaireRefus']").hide();
     });
-
     $(".envoiConsult").click(function(){
         var variable=$(this).attr('value');
         $('.selectDest' + variable).show();
         $('typeEnvoi' + variable).val('consult');
     });
-
-
     $(".envoiValid").click(function(){
         var variable=$(this).attr('value');
         $('.selectDest' + variable).show();
@@ -384,7 +373,6 @@ $(document).ready(function(){
             animation: true,
             content: "Refuser",
             placement: 'top',
-
             trigger: 'hover'
         }
     );
