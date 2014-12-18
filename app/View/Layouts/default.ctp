@@ -53,6 +53,7 @@ $cakeDescription = 'WebCIL';
     ?>
 </head>
 <body>
+
 <div id="container">
     <div id="content">
         <div class="container theme-showcase" id="relatif" role="main" style="margin-top: 60px">
@@ -111,6 +112,7 @@ $cakeDescription = 'WebCIL';
                 </div>
 
             </div>
+
             <?php echo $this->Session->flash(); ?>
             <?php echo $this->fetch('content');?>
 
@@ -119,6 +121,7 @@ $cakeDescription = 'WebCIL';
         <div id="footer">
 
         </div>
+    </div>
     </div>
     <?php echo $this->element('sql_dump'); ?>
 </body>

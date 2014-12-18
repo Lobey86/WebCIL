@@ -11,13 +11,10 @@ class UsersController extends AppController {
     }
 
 
-
     public function index() {
         $this->User->recursive = 0;
         $this->set('users', $this->paginate());
     }
-
-
 
 
     public function view($id = null) {
@@ -27,8 +24,6 @@ class UsersController extends AppController {
         }
         $this->set('user', $this->User->read(null, $id));
     }
-
-
 
 
     public function add() {
@@ -66,7 +61,6 @@ class UsersController extends AppController {
     }
 
 
-
     public function edit($id = null) {
         $this->User->id = $id;
         if (!$this->User->exists()) {
@@ -80,6 +74,7 @@ class UsersController extends AppController {
                 $this->Session->setFlash('L\'user n\'a pas été sauvegardé. Merci de réessayer.', "flasherror");
             }
         } else {
+            $this->set("userid", $id);
             $listeOrganisations = $this->Organisation->find('all', array('fields' => array('id', 'raisonsociale')));
 
 

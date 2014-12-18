@@ -33,6 +33,24 @@ class User extends AppModel {
         )
     );
 
+    public $hasAndBelongsToMany = array(
+        'Organisation' =>
+            array(
+                'className' => 'Organisation',
+                'joinTable' => 'organisations_users',
+                'foreignKey' => 'user_id',
+                'associationForeignKey' => 'organisation_id',
+                'unique' => true,
+                'conditions' => '',
+                'fields' => '',
+                'order' => '',
+                'limit' => '',
+                'offset' => '',
+                'finderQuery' => '',
+                'with' => 'OrganisationUser'
+            )
+    );
+
     public function beforeSave($options = array()) {
         if (isset($this->data[$this->alias]['password'])) {
             $passwordHasher = new SimplePasswordHasher();

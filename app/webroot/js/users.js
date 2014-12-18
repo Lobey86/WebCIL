@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
     $('.boutonDelete').popover({
             delay: {show: 500, hide: 100},
             animation: true,
@@ -7,36 +7,44 @@ $(document).ready(function(){
             trigger: 'hover'
         }
     );
+    $('.boutonEdit').popover({
+            delay: {show: 500, hide: 100},
+            animation: true,
+            content: "Modifier",
+            placement: 'top',
+            trigger: 'hover'
+        }
+    );
 
-    $(".multiDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width:'100%'});
+    $(".multiDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width: '100%'});
 
-    $( "#deroulant" ).change(function() {
+    $("#deroulant").change(function () {
         $('.droitsVille').hide();
-        $( "#deroulant option:selected" ).each(function() {
+        $("#deroulant option:selected").each(function () {
             var clickedOptionValue = $(this).attr('value');
             $('#droitsVille' + clickedOptionValue).show();
         });
-    }).trigger( "change" );
+    }).trigger("change");
 
 
-    $('.btnDroitsParticuliers').click(function(){
+    $('.btnDroitsParticuliers').click(function () {
         var valeur = $(this).attr('value');
-        if($('#droitsParticuliers' + valeur).is(':visible')){
-        $('#droitsParticuliers' + valeur).hide();
+        if ($('#droitsParticuliers' + valeur).is(':visible')) {
+            $('#droitsParticuliers' + valeur).hide();
         }
-        else{
+        else {
             $('#droitsParticuliers' + valeur).show();
         }
     });
 
-    $("[class*='deroulantRoles']").change(function() {
+    $("[class*='deroulantRoles']").change(function () {
         var val = $(this).attr('id');
         $('.checkDroits' + val).prop('checked', false);
-        $( ".deroulantRoles" + val + " option:selected" ).each(function() {
+        $(".deroulantRoles" + val + " option:selected").each(function () {
             var id = $(this).attr('value');
             $('.checkDroits' + val + '.' + id).prop('checked', true);
 
         });
-    }).trigger( "change" );
+    }).trigger("change");
 
 });
