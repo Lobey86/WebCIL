@@ -300,3 +300,6 @@ fieldset{
 #transfertdiv, #transfert6div, #transfertconcerneautresdiv, #accesinformationautresdiv, #coordoneesreponse, #miseenoeuvreexternecoordonneesdiv, #finalitecibleautresdiv, #technologiesparticulieresautresdiv{
     display: none;
 }
+.error-message{
+    display: none;
+}

@@ -30,10 +30,10 @@ echo $this->Html->script('pannel.js');
                     <th class="thleft">
                         Actions
                     </th>
-
                 </tr>
             </thead>
             <tbody>
+            
                 <?php
                 foreach($encours as $donnee){
                 ?>
@@ -77,9 +77,9 @@ echo $this->Html->script('pannel.js');
                             }
                             ?>
                         </select>
-                        <?php echo $this->Form->input('typeEnvoi', array('type'=>'hidden', 'value'=>'none', 'id'=>'typeEnvoi'.$donnee['Fiche']['id'].'')); ?>
-                        <?php echo $this->Html->link('Annuler', '#', array('class'=>'btn btn-danger pull-right btnDivSend sendCancel')); ?>
-                        <?php echo $this->Html->link('Envoyer', array('controller'=>'pannel', 'action'=>'test', $donnee['Fiche']['id']), array('class'=>'btn btn-success pull-right btnDivSend')); ?>
+                        <?php echo $this->Form->input('typeEnvoi', array('type'    =>'hidden', 'value'=>'none', 'id'=>'typeEnvoi'.$donnee['Fiche']['id'].'')); ?>
+                        <?php echo $this->Html->link('Annuler', '#', array('class' =>'btn btn-danger pull-right btnDivSend sendCancel')); ?>
+                        <?php echo $this->Html->link('Envoyer', array('controller' =>'pannel', 'action'=>'test', $donnee['Fiche']['id']), array('class'=>'btn btn-success pull-right btnDivSend')); ?>
                     </td>
                 </tr>
                 <tr class='completion'></tr>

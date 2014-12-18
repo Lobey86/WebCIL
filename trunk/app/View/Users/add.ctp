@@ -6,7 +6,7 @@ echo $this->Html->script('users.js');
 </div>
 
 <div class="users form">
-    <?php echo $this->Form->create('User');?>
+    <?php echo $this->Form->create('User', array('action'=>'add'));?>
     <div class="input-group login">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-user"></span>
@@ -157,6 +157,5 @@ echo $this->Html->script('users.js');
     <?php
     }
     echo $this->Html->link('Annuler', array('controller'=>'users', 'action'=>'index'), array('class'=>'btn btn-danger pull-right sender'), 'Voulez-vous vraiment quitter cette page?');
-    echo $this->Html->link('Ajouter', array('controller'=>'users', 'action'=>'add'), array('class'=>'btn btn-primary sender pull-right'));
-    ?>
+    echo $this->Form->submit('Enregistrer', array('class'=>'btn btn-primary pull-right sender'));    ?>
 </div>

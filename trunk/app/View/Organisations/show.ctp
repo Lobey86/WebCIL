@@ -2,11 +2,22 @@
 echo $this->Html->script('organisations.js');
 ?>
 <div class="well">
-    <h2>Veuillez entrer les informations de la nouvelle organisation</h2>
+    <h2><?php echo $this->request->data['Organisation']['raisonsociale'] ?></h2>
 </div>
 
 <div class="users form">
     <?php echo $this->Form->create('Organisation', array('action'=>'add', 'type'=>'file'));?>
+
+    <?php if (file_exists(IMAGES . 'logos' . DS . $this->request->data['Organisation']['id'] . '.' . $this->request->data['Organisation']['logo'])) {
+        ?>
+
+        <div class="thumbnail">
+        <?php echo $this->Html->image('logos/'.$this->request->data['Organisation']['id'].'.'.$this->request->data['Organisation']['logo'], array('alt' => 'Logo')); ?>
+</div>
+    <?php
+    }
+        ?>
+
     <div class="input-group login">
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-tag"></span>
@@ -55,6 +66,8 @@ echo $this->Html->script('organisations.js');
             </span>
         <?php echo $this->Form->input('ape', array('class'=>'form-control', 'placeholder'=>'Code APE (requis)', 'label'=>false, 'required'=>'required')); ?>
     </div>
+
+
    <?php echo $this->Html->link('Retour', array('controller'=>'organisations', 'action'=>'index'), array('class'=>'btn btn-primary pull-right sender')); ?>
 
 <script type="text/javascript">
