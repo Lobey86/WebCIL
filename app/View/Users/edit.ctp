@@ -1,57 +1,55 @@
-<?php
-echo $this->Html->script('users.js');
-?>
+
 <div class="well">
     <h2>Modifier l'utilisateur</h2>
 </div>
 <div class="users form">
-    <?php echo $this->Form->create('User');?>
+    <?php
+    echo $this->Form->create('User');?>
     <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-user"></span>
-            </span>
-
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+        </span>
         <?php
         if($userid != 1){
-        echo $this->Form->input('username', array('class'=>'form-control', 'placeholder'=>'Nom d\'utilisateur', 'label'=>false));
+            echo $this->Form->input('username', array('class'=>'form-control', 'placeholder'=>'Nom d\'utilisateur', 'label'=>false, 'autocomplete'=>'off'));
         }
         else{
             echo $this->Form->input('username', array('class'=>'form-control', 'placeholder'=>'Nom d\'utilisateur', 'label'=>false, "disabled"=>"disabled"));
         }
-            ?>
+        ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-lock"></span>
-            </span>
-        <?php echo $this->Form->input('password', array('class'=>'form-control', 'placeholder'=>'Mot de passe', 'label'=>false)); ?>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-lock"></span>
+        </span>
+        <?php echo $this->Form->input('new_password', array('class'=>'form-control', 'placeholder'=>'Mot de passe', 'label'=>false, 'type'=>'password', 'autocomplete'=>'off')); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-lock"></span>
-            </span>
-        <?php echo $this->Form->input('passwd', array('class'=>'form-control', 'placeholder'=>'Mot de passe (verification)', 'label'=>false)); ?>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-lock"></span>
+        </span>
+        <?php echo $this->Form->input('new_passwd', array('class'=>'form-control', 'placeholder'=>'Mot de passe (verification)', 'label'=>false, 'type'=>'password', 'autocomplete'=>'off')); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-user"></span>
-            </span>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+        </span>
         <?php
         echo $this->Form->input('nom', array('class'=>'form-control', 'placeholder'=>'Nom', 'label'=>false));
         ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-user"></span>
-            </span>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+        </span>
         <?php
         echo $this->Form->input('prenom', array('class'=>'form-control', 'placeholder'=>'Prenom', 'label'=>false));
         ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-envelope"></span>
-            </span>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-envelope"></span>
+        </span>
         <?php
         echo $this->Form->input('email', array('class'=>'form-control', 'placeholder'=>'E-mail', 'label'=>false));
         ?>
@@ -64,112 +62,75 @@ echo $this->Html->script('users.js');
                 <span class="glyphicon glyphicon-home"></span>
             </span>
             <?php
-            echo $this->Form->input('Organisation_ida', array('options' => $listeOrganisations, 'class' => 'form-control', 'id' => 'deroulant', 'label' => false, 'multiple' => 'multiple', 'selected' => '1')); ?>
+            $listeOrganisations = array();
+            foreach($tableau['Organisation'] as $key => $datas){
+                $listeOrganisations[$datas['infos']['id']]=$datas['infos']['raisonsociale'];
+            }
+            echo $this->Form->input('Organisation.Organisation_ida', array('options' => $listeOrganisations, 'class' => 'form-control', 'id' => 'deroulant', 'label' => false, 'multiple' => 'multiple', 'selected' => $tableau['Orgas'])); ?>
         </div>
         <?php
-        echo $this->Form->hidden('Organisation_id', array('value' => '1'));
-        echo $this->Form->hidden('role_id', array('value' => '1'));
-        //echo $this->Form->hidden('createdBy', array($idUser));
-        foreach ($listeOrganisations as $key => $datas) {
+        foreach($tableau['Organisation'] as $key => $datas){
+            $listeroles=array();
+            echo "<script type='text/javascript'>";
+            
+            foreach ($datas['roles'] as $clef => $value) {
+                $listeroles[$value['infos']['id']]=$value['infos']['libelle'];
+                echo 'var tableau_js'.$value['infos']['id'].'= new Array();';
+                foreach ($value['droits'] as $k => $v) {
+                    echo "tableau_js".$value['infos']['id'].".push(".$v['liste_droit_id'].");";
+                }
+            }
+            echo "</script>";
             ?>
+
             <div class="panel panel-default inputsForm droitsVille" id="droitsVille<?php echo $key; ?>">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><?php echo $datas; ?></h3>
+                    <h3 class="panel-title"><?php echo $datas['infos']['raisonsociale']; ?></h3>
                 </div>
                 <div class="panel-body">
                     <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-tag"></span>
-            </span>
-                        <?php echo $this->Form->input('role_ida', array('options' => $listeroles, 'class' => 'form-control deroulantRoles' . $key, 'label' => false, 'multiple' => 'multiple', 'id' => $key, 'selected' => array('2', '3', '4'))); ?>
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-tag"></span>
+                        </span>
+
+                        <?php 
+                        if(!empty($listeroles)){
+                            if(!empty($tableau['UserRoles'])){
+                                echo $this->Form->input('Role.role_ida', array('options' => $listeroles, 'class'=>'form-control deroulantRoles'.$key, 'selected'=>$tableau['UserRoles'] ,'id'=>$key, 'label'=>false, 'multiple' => 'multiple')); 
+                            }
+                            else{
+                                echo $this->Form->input('Role.role_ida', array('options' => $listeroles, 'class'=>'form-control deroulantRoles'.$key, 'id'=>$key, 'label'=>false, 'multiple' => 'multiple'));
+                            }
+                        }
+                        else{
+                            echo "Aucun rôle n'a été créé pour cette organisation";
+                        }
+                        ?>
                     </div>
-                    <button type="button" class="btn btn-default btnDroitsParticuliers" value="<?php echo $key; ?>">
-                        Droits particuliers
-                    </button>
+                    <button type="button" class="btn btn-default btnDroitsParticuliers" value="<?php echo $key; ?>">Droits particuliers</button>
                     <div class="role form droitsParticuliers" id="droitsParticuliers<?php echo $key; ?>">
-                        <div class="droitsFiche">
-                            <fieldset>
-                                <legend>Droits sur les fiches</legend>
-                                <?php
-                                echo '<div class="inputsFormRight">';
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Donner un avis sur une fiche', 'class' => 'checkDroits' . $key . ' 1 2 3 4'));
-                                echo $this->Form->input('droitsAjoutFiche', array('type' => 'checkbox', 'label' => 'Voir les fiches d\'autres utilisateurs', 'class' => 'checkDroits' . $key . ' 1 4'));
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Supprimer les fiches d\'autres utilisateurs', 'class' => 'checkDroits' . $key . ' 1 4'));
-                                echo "</div>";
-                                echo '<div class="inputsFormLeft">';
-                                echo $this->Form->input('droitsAjoutFiche', array('type' => 'checkbox', 'label' => 'Ajouter une fiche', 'class' => 'checkDroits' . $key . ' 2'));
-                                echo $this->Form->input('droitsValidFiche', array('type' => 'checkbox', 'label' => 'Valider une fiche', 'class' => 'checkDroits' . $key . ' 3'));
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Réorienter les fiches d\'autres utilisateurs', 'class' => 'checkDroits' . $key . ' 1 4'));
-                                echo $this->Form->input('droitsValidFiche', array('type' => 'checkbox', 'label' => 'Modifier les fiches d\'autres utilisateurs', 'class' => 'checkDroits' . $key . ' 1'));
-                                echo "</div>";
-                                ?>
-                            </fieldset>
-                        </div>
-                        <div class="droitsOrganisation">
-                            <fieldset>
-                                <legend>Droits sur les organisations</legend>
-                                <?php
-                                echo '<div class="inputsFormRight">';
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Modifier une organisation', 'class' => 'checkDroits' . $key . ' 4'));
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Supprimer une organisation', 'class' => 'checkDroits' . $key . ' 4'));
-                                echo "</div>";
-                                echo '<div class="inputsFormLeft">';
-                                echo $this->Form->input('droitsAjoutFiche', array('type' => 'checkbox', 'label' => 'Ajouter une organisation', 'class' => 'checkDroits' . $key . ''));
-                                echo $this->Form->input('droitsValidFiche', array('type' => 'checkbox', 'label' => 'Changer le CIL d\'une organisation', 'class' => 'checkDroits' . $key . ' 4'));
-                                echo "</div>";
-                                ?>
-                            </fieldset>
-                        </div>
-                        <div class="droitsRoles">
-                            <fieldset>
-                                <legend>Droits sur les rôles</legend>
-                                <?php
-                                echo '<div class="inputsFormRight">';
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Supprimer un rôle', 'class' => 'checkDroits' . $key . ' 4'));
-                                echo "</div>";
-                                echo '<div class="inputsFormLeft">';
-                                echo $this->Form->input('droitsAjoutFiche', array('type' => 'checkbox', 'label' => 'Ajouter un rôle', 'class' => 'checkDroits' . $key . ' 4'));
-                                echo $this->Form->input('droitsValidFiche', array('type' => 'checkbox', 'label' => 'Modifier un rôle', 'class' => 'checkDroits' . $key . ' 4'));
-                                echo "</div>";
-                                ?>
-                            </fieldset>
-                        </div>
-                        <div class="droitsUtilisateurs">
-                            <fieldset>
-                                <legend>Droits sur les utilisateurs</legend>
-                                <?php
-                                echo '<div class="inputsFormRight">';
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Supprimer un utilisateur', 'class' => 'checkDroits' . $key . ' 1 4'));
-                                echo "</div>";
-                                echo '<div class="inputsFormLeft">';
-                                echo $this->Form->input('droitsAjoutFiche', array('type' => 'checkbox', 'label' => 'Ajouter un utilisateur', 'class' => 'checkDroits' . $key . ' 1 4'));
-                                echo $this->Form->input('droitsValidFiche', array('type' => 'checkbox', 'label' => 'Modifier un utilisateur', 'class' => 'checkDroits' . $key . ' 1 4'));
-                                echo "</div>";
-                                ?>
-                            </fieldset>
-                        </div>
-                        <div class="droitsDroits">
-                            <fieldset>
-                                <legend>Droits sur les droits</legend>
-                                <?php
-                                echo '<div class="inputsFormRight">';
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Accorder ou supprimer les droits administrateur', 'class' => 'checkDroits 4'));
-                                echo $this->Form->input('droitsDonnerAvis', array('type' => 'checkbox', 'label' => 'Accorder ou supprimer les droits super-administrateur', 'class' => 'checkDroits'));
-                                echo "</div>";
-                                echo '<div class="inputsFormLeft">';
-                                echo $this->Form->input('droitsAjoutFiche', array('type' => 'checkbox', 'label' => 'Accorder ou supprimer les mêmes droits', 'class' => 'checkDroits 4'));
-                                echo $this->Form->input('droitsValidFiche', array('type' => 'checkbox', 'label' => 'Accorder ou supprimer les droits CIL', 'class' => 'checkDroits 4'));
-                                echo "</div>";
-                                ?>
-                            </fieldset>
-                        </div>
+                        <?php 
+                        foreach($listedroits as $clef => $value){
+                            if($this->Controls->inArray($tableau['User'][$key], $clef)){
+                                echo $this->Form->input('Droits.'.$key.'.'.$clef, array('type'=>'checkbox', 'label'=>$value, 'class'=>'checkDroits'.$key.$clef, 'checked'=>'checked'));
+                            }
+                            else{
+                                echo $this->Form->input('Droits.'.$key.'.'.$clef, array('type'=>'checkbox', 'label'=>$value, 'class'=>'checkDroits'.$key.$clef));
+                            }
+                        }
+
+                        ?>
                     </div>
                 </div>
             </div>
-        <?php
+            <?php
         }
     }
-    echo $this->Html->link('Annuler', array('controller'=>'users', 'action'=>'index'), array('class'=>'btn btn-danger pull-right sender'));
-    echo $this->Html->link('Modifier', array('controller'=>'users', 'action'=>'index'), array('class'=>'btn btn-primary sender pull-right'));
+
+    echo $this->Html->link('Annuler', array('controller'=>'users', 'action'=>'index'), array('class'=>'btn btn-danger pull-right sender'), 'Voulez-vous vraiment quitter cette page?');
+    echo $this->Form->submit('Enregistrer', array('class'=>'btn btn-primary pull-right sender'));    
     ?>
 </div>
+<?php
+echo $this->Html->script('users.js');
+?>

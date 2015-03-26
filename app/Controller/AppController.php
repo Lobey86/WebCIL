@@ -30,13 +30,16 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
 
-    public $uses=array('Organisation');
+
+
+class AppController extends Controller {
+    public $uses=array('Organisation', 'Droit');
     public $components = array(
         'Session',
+        'Droits',
         'Auth' => array(
-            'loginRedirect' => array('controller' => 'pannel', 'action' => 'index'),
+            'loginRedirect' => array('controller' => 'organisations', 'action' => 'change'),
             'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home')
         )
     );
@@ -46,12 +49,6 @@ class AppController extends Controller {
         $this->set('prenom', $this->Auth->user('prenom'));
         $this->set('userId', $this->Auth->user('id'));
         $this->set('organisations', $this->Organisation->find('all'));
-        if($this->Session->read('orgaid')>0){
-
-        }
-        else{
-            $this->Session->write('orgaid', '1');
-        $this->Session->write('organom', 'ADULLACT');
-        }
+        $this->set('droits', $this->Session->read('Droit.liste'));
     }
 }

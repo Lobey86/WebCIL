@@ -129,15 +129,32 @@ legend{
 .boutonsAction15{
     margin-left: 15px;
 }
-tr[class^='selectDest']{
+tr[class^='selectConsultDest']{
     display: none;
     margin-top: 30px;
 }
+tr[class^='selectValidDest']{
+    display: none;
+    margin-top: 30px;
+}
+tr[class^='selectDestTrans']{
+    display: none;
+    margin-top: 30px;
+}
+
 tr[class^='commentaireRefus']{
     display: none;
     margin-top: 30px;
 }
 tr[class^='commentaireRepondre']{
+    display: none;
+    margin-top: 30px;
+}
+tr[class^='selectDestConsultValider']{
+    display: none;
+    margin-top: 30px;
+}
+tr[class^='selectDestValidValider']{
     display: none;
     margin-top: 30px;
 }
@@ -302,4 +319,33 @@ fieldset{
 }
 .error-message{
     display: none;
+}
+.btn-file{
+    margin-top: 10px;
+    border: none;
+}
+.listFiles{
+    margin-top: 15px;
+}
+.itemfiles{
+padding-bottom: 20px;
+}
+.boutondelfile{
+float:right;
+display: none;
+}
+.boutondlfile{
+float:right;
+display: none;
+margin-right: 10px;
+}
+.boutonannuler{
+    float: right;
+    display: none;
+}
+.checkerFile{
+    display: none;
+}
+.hrComms{
+    border-color: #c0c0c0;
 }

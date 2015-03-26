@@ -24,10 +24,14 @@ echo $this->Html->script('roles.js');
                 </td>
                 <td class="tdcent">
                     <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'roles', 'action'=>'show', $donnees['Role']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false));
+                    if($this->Autorisation->authorized(14, $droits)){
                     echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'roles', 'action'=>'edit', $donnees['Role']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false));
+                }
+                if($this->Autorisation->authorized(15, $droits)){
                     if ($nbutil > 1){
-                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'roles', 'action'=>'index', $donnees['Role']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous vraiment supprimer le rôle '.$donnees['Role']['libelle']);
+                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'roles', 'action'=>'delete', $donnees['Role']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous vraiment supprimer le rôle '.$donnees['Role']['libelle']);
                     }
+                }
                     ?>
                 </td>
             </tr>
@@ -37,5 +41,7 @@ echo $this->Html->script('roles.js');
         </tbody>
     </table>
 <?php
+if($this->Autorisation->authorized(13, $droits)){
 echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter un rôle', array('controller'=>'roles', 'action'=>'add'), array('class'=>'btn btn-primary pull-right sender', 'escapeTitle'=>false));
+}
 ?>

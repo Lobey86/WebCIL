@@ -23,14 +23,19 @@ echo $this->Html->script('users.js');
                     <?php echo date('d-m-Y', strtotime($donnees['User']['created'])); ?>
                 </td>
                 <td class="tdleft">
-                    <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'users', 'action'=>'edit', $donnees['User']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false));
+
+                    <?php if($this->Autorisation->authorized(9, $droits)){ echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'users', 'action'=>'edit', $donnees['User']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false));}
+
+                    if($this->Autorisation->authorized(10, $droits)){
                     if ($donnees['User']['id'] != 1){
-                     echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'users', 'action'=>'index'), array('class'=>'btn btn-danger boutonDelete boutonsAction5', 'escapeTitle'=>false), 'Voulez vous vraiment supprimer '.$donnees['User']['prenom'].' '.$donnees['User']['nom']);
-                    }
-                    else{
-                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'users', 'action'=>'index'), array('class'=>'btn btn-danger boutonDelete boutonsAction5', 'escapeTitle'=>false, "disabled"=>"disabled"), 'Voulez vous vraiment supprimer '.$donnees['User']['prenom'].' '.$donnees['User']['nom']);
+                     echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'users', 'action'=>'delete', $donnees['User']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction5', 'escapeTitle'=>false), 'Voulez vous vraiment supprimer '.$donnees['User']['prenom'].' '.$donnees['User']['nom']);
 
                     }
+                    else{
+                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'users', 'action'=>'delete', $donnees['User']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction5', 'escapeTitle'=>false, "disabled"=>"disabled"), 'Voulez vous vraiment supprimer '.$donnees['User']['prenom'].' '.$donnees['User']['nom']);
+
+                    }
+                }
                     ?>
                 </td>
             </tr>
@@ -40,5 +45,6 @@ echo $this->Html->script('users.js');
     </tbody>
 </table>
 <?php
-echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter un utilisateur', array('controller'=>'users', 'action'=>'add'), array('class'=>'btn btn-primary pull-right sender', 'escapeTitle'=>false));
+if($this->Autorisation->authorized(8, $droits)){
+echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter un utilisateur', array('controller'=>'users', 'action'=>'add'), array('class'=>'btn btn-primary pull-right sender', 'escapeTitle'=>false)); }
 ?>

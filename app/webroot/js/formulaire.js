@@ -184,5 +184,34 @@ $(document).ready(function(){
         }
     });
 
+     $('.itemfiles').hover(function(){
+        var num = $(this).attr('data');
+         if($('.checkFile' + num).is(':checked')){
+        
+    }
+    else{
+        $('.btn' + num).fadeIn(1);
+    }
+    },
+    function(){
+    var num = $(this).attr('data');
+        $('.btn' + num).fadeOut(1);
+
+    });
+
+     $('.boutondelfile').click(function(){
+         var numero = $(this).attr('data');
+         $('.checkFile' + numero).attr('checked', 'checked');
+         $('.btn' + numero).hide();
+         $('.btn' + numero).hide();
+         $('.boutonannuler' + numero).show();
+     });
+
+     $('.boutonannuler').click(function(){
+        var numero = $(this).attr('data');
+         $('.checkFile' + numero).prop('checked', false);
+         $('.boutonannuler' + numero).hide();
+     });
+
 
 });

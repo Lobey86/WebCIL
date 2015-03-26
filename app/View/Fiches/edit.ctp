@@ -2,7 +2,7 @@
 echo $this->Html->script('formulaire.js');
 ?>
 <div class="well">
-    <h1>Créer une fiche</h1>
+    <h1>Modifier une fiche</h1>
 </div>
 
 <div id="vosInfos">
@@ -10,26 +10,26 @@ echo $this->Html->script('formulaire.js');
     <?php
     echo $this->Form->create('Fiche', array('action'=>'edit', 'type'=>'file'));
     echo "<fieldset>";
-    echo "<legend>Déclarant</legend>";
-    echo "<div class='inputsFormLeft75'>";
-    echo $this->Form->input('declarantraisonsociale', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-    echo $this->Form->input('declarantservice', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Service</span>', 'class'=>'form-control'));
-    echo $this->Form->input('declarantadresse', array('div'=>'input-group inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'type'=>'textarea', 'required'=>'required'));
-    echo $this->Form->input('declarantemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-    echo "</div>";
-    echo "<div class='inputsFormRight25'>";
-    echo $this->Form->input('declarantsigle', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class'=>'form-control'));
-    echo $this->Form->input('declarantsiret', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-    echo $this->Form->input('declarantape', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-    echo $this->Form->input('declaranttelephone', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-    echo $this->Form->input('declarantfax', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class'=>'form-control'));
-    echo "</div>";
-    echo "<div class='precision'>";
-    echo "<span class='labelFormulaire'>Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé:</span>";
-    echo $this->Form->input('declarantpersonnenom', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Nom et prénom <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-    echo $this->Form->input('declarantpersonneemail', array('div'=>'input-group input-group-sm inputsForm', 'label'=>false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class'=>'form-control', 'required'=>'required'));
-    echo "</div>";
-    echo "</fieldset>";
+        echo "<legend>Déclarant</legend>";
+        echo "<div class='inputsFormLeft75'>";
+        echo $this->Form->input('declarantraisonsociale', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['raisonsociale'], 'readonly' => 'readonly'));
+        echo $this->Form->input('declarantservice', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Service</span>', 'class' => 'form-control'));
+        echo $this->Form->input('declarantadresse', array('div' => 'input-group inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'type' => 'textarea', 'required' => 'required', 'value' => $organisation['Organisation']['adresse'], 'readonly' => 'readonly'));
+        echo $this->Form->input('declarantemail', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['email'], 'readonly' => 'readonly'));
+        echo "</div>";
+        echo "<div class='inputsFormRight25'>";
+        echo $this->Form->input('declarantsigle', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class' => 'form-control', 'value' => $organisation['Organisation']['sigle'], 'readonly' => 'readonly'));
+        echo $this->Form->input('declarantsiret', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['siret'], 'readonly' => 'readonly'));
+        echo $this->Form->input('declarantape', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['ape'], 'readonly' => 'readonly'));
+        echo $this->Form->input('declaranttelephone', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['telephone'], 'readonly' => 'readonly'));
+        echo $this->Form->input('declarantfax', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class' => 'form-control', 'value' => $organisation['Organisation']['fax'], 'readonly' => 'readonly'));
+        echo "</div>";
+        echo "<div class='precision'>";
+        echo "<span class='labelFormulaire'>Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé:</span>";
+        echo $this->Form->input('declarantpersonnenom', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Nom et prénom <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required'));
+        echo $this->Form->input('declarantpersonneemail', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required'));
+        echo "</div>";
+        echo "</fieldset>";
     ?>
 </div>
 <div id="outil">
@@ -430,8 +430,22 @@ echo $this->Form->input('accesreponsefax', array('div'=>'input-group input-group
 echo "</div>";
 echo "</div>";
 echo "</fieldset>";
+ echo "<fieldset><legend>Fichiers joints</legend>";
+ echo'<ul class="list-group listFiles">';
+foreach ($this->request->data['File'] as $key => $value) {
+    echo '<li class="list-group-item itemfiles" data="'.$value['id'].'"><span class="glyphicon glyphicon-file"></span>';
+    echo $value['nom'];
 
-echo $this->Form->input('created_user_id', array('type'=>'hidden', 'value'=>$userId));
+echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>', array('type'=>'button', 'class'=>'btn btn-danger boutondelfile btn'.$value['id'], 'escapeTitle'=>false, 'data'=>$value['id']))
+.$this->Html->link('<span class="glyphicon glyphicon-download-alt"></span>', '/files/'.$value['url'], array('class'=>'btn btn-default boutondlfile btn'.$value['id'], 'escapeTitle'=>false, 'target'=>'_blank'));
+echo $this->Form->button('Annuler la suppression', array('type'=>'button', 'class'=>'btn btn-default boutonannuler boutonannuler'.$value['id'], 'escapeTitle'=>false, 'data'=>$value['id']));
+echo '<input type="checkbox" name="data[FileDelete][]" value="'.$value['id'].'" class="checkerFile checkFile'.$value['id'].'"/>';
+    echo '</li>';
+}
+echo '</ul>';
+echo "</fieldset>";
+echo $this->Form->input('user_id', array('type'=>'hidden', 'value'=>$userId));
+echo $this->Form->input('organisation_id', array('type'=>'hidden', 'value'=>$this->Session->read('Organisation.id')));
 echo $this->Form->submit('Enregistrer', array('class'=>'btn btn-primary pull-right sender'));
 echo $this->Form->end();
 

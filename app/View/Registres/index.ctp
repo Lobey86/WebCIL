@@ -2,7 +2,7 @@
 echo $this->Html->script('registre.js');
 ?>
 <div class="well">
-    <h1>Registre de <?php echo $this->Session->read('organom'); ?></h1>
+    <h1>Registre de <?php echo $this->Session->read('Organisation.raisonsociale'); ?></h1>
 </div>
 <form class="" role="search">
     <div class="form-inline pull-right recherche">
@@ -47,11 +47,13 @@ echo $this->Html->script('registre.js');
             <td class="tdleft">
                 <button type='button' class='btn btn-default boutonDl boutonsAction5' value='1'><img src="img/pdf.png" class="glyph"/></button>
                 <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'fiches', 'action'=>'show', '15'), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false)); ?>
-                <?php echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'fiches', 'action'=>'edit', '15'), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false)); ?>
+                
+                <?php if($this->Autorisation->authorized(6, $droits)){ echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'fiches', 'action'=>'edit', '15'), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false)); ?>
 
                 <button type="button" class="btn btn-danger boutonsAction15 boutonArchive">
                     <span class="glyphicon glyphicon-lock"></span>
                 </button>
+                <?php } ?>
             </td>
         </tr>
         <tr>

@@ -71,7 +71,7 @@ Inflector::rules('plural', array('rules' => array(), 'irregular' => array('organ
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load('Cakeflow'); //Loads a single plugin named DebugKit
+CakePlugin::load('Cakeflow'); //Loads a single plugin named CakeFlow
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
  *

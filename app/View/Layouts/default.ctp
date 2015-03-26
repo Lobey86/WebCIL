@@ -33,8 +33,8 @@ $cakeDescription = 'WebCIL';
     echo $this->Html->script('formulaire.js');
     echo $this->Html->script('jqprint.js',array('inline'=>false));
     echo $this->Html->script('fadeflash.js',array('inline'=>false));
-    echo $this->Html->script('generateRandomPass.js',array('inline'=>false));
     echo $this->Html->script('jquery-ui.js',array('inline'=>false));
+    echo $this->Html->script('bootstrap-filestyle.min.js',array('inline'=>false));
     echo $this->Html->script('chosen.jquery.min.js');
 
     echo $this->Html->meta('icon');
@@ -75,14 +75,23 @@ $cakeDescription = 'WebCIL';
                                 ?>
                                 <ul class="nav navbar-nav">
                                     <li <?php if($this->params['controller'] == "pannel" || $this->params['controller'] == "fiches"){echo "class='active'";} ?>><?php echo $this->Html->link('Pannel', array('plugin'=> '', 'controller' => 'pannel', 'action' => 'index'));?></li>
-                                    <li <?php if($this->params['controller'] == "registres"){echo "class='active'";} ?>><?php echo $this->Html->link('Registre', array('plugin'=> '', 'controller' => 'registres', 'action' => 'index'));?></li>
-                                    <li <?php if($this->params['controller'] == "users"){echo "class='active'";} ?>><?php echo $this->Html->link('Gestion des utilisateurs', array('plugin'=> '', 'controller' => 'users', 'action' => 'index'));?></li>
+                                    <?php if($this->Autorisation->authorized(array('4', '5', '6', '7'), $this->Session->read('Droit.liste'))){ ?>
+                                    <li <?php if($this->params['controller'] == "registres"){echo "class='active'";} ?>><?php echo $this->Html->link('Registre', array('plugin'=> '', 'controller' => 'registres', 'action' => 'index'));?></li><?php } ?>
+                                    
+                                    <?php if($this->Autorisation->authorized(array('8', '9', '10'), $droits)){ ?>
+                                    <li <?php if($this->params['controller'] == "users"){echo "class='active'";} ?>><?php echo $this->Html->link('Gestion des utilisateurs', array('plugin'=> '', 'controller' => 'users', 'action' => 'index'));?></li> <?php } ?>
+
+                                    <?php if($this->Autorisation->authorized(array('11', '12'), $droits)){ ?>
                                     <li <?php if($this->params['controller'] == "organisations"){echo "class='active'";} ?>><?php echo $this->Html->link('Gestion des organisations', array('plugin'=> '', 'controller' => 'organisations', 'action' => 'index'));?></li>
+                                            <?php } ?>
+                        
+                                    <?php if($this->Autorisation->authorized(array('13', '14', '15'), $droits)){ ?>
                                     <li <?php if($this->params['controller'] == "roles"){echo "class='active'";} ?>><?php echo $this->Html->link('Gestion des rôles', array('plugin'=> '', 'controller' => 'roles', 'action' => 'index'));?></li>
+                                    <?php } ?>
                                 </ul>
                                 <ul class="nav navbar-nav pull-right">
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $prenom." ".$nom." - ".$this->Session->read('organom'); ?> <span class="caret"></span></a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $prenom." ".$nom." - ".$this->Session->read('Organisation.raisonsociale'); ?> <span class="caret"></span></a>
                                         <ul class="dropdown-menu" role="menu">
                                             <li><?php echo $this->Html->link('Mon pannel', array('controller' => 'pannel', 'action' => 'index'));?></li>
                                             <li class="divider"></li>
