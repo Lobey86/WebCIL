@@ -2,7 +2,7 @@
 echo $this->Html->script('formulaire.js');
 ?>
 <div class="well">
-    <h1>Créer une fiche</h1>
+    <h1>Consulter une fiche</h1>
 </div>
 
 <div id="vosInfos">
@@ -430,6 +430,17 @@ echo $this->Form->input('accesreponsefax', array('div'=>'input-group input-group
 echo "</div>";
 echo "</div>";
 echo "</fieldset>";
+
+ echo "<fieldset><legend>Fichiers joints</legend>";
+ echo'<ul class="list-group listFiles">';
+foreach ($this->request->data['File'] as $key => $value) {
+    echo '<li class="list-group-item"><span class="glyphicon glyphicon-file"></span>';
+    echo $value['nom'];
+    echo '</li>';
+}
+echo '</ul>';
+echo "</fieldset>";
+
 echo $this->Html->link('Revenir au pannel', array('controller'=>'pannel', 'action'=>'index'), array('class'=>'btn btn-primary pull-right sender'));
 echo $this->Form->end();
 

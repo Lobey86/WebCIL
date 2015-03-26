@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     $(".boutonList").click(function(){
         var variable=$(this).attr('value');
         if($('#listeValidation' + variable).is(':visible')){
@@ -40,8 +41,21 @@ $(document).ready(function(){
             $('#listeAValider' + variable).show();
         }
     });
+
+    $('.sendCancelTrans').click(function(){
+        $("tr[class^='selectDestTrans']").hide();
+        $("tr[class^='selectValidDest']").hide();
+    });
+
     $('.sendCancel').click(function(){
-        $("tr[class^='selectDest']").hide();
+        $("tr[class^='selectConsultDest']").hide();
+        $("tr[class^='selectValidDest']").hide();
+    });
+    $('.selectDestValidCancel').click(function(){
+        $("tr[class^='selectDestValidValider']").hide();
+    });
+    $('.selectDestConsultCancel').click(function(){
+        $("tr[class^='selectDestConsultValider']").hide();
     });
     $('.repondreCancel').click(function(){
         $("tr[class^='commentaireRepondre']").hide();
@@ -51,28 +65,28 @@ $(document).ready(function(){
     });
     $(".envoiConsult").click(function(){
         var variable=$(this).attr('value');
-        $('.selectDest' + variable).show();
-        $('typeEnvoi' + variable).val('consult');
+        $('.selectConsultDest' + variable).show();
+        $('.selectValidDest' + variable).hide();
     });
     $(".envoiValid").click(function(){
         var variable=$(this).attr('value');
-        $('.selectDest' + variable).show();
-        $('typeEnvoi' + variable).val('valid');
+        $('.selectValidDest' + variable).show();
+        $('.selectConsultDest' + variable).hide();
     });
 
     $(".envoiConsultValider").click(function(){
         var variable=$(this).attr('value');
-        $('.selectorDestValider').hide();
-        $('.selectDestValider' + variable).show();
-        $('#typeEnvoiValider' + variable).val('consult');
+        $('.selectorDestValidValider').hide();
+        $('.selectorDestConsultValider').hide();
+        $('.selectDestConsultValider' + variable).show();
     });
 
 
     $(".envoiValidValider").click(function(){
         var variable=$(this).attr('value');
-        $('.selectorDestValider').hide();
-        $('.selectDestValider' + variable).show();
-        $('#typeEnvoiValider' + variable).val('valid');
+        $('.selectorDestConsultValider').hide();
+        $('.selectorDestValidValider').hide();
+        $('.selectDestValidValider' + variable).show();
     });
 
 
@@ -96,6 +110,8 @@ $(document).ready(function(){
         else{
             $("tr[class^='commentaireRefus']").hide();
             $('.listeValidation').hide();
+            $('.selectorDestConsultValider').hide();
+            $('.selectorDestValidValider').hide();
             $('.commentaireRefus' + variable).show();
         }
     });
@@ -111,8 +127,6 @@ $(document).ready(function(){
             $('.commentaireRepondre' + variable).show();
         }
     });
-
-
 
     $(".usersDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width:'100%'});
 
@@ -254,147 +268,147 @@ $(document).ready(function(){
     });
 
     $('.boutonEdit').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Modifier",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Modifier",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
     $('.boutonShow').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Voir",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
     $('.boutonSend').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Envoyer",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Envoyer",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonDelete').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Supprimer",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Supprimer",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonList').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir le parcours complet",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Voir le parcours complet",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonListValidee').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir le parcours complet",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Voir le parcours complet",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonListAValider').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir le parcours complet",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Voir le parcours complet",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonPrint').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Imprimer cette fiche du registre",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Imprimer cette fiche du registre",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonSave').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Enregistrer cette fiche du registre",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Enregistrer cette fiche du registre",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonReorienter').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Réorienter",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Réorienter",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonRelancer').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Remettre en rédaction",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Remettre en rédaction",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonDl').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Télécharger",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Télécharger",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonValider').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Valider",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Valider",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonRefuser').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Refuser",
-            placement: 'top',
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Refuser",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonRepondre').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Répondre",
-            placement: 'top',
-
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Répondre",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
 
     $('.boutonArchive').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Archiver",
-            placement: 'top',
-
-            trigger: 'hover'
-        }
+        delay: {show: 500, hide: 100},
+        animation: true,
+        content: "Archiver",
+        placement: 'top',
+        trigger: 'hover'
+    }
     );
+
+
 
 });

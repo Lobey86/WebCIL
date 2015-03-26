@@ -1,5 +1,5 @@
 <?php
-    echo $this->Html->script('formulaire.js');
+echo $this->Html->script('formulaire.js');
 ?>
 <div class="well">
     <h1>Créer une fiche</h1>
@@ -8,32 +8,32 @@
 <div id="vosInfos">
 
     <?php
-        echo $this->Form->create('Fiche', array('action' => 'add', 'type' => 'file'));
-        echo "<fieldset>";
-        echo "<legend>Déclarant</legend>";
-        echo "<div class='inputsFormLeft75'>";
-        echo $this->Form->input('declarantraisonsociale', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['raisonsociale'], 'readonly' => 'readonly'));
-        echo $this->Form->input('declarantservice', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Service</span>', 'class' => 'form-control'));
-        echo $this->Form->input('declarantadresse', array('div' => 'input-group inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'type' => 'textarea', 'required' => 'required', 'value' => $organisation['Organisation']['adresse'], 'readonly' => 'readonly'));
-        echo $this->Form->input('declarantemail', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['email'], 'readonly' => 'readonly'));
-        echo "</div>";
-        echo "<div class='inputsFormRight25'>";
-        echo $this->Form->input('declarantsigle', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class' => 'form-control', 'value' => $organisation['Organisation']['sigle'], 'readonly' => 'readonly'));
-        echo $this->Form->input('declarantsiret', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['siret'], 'readonly' => 'readonly'));
-        echo $this->Form->input('declarantape', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['ape'], 'readonly' => 'readonly'));
-        echo $this->Form->input('declaranttelephone', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['telephone'], 'readonly' => 'readonly'));
-        echo $this->Form->input('declarantfax', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class' => 'form-control', 'value' => $organisation['Organisation']['fax'], 'readonly' => 'readonly'));
-        echo "</div>";
-        echo "<div class='precision'>";
-        echo "<span class='labelFormulaire'>Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé:</span>";
-        echo $this->Form->input('declarantpersonnenom', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Nom et prénom <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required'));
-        echo $this->Form->input('declarantpersonneemail', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required'));
-        echo "</div>";
-        echo "</fieldset>";
+    echo $this->Form->create('Fiche', array('action' => 'add', 'type' => 'file'));
+    echo "<fieldset>";
+    echo "<legend>Déclarant</legend>";
+    echo "<div class='inputsFormLeft75'>";
+    echo $this->Form->input('declarantraisonsociale', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Raison Sociale <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['raisonsociale'], 'readonly' => 'readonly'));
+    echo $this->Form->input('declarantservice', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Service</span>', 'class' => 'form-control'));
+    echo $this->Form->input('declarantadresse', array('div' => 'input-group inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'type' => 'textarea', 'required' => 'required', 'value' => $organisation['Organisation']['adresse'], 'readonly' => 'readonly'));
+    echo $this->Form->input('declarantemail', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['email'], 'readonly' => 'readonly'));
+    echo "</div>";
+    echo "<div class='inputsFormRight25'>";
+    echo $this->Form->input('declarantsigle', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Sigle</span>', 'class' => 'form-control', 'value' => $organisation['Organisation']['sigle'], 'readonly' => 'readonly'));
+    echo $this->Form->input('declarantsiret', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">N° SIRET <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['siret'], 'readonly' => 'readonly'));
+    echo $this->Form->input('declarantape', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Code APE <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['ape'], 'readonly' => 'readonly'));
+    echo $this->Form->input('declaranttelephone', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Téléphone <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required', 'value' => $organisation['Organisation']['telephone'], 'readonly' => 'readonly'));
+    echo $this->Form->input('declarantfax', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Fax</span>', 'class' => 'form-control', 'value' => $organisation['Organisation']['fax'], 'readonly' => 'readonly'));
+    echo "</div>";
+    echo "<div class='precision'>";
+    echo "<span class='labelFormulaire'>Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé:</span>";
+    echo $this->Form->input('declarantpersonnenom', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Nom et prénom <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required'));
+    echo $this->Form->input('declarantpersonneemail', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Adresse éléctronique <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required'));
+    echo "</div>";
+    echo "</fieldset>";
     ?>
 </div>
 <div id="outil">
-<?php
+    <?php
     echo "<fieldset>";
     echo "<legend>Outil</legend>";
     echo $this->Form->input('outilnom', array('div' => 'input-group input-group-sm inputsForm', 'label' => false, 'before' => '<span class="labelFormulaire">Nom de l\'outil <span class="obligatoire">*</span></span>', 'class' => 'form-control', 'required' => 'required'));
@@ -87,7 +87,7 @@
     echo $this->Form->input('technologiesparticulieressanscontact', array('type' => 'checkbox', 'label' => 'Dispositif sans contact <span class="small">(ex: RFID, NFC)</span>'));
     echo $this->Form->input('technologiesparticulierescartepuce', array('type' => 'checkbox', 'label' => 'Carte à puce'));
     echo $this->Form->input('technologiesparticulieresvideoprotection', array('type' => 'checkbox', 'label' => 'Vidéoprotection'));
-
+    
     echo '</div>';
     echo '<div class="inputsFormLeft">';
     echo $this->Form->input('technologiesparticulieresanonymisation', array('type' => 'checkbox', 'label' => 'Mécanisme d\'anonymisation'));
@@ -102,197 +102,197 @@
     echo "<fieldset>";
     echo "<legend>Données traitées</legend>";
     echo '
-<table class="table table-hover table-bordered tabledonnees">
+    <table class="table table-hover table-bordered tabledonnees">
     <thead>
-        <tr>
-            <th class="thcent">Catégorie de données</th>
-            <th class="thcent">Origine</th>
-            <th class="thcent">Durée de conservation</th>
-            <th class="thcent">Destinataires</th>
-        </tr>
+    <tr>
+    <th class="thcent">Catégorie de données</th>
+    <th class="thcent">Origine</th>
+    <th class="thcent">Durée de conservation</th>
+    <th class="thcent">Destinataires</th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categorie1general', array('type' => 'checkbox', 'label' => 'Etat civil, identité, données d\'identification')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categorie1originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categorie1origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categorie1originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categorie1duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categorie1duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categorie1duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categorie1dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categorie1dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categorie1dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categorie1destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categorie2general', array('type' => 'checkbox', 'label' => 'Vie personelle <br/><span class="small">(habitudes de vie, situation familiale, etc.)</span>')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categorie2originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categorie2origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categorie2originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categorie2duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categorie2duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categorie2duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categorie2dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categorie2dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categorie2dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categorie2destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categorie3general', array('type' => 'checkbox', 'label' => 'Vie professionelle <br/><span class="small">(CV, scolarité, formation professionnelle, distinctions ...)</span>')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categorie3originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categorie3origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categorie3originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categorie3duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categorie3duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categorie3duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categorie3dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categorie3dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categorie3dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categorie3destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categorie4general', array('type' => 'checkbox', 'label' => 'Informations d\'ordre économique et financier <br/> <span class="small">(revenus, situation financière, situation fiscale, etc.)</span>')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categorie4originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categorie4origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categorie4originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categorie4duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categorie4duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categorie4duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categorie4dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categorie4dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categorie4dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categorie4destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categorie5general', array('type' => 'checkbox', 'label' => 'Données de connexion <br/> <span class="small">(Adresse IP, logs, etc.)</span>')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categorie5originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categorie5origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categorie5originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categorie5duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categorie5duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categorie5duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categorie5dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categorie5dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categorie5dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categorie5destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categorie6general', array('type' => 'checkbox', 'label' => 'Données de localisations <br/><span class="small">(Déplaceents, données GPS, GSM, etc.)</span>')) . '</td>
-            <td class="tdleft">' . $this->form->input('categorie6originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categorie6origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categorie6originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categorie6duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categorie6duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categorie6duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categorie6dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categorie6dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categorie6dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categorie6destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categorie1general', array('type' => 'checkbox', 'label' => 'Etat civil, identité, données d\'identification')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categorie1originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categorie1origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categorie1originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categorie1duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categorie1duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categorie1duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categorie1dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categorie1dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categorie1dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categorie1destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categorie2general', array('type' => 'checkbox', 'label' => 'Vie personelle <br/><span class="small">(habitudes de vie, situation familiale, etc.)</span>')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categorie2originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categorie2origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categorie2originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categorie2duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categorie2duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categorie2duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categorie2dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categorie2dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categorie2dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categorie2destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categorie3general', array('type' => 'checkbox', 'label' => 'Vie professionelle <br/><span class="small">(CV, scolarité, formation professionnelle, distinctions ...)</span>')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categorie3originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categorie3origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categorie3originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categorie3duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categorie3duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categorie3duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categorie3dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categorie3dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categorie3dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categorie3destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categorie4general', array('type' => 'checkbox', 'label' => 'Informations d\'ordre économique et financier <br/> <span class="small">(revenus, situation financière, situation fiscale, etc.)</span>')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categorie4originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categorie4origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categorie4originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categorie4duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categorie4duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categorie4duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categorie4dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categorie4dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categorie4dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categorie4destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categorie5general', array('type' => 'checkbox', 'label' => 'Données de connexion <br/> <span class="small">(Adresse IP, logs, etc.)</span>')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categorie5originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categorie5origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categorie5originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categorie5duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categorie5duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categorie5duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categorie5dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categorie5dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categorie5dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categorie5destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categorie6general', array('type' => 'checkbox', 'label' => 'Données de localisations <br/><span class="small">(Déplaceents, données GPS, GSM, etc.)</span>')) . '</td>
+    <td class="tdleft">' . $this->form->input('categorie6originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categorie6origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categorie6originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categorie6duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categorie6duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categorie6duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categorie6dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categorie6dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categorie6dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categorie6destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
     </tbody>
-</table>';
+    </table>';
     echo "</fieldset>";
     echo "<fieldset>";
     echo "<legend>Données sensibles</legend>";
     echo '
-<div class="precision"> Le traitement des données sensibles est particulièrement encadré par la loi: ces données ne peuvent être enregistrées dans un traitement que si elles sont absolument nécéssaires à sa réalisation.</div>
-<table class="table table-hover table-bordered tabledonnees">
+    <div class="precision"> Le traitement des données sensibles est particulièrement encadré par la loi: ces données ne peuvent être enregistrées dans un traitement que si elles sont absolument nécéssaires à sa réalisation.</div>
+    <table class="table table-hover table-bordered tabledonnees">
     <thead>
-        <tr>
-            <th class="thcent">Catégorie de données</th>
-            <th class="thcent">Origine</th>
-            <th class="thcent">Durée de conservation</th>
-            <th class="thcent">Destinataires</th>
-        </tr>
+    <tr>
+    <th class="thcent">Catégorie de données</th>
+    <th class="thcent">Origine</th>
+    <th class="thcent">Durée de conservation</th>
+    <th class="thcent">Destinataires</th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categoriesensible1general', array('type' => 'checkbox', 'label' => 'N° de sécurité sociale')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categoriesensible1originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categoriesensible1origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categoriesensible1originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categoriesensible1duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categoriesensible1duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categoriesensible1duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categoriesensible1dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categoriesensible1dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categoriesensible1dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categoriesensible1destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categoriesensible2general', array('type' => 'checkbox', 'label' => 'Infractions, condamnations, mesures de sûreté <br/><span class="small">(réservé aux auxiliaires de justice)</span>')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categoriesensible2originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categoriesensible2origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categoriesensible2originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categoriesensible2duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categoriesensible2duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categoriesensible2duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categoriesensible2dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categoriesensible2dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categoriesensible2dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categoriesensible2destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
-        <tr>
-            <td class="tdleft">' . $this->Form->input('categoriesensible3general', array('type' => 'checkbox', 'label' => 'Opinions philosophiques, politiques, religieuses, syndicales, vie sexuelle, données de santé, origine raciale ou ethnique')) . '</td>
-            <td class="tdleft">' . $this->Form->input('categoriesensible3originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
-                ' . $this->Form->input('categoriesensible3origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
-        $this->Form->input('categoriesensible3originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">
-                ' . $this->Form->input('categoriesensible3duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
-        $this->Form->input('categoriesensible3duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
-        $this->Form->input('categoriesensible3duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
-        $this->Form->input('categoriesensible3dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
-        $this->Form->input('categoriesensible3dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
-        $this->Form->input('categoriesensible3dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
-            </td>
-            <td class="tdleft">Destinataires:
-                ' . $this->Form->input('categoriesensible3destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
-            </td>
-        </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categoriesensible1general', array('type' => 'checkbox', 'label' => 'N° de sécurité sociale')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categoriesensible1originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categoriesensible1origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categoriesensible1originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categoriesensible1duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categoriesensible1duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categoriesensible1duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categoriesensible1dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categoriesensible1dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categoriesensible1dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categoriesensible1destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categoriesensible2general', array('type' => 'checkbox', 'label' => 'Infractions, condamnations, mesures de sûreté <br/><span class="small">(réservé aux auxiliaires de justice)</span>')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categoriesensible2originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categoriesensible2origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categoriesensible2originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categoriesensible2duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categoriesensible2duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categoriesensible2duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categoriesensible2dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categoriesensible2dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categoriesensible2dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categoriesensible2destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
+    <tr>
+    <td class="tdleft">' . $this->Form->input('categoriesensible3general', array('type' => 'checkbox', 'label' => 'Opinions philosophiques, politiques, religieuses, syndicales, vie sexuelle, données de santé, origine raciale ou ethnique')) . '</td>
+    <td class="tdleft">' . $this->Form->input('categoriesensible3originedirecte', array('type' => 'checkbox', 'label' => 'Directement auprés de la personne concernée')) . '
+    ' . $this->Form->input('categoriesensible3origineindirecte', array('type' => 'checkbox', 'label' => 'De manière indirecte')) .
+    $this->Form->input('categoriesensible3originedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">
+    ' . $this->Form->input('categoriesensible3duree1mois', array('type' => 'checkbox', 'label' => '1 mois')) .
+    $this->Form->input('categoriesensible3duree3mois', array('type' => 'checkbox', 'label' => '3 mois')) .
+    $this->Form->input('categoriesensible3duree1an', array('type' => 'checkbox', 'label' => '1 an')) .
+    $this->Form->input('categoriesensible3dureecontractuelle', array('type' => 'checkbox', 'label' => 'Pendant la durée de la relation contractuelle')) .
+    $this->Form->input('categoriesensible3dureeautre', array('type' => 'checkbox', 'label' => 'Autre')) .
+    $this->Form->input('categoriesensible3dureedetails', array('label' => false, 'placeholder' => 'Précisez', 'class' => 'inputsForm')) . '
+    </td>
+    <td class="tdleft">Destinataires:
+    ' . $this->Form->input('categoriesensible3destinataires', array('div' => 'input-group inputsForm', 'label' => false, 'class' => 'form-control', 'type' => 'textarea')) . '
+    </td>
+    </tr>
     </tbody>
-</table>';
+    </table>';
     echo "</fieldset>";
 
     echo "<fieldset>";
@@ -431,10 +431,18 @@
     echo "</div>";
     echo "</fieldset>";
 
-    echo $this->Form->input('created_user_id', array('type' => 'hidden', 'value' => $userId));
+    echo "<fieldset><legend>Joindre des fichiers</legend>";
+    echo "<span class='btn btn-default btn-file'>";
+
+    echo $this->Form->input('fichiers.', array('label' => false, 'type'=>'file', 'multiple', 'class'=>'filestyle', 'data-buttonText'=>'Parcourir', 'data-buttonName'=>"btn-primary", 'data-buttonBefore'=>"true"));
+    echo "</span>";
+    echo "</fieldset>";
+
+    echo $this->Form->input('user_id', array('type'=>'hidden', 'value'=>$userId));
+    echo $this->Form->input('organisation_id', array('type'=>'hidden', 'value'=>$this->Session->read('Organisation.id')));
     echo $this->Form->submit('Enregistrer', array('class' => 'btn btn-primary pull-right sender'));
     echo $this->Form->end();
 
-?>
+    ?>
 
 </div>

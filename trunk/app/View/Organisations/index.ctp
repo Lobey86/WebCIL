@@ -24,10 +24,14 @@ echo $this->Html->script('organisations.js');
                 </td>
                 <td class="tdcent">
                     <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'organisations', 'action'=>'show', $donnees['Organisation']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false));
+                    if($this->Autorisation->authorized(11, $droits)){
                     echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'organisations', 'action'=>'edit', $donnees['Organisation']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false));
+                        }
+                        if($this->Autorisation->authorized(12, $droits)){
                     if ($nbutil > 1){
                         echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'organisations', 'action'=>'delete', $donnees['Organisation']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous vraiment supprimer l\'organisation '.$donnees['Organisation']['raisonsociale']);
                     }
+                }
                     ?>
                 </td>
             </tr>
@@ -37,5 +41,7 @@ echo $this->Html->script('organisations.js');
         </tbody>
     </table>
 <?php
+if($this->Autorisation->authorized(11, $droits)){
 echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter une organisation', array('controller'=>'organisations', 'action'=>'add'), array('class'=>'btn btn-primary pull-right sender', 'escapeTitle'=>false));
+}
 ?>
