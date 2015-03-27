@@ -1,6 +1,11 @@
 $(document).ready(function(){
 
     $(".boutonList").click(function(){
+        $("tr[class^='selectDestTrans']").hide();
+        $("tr[class^='selectValidDest']").hide();
+        $("tr[class^='selectConsultDest']").hide();
+
+
         var variable=$(this).attr('value');
         if($('#listeValidation' + variable).is(':visible')){
             $('.listeValidation').hide();
@@ -32,6 +37,7 @@ $(document).ready(function(){
         }
     });
     $(".boutonListAValider").click(function(){
+        $("tr[class^='selectDest']").hide();
         var variable=$(this).attr('value');
         if($('#listeAValider' + variable).is(':visible')){
             $('.listeAValider').hide();
@@ -50,6 +56,7 @@ $(document).ready(function(){
     $('.sendCancel').click(function(){
         $("tr[class^='selectConsultDest']").hide();
         $("tr[class^='selectValidDest']").hide();
+        $("tr[class^='selectDest']").hide();
     });
     $('.selectDestValidCancel').click(function(){
         $("tr[class^='selectDestValidValider']").hide();
@@ -64,11 +71,13 @@ $(document).ready(function(){
         $("tr[class^='commentaireRefus']").hide();
     });
     $(".envoiConsult").click(function(){
+        $('.listeValidation').hide();
         var variable=$(this).attr('value');
         $('.selectConsultDest' + variable).show();
         $('.selectValidDest' + variable).hide();
     });
     $(".envoiValid").click(function(){
+        $('.listeValidation').hide();
         var variable=$(this).attr('value');
         $('.selectValidDest' + variable).show();
         $('.selectConsultDest' + variable).hide();
@@ -78,6 +87,7 @@ $(document).ready(function(){
         var variable=$(this).attr('value');
         $('.selectorDestValidValider').hide();
         $('.selectorDestConsultValider').hide();
+        $('.listeAValider').hide();
         $('.selectDestConsultValider' + variable).show();
     });
 
@@ -86,6 +96,7 @@ $(document).ready(function(){
         var variable=$(this).attr('value');
         $('.selectorDestConsultValider').hide();
         $('.selectorDestValidValider').hide();
+        $('.listeAValider').hide();
         $('.selectDestValidValider' + variable).show();
     });
 

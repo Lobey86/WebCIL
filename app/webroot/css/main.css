@@ -203,7 +203,7 @@ tr[class^='selectDestValidValider']{
     left: 25px;
     right:25px;
 }
-#flasherror{
+#flashwarning{
     position: absolute;
     top:10px;
     left: 25px;
