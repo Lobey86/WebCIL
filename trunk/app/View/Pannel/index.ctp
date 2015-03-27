@@ -55,6 +55,9 @@ if($this->Autorisation->authorized(1, $droits)){
                                 </td>
                                 <td class='tdleft'>
                                     <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'fiches', 'action'=>'show', $donnee['Fiche']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false)).$this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'fiches', 'action'=>'edit', $donnee['Fiche']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false)); ?>
+                                    <button type='button' class='btn btn-default boutonList boutonsAction5' value='<?php echo $donnee['Fiche']['id']; ?>'>
+                                        <span class='glyphicon glyphicon-list-alt'></span>
+                                    </button>
                                     <span class='dropdown'>
                                         <button class='btn btn-default dropdown-toggle boutonSend' type='button' id='dropdownMenu1' data-toggle='dropdown'>
                                             <span class='glyphicon glyphicon-send'></span>
@@ -69,22 +72,34 @@ if($this->Autorisation->authorized(1, $droits)){
                                     <?php echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array('controller'=>'fiches', 'action'=>'delete', $donnee['Fiche']['id']), array('class'=>'btn btn-danger boutonDelete boutonsAction15', 'escapeTitle'=>false), 'Voulez vous supprimer la fiche de '.$donnee['Fiche']['outilnom'].'?'); ?>
                                 </td>
                             </tr>
+                            <tr class='listeValidation' id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
+                                <td></td>
+                                <td></td>
+                                <td class='tdleft'>
+                                    <?php 
+                                    $parcours = $this->requestAction(array('controller' => 'Pannel', 'action'=>'parcours', $donnee['Fiche']['id']));
+                                    echo $this->element('parcours', ["parcours" => $parcours]); 
+                                    ?>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
                             <tr class='selectConsultDest<?php echo $donnee['Fiche']['id']; ?>'>
                                 <td></td>
                                 <td></td>
                                 <td colspan='2' class='tdleft'>
-                                   <?php
-                                   echo $this->Form->create('EtatFiche', $options = array('action'=>'askAvis'));
-                                   echo $this->Form->input('destinataire', array('options' => $validants, 'class'=>'usersDeroulant transformSelect', 'empty'=>'Selectionnez un utilisateur', 'label'=>false));
-                                   echo $this->Html->link('Annuler', '#', array('class' =>'btn btn-danger pull-right btnDivSend sendCancel'));
-                                   echo $this->Form->hidden('ficheNum', array('value'=>$donnee['Fiche']['id'])); 
-                                   echo $this->Form->hidden('etatFiche', array('value'=>$donnee['EtatFiche']['id']));
-                                   echo $this->Form->buton('Envoyer', array('type'=>'submit', 'class'=>'btn btn-success pull-right btnDivSend')); 
-                                   echo $this->Form->end();
-                                   ?>
-                               </td>
-                           </tr>
-                           <tr class='selectValidDest<?php echo $donnee['Fiche']['id']; ?>'>
+                                 <?php
+                                 echo $this->Form->create('EtatFiche', $options = array('action'=>'askAvis'));
+                                 echo $this->Form->input('destinataire', array('options' => $validants, 'class'=>'usersDeroulant transformSelect', 'empty'=>'Selectionnez un utilisateur', 'label'=>false));
+                                 echo $this->Html->link('Annuler', '#', array('class' =>'btn btn-danger pull-right btnDivSend sendCancel'));
+                                 echo $this->Form->hidden('ficheNum', array('value'=>$donnee['Fiche']['id'])); 
+                                 echo $this->Form->hidden('etatFiche', array('value'=>$donnee['EtatFiche']['id']));
+                                 echo $this->Form->buton('Envoyer', array('type'=>'submit', 'class'=>'btn btn-success pull-right btnDivSend')); 
+                                 echo $this->Form->end();
+                                 ?>
+                             </td>
+                         </tr>
+                         <tr class='selectValidDest<?php echo $donnee['Fiche']['id']; ?>'>
                             <td></td>
                             <td></td>
                             <td colspan='2' class='tdleft'>
@@ -460,19 +475,18 @@ if($this->Autorisation->authorized(array('2', '3'), $droits)){
                                 <td></td>
                                 <td></td>
                                 <td colspan='2' class='tdleft'>
-                                   <?php
-
-                                   echo $this->Form->create('EtatFiche', $options = array('action'=>'askAvis'));
-                                   echo $this->Form->input('destinataire', array('options' => $validants, 'class'=>'usersDeroulant transformSelect', 'empty'=>'Selectionnez un utilisateur', 'label'=>false));
-                                   echo $this->Html->link('Annuler', '#', array('class' =>'btn btn-danger pull-right btnDivSend sendCancel'));
-                                   echo $this->Form->hidden('ficheNum', array('value'=>$donnee['Fiche']['id'])); 
-                                   echo $this->Form->hidden('etatFiche', array('value'=>$donnee['EtatFiche']['id']));
-                                   echo $this->Form->buton('Envoyer', array('type'=>'submit', 'class'=>'btn btn-success pull-right btnDivSend')); 
-                                   echo $this->Form->end();
-                                   ?>                      
-                               </td>
-                           </tr>
-                           <tr class='commentaireRefus<?php echo $donnee['Fiche']['id']; ?>'>
+                                <?php
+                                 echo $this->Form->create('EtatFiche', $options = array('action'=>'askAvis'));
+                                 echo $this->Form->input('destinataire', array('options' => $validants, 'class'=>'usersDeroulant transformSelect', 'empty'=>'Selectionnez un utilisateur', 'label'=>false));
+                                 echo $this->Form->button('Annuler',array('class' =>'btn btn-danger pull-right btnDivSend sendCancel', 'type' => 'button'));
+                                 echo $this->Form->hidden('ficheNum', array('value'=>$donnee['Fiche']['id'])); 
+                                 echo $this->Form->hidden('etatFiche', array('value'=>$donnee['EtatFiche']['id']));
+                                 echo $this->Form->buton('Envoyer', array('type'=>'submit', 'class'=>'btn btn-success pull-right btnDivSend')); 
+                                 echo $this->Form->end();
+                                 ?>                      
+                             </td>
+                         </tr>
+                         <tr class='commentaireRefus<?php echo $donnee['Fiche']['id']; ?>'>
                             <td></td>
                             <td></td>
                             <td colspan='2' class='tdleft'>
