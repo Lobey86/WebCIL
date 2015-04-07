@@ -57,8 +57,6 @@ public function index(){
 
         )
     );
-
-
     $this->set('encours', $encours);
 
 
@@ -87,9 +85,7 @@ public function index(){
         )
 
     );
-
     $this->set('encoursValidation', $requete);
-
 
 
 
@@ -118,7 +114,6 @@ public function index(){
         )
 
     );
-
     $this->set('validees', $requete);
 
 
@@ -242,7 +237,7 @@ public function index(){
 
 
 // Requète récupérant les utilisateurs ayant le droit de validation
-
+    $cil = $this->Session->read('Organisation.cil');
     $queryValidants = array(
         'fields' => array(
             'User.id',
@@ -253,18 +248,21 @@ public function index(){
             $this->Droit->join( 'OrganisationUser', array( 'type' => "INNER" ) ),
             $this->Droit->OrganisationUser->join( 'User', array( 'type' => "INNER" ) )
             ),
-        'recursive' => -1,
         'conditions' => array(
             'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
-            'User.id != '.$this->Auth->user('id'),
+            'NOT' => array(
+                'User.id' => array(
+                    $this->Auth->user('id'),
+                    $cil
+                    )
+                ),
             'Droit.liste_droit_id' => 2
-            ),
+            )
         );
     $validants = $this->Droit->find( 'all', $queryValidants );
     $validants = Hash::combine( $validants, '{n}.User.id', array( '%s %s', '{n}.User.nom', '{n}.User.prenom') );
     $this->set( compact( 'validants' ) );
 }
-
 
 // Fonction appelée pour le composant parcours, permettant d'afficher le parcours parcouru par une fiche et les commentaires liés (uniquement ceux visibles par l'utilisateur)
 

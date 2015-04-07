@@ -6,7 +6,7 @@
 
 class OrganisationsController extends AppController
 {
-    public $uses = array('Organisation', 'OrganisationUser', 'Droit');
+    public $uses = array('Organisation', 'OrganisationUser', 'Droit', 'User');
 
 
 /**
@@ -84,7 +84,19 @@ class OrganisationsController extends AppController
             $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
             $this->redirect(array('controller' => 'organisations', 'action' => 'index'));
         } else {
-            $organisation = $this->Organisation->findById($id);
+            $organisation = $this->Organisation->find('first', array(
+                'conditions' => array(
+                    'Organisation.id' => $id
+                    ),
+                'contain' => array(
+                    'Cil' => array(
+                        'id',
+                        'nom',
+                        'prenom'
+                        )
+                    )
+                )
+            );
             if (!$organisation) {
                 $this->Session->setFlash('Cette organisation n\'existe pas', 'flasherror');
                 $this->redirect(array('controller' => 'organisations', 'action' => 'index'));
@@ -108,12 +120,30 @@ class OrganisationsController extends AppController
                 $this->redirect(array('controller' => 'organisations', 'action' => 'index'));
             } else {
                 $organisation = $this->Organisation->findById($id);
-
+                $users = $this->OrganisationUser->find('all', array(
+                    'conditions' => array(
+                        'OrganisationUser.organisation_id' => $id
+                        ),
+                    'contain' => array(
+                        'User' => array(
+                            'id',
+                            'nom',
+                            'prenom'
+                            )
+                        )
+                    )
+                );
+                $array_users=array();
+                foreach ($users as $key => $value) {
+                    $array_users[$value['User']['id']] =  $value['User']['prenom']." ".$value['User']['nom'];
+                }
+                $this->set('users', $array_users);
                 if (!$organisation) {
                     $this->Session->setFlash('Cette organisation n\'existe pas', 'flasherror');
                     $this->redirect(array('controller' => 'organisations', 'action' => 'index'));
                 } else {
                     if ($this->request->is(array('post', 'put'))) {
+
                         $this->Organisation->id = $id;
                         if ($this->Organisation->saveAddEditForm($this->request->data, $id)) {
                             $this->Session->setFlash('L\'organisation a été modifiée', 'flashsuccess');
@@ -152,7 +182,7 @@ public function change($id = null)
         }
     }
     $change = $this->Organisation->find('first', array('conditions' => array('Organisation.id' => $id)));
-    $this->Session->write('Organisation', array('id'=>$change['Organisation']['id'], 'raisonsociale'=>$change['Organisation']['raisonsociale']));
+    $this->Session->write('Organisation', array('id'=>$change['Organisation']['id'], 'raisonsociale'=>$change['Organisation']['raisonsociale'], 'cil' => $change['Organisation']['cil']));
     
     $test = $this->Droit->find('all', 
         array(
