@@ -3,6 +3,7 @@ class RegistresController extends AppController {
 	public $uses=array('EtatFiche', 'Fiche');
 
 	public function index(){
+
 		if(!empty($this->request->data['Registre']['search'])){
 			$condition = array(
 				'EtatFiche.etat_id' => array(5,7),

@@ -60,7 +60,7 @@ class FichesController extends AppController {
     public function delete($id = null){
         if ($this->Droits->authorized(1)){
             $fiche = $this->Fiche->findById($id);
-            if(!($this->Fiche->isOwner($this->Auth->user('id'), $fiche) || $this->Auth->user('id')!=1 || $this->Droits->authorized(5))){
+            if(!$this->Droits->isdeletable($id)){
                 $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
                 $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
             } 
@@ -91,7 +91,7 @@ class FichesController extends AppController {
                 $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
             }
             else{
-                if(!($this->Fiche->isOwner($this->Auth->user('id'), $fiche) || $this->Auth->user('id')!=1 || $this->Droits->authorized(5))){
+                if(!$this->Droits->isEditable($id)){
                     $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
                     $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
                 } 
@@ -125,8 +125,13 @@ class FichesController extends AppController {
 **/
 
     public function show($id = null) {
+
         if (!$id) {
             $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
+            $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
+        }
+        if(!$this->Droits->isReadable($id)){
+            $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
             $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
         }
         else{
