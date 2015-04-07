@@ -3,6 +3,7 @@ echo $this->Html->script('organisations.js');
 ?>
 <div class="well">
     <h2><?php echo $this->request->data['Organisation']['raisonsociale'] ?></h2>
+
 </div>
 
 <div class="users form">
@@ -65,6 +66,12 @@ echo $this->Html->script('organisations.js');
                 <span class="glyphicon glyphicon-barcode"></span>
             </span>
         <?php echo $this->Form->input('ape', array('class'=>'form-control', 'placeholder'=>'Code APE (requis)', 'label'=>false, 'required'=>'required')); ?>
+    </div>
+        <div class="input-group login">
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-user"></span>
+            </span>
+        <?php echo $this->Form->input('CIL', array('class'=>'form-control', 'placeholder'=>'Code APE (requis)', 'label'=>false, 'required'=>'required', 'value' => $this->request->data['Cil']['prenom'].' '.$this->request->data['Cil']['nom'])); ?>
     </div>
 
 

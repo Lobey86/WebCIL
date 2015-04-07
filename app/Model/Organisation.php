@@ -137,4 +137,22 @@ public $hasAndBelongsToMany = array(
                 'dependent'=>true
                 )
             );
+
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+    public $belongsTo = array(
+        'Cil' => array(
+            'className'  => 'User',
+            'foreignKey' => 'cil',
+            //'conditions' => '',
+            //'fields'     => '',
+            //'order'      => ''
+        )
+    );
+
+        
     }

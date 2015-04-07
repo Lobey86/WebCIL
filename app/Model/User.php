@@ -71,6 +71,10 @@ class User extends AppModel {
         'Destin' => array(
             'className' => 'Commentaire',
             'foreignKey' => 'destinataire_id'
+            ),
+        'Cil' => array(
+            'className' => 'Organisation',
+            'foreignKey' => 'cil'
             )
         );
     
