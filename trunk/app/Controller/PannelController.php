@@ -15,7 +15,6 @@ class PannelController extends AppController {
 
 public function index(){
 
-
 // Requète récupérant les fiches en cours de rédaction
 
     $db = $this->EtatFiche->getDataSource();
