@@ -1,0 +1,26 @@
+Fusion de notifications pour les subventions à l'amélioration de l'habitat.
+
+<FORM action="http://arrigo-dev/phpgedooo/anah.php" method="POST">
+<table>
+  <tbody>
+    <tr>
+      <td>Fichier CSV issu du site Infocentre:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Modèle de document:</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</FORM>
+
+
+
+
+
+
