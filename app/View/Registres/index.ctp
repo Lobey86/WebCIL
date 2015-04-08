@@ -46,20 +46,21 @@ if(!empty($fichesValid)){
                     <td class="tdleft">
                         <button type="button" class="btn btn-default boutonDl boutonsAction5" value="1">'.$this->Html->image('pdf.png', array('class' => 'glyph')).'</button>'.
                         $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'fiches', 'action'=>'show', $value['Fiche']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false));
-                        if($this->Autorisation->authorized(6, $droits) && $value['EtatFiche']['etat_id']!=7){ echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'fiches', 'action'=>'edit', $value['Fiche']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false));
-                        if($this->Autorisation->isCil()){
-                            echo $this->Html->link('<span class="glyphicon glyphicon-lock"></span>', array('controller'=>'etatFiches', 'action' => 'archive', $value['Fiche']['id']), array('class'=>'btn btn-danger boutonArchive boutonsAction15', 'escapeTitle'=>false), 'Voulez-vous archiver cette fiche? Une fois archivée, toute modification est impossible.');
-                        }
-                    } 
-                    echo '</td>
-                </tr>';
-            }
-            ?>
-        </tbody>
-    </table>
-    <?php
-}
-else{
-    echo "<div class='text-center'><h3>Il n'y a aucune fiche à afficher <small>dans ce registre</small></h3></div>";
-}
-?>
+                        if($this->Autorisation->isCil() && $value['EtatFiche']['etat_id']!=7){ 
+                            echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'fiches', 'action'=>'edit', $value['Fiche']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false));
+                            if($this->Autorisation->isCil()){
+                                echo $this->Html->link('<span class="glyphicon glyphicon-lock"></span>', array('controller'=>'etatFiches', 'action' => 'archive', $value['Fiche']['id']), array('class'=>'btn btn-danger boutonArchive boutonsAction15', 'escapeTitle'=>false), 'Voulez-vous archiver cette fiche? Une fois archivée, toute modification est impossible.');
+                            }
+                        } 
+                        echo '</td>
+                    </tr>';
+                }
+                ?>
+            </tbody>
+        </table>
+        <?php
+    }
+    else{
+        echo "<div class='text-center'><h3>Il n'y a aucune fiche à afficher <small>dans ce registre</small></h3></div>";
+    }
+    ?>
