@@ -268,9 +268,6 @@ if($this->Autorisation->authorized(1, $droits)){
                                 <button type='button' class='btn btn-default boutonDl boutonsAction5' value='<?php echo $donnee['Fiche']['id']; ?>'>
                                     <img src="img/pdf.png" class="glyph"/>
                                 </button>
-                                <button type="button" class="btn btn-danger boutonsAction15 boutonArchive">
-                                    <span class="glyphicon glyphicon-lock"></span>
-                                </button>
                             </td>
                         </tr>
                         <tr class='listeValidee' id='listeValidee<?php echo $donnee['Fiche']['id']; ?>'>
