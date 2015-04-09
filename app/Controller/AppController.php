@@ -19,7 +19,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('Controller', 'Controller');
+App::uses('Controller', 'Controller', 'OrganisationUser');
 
 /**
  * Application Controller
@@ -34,21 +34,39 @@ App::uses('Controller', 'Controller');
 
 
 class AppController extends Controller {
-    public $uses=array('Organisation', 'Droit');
+    public $uses=array('Organisation', 'Droit', 'OrganisationUser');
     public $components = array(
         'Session',
         'Droits',
         'Auth' => array(
             'loginRedirect' => array('controller' => 'organisations', 'action' => 'change'),
             'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home')
-        )
-    );
+            )
+        );
 
     public function beforeFilter() {
         $this->set('nom', $this->Auth->user('nom'));
         $this->set('prenom', $this->Auth->user('prenom'));
         $this->set('userId', $this->Auth->user('id'));
-        $this->set('organisations', $this->Organisation->find('all'));
+
+        if($this->Droits->isSu()){
+            $this->set('organisations',$this->Organisation->find('all', array(
+                )
+            )
+            );
+        }
+        else{
+            $this->set('organisations',$this->OrganisationUser->find('all', array(
+                'conditions' => array(
+                    'OrganisationUser.user_id' => $this->Auth->user('id')
+                    ),
+                'contain' => array(
+                    'Organisation'
+                    )
+                )
+            )
+            );
+        }
         $this->set('droits', $this->Session->read('Droit.liste'));
     }
 }

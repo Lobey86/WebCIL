@@ -17,6 +17,8 @@ class RegistresController extends AppController {
 				'Fiche.organisation_id' => $this->Session->read('Organisation.id')
 				);
 		}
+
+
 		if($this->Droits->authorized(array('4','5','6'))){
 			$fichesValid = $this->EtatFiche->find('all', array(
 				'conditions' => $condition,
@@ -33,9 +35,7 @@ class RegistresController extends AppController {
 					)
 				)
 			);
-
 			$this->set('fichesValid', $fichesValid);
-
 		}
 		else
 		{

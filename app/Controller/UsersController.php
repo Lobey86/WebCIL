@@ -19,14 +19,28 @@ public function beforeFilter() {
  */
 public function index() {
     if($this->Droits->authorized(array('8','9','10'))){
-        $this->User->recursive = 0;
-        $this->set('users', $this->paginate());
-    }
-    else
-    {
-        $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
-        $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
-    }
+       $users = $this->OrganisationUser->find('all', array(
+        'conditions' => array(
+            'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
+            ),
+        'contain'  => array(
+            'User' => array(
+                'id',
+                'nom',
+                'prenom',
+                'created'
+                )
+            )
+        )
+       );
+
+       $this->set('users', $users);
+   }
+   else
+   {
+    $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+    $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
+}
 }
 
 
@@ -97,7 +111,7 @@ public function add() {
         }
         else{
             $tableau=array('Organisation'=>array());
-            $organisations = $this->Organisation->find('all', array('recursive'=>-1));
+            $organisations = $this->Organisation->find('all', array('conditions' => array('id' => $this->Session->read('Organisation.id'))));
             foreach ($organisations as $key => $value) {
                 $tableau['Organisation'][$value['Organisation']['id']]['infos']=array('raisonsociale'=>$value['Organisation']['raisonsociale'], 'id'=>$value['Organisation']['id']);
                 $roles = $this->Role->find('all',array('recursive'=>-1, 'conditions'=>array('organisation_id'=>$value['Organisation']['id'])));
@@ -185,7 +199,7 @@ public function edit($id = null) {
             $this->set("userid", $id);
 
             $tableau=array('Organisation'=>array());
-            $organisations = $this->Organisation->find('all', array('recursive'=>-1));
+            $organisations = $this->Organisation->find('all', array('conditions' => array('id' => $this->Session->read('Organisation.id'))));
             foreach ($organisations as $key => $value) {
                 $tableau['Organisation'][$value['Organisation']['id']]['infos']=array('raisonsociale'=>$value['Organisation']['raisonsociale'], 'id'=>$value['Organisation']['id']);
                 $roles = $this->Role->find('all',array('recursive'=>-1, 'conditions'=>array('organisation_id'=>$value['Organisation']['id'])));
