@@ -249,13 +249,12 @@ if($this->Autorisation->authorized(1, $droits)){
                     <?php
                     foreach($validees as $donnee){
                         ?>
-
                         <tr id='ligneValidation<?php echo $donnee['Fiche']['id']; ?>'>
                             <td class='tdleft'>
                                 <?php echo $donnee['Fiche']['outilnom']; ?>
                             </td>
                             <td class='tdleft'>
-                                <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>
+                                <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['Fiche']['User']['prenom']." ".$donnee['Fiche']['User']['nom']; ?></i>
                             </td>
                             <td class='tdleft'>
                                 <?php echo $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?><i> par <?php echo $donnee['User']['prenom']." ".$donnee['User']['nom']; ?></i>
