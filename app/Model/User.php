@@ -75,6 +75,10 @@ class User extends AppModel {
         'Cil' => array(
             'className' => 'Organisation',
             'foreignKey' => 'cil'
+            ),
+        'Notification' => array(
+            'className' => 'Notification',
+            'foreignKey' => 'user_id'
             )
         );
     

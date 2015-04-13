@@ -19,8 +19,8 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('Controller', 'Controller', 'OrganisationUser');
-
+App::uses('Controller', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Application Controller
  *
@@ -34,10 +34,11 @@ App::uses('Controller', 'Controller', 'OrganisationUser');
 
 
 class AppController extends Controller {
-    public $uses=array('Organisation', 'Droit', 'OrganisationUser');
+    public $uses=array('Organisation', 'Droit', 'OrganisationUser', 'Notification');
     public $components = array(
         'Session',
         'Droits',
+        'Notifications',
         'Auth' => array(
             'loginRedirect' => array('controller' => 'organisations', 'action' => 'change'),
             'logoutRedirect' => array('controller' => 'pages', 'action' => 'display', 'home')
@@ -68,5 +69,27 @@ class AppController extends Controller {
             );
         }
         $this->set('droits', $this->Session->read('Droit.liste'));
+
+        $notifications = $this->Notification->find('all', array(
+            'conditions' => array(
+                'Notification.user_id' => $this->Auth->user('id')
+                ),
+            'contain' => array(
+                'Fiche' => array(
+                    'outilnom'
+                    )
+                ),
+            'order' => array(
+                'Notification.content'
+                )
+            )
+        );
+        $this->set('notifications', $notifications);
+        // Content 1: Fiche à viser
+        // Content 2: Fiche à valider
+        // Content 3: Fiche validée
+        // Content 4: Fiche refusée
+        // Content 5: reponse à une demande d'avis
+
     }
 }

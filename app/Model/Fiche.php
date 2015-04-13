@@ -35,6 +35,11 @@ public $hasMany = array(
 		'className'  => 'EtatFiche',
 		'foreignKey' => 'fiche_id',
 		'dependent'  => true,
+		),
+	'Notification' => array(
+		'className' => 'Notification',
+		'foreignKey' => 'fiche_id',
+		'dependent' => false
 		)
 	);
 

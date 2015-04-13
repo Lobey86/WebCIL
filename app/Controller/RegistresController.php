@@ -35,6 +35,15 @@ class RegistresController extends AppController {
 					)
 				)
 			);
+			foreach ($fichesValid as $key => $value) {
+				if($this->Droits->isReadable($value['Fiche']['id'])){
+					$fichesValid[$key]['Readable']=true;
+				}
+				else{
+					$fichesValid[$key]['Readable']=false;
+				}
+			}
+
 			$this->set('fichesValid', $fichesValid);
 		}
 		else

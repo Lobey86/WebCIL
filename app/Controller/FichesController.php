@@ -128,22 +128,22 @@ class FichesController extends AppController {
 
         if (!$id) {
             $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
-            $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
+            $this->redirect($this->referer());
         }
         if(!$this->Droits->isReadable($id)){
-            $this->Session->setFlash('Vous n\'avez pas accès à cette fichea', 'flasherror');
-            $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
+            $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
+            $this->redirect($this->referer());
         }
         else{
             $fiche = $this->Fiche->findById($id);
             if (!$fiche) {
                 $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
-                $this->redirect(array('controller'=>'pannel', 'action'=>'index'));
+                $this->redirect($this->referer());
             }
             else{
                 if(!($this->Fiche->isOwner($this->Auth->user('id'), $fiche) || $this->Droits->isSu() || $this->Droits->authorized(5))){
                     $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
-                    $this->redirect(array('controller'=>'registres', 'action'=>'index'));
+                    $this->redirect($this->referer());
                 } 
             }
         }

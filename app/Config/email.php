@@ -49,13 +49,12 @@ class EmailConfig {
 
     public $email = array(
         'from' => array('admin@webcil.local' => 'WebCIL'),
-        'subject' => 'Création de compte sur WebCIL',
-        'host' => 'ssl://smtp.gmail.com',
-        'port' => 465,
-        'username' => 'aurelien.masse.p@gmail.com',
-        'password' => 'Ux99Qgda',
+        'host' => '',
+        'port' => 587,
+        'username' => '',
+        'password' => '',
         'transport' => 'Smtp',
-
+        'tls' => true
     );
 
 	public $fast = array(

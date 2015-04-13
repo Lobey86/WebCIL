@@ -6,7 +6,7 @@
 
 
 class PannelController extends AppController {
-    public $uses=array('Pannel', 'Fiche', 'Users', 'OrganisationUser', 'Droit', 'EtatFiche', 'Commentaire');
+    public $uses=array('Pannel', 'Fiche', 'Users', 'OrganisationUser', 'Droit', 'EtatFiche', 'Commentaire', 'Notification');
 
 
 /**
@@ -306,4 +306,13 @@ public function parcours($id){
    );
    return $parcours;
 }
+
+
+// Fonction de suppression des notifications
+
+public function dropNotif(){
+    $this->Notification->deleteAll(array('Notification.user_id' => $this->Auth->user('id'), false));
+    $this->redirect(array('controller' => 'pannel', 'action' => 'index'));
+}
+
 }
