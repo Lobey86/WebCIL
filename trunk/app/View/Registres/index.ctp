@@ -44,8 +44,10 @@ if(!empty($fichesValid)){
 						'.$value['EtatFiche']['created'].'
 					</td>
 					<td class="tdleft">
-						<button type="button" class="btn btn-default boutonDl boutonsAction5" value="1">'.$this->Html->image('pdf.png', array('class' => 'glyph')).'</button>'.
-						$this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'fiches', 'action'=>'show', $value['Fiche']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false));
+						<button type="button" class="btn btn-default boutonDl boutonsAction5" value="1">'.$this->Html->image('pdf.png', array('class' => 'glyph')).'</button>';
+						if($value['Readable']){
+						echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array('controller'=>'fiches', 'action'=>'show', $value['Fiche']['id']), array('class'=>'btn btn-default boutonShow boutonsAction5', 'escapeTitle'=>false));
+					}
 						if($this->Autorisation->isCil() && $value['EtatFiche']['etat_id']!=7){ 
 							echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array('controller'=>'fiches', 'action'=>'edit', $value['Fiche']['id']), array('class'=>'btn btn-default boutonEdit boutonsAction5', 'escapeTitle'=>false));
 							if($this->Autorisation->isCil()){
