@@ -49,10 +49,10 @@ class EmailConfig {
 
     public $email = array(
         'from' => array('admin@webcil.local' => 'WebCIL'),
-        'host' => 'smtp.gmail.com',
+        'host' => '',
         'port' => 587,
-        'username' => 'aurelien.masse.p@gmail.com',
-        'password' => 'Ux99Qgda',
+        'username' => '',
+        'password' => '',
         'transport' => 'Smtp',
         'tls' => true
     );
