@@ -73,7 +73,8 @@ public function index(){
                     'id', 'outilnom', 'created', 'modified'), 
                 'User' => array(
                     'fields' => array(
-                        'id','nom','prenom')
+                        'id','nom','prenom'
+                        )
                     )
                 ), 
             'User' =>  array(

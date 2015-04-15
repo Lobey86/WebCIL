@@ -21,8 +21,6 @@ class File extends AppModel {
 
     public function saveFile($data, $id = null){
     	if (isset($data['Fiche']['fichiers']) && !empty($data['Fiche']['fichiers'] && $data['Fiche']['fichiers']['0']['error']==0)) {
-            debug($data);
-            die();
     		foreach ($data['Fiche']['fichiers'] as $key => $file) {
     			$success = true;
     			$this->begin();

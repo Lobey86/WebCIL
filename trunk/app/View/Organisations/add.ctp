@@ -56,11 +56,8 @@
             </span>
         <?php echo $this->Form->input('ape', array('class' => 'form-control', 'placeholder' => 'Code APE (requis)', 'label' => false)); ?>
     </div>
-    <div class="input-group login">
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-picture"></span>
-            </span>
-        <?php echo $this->Form->input('logo_file', array('div' => 'input-group inputsForm', 'type' => 'file', 'class' => 'form-control', 'label' => false)); ?>
+        <div class="login">
+        <?php echo $this->Form->input('logo_file', array('div'=>'input-group inputsForm', 'type' => 'file', 'class'=>'filestyle', 'data-buttonText'=>'Ajouter un logo', 'data-buttonName'=>"btn-primary", 'data-buttonBefore'=>"true", 'label'=>false)); ?>
     </div>
     <?php
         echo $this->Html->link('Annuler', array('controller' => 'organisations', 'action' => 'index'), array('class' => 'btn btn-danger pull-right sender'));

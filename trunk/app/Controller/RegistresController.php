@@ -1,23 +1,31 @@
 <?php
 class RegistresController extends AppController {
-	public $uses=array('EtatFiche', 'Fiche');
+	public $uses=array('EtatFiche', 'Fiche', 'OrganisationUser');
 
 	public function index(){
 
-		if(!empty($this->request->data['Registre']['search'])){
-			$condition = array(
-				'EtatFiche.etat_id' => array(5,7),
-				'Fiche.outilnom LIKE'  => "%".$this->request->data['Registre']['search']."%",
-				'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-				);
-		}
-		else{
-			$condition = array(
-				'EtatFiche.etat_id' => array(5,7),
-				'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-				);
-		}
 
+		$condition= array(
+			'EtatFiche.etat_id' => array(5,7),
+			'Fiche.organisation_id' => $this->Session->read('Organisation.id')
+			);
+		$search = false;
+		if(!empty($this->request->data['Registre']['user'])){
+			$condition['Fiche.user_id'] = $this->request->data['Registre']['user'];
+			$search = true;
+		}
+		if(!empty($this->request->data['Registre']['outil'])){
+			$condition['Fiche.outilnom'] = $this->request->data['Registre']['outil'];
+			$search = true;
+		}
+		if(isset($this->request->data['Registre']['archive']) && $this->request->data['Registre']['archive'] == 1){
+			$condition['EtatFiche.etat_id'] = 7;
+			$search = true;
+		}
+		if(isset($this->request->data['Registre']['nonArchive']) && $this->request->data['Registre']['nonArchive'] == 1){
+			$condition['EtatFiche.etat_id'] = 5;
+			$search = true;
+		}
 
 		if($this->Droits->authorized(array('4','5','6'))){
 			$fichesValid = $this->EtatFiche->find('all', array(
@@ -44,7 +52,32 @@ class RegistresController extends AppController {
 				}
 			}
 
+			$this->set('search', $search);
 			$this->set('fichesValid', $fichesValid);
+
+
+			// Listing des utilisateurs de l'organisation
+			$liste=$this->OrganisationUser->find('all', array(
+				'conditions' => array(
+					'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
+					),
+				'contain' => array(
+					'User' => array(
+						'id',
+						'nom',
+						'prenom'
+						)
+					)
+				)
+			);
+			$listeUsers = array();
+			foreach ($liste as $key => $value) {
+				$listeUsers[$value['User']['id']] = $value['User']['prenom'].' '.$value['User']['nom'];
+			}
+
+			$this->set('listeUsers', $listeUsers);
+
+
 		}
 		else
 		{
