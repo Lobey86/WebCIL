@@ -87,12 +87,7 @@ if(isset($this->validationErrors['Organisation']) && !empty($this->validationErr
     }
     ?>
 
-    <div class="input-group login">
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-picture"></span>
-        </span>
-        <?php echo $this->Form->input('logo_file', array('div'=>'input-group inputsForm', 'type' => 'file', 'class'=>'form-control', 'label'=>false)); ?>
-    </div>
+
     <div class="input-group login">
         <span class="input-group-addon">
             <span class="glyphicon glyphicon-user"></span>
@@ -100,6 +95,9 @@ if(isset($this->validationErrors['Organisation']) && !empty($this->validationErr
         <?php
             echo $this->Form->input('cil', array('options' => $users, 'div'=>'input-group inputsForm', 'class'=>'form-control usersDeroulant', 'empty'=>'Selectionnez un nouveau CIL', 'label'=>false));
         ?>
+    </div>
+        <div class="login">
+        <?php echo $this->Form->input('logo_file', array('div'=>'input-group inputsForm', 'type' => 'file', 'class'=>'filestyle', 'data-buttonText'=>' Changer le logo', 'data-buttonName'=>"btn-primary", 'data-buttonBefore'=>"true", 'label'=>false)); ?>
     </div>
     <?php
     echo $this->Html->link('Annuler', array('controller'=>'organisations', 'action'=>'index'), array('class'=>'btn btn-danger pull-right sender'));

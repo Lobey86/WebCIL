@@ -102,7 +102,7 @@ class DroitsComponent extends Component {
 		if($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && $infoFiche['Fiche']['user_id'] == $this->Session->read('Auth.User.id') && $infoEtat < 1){
 			return true;
 		}
-		if($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && $this->Session->read('Auth.User.id') == $this->Session->read('Organisation.cil')){
+		if($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && ($this->Session->read('Auth.User.id') == $this->Session->read('Organisation.cil') || $this->Session->read('Auth.User.id') == 1)){
 			return true;
 		}
 		return false;

@@ -18,11 +18,11 @@ class NotificationsComponent extends Component {
 		$notification->create(array('Notification'=>array('fiche_id'=>$fiche_id, 'content'=>$content, 'user_id'=>$user_id)));
 		if($notification->save()){
 
-			$Email = new CakeEmail();
-			$Email->config('email');
-			$Email->to($userInfo['User']['email']);
-			$Email->subject('Nouvelle notification');
-			$Email->send('Vous avez reçu une nouvelle notification sur WebCIL');
+			//$Email = new CakeEmail();
+			//$Email->config('email');
+			//$Email->to($userInfo['User']['email']);
+			//$Email->subject('Nouvelle notification');
+			//$Email->send('Vous avez reçu une nouvelle notification sur WebCIL');
 
 
 			return true;

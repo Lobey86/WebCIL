@@ -139,7 +139,7 @@ $(document).ready(function(){
         }
     });
 
-    $(".usersDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width:'100%'});
+    
 
     $( "#datepicker" ).datepicker({
         altField: "#datepicker",
