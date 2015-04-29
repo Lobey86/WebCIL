@@ -71,7 +71,12 @@ Inflector::rules('plural', array('rules' => array(), 'irregular' => array('organ
  * CakePlugin::load('DebugKit'); //Loads a single plugin named DebugKit
  *
  */
-CakePlugin::load('Cakeflow'); //Loads a single plugin named CakeFlow
+CakePlugin::loadAll(array(
+	array('bootstrap' => true),
+	'Cakeflow' => array('bootstrap' => false, 'routes' => false),
+	'ModelOdtValidator' => array('bootstrap' => true, 'routes' => false)
+	));
+
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:
  *
@@ -91,7 +96,7 @@ CakePlugin::load('Cakeflow'); //Loads a single plugin named CakeFlow
 Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
 	'CacheDispatcher'
-));
+	));
 
 /**
  * Configures default file logging options
@@ -101,11 +106,12 @@ CakeLog::config('debug', array(
 	'engine' => 'File',
 	'types' => array('notice', 'info', 'debug'),
 	'file' => 'debug',
-));
+	));
 CakeLog::config('error', array(
 	'engine' => 'File',
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
-));
+	));
 
 include_once(APP.DS."Plugin".DS."Cakeflow".DS."Config".DS."cakeflow.conf.php");
+require_once('webcil.inc.default');
