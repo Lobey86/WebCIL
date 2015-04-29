@@ -8,3 +8,4 @@ CREATE TABLE roles (
   organisation_id INTEGER NOT NULL REFERENCES organisations(id),
    created DATE,
    modified DATE
+   );

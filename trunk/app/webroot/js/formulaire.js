@@ -212,6 +212,4 @@ $(document).ready(function(){
          $('.checkFile' + numero).prop('checked', false);
          $('.boutonannuler' + numero).hide();
      });
-
-
 });

@@ -50,7 +50,6 @@
 ;-------------------------------------
 ;Users
 ;-------------------------------------
-
 [username-goes-here]
 groups = group1, group2
 deny = aco1, aco2
