@@ -42,6 +42,7 @@ $cakeDescription = 'WebCIL';
     echo $this->Html->css('chosen.min.css');
     echo $this->Html->css('main.css');
     echo $this->Html->css('jquery-ui.css');
+    echo $this->Html->css('font-awesome.min.css');
 
 
     echo $this->fetch('meta');
@@ -56,7 +57,7 @@ $cakeDescription = 'WebCIL';
         <div class="container theme-showcase" id="relatif" role="main" style="margin-top: 60px">
             <div id="unprintable_div">
                 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                    <div class="container">
+                    <div class="container-fluid">
                         <div class="navbar-header">
                             <button type="button" class="navbar-toggle" data-toggle="collapse"
                                     data-target=".navbar-collapse">
@@ -231,7 +232,6 @@ $cakeDescription = 'WebCIL';
                 </div>
 
             </div>
-
             <?php echo $this->Session->flash(); ?>
             <?php echo $this->fetch('content'); ?>
 

@@ -10,14 +10,15 @@
     <?php
     echo $this->Form->create('User', array('autocomplete' => 'off')); ?>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Login">
             <span class="glyphicon glyphicon-user"></span>
         </span>
         <?php
         if ( $userid != 1 ) {
             echo $this->Form->input('username', array(
                 'class' => 'form-control',
-                'placeholder' => 'Nom d\'utilisateur',
+                'placeholder' => 'Login',
                 'label' => false,
                 'autocomplete' => 'off'
             ));
@@ -33,7 +34,8 @@
         ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Mot de passe">
             <span class="glyphicon glyphicon-lock"></span>
         </span>
         <?php echo $this->Form->input('new_password', array(
@@ -46,7 +48,8 @@
     </div>
     <div class="input-group login">
         <span class="input-group-addon">
-            <span class="glyphicon glyphicon-lock"></span>
+            <span class="glyphicon glyphicon-lock" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Mot de passe"></span>
         </span>
         <?php echo $this->Form->input('new_passwd', array(
             'class' => 'form-control',
@@ -57,7 +60,8 @@
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Nom">
             <span class="glyphicon glyphicon-user"></span>
         </span>
         <?php
@@ -69,7 +73,8 @@
         ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Prénom">
             <span class="glyphicon glyphicon-user"></span>
         </span>
         <?php
@@ -81,7 +86,8 @@
         ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="E-mail">
             <span class="glyphicon glyphicon-envelope"></span>
         </span>
         <?php
@@ -99,7 +105,8 @@
         }
         ?>
         <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Organisation">
                 <span class="glyphicon glyphicon-home"></span>
             </span>
             <?php
@@ -137,7 +144,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="input-group login">
-                        <span class="input-group-addon">
+                        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                              data-content="Rôle">
                             <span class="glyphicon glyphicon-tag"></span>
                         </span>
 

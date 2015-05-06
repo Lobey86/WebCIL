@@ -296,8 +296,8 @@ class PannelController extends AppController
         $consultants = $this->Droit->find('all', $queryConsultants);
         $consultants = Hash::combine($consultants, '{n}.User.id', array(
             '%s %s',
-            '{n}.User.nom',
-            '{n}.User.prenom'
+            '{n}.User.prenom',
+            '{n}.User.nom'
         ));
         $this->set(compact('consultants'));
 
@@ -335,8 +335,8 @@ class PannelController extends AppController
         $validants = $this->Droit->find('all', $queryValidants);
         $validants = Hash::combine($validants, '{n}.User.id', array(
             '%s %s',
-            '{n}.User.nom',
-            '{n}.User.prenom'
+            '{n}.User.prenom',
+            '{n}.User.nom'
         ));
         $this->set(compact('validants'));
     }

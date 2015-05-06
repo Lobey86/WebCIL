@@ -375,7 +375,7 @@ echo $this->Html->script('formulaire.js');
     <tr>
     <td class="tdleft">' . $this->Form->input('categorie2general', array(
             'type' => 'checkbox',
-            'label' => 'Vie personelle <br/><span class="small">(habitudes de vie, situation familiale, etc.)</span>'
+            'label' => 'Vie personnelle <br/><span class="small">(habitudes de vie, situation familiale, etc.)</span>'
         )) . '</td>
     <td class="tdleft">' . $this->Form->input('categorie2originedirecte', array(
             'type' => 'checkbox',
@@ -424,7 +424,7 @@ echo $this->Html->script('formulaire.js');
     <tr>
     <td class="tdleft">' . $this->Form->input('categorie3general', array(
             'type' => 'checkbox',
-            'label' => 'Vie professionelle <br/><span class="small">(CV, scolarité, formation professionnelle, distinctions ...)</span>'
+            'label' => 'Vie professionnelle <br/><span class="small">(CV, scolarité, formation professionnelle, distinctions ...)</span>'
         )) . '</td>
     <td class="tdleft">' . $this->Form->input('categorie3originedirecte', array(
             'type' => 'checkbox',
@@ -571,7 +571,7 @@ echo $this->Html->script('formulaire.js');
     <tr>
     <td class="tdleft">' . $this->Form->input('categorie6general', array(
             'type' => 'checkbox',
-            'label' => 'Données de localisations <br/><span class="small">(Déplaceents, données GPS, GSM, etc.)</span>'
+            'label' => 'Données de localisation <br/><span class="small">(Déplaceents, données GPS, GSM, etc.)</span>'
         )) . '</td>
     <td class="tdleft">' . $this->form->input('categorie6originedirecte', array(
             'type' => 'checkbox',

@@ -212,10 +212,6 @@ class OrganisationsController extends AppController
                         }
                         else {
                             $this->Session->setFlash('La modification a échoué.', 'flasherror');
-                            $this->redirect(array(
-                                'controller' => 'organisations',
-                                'action' => 'index'
-                            ));
                         }
                     }
                 }
@@ -359,6 +355,7 @@ class OrganisationsController extends AppController
                         '8',
                         '9',
                         '10',
+                        '12',
                         '13',
                         '14',
                         '15'
@@ -368,7 +365,8 @@ class OrganisationsController extends AppController
             foreach ( $data as $key => $value ) {
                 $this->Role->create($value[ 'Role' ]);
                 $this->Role->save();
-                $last = $this->Role->getLastInsertID();
+                $last = $this->Role->getInsertID();
+                debug($last);
                 foreach ( $value[ 'Droit' ] as $valeur ) {
                     $this->RoleDroit->create(array(
                         'RoleDroit' => array(
@@ -381,4 +379,6 @@ class OrganisationsController extends AppController
             }
         }
     }
+
+
 }

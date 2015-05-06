@@ -28,7 +28,8 @@ echo $this->Html->script('organisations.js');
     ?>
 
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Raison Sociale">
                 <span class="glyphicon glyphicon-tag"></span>
             </span>
         <?php echo $this->Form->input('raisonsociale', array(
@@ -39,7 +40,8 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Téléphone">
                 <span class="glyphicon glyphicon-phone-alt"></span>
             </span>
         <?php echo $this->Form->input('telephone', array(
@@ -50,7 +52,8 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Fax">
                 <span class="glyphicon glyphicon-print"></span>
             </span>
         <?php echo $this->Form->input('fax', array(
@@ -60,7 +63,8 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Adresse">
                 <span class="glyphicon glyphicon-home"></span>
             </span>
         <?php echo $this->Form->input('adresse', array(
@@ -73,7 +77,8 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="E-mail">
                 <span class="glyphicon glyphicon-envelope"></span>
             </span>
         <?php echo $this->Form->input('email', array(
@@ -84,7 +89,8 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Sigle">
                 <span class="glyphicon glyphicon-tag"></span>
             </span>
         <?php echo $this->Form->input('sigle', array(
@@ -94,7 +100,8 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="N° SIRET ou SIREN">
                 <span class="glyphicon glyphicon-barcode"></span>
             </span>
         <?php echo $this->Form->input('siret', array(
@@ -105,7 +112,8 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="Code APE">
                 <span class="glyphicon glyphicon-barcode"></span>
             </span>
         <?php echo $this->Form->input('ape', array(
@@ -116,12 +124,13 @@ echo $this->Html->script('organisations.js');
         )); ?>
     </div>
     <div class="input-group login">
-            <span class="input-group-addon">
+            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                  data-content="CIL">
                 <span class="glyphicon glyphicon-user"></span>
             </span>
         <?php echo $this->Form->input('CIL', array(
             'class' => 'form-control',
-            'placeholder' => 'Code APE (requis)',
+            'placeholder' => 'CIL)',
             'label' => false,
             'required' => 'required',
             'value' => $this->request->data[ 'Cil' ][ 'prenom' ] . ' ' . $this->request->data[ 'Cil' ][ 'nom' ]

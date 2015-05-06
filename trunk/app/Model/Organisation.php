@@ -74,8 +74,17 @@ class Organisation extends AppModel
             )
         ),
         'siret' => array(
-            'rule' => 'notEmpty',
-            'message' => 'Le numéro de SIRET doit être précisé'
+            array(
+                'rule' => 'notEmpty',
+                'message' => 'Le numéro de SIRET doit être précisé'
+            ),
+            array(
+                'rule' => array(
+                    'luhn',
+                    true
+                ),
+                'message' => 'Le numéro de SIRET n\'est pas valide'
+            )
         ),
         'ape' => array(
             'rule' => 'notEmpty',
@@ -97,8 +106,6 @@ class Organisation extends AppModel
         $success = true;
         $this->begin();
         $success = $this->save($data);
-        debug($success);
-        debug($data);
         //die();
         if ( $success ) {
             if ( isset($data[ $this->alias ][ 'logo_file' ]) ) {
@@ -183,6 +190,5 @@ class Organisation extends AppModel
             //'order'      => ''
         )
     );
-
 
 }
