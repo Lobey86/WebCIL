@@ -62,7 +62,7 @@ class FichesController extends AppController
                 $last = $this->Fiche->getLastInsertID();
                 $this->Historique->create(array(
                     'Historique' => array(
-                        'content' => 'Création de la fiche par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('prenom'),
+                        'content' => 'Création de la fiche par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
                         'fiche_id' => $last
                     )
                 ));
@@ -87,7 +87,6 @@ class FichesController extends AppController
             }
             $this->Session->setFlash('La fiche n\'a pas été enregistrée', 'flasherror');
             $this->redirect($this->referer());
-
         }
         else {
             $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
@@ -248,7 +247,7 @@ class FichesController extends AppController
                 $this->redirect($this->referer());
             }
             else {
-                if ( !($this->Fiche->isOwner($this->Auth->user('id'), $fiche) || $this->Droits->isSu() || $this->Droits->authorized(5)) ) {
+                if ( !($this->Fiche->isOwner($this->Auth->user('id'), $fiche) || $this->Droits->isSu() || $this->Droits->isReadable($id)) ) {
                     $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
                     $this->redirect($this->referer());
                 }
@@ -278,25 +277,33 @@ class FichesController extends AppController
      **/
     function genereFusion($id)
     {
-        debug('-------');
         App::uses('FusionConvBuilder', 'FusionConv.Utility');
+        $data = $this->Fiche->find('first', array('conditions' => array('id' => $id)));
+
+        $types = array();
+        foreach ( $data[ 'Fiche' ] as $key => $value ) {
+            $types[ 'Fiche.' . $key ] = 'text';
+        }
+
+        $correspondances = array();
+        foreach ( $data[ 'Fiche' ] as $key => $value ) {
+            $correspondances[ 'Fiche_' . $key ] = 'Fiche.' . $key;
+        }
         $MainPart = new GDO_PartType();
-        $correspondances = $types = $data = array();
-        //unset($aData['fileodt.texte_acte']);
-        //unset($aData['fileodt.texte_acte']);
-        //var_dump($aData);exit;
-        //$this->_format($MainPart, $aData, $data, $types);
-        unset($aData);
+
         $Document = FusionConvBuilder::main($MainPart, $data, $types, $correspondances);
 
         $sMimeType = 'application/vnd.oasis.opendocument.text';
 
-        $Template = new GDO_ContentType("", 'ceciEstUnTest.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents('test.odt'));
+        $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(WWW_ROOT . '/files/modeles/' . $data[ 'Fiche' ][ 'organisation_id' ] . '.odt'));
         $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
 
         $Fusion->process();
-        //$model->odtFusionResult = $Fusion->getContent();
 
-        //if ( is_array($model->odtFusionResult) ) throw new Exception($model->odtFusionResult[ 'Message' ]);
+        $this->response->disableCache();
+        $this->response->body($Fusion->getContent()->binary);
+        $this->response->type($sMimeType);
+        $this->response->download($data[ 'Fiche' ][ 'id' ] . '.odt');
+        return $this->response;
     }
 }

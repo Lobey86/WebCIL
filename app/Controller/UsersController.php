@@ -38,19 +38,55 @@ class UsersController extends AppController
         ))
         ) {
             if ( $this->Auth->user('id') == 1 ) {
-                $users = $this->OrganisationUser->find('all', array(
-                    'conditions' => array(
-                        'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
-                    ),
-                    'contain' => array(
-                        'User' => array(
-                            'id',
-                            'nom',
-                            'prenom',
-                            'created'
+                $conditions = array();
+                if ( $this->request->is('post') ) {
+                    if ( $this->request->data[ 'users' ][ 'organisation' ] != '' ) {
+                        $conditions[ 'OrganisationUser.organisation_id' ] = $this->request->data[ 'users' ][ 'organisation' ];
+                    }
+                    if ( $this->request->data[ 'users' ][ 'nom' ] != '' ) {
+                        $conditions[ 'OrganisationUser.user_id' ] = $this->request->data[ 'users' ][ 'nom' ];
+                        $users = $this->OrganisationUser->find('all', array(
+                            'conditions' => $conditions,
+                            'contain' => array(
+                                'User' => array(
+                                    'id',
+                                    'nom',
+                                    'prenom',
+                                    'created'
+                                )
+                            ),
+                            'limit' => 1
+                        ));
+                    }
+                    else {
+                        $users = $this->OrganisationUser->find('all', array(
+                            'conditions' => $conditions,
+                            'contain' => array(
+                                'User' => array(
+                                    'id',
+                                    'nom',
+                                    'prenom',
+                                    'created'
+                                )
+                            )
+                        ));
+                    }
+                }
+                else {
+                    $users = $this->OrganisationUser->find('all', array(
+                        'conditions' => array(
+                            'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
+                        ),
+                        'contain' => array(
+                            'User' => array(
+                                'id',
+                                'nom',
+                                'prenom',
+                                'created'
+                            )
                         )
-                    )
-                ));
+                    ));
+                }
             }
             else {
                 $users = $this->OrganisationUser->find('all', array(
@@ -68,7 +104,41 @@ class UsersController extends AppController
                     )
                 ));
             }
+            foreach ( $users as $key => $value ) {
+                $orgausers = $this->OrganisationUser->find('all', array('conditions' => array('OrganisationUser.user_id' => $value[ 'OrganisationUser' ][ 'user_id' ])));
+                foreach ( $orgausers as $clef => $valeur ) {
+                    $orga = $this->Organisation->find('first', array(
+                        'conditions' => array('Organisation.id' => $valeur[ 'OrganisationUser' ][ 'organisation_id' ]),
+                        'fields' => array('raisonsociale')
+                    ));
+                    $users[ $key ][ 'Organisations' ][ ] = $orga;
+                }
+            }
             $this->set('users', $users);
+            $orgas = $this->Organisation->find('all', array(
+                'fields' => array(
+                    'Organisation.raisonsociale',
+                    'id'
+                )
+            ));
+            $organisations = array();
+            foreach ( $orgas as $value ) {
+                $organisations[ $value[ 'Organisation' ][ 'id' ] ] = $value[ 'Organisation' ][ 'raisonsociale' ];
+            }
+            $this->set('orgas', $organisations);
+
+            $utils = $this->User->find('all', array(
+                'fields' => array(
+                    'User.nom',
+                    'User.prenom',
+                    'User.id'
+                )
+            ));
+            $utilisateurs = array();
+            foreach ( $utils as $value ) {
+                $utilisateurs[ $value[ 'User' ][ 'id' ] ] = $value[ 'User' ][ 'prenom' ] . ' ' . $value[ 'User' ][ 'nom' ];
+            }
+            $this->set('utilisateurs', $utilisateurs);
         }
         else {
             $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
@@ -290,6 +360,9 @@ class UsersController extends AppController
                     ));
                 }
                 else {
+                    if ( $this->Droits->isCil() ) {
+                        $this->Organisation->updateAll(array('Organisation.cil' => null), array('Organisation.cil' => $id));
+                    }
                     if ( $this->User->delete() ) {
                         $this->Session->setFlash('User supprimé', 'flashsuccess');
                         $this->redirect(array('action' => 'index'));

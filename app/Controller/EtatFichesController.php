@@ -183,6 +183,18 @@ class EtatFichesController extends AppController
                 )
             ));
             $this->EtatFiche->save();
+            $destinataire = $this->User->find('first', array(
+                'conditions' => array(
+                    'id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ]
+                )
+            ));
+            $this->Historique->create(array(
+                'Historique' => array(
+                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' demande l\'avis de ' . $destinataire[ 'User' ][ 'prenom' ] . ' ' . $destinataire[ 'User' ][ 'nom' ],
+                    'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                )
+            ));
+            $this->Historique->save();
             $this->Notifications->add(1, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ], $this->request->data[ 'EtatFiche' ][ 'destinataire' ]);
 
             $this->Session->setFlash('La fiche a été envoyée pour avis', 'flashsuccess');
@@ -216,6 +228,19 @@ class EtatFichesController extends AppController
             )
         ));
         $this->Commentaire->save();
+
+        $destinataire = $this->User->find('first', array(
+            'conditions' => array(
+                'id' => $this->request->data[ 'EtatFiche' ][ 'previousUserId' ]
+            )
+        ));
+        $this->Historique->create(array(
+            'Historique' => array(
+                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' répond à la demande d\'avis de ' . $destinataire[ 'User' ][ 'prenom' ] . ' ' . $destinataire[ 'User' ][ 'nom' ],
+                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+            )
+        ));
+        $this->Historique->save();
         $this->Notifications->add(5, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ], $this->request->data[ 'EtatFiche' ][ 'previousUserId' ]);
 
         $this->Session->setFlash('Le commentaire a été ajouté', 'flashsuccess');

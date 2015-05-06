@@ -67,7 +67,7 @@ if ( $this->Autorisation->authorized(1, $droits) ) {
                                 <?php echo $donnee[ 'Fiche' ][ 'outilnom' ]; ?>
                             </td>
                             <td class='tdleft'>
-                                <?php echo $this->Time->format($donnee[ 'Fiche' ][ 'created' ], '%e-%m-%Y'); ?></i>
+                                <?php echo $this->Time->format($donnee[ 'Fiche' ][ 'created' ], '%e-%m-%Y'); ?>
                             </td>
                             <td class='tdleft'>
                                 <?php echo $this->Time->format($donnee[ 'Fiche' ][ 'modified' ], '%e-%m-%Y'); ?>
@@ -418,10 +418,13 @@ if ( $this->Autorisation->authorized(1, $droits) ) {
                                         value='<?php echo $donnee[ 'Fiche' ][ 'id' ]; ?>'>
                                     <span class='glyphicon glyphicon-list-alt'></span>
                                 </button>
-                                <button type='button' class='btn btn-default boutonDl boutonsAction5'
-                                        value='<?php echo $donnee[ 'Fiche' ][ 'id' ]; ?>'>
-                                    <img src="img/pdf.png" class="glyph"/>
-                                </button>
+                                <?php
+                                echo $this->Html->link('<button type="button" class="btn btn-default boutonDl boutonsAction5" value="1">' . $this->Html->image('pdf.png', array('class' => 'glyph')) . '</button>', array(
+                                    'controller' => 'fiches',
+                                    'action' => 'genereFusion',
+                                    $donnee[ 'Fiche' ][ 'id' ]
+                                ), array('escape' => false));
+                                ?>
                             </td>
                         </tr>
                         <tr class='listeValidee' id='listeValidee<?php echo $donnee[ 'Fiche' ][ 'id' ]; ?>'>

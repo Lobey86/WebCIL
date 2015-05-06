@@ -177,7 +177,6 @@ class DroitsComponent extends Component
 
 
 // Vérification du super utilisateur
-
     public function isSu()
     {
         if ( $this->Session->read('Auth.User.id') == 1 ) {

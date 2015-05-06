@@ -117,10 +117,12 @@ class User extends AppModel
             $v1 = $value;
             $v2 = $this->data[ $this->name ][ $compareField ];
 
-            if ( $v1 != $v2 ) return false; else
+            if ( $v1 != $v2 ) return false;
+            else
                 continue;
         }
         return true;
     }
+
 
 }

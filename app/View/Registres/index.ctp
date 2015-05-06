@@ -98,13 +98,16 @@ if ( !empty($fichesValid) ) {
 						' . $value[ 'Fiche' ][ 'outilnom' ] . '
 					</td>
 					<td class="tdleft">
-						' . $value[ 'Fiche' ][ 'created' ] . ' <i>par ' . $value[ 'Fiche' ][ 'User' ][ 'prenom' ] . ' ' . $value[ 'Fiche' ][ 'User' ][ 'prenom' ] . '</i>
+						' . $value[ 'Fiche' ][ 'created' ] . ' <i>par ' . $value[ 'Fiche' ][ 'User' ][ 'prenom' ] . ' ' . $value[ 'Fiche' ][ 'User' ][ 'nom' ] . '</i>
 					</td>
 					<td class="tdleft">
 						' . $value[ 'EtatFiche' ][ 'created' ] . '
 					</td>
-					<td class="tdleft">
-						<button type="button" class="btn btn-default boutonDl boutonsAction5" value="1">' . $this->Html->image('pdf.png', array('class' => 'glyph')) . '</button>';
+					<td class="tdleft">' . $this->Html->link('<button type="button" class="btn btn-default boutonDl boutonsAction5" value="1">' . $this->Html->image('pdf.png', array('class' => 'glyph')) . '</button>', array(
+                    'controller' => 'fiches',
+                    'action' => 'genereFusion',
+                    $value[ 'Fiche' ][ 'id' ]
+                ), array('escape' => false));
             if ( $value[ 'Readable' ] ) {
                 echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
                     'controller' => 'fiches',

@@ -39,7 +39,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         'autocomplete' => 'off'
     )); ?>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Raison Sociale">
             <span class="glyphicon glyphicon-tag"></span>
         </span>
         <?php echo $this->Form->input('raisonsociale', array(
@@ -49,7 +50,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Téléphone">
             <span class="glyphicon glyphicon-phone-alt"></span>
         </span>
         <?php echo $this->Form->input('telephone', array(
@@ -59,7 +61,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Fax">
             <span class="glyphicon glyphicon-print"></span>
         </span>
         <?php echo $this->Form->input('fax', array(
@@ -69,7 +72,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Adresse">
             <span class="glyphicon glyphicon-home"></span>
         </span>
         <?php echo $this->Form->input('adresse', array(
@@ -81,7 +85,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="E-mail">
             <span class="glyphicon glyphicon-envelope"></span>
         </span>
         <?php echo $this->Form->input('email', array(
@@ -91,7 +96,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Sigle">
             <span class="glyphicon glyphicon-tag"></span>
         </span>
         <?php echo $this->Form->input('sigle', array(
@@ -101,7 +107,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="N° SIRET ou SIREN">
             <span class="glyphicon glyphicon-barcode"></span>
         </span>
         <?php echo $this->Form->input('siret', array(
@@ -111,7 +118,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Code APE">
             <span class="glyphicon glyphicon-barcode"></span>
         </span>
         <?php echo $this->Form->input('ape', array(
@@ -121,7 +129,8 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         )); ?>
     </div>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="CIL">
             <span class="glyphicon glyphicon-user"></span>
         </span>
         <?php

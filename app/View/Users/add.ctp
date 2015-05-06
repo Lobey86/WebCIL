@@ -17,13 +17,14 @@
     else echo '<div class="form-group has-error">';
     ?>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Login">
             <span class="glyphicon glyphicon-user"></span>
             </span>
         <?php
         echo $this->Form->input('username', array(
             'class' => 'form-control',
-            'placeholder' => 'Nom d\'utilisateur',
+            'placeholder' => 'Login',
             'label' => false,
             'required' => false
         ));
@@ -36,7 +37,8 @@ if ( empty($this->validationErrors[ 'User' ][ 'password' ]) ) echo '<div class="
 else echo '<div class="form-group has-error">';
 ?>
 <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Mot de passe">
             <span class="glyphicon glyphicon-lock"></span>
         </span>
     <?php echo $this->Form->input('password', array(
@@ -53,7 +55,8 @@ if ( empty($this->validationErrors[ 'User' ][ 'passwd' ]) ) echo '<div class="fo
 else echo '<div class="form-group has-error">';
 ?>
 <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Mot de passe">
             <span class="glyphicon glyphicon-lock"></span>
         </span>
     <?php echo $this->Form->input('passwd', array(
@@ -67,7 +70,8 @@ else echo '<div class="form-group has-error">';
 
 <div class="form-group">
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Nom">
             <span class="glyphicon glyphicon-user"></span>
         </span>
         <?php
@@ -81,7 +85,8 @@ else echo '<div class="form-group has-error">';
     </div>
     <div class="form-group">
         <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Prénom">
             <span class="glyphicon glyphicon-user"></span>
         </span>
             <?php
@@ -96,11 +101,12 @@ else echo '<div class="form-group has-error">';
     </div>
 
     <?php
-    if ( empty($this->validationErrors[ 'User' ][ 'passwd' ]) ) echo '<div class="form-group">';
+    if ( empty($this->validationErrors[ 'User' ][ 'email' ]) ) echo '<div class="form-group">';
     else echo '<div class="form-group has-error">';
     ?>
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Adresse e-mail">
             <span class="glyphicon glyphicon-envelope"></span>
         </span>
         <?php
@@ -116,7 +122,8 @@ else echo '<div class="form-group has-error">';
 
 <div class="form-group">
     <div class="input-group login">
-        <span class="input-group-addon">
+        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+              data-content="Organisation">
             <span class="glyphicon glyphicon-home"></span>
         </span>
         <?php
@@ -159,7 +166,8 @@ foreach ( $tableau[ 'Organisation' ] as $key => $datas ) {
         <div class="panel-body">
             <div class="form-group">
                 <div class="input-group login">
-                    <span class="input-group-addon">
+                    <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
+                          data-content="Rôle">
                         <span class="glyphicon glyphicon-tag"></span>
                     </span>
 

@@ -254,15 +254,14 @@ $(document).ready(function () {
     });
 
     $('#headerVosFiches').click(function () {
+
         if ($('#vosFiches').is(":visible")) {
-            $('#vosFiches').hide();
-            $('#sousTitre').hide();
+            $('#vosFiches').toggle(300);
             $('#caretVosFiches').removeClass("glyphicon-chevron-up");
             $('#caretVosFiches').addClass("glyphicon-chevron-down");
         }
         else {
-            $('#vosFiches').show();
-            $('#sousTitre').show();
+            $('#vosFiches').toggle(300);
             $('#caretVosFiches').removeClass("glyphicon-chevron-down");
             $('#caretVosFiches').addClass("glyphicon-chevron-up");
         }
@@ -270,12 +269,12 @@ $(document).ready(function () {
 
     $('#headerFichesAControler').click(function () {
         if ($('#fichesAControler').is(":visible")) {
-            $('#fichesAControler').hide();
+            $('#fichesAControler').toggle(300);
             $('#caretFichesAControler').removeClass("glyphicon-chevron-up");
             $('#caretFichesAControler').addClass("glyphicon-chevron-down");
         }
         else {
-            $('#fichesAControler').show();
+            $('#fichesAControler').toggle(300);
             $('#caretFichesAControler').removeClass("glyphicon-chevron-down");
             $('#caretFichesAControler').addClass("glyphicon-chevron-up");
         }
