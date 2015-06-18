@@ -1,0 +1,12 @@
+<?php
+/* Configuration pour la conversion de format des documents */
+/* Configuration FusionConv */
+Configure::write('FusionConv.Gedooo.wsdl', 'http://192.168.2.35:8880/GEDOOo/OfficeService?wsdl');
+Configure::write('FusionConv.method', 'GedoooCloudooo');
+Configure::write('FusionConv.cloudooo_host', '192.168.2.35');
+Configure::write('FusionConv.cloudooo_port', '8012');
+
+/* Configuration pour la manipulation des pdf */
+Configure::write('PDFTK_EXEC', '/usr/bin/pdftk');
+Configure::write('PDFINFO_EXEC', '/usr/bin/pdfinfo');
+?>
