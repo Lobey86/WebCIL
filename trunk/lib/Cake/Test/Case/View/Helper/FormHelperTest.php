@@ -7220,7 +7220,7 @@ class FormHelperTest extends CakeTestCase {
 		$result = $this->Form->postLink(
 			'',
 			array('controller' => 'items', 'action' => 'delete', 10),
-			array('class' => 'btn btn-danger', 'escape' => false),
+			array('class' => 'btn btn-default-danger', 'escape' => false),
 			'Confirm thing'
 		);
 		$this->assertTags($result, array(
@@ -7230,7 +7230,7 @@ class FormHelperTest extends CakeTestCase {
 			),
 			'input' => array('type' => 'hidden', 'name' => '_method', 'value' => 'POST'),
 			'/form',
-			'a' => array('class' => 'btn btn-danger', 'href' => '#', 'onclick' => 'preg:/if \(confirm\(\&quot\;Confirm thing\&quot\;\)\) \{ document\.post_\w+\.submit\(\); \} event\.returnValue = false; return false;/'),
+			'a' => array('class' => 'btn btn-default-danger', 'href' => '#', 'onclick' => 'preg:/if \(confirm\(\&quot\;Confirm thing\&quot\;\)\) \{ document\.post_\w+\.submit\(\); \} event\.returnValue = false; return false;/'),
 			'/a'
 		));
 	}
