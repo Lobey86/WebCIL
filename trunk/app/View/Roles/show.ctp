@@ -1,10 +1,10 @@
 <div class="well">
     <?php
-    if ( file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo')) ) {
+    if(file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'))) {
         echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'), array('class' => 'pull-right logo-well'));
     }
     ?>
-    <h1>Veuillez entrer les nouvelles informations du rôle</h1>
+    <h1>Veuillez entrer les nouvelles informations du profil</h1>
 </div>
 
 <div class="role form">
@@ -20,21 +20,20 @@
     </div>
     <div class="droitsDroits">
         <fieldset>
-            <legend>Droits du rôle</legend>
+            <legend>Droits du profil</legend>
             <?php
-            foreach ( $listedroit as $value ) {
-                if ( in_array($value[ 'ListeDroit' ][ 'value' ], $tableDroits) ) {
-                    echo $this->Form->input('Droits.' . $value[ 'ListeDroit' ][ 'value' ], array(
+            foreach($listedroit as $value) {
+                if(in_array($value['ListeDroit']['value'], $tableDroits)) {
+                    echo $this->Form->input('Droits.' . $value['ListeDroit']['value'], array(
                         'type' => 'checkbox',
-                        'label' => $value[ 'ListeDroit' ][ 'libelle' ],
+                        'label' => $value['ListeDroit']['libelle'],
                         'class' => 'checkDroits',
                         'checked' => 'checked'
                     ));
-                }
-                else {
-                    echo $this->Form->input('Droits.' . $value[ 'ListeDroit' ][ 'value' ], array(
+                } else {
+                    echo $this->Form->input('Droits.' . $value['ListeDroit']['value'], array(
                         'type' => 'checkbox',
-                        'label' => $value[ 'ListeDroit' ][ 'libelle' ],
+                        'label' => $value['ListeDroit']['libelle'],
                         'class' => 'checkDroits'
                     ));
                 }
@@ -45,7 +44,7 @@
     <?php echo $this->Html->link('Retour', array(
         'controller' => 'organisations',
         'action' => 'index'
-    ), array('class' => 'btn btn-primary pull-right sender')); ?>
+    ), array('class' => 'btn btn-default-primary pull-right sender')); ?>
 </div>
 <script type="text/javascript">
     $(":input").prop("disabled", true);

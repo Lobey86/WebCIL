@@ -1,216 +1,232 @@
-<div class="well">
-    <?php
-    if ( file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo')) ) {
-        echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'), array('class' => 'pull-right logo-well'));
-    }
-    ?>
-    <h1>Ajouter un utilisateur</h1>
-</div>
 <div class="users form">
     <?php
+    if(isset($this->validationErrors['User']) && !empty($this->validationErrors['User'])) {
+        ?>
+
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            Ces erreurs se sont produites:
+            <ul>
+                <?php
+                foreach($this->validationErrors as $donnees) {
+                    foreach($donnees as $champ) {
+                        foreach($champ as $error) {
+                            echo '<li>' . $error . '</li>';
+                        }
+                    }
+                }
+                ?>
+            </ul>
+        </div>
+    <?php
+    }
 
     echo $this->Form->create('User', array(
         'autocomplete' => 'off',
-        'inputDefaults' => array('div' => false)
+        'inputDefaults' => array('div' => false),
+        'class' => 'form-horizontal'
     ));
-    if ( empty($this->validationErrors[ 'User' ][ 'username' ]) ) echo '<div class="form-group">';
-    else echo '<div class="form-group has-error">';
     ?>
-    <div class="input-group login">
-        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-              data-content="Login">
-            <span class="glyphicon glyphicon-user"></span>
-            </span>
-        <?php
-        echo $this->Form->input('username', array(
-            'class' => 'form-control',
-            'placeholder' => 'Login',
-            'label' => false,
-            'required' => false
-        ));
-        ?>
-    </div>
-</div>
+    <div class="row">
+        <div class="col-md-6">
 
-<?php
-if ( empty($this->validationErrors[ 'User' ][ 'password' ]) ) echo '<div class="form-group">';
-else echo '<div class="form-group has-error">';
-?>
-<div class="input-group login">
-        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-              data-content="Mot de passe">
-            <span class="glyphicon glyphicon-lock"></span>
-        </span>
-    <?php echo $this->Form->input('password', array(
-        'class' => 'form-control',
-        'placeholder' => 'Mot de passe',
-        'label' => false,
-        'required' => false
-    )); ?>
-</div>
-</div>
-
-<?php
-if ( empty($this->validationErrors[ 'User' ][ 'passwd' ]) ) echo '<div class="form-group">';
-else echo '<div class="form-group has-error">';
-?>
-<div class="input-group login">
-        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-              data-content="Mot de passe">
-            <span class="glyphicon glyphicon-lock"></span>
-        </span>
-    <?php echo $this->Form->input('passwd', array(
-        'class' => 'form-control',
-        'placeholder' => 'Mot de passe (verification)',
-        'label' => false,
-        'required' => false
-    )); ?>
-</div>
-</div>
-
-<div class="form-group">
-    <div class="input-group login">
-        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-              data-content="Nom">
-            <span class="glyphicon glyphicon-user"></span>
-        </span>
-        <?php
-        echo $this->Form->input('nom', array(
-            'class' => 'form-control',
-            'placeholder' => 'Nom',
-            'label' => false,
-            'required' => false
-        ));
-        ?>
-    </div>
-    <div class="form-group">
-        <div class="input-group login">
-        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-              data-content="Prénom">
-            <span class="glyphicon glyphicon-user"></span>
-        </span>
             <?php
-            echo $this->Form->input('prenom', array(
+            if(empty($this->validationErrors['User']['username'])) echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+            ?>
+            <?php
+            echo $this->Form->input('username', array(
                 'class' => 'form-control',
-                'placeholder' => 'Prenom',
-                'label' => false,
+                'placeholder' => 'Login',
+                'label' => array(
+                    'text' => 'Login <span class="requis">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ),
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
                 'required' => false
             ));
             ?>
         </div>
-    </div>
 
-    <?php
-    if ( empty($this->validationErrors[ 'User' ][ 'email' ]) ) echo '<div class="form-group">';
-    else echo '<div class="form-group has-error">';
-    ?>
-    <div class="input-group login">
-        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-              data-content="Adresse e-mail">
-            <span class="glyphicon glyphicon-envelope"></span>
-        </span>
         <?php
-        echo $this->Form->input('email', array(
+        if(empty($this->validationErrors['User']['password'])) echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+        echo $this->Form->input('password', array(
             'class' => 'form-control',
-            'placeholder' => 'E-mail',
-            'label' => false,
+            'placeholder' => 'Mot de passe',
+            'label' => array(
+                'text' => 'Mot de passe <span class="requis">*</span>',
+                'class' => 'col-md-4 control-label'
+            ),
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
             'required' => false
-        ));
-        ?>
+        )); ?>
     </div>
+    <?php
+    if(empty($this->validationErrors['User']['passwd'])) echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+    ?>
+
+    <?php echo $this->Form->input('passwd', array(
+        'class' => 'form-control',
+        'placeholder' => 'Mot de passe (verification)',
+        'label' => array(
+            'text' => 'Vérification du mot de passe <span class="requis">*</span>',
+            'class' => 'col-md-4 control-label'
+        ),
+        'between' => '<div class="col-md-8">',
+        'after' => '</div>',
+        'required' => false
+    )); ?>
 </div>
 
 <div class="form-group">
-    <div class="input-group login">
-        <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-              data-content="Organisation">
-            <span class="glyphicon glyphicon-home"></span>
-        </span>
+    <?php
+    echo $this->Form->input('nom', array(
+        'class' => 'form-control',
+        'placeholder' => 'Nom',
+        'label' => array(
+            'text' => 'Nom <span class="requis">*</span>',
+            'class' => 'col-md-4 control-label'
+        ),
+        'between' => '<div class="col-md-8">',
+        'after' => '</div>',
+        'required' => false
+    ));
+    ?>
+</div>
+<div class="form-group">
+    <?php
+    echo $this->Form->input('prenom', array(
+        'class' => 'form-control',
+        'placeholder' => 'Prenom',
+        'label' => array(
+            'text' => 'Prénom <span class="requis">*</span>',
+            'class' => 'col-md-4 control-label'
+        ),
+        'between' => '<div class="col-md-8">',
+        'after' => '</div>',
+        'required' => false
+    ));
+    ?>
+</div>
+
+<?php
+if(empty($this->validationErrors['User']['email'])) echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+echo $this->Form->input('email', array(
+    'class' => 'form-control',
+    'placeholder' => 'E-mail',
+    'label' => array(
+        'text' => 'E-mail <span class="requis">*</span>',
+        'class' => 'col-md-4 control-label'
+    ),
+    'between' => '<div class="col-md-8">',
+    'after' => '</div>',
+    'required' => false
+));
+?>
+</div>
+</div>
+<div class="col-md-6">
+    <div class="form-group">
         <?php
         $listeOrganisations = array();
-        foreach ( $tableau[ 'Organisation' ] as $key => $datas ) {
-            $listeOrganisations[ $datas[ 'infos' ][ 'id' ] ] = $datas[ 'infos' ][ 'raisonsociale' ];
+        foreach($tableau['Organisation'] as $key => $datas) {
+            $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
         }
         echo $this->Form->input('Organisation.Organisation_id', array(
             'options' => $listeOrganisations,
             'class' => 'form-control',
             'id' => 'deroulant',
-            'label' => false,
+            'label' => array(
+                'text' => 'Organisations <span class="requis">*</span>',
+                'class' => 'col-md-4 control-label'
+            ),
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
             'multiple' => 'multiple',
             'required' => 'true'
         )); ?>
     </div>
-</div>
 
 
-<?php
-foreach ( $tableau[ 'Organisation' ] as $key => $datas ) {
-    $listeroles = array();
-    echo "<script type='text/javascript'>";
+    <?php
+    foreach($tableau['Organisation'] as $key => $datas) {
+        $listeroles = array();
+        echo "<script type='text/javascript'>";
 
-    foreach ( $datas[ 'roles' ] as $clef => $value ) {
-        $listeroles[ $value[ 'infos' ][ 'id' ] ] = $value[ 'infos' ][ 'libelle' ];
-        echo 'var tableau_js' . $value[ 'infos' ][ 'id' ] . '= new Array();';
-        foreach ( $value[ 'droits' ] as $k => $v ) {
-            echo "tableau_js" . $value[ 'infos' ][ 'id' ] . ".push(" . $v[ 'liste_droit_id' ] . ");";
+        foreach($datas['roles'] as $clef => $value) {
+            $listeroles[$value['infos']['id']] = $value['infos']['libelle'];
+            echo 'var tableau_js' . $value['infos']['id'] . '= new Array();';
+            foreach($value['droits'] as $k => $v) {
+                echo "tableau_js" . $value['infos']['id'] . ".push(" . $v['liste_droit_id'] . ");";
+            }
         }
+        echo "</script>";
+        ?>
 
-    }
-    echo "</script>";
-    ?>
-
-    <div class="panel panel-default inputsForm droitsVille" id="droitsVille<?php echo $key; ?>">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?php echo $datas[ 'infos' ][ 'raisonsociale' ]; ?></h3>
-        </div>
-        <div class="panel-body">
-            <div class="form-group">
-                <div class="input-group login">
-                    <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                          data-content="Rôle">
-                        <span class="glyphicon glyphicon-tag"></span>
-                    </span>
-
-                    <?php
-                    if ( !empty($listeroles) ) {
-                        echo $this->Form->input('Role.role_ida', array(
-                            'options' => $listeroles,
-                            'class' => 'form-control deroulantRoles' . $key,
-                            'id' => $key,
-                            'label' => false,
-                            'multiple' => 'multiple'
-                        ));
-                    }
-                    else {
-                        echo "Aucun rôle n'a été créé pour cette organisation";
-                    }
-                    ?>
-                </div>
+        <div class="form-group droitsVille" id="droitsVille<?php echo $key; ?>">
+            <div class="titreDiv text-center">
+                <h4><?php echo $datas['infos']['raisonsociale']; ?></h4>
             </div>
-            <div class="role form droitsParticuliers" id="droitsParticuliers<?php echo $key; ?>">
+            <div class="form-group">
                 <?php
-                foreach ( $listedroits as $clef => $value ) {
-                    echo $this->Form->input('Droits.' . $key . '.' . $clef, array(
-                        'type' => 'checkbox',
-                        'label' => $value,
-                        'class' => 'checkDroits' . $key . $clef
+                if(!empty($listeservices[$datas['infos']['id']])) {
+                    echo $this->Form->input('Service.' . $datas['infos']['id'], array(
+                        'options' => $listeservices[$datas['infos']['id']],
+                        'empty' => 'Choisissez un service',
+                        'class' => 'usersDeroulant transformSelect form-control',
+                        'label' => array(
+                            'text' => 'Service <span class="requis">*</span>',
+                            'class' => 'col-md-4 control-label'
+                        ),
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>',
                     ));
                 }
-
+                echo '</div><div class="form-group">';
+                if(!empty($listeroles)) {
+                    echo $this->Form->input('Role.' . $datas['infos']['id'], array(
+                        'options' => $listeroles,
+                        'class' => 'form-control deroulantRoles' . $key,
+                        'id' => $key,
+                        'label' => array(
+                            'text' => 'Profils au sein de ' . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
+                            'class' => 'col-md-4 control-label'
+                        ),
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>',
+                        'multiple' => 'multiple'
+                    ));
+                } else {
+                    echo "Aucun profil n'a été créé pour cette organisation";
+                }
                 ?>
             </div>
         </div>
-    </div>
-<?php
-}
+
+    <?php
+    }
+    echo '</div></div>';
+
+    echo '<div class="text-center">';
 
 
-echo $this->Html->link('Annuler', array(
-    'controller' => 'users',
-    'action' => 'index'
-), array('class' => 'btn btn-danger pull-right sender'), 'Voulez-vous vraiment quitter cette page?');
-echo $this->Form->submit('Enregistrer', array('class' => 'btn btn-primary pull-right sender'));
-?>
+    echo '<div class="btn-group send">';
+    echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, array(
+        'class' => 'btn btn-default-default',
+        'escape' => false
+    ));
+    echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', array(
+        'type' => 'submit',
+        'class' => 'btn btn-default-success'
+    ));
+    echo '</div>';
+    ?>
+
+</div>
+</div>
+</div>
 </div>
 <?php
 echo $this->Html->script('users.js');

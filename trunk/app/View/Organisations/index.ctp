@@ -1,64 +1,60 @@
 <?php
 echo $this->Html->script('organisations.js');
 ?>
-    <div class="well">
-        <?php
-        if ( file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo')) ) {
-            echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'), array('class' => 'pull-right logo-well'));
-        }
-        ?>
-        <h1>Gestion des organisations</h1>
-    </div>
-    <table class="table table-hover">
+    <table class="table ">
         <thead>
-        <th class="thcent">Organisation</th>
-        <?php
-        $nbutil = 3;
-        if ( $nbutil > 1 ) {
-            echo "<th class='thcent'>Actions</th>";
-        }
-        ?>
+        <th class="thleft col-md-2">Organisation</th>
+        <th class="thleft col-md-8">Synthèse</th>
+        <th class='thleft col-md-2'>Actions</th>
         </thead>
         <tbody>
         <?php
         foreach ( $organisations as $donnees ) {
             ?>
             <tr>
-                <td class="tdcent">
+                <td class="tdleft">
                     <?php echo $donnees[ 'Organisation' ][ 'raisonsociale' ]; ?>
                 </td>
-                <td class="tdcent">
-                    <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
-                        'controller' => 'organisations',
-                        'action' => 'show',
-                        $donnees[ 'Organisation' ][ 'id' ]
-                    ), array(
-                        'class' => 'btn btn-default boutonShow boutonsAction5',
-                        'escapeTitle' => false
-                    ));
-                    if ( $this->Autorisation->authorized(12, $droits) ) {
-                        echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
+                <td class="tdleft">
+                    <div class="col-md-6">
+                        <strong>Utilisateurs: </strong> <?php echo $donnees[ 'Count' ]; ?>
+                    </div>
+                </td>
+                <td class="tdleft">
+                    <div class="btn-group">
+                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
                             'controller' => 'organisations',
-                            'action' => 'edit',
+                            'action' => 'show',
                             $donnees[ 'Organisation' ][ 'id' ]
                         ), array(
-                            'class' => 'btn btn-default boutonEdit boutonsAction5',
+                            'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                            'title' => 'Voir les informations',
                             'escapeTitle' => false
                         ));
-                    }
-                    if ( $this->Autorisation->isSu() ) {
-                        if ( $nbutil > 1 ) {
+                        if ( $this->Autorisation->authorized(12, $droits) ) {
+                            echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
+                                'controller' => 'organisations',
+                                'action' => 'edit',
+                                $donnees[ 'Organisation' ][ 'id' ]
+                            ), array(
+                                'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
+                                'title' => 'Modifier cette organisation',
+                                'escapeTitle' => false
+                            ));
+                        }
+                        if ( $this->Autorisation->isSu() ) {
                             echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
                                 'controller' => 'organisations',
                                 'action' => 'delete',
                                 $donnees[ 'Organisation' ][ 'id' ]
                             ), array(
-                                'class' => 'btn btn-danger boutonDelete boutonsAction15',
+                                'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
+                                'title' => 'Supprimer cette organisation',
                                 'escapeTitle' => false
                             ), 'Voulez vous vraiment supprimer l\'organisation ' . $donnees[ 'Organisation' ][ 'raisonsociale' ]);
                         }
-                    }
-                    ?>
+                        ?>
+                    </div>
                 </td>
             </tr>
         <?php
@@ -72,7 +68,7 @@ if ( $this->Autorisation->isSu() ) {
         'controller' => 'organisations',
         'action' => 'add'
     ), array(
-        'class' => 'btn btn-primary pull-right sender',
+        'class' => 'btn btn-default-primary pull-right sender',
         'escapeTitle' => false
     ));
 }

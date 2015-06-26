@@ -44,17 +44,32 @@ class Fiche extends AppModel
             'className' => 'Historique',
             'foreignKey' => 'fiche_id',
             'dependant' => true
+        ),
+        'Valeur' => array(
+            'className' => 'Valeur',
+            'foreignKey' => 'fiche_id',
+            'dependant' => true
+        ),
+        'Modification' => array(
+            'className' => 'Modification',
+            'foreignKey' => 'fiche_id',
+            'dependant' => true
         )
     );
 
 
     public function isOwner($idUser = NULL, $fiche = NULL)
     {
-        if ( $idUser == $fiche[ 'Fiche' ][ 'user_id' ] ) {
+        if($idUser == $fiche['Fiche']['user_id']) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
+    }
+
+    public function isJson($string)
+    {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 } 

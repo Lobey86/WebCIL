@@ -1,2 +1,2 @@
-1414143457
-a:11:{i:0;s:6:"fiches";i:1;s:13:"organisations";i:2;s:5:"roles";i:3;s:5:"users";i:4;s:12:"utilisateurs";i:5;s:12:"wkf_circuits";i:6;s:16:"wkf_compositions";i:7;s:15:"wkf_traitements";i:8;s:10:"wkf_etapes";i:9;s:14:"wkf_signatures";i:10;s:9:"wkf_visas";}
+1435299893
+a:24:{i:0;s:13:"organisations";i:1;s:5:"users";i:2;s:23:"organisation_user_roles";i:3;s:5:"roles";i:4;s:19:"organisations_users";i:5;s:5:"etats";i:6;s:11:"etat_fiches";i:7;s:5:"files";i:8;s:6:"droits";i:9;s:12:"liste_droits";i:10;s:11:"historiques";i:11;s:11:"role_droits";i:12;s:26:"organisation_user_services";i:13;s:6:"admins";i:14;s:8:"services";i:15;s:13:"notifications";i:16;s:14:"fg_formulaires";i:17;s:9:"fg_champs";i:18;s:6:"fiches";i:19;s:7:"valeurs";i:20;s:7:"modeles";i:21;s:10:"fg_valeurs";i:22;s:13:"modifications";i:23;s:12:"commentaires";}

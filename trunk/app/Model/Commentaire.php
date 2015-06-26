@@ -20,10 +20,6 @@ class Commentaire extends AppModel {
 		'User' => array(
 			'className' => 'User',
 			'foreignKey' => 'user_id'
-			),
-		'Destinataire' => array(
-			'className' => 'User',
-			'foreignKey' => 'destinataire_id'
 			)
 		);
 } 

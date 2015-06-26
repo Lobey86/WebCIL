@@ -24,7 +24,7 @@ class NotificationsComponent extends Component
                 'vu' => false
             )
         ));
-        if ( $notification->save() ) {
+        if($notification->save()) {
 
             //$Email = new CakeEmail();
             //$Email->config('email');
@@ -34,8 +34,7 @@ class NotificationsComponent extends Component
 
 
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

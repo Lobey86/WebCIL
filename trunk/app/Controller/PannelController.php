@@ -17,6 +17,7 @@ class PannelController extends AppController
         'Historique'
     );
 
+    public $components = array('FormGenerator.FormGen');
 
     /**
      *** Accueil de la page, listing des fiches et de leurs catégories
@@ -25,6 +26,7 @@ class PannelController extends AppController
     public function index()
     {
 
+        $this->set('title', 'Mes fiches');
 // Requète récupérant les fiches en cours de rédaction
         $db = $this->EtatFiche->getDataSource();
         $subQuery = $db->buildStatement(array(
@@ -41,15 +43,14 @@ class PannelController extends AppController
         $subQuery = '"Fiche"."user_id" = ' . $this->Auth->user('id') . ' AND "Fiche"."organisation_id" = ' . $this->Session->read('Organisation.id') . ' AND "EtatFiche"."fiche_id" NOT IN (' . $subQuery . ') ';
         $subQueryExpression = $db->expression($subQuery);
 
-        $conditions[ ] = $subQueryExpression;
-        $conditions[ ] = 'EtatFiche.etat_id = 1';
+        $conditions[] = $subQueryExpression;
+        $conditions[] = 'EtatFiche.etat_id = 1';
         $encours = $this->EtatFiche->find('all', array(
             'conditions' => $conditions,
             'contain' => array(
                 'Fiche' => array(
                     'fields' => array(
                         'id',
-                        'outilnom',
                         'created',
                         'modified'
                     ),
@@ -58,6 +59,15 @@ class PannelController extends AppController
                             'id',
                             'nom',
                             'prenom'
+                        )
+                    ),
+                    'Valeur' => array(
+                        'conditions' => array(
+                            'champ_name' => 'outilnom'
+                        ),
+                        'fields' => array(
+                            'champ_name',
+                            'valeur'
                         )
                     )
                 ),
@@ -86,9 +96,17 @@ class PannelController extends AppController
                     'Fiche' => array(
                         'fields' => array(
                             'id',
-                            'outilnom',
                             'created',
                             'modified'
+                        ),
+                        'Valeur' => array(
+                            'conditions' => array(
+                                'champ_name' => 'outilnom'
+                            ),
+                            'fields' => array(
+                                'champ_name',
+                                'valeur'
+                            )
                         ),
                         'User' => array(
                             'fields' => array(
@@ -112,44 +130,6 @@ class PannelController extends AppController
         $this->set('encoursValidation', $requete);
 
 
-// Requète récupérant les fiches validées par le CIL
-
-        $requete = $this->EtatFiche->find('all', array(
-                'conditions' => array(
-                    'EtatFiche.etat_id' => 5,
-                    'Fiche.user_id' => $this->Auth->user('id'),
-                    'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-                ),
-                'contain' => array(
-                    'Fiche' => array(
-                        'fields' => array(
-                            'id',
-                            'outilnom',
-                            'created',
-                            'modified'
-                        ),
-                        'User' => array(
-                            'fields' => array(
-                                'id',
-                                'nom',
-                                'prenom'
-                            )
-                        )
-                    ),
-                    'User' => array(
-                        'fields' => array(
-                            'id',
-                            'nom',
-                            'prenom'
-                        )
-                    )
-                )
-            )
-
-        );
-        $this->set('validees', $requete);
-
-
 // Requète récupérant les fiches refusées par un validateur
 
         $requete = $this->EtatFiche->find('all', array(
@@ -162,7 +142,6 @@ class PannelController extends AppController
                 'Fiche' => array(
                     'fields' => array(
                         'id',
-                        'outilnom',
                         'created',
                         'modified'
                     ),
@@ -171,6 +150,15 @@ class PannelController extends AppController
                             'id',
                             'nom',
                             'prenom'
+                        )
+                    ),
+                    'Valeur' => array(
+                        'conditions' => array(
+                            'champ_name' => 'outilnom'
+                        ),
+                        'fields' => array(
+                            'champ_name',
+                            'valeur'
                         )
                     )
                 ),
@@ -184,9 +172,15 @@ class PannelController extends AppController
             )
         ));
         $this->set('refusees', $requete);
+        $return = $this->_listValidants();
+        $this->set('validants', $return['validants']);
+        $this->set('consultants', $return['consultants']);
+    }
 
-
-// Requète récupérant les fiches qui demande une validation
+    public function inbox()
+    {
+        $this->set('title', 'Fiches reçues');
+        // Requète récupérant les fiches qui demande une validation
 
         $requete = $this->EtatFiche->find('all', array(
             'conditions' => array(
@@ -198,7 +192,6 @@ class PannelController extends AppController
                 'Fiche' => array(
                     'fields' => array(
                         'id',
-                        'outilnom',
                         'created',
                         'modified'
                     ),
@@ -207,6 +200,15 @@ class PannelController extends AppController
                             'id',
                             'nom',
                             'prenom'
+                        )
+                    ),
+                    'Valeur' => array(
+                        'conditions' => array(
+                            'champ_name' => 'outilnom'
+                        ),
+                        'fields' => array(
+                            'champ_name',
+                            'valeur'
                         )
                     )
                 ),
@@ -242,7 +244,6 @@ class PannelController extends AppController
                 'Fiche' => array(
                     'fields' => array(
                         'id',
-                        'outilnom',
                         'created',
                         'modified'
                     ),
@@ -251,6 +252,15 @@ class PannelController extends AppController
                             'id',
                             'nom',
                             'prenom'
+                        )
+                    ),
+                    'Valeur' => array(
+                        'conditions' => array(
+                            'champ_name' => 'outilnom'
+                        ),
+                        'fields' => array(
+                            'champ_name',
+                            'valeur'
                         )
                     )
                 ),
@@ -272,73 +282,60 @@ class PannelController extends AppController
             )
         ));
         $this->set('dmdAvis', $requete);
+        $return = $this->_listValidants();
+        $this->set('validants', $return['validants']);
+        $this->set('consultants', $return['consultants']);
+    }
 
 
-// Requète récupérant les utilisateurs ayant le droit de consultation
+    public function archives()
+    {
+        $this->set('title', 'Fiches validées');
+        // Requète récupérant les fiches validées par le CIL
 
-        $queryConsultants = array(
-            'fields' => array(
-                'User.id',
-                'User.nom',
-                'User.prenom'
-            ),
-            'joins' => array(
-                $this->Droit->join('OrganisationUser', array('type' => "INNER")),
-                $this->Droit->OrganisationUser->join('User', array('type' => "INNER"))
-            ),
-            'recursive' => -1,
-            'conditions' => array(
-                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
-                'User.id != ' . $this->Auth->user('id'),
-                'Droit.liste_droit_id' => 3
-            ),
-        );
-        $consultants = $this->Droit->find('all', $queryConsultants);
-        $consultants = Hash::combine($consultants, '{n}.User.id', array(
-            '%s %s',
-            '{n}.User.prenom',
-            '{n}.User.nom'
-        ));
-        $this->set(compact('consultants'));
-
-
-// Requète récupérant les utilisateurs ayant le droit de validation
-        if ( $this->Session->read('Organisation.cil') != null ) {
-            $cil = $this->Session->read('Organisation.cil');
-        }
-        else {
-            $cil = 0;
-        }
-
-
-        $queryValidants = array(
-            'fields' => array(
-                'User.id',
-                'User.nom',
-                'User.prenom'
-            ),
-            'joins' => array(
-                $this->Droit->join('OrganisationUser', array('type' => "INNER")),
-                $this->Droit->OrganisationUser->join('User', array('type' => "INNER"))
-            ),
-            'conditions' => array(
-                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
-                'NOT' => array(
-                    'User.id' => array(
-                        $this->Auth->user('id'),
-                        $cil
-                    )
+        $requete = $this->EtatFiche->find('all', array(
+                'conditions' => array(
+                    'EtatFiche.etat_id' => 5,
+                    'Fiche.user_id' => $this->Auth->user('id'),
+                    'Fiche.organisation_id' => $this->Session->read('Organisation.id')
                 ),
-                'Droit.liste_droit_id' => 2
+                'contain' => array(
+                    'Fiche' => array(
+                        'fields' => array(
+                            'id',
+                            'created',
+                            'modified'
+                        ),
+                        'User' => array(
+                            'fields' => array(
+                                'id',
+                                'nom',
+                                'prenom'
+                            )
+                        ),
+                        'Valeur' => array(
+                            'conditions' => array(
+                                'champ_name' => 'outilnom'
+                            ),
+                            'fields' => array(
+                                'champ_name',
+                                'valeur'
+                            )
+                        )
+                    ),
+                    'User' => array(
+                        'fields' => array(
+                            'id',
+                            'nom',
+                            'prenom'
+                        )
+                    )
+                )
             )
+
         );
-        $validants = $this->Droit->find('all', $queryValidants);
-        $validants = Hash::combine($validants, '{n}.User.id', array(
-            '%s %s',
-            '{n}.User.prenom',
-            '{n}.User.nom'
-        ));
-        $this->set(compact('validants'));
+        $this->set('validees', $requete);
+
     }
 
 // Fonction appelée pour le composant parcours, permettant d'afficher le parcours parcouru par une fiche et les commentaires liés (uniquement ceux visibles par l'utilisateur)
@@ -382,7 +379,7 @@ class PannelController extends AppController
                 )
             ),
             'order' => array(
-                'EtatFiche.id ASC'
+                'EtatFiche.id DESC'
             )
         ));
         return $parcours;
@@ -390,7 +387,13 @@ class PannelController extends AppController
 
     public function getHistorique($id)
     {
-        $historique = $this->Historique->find('all', array('conditions' => array('fiche_id' => $id)));
+        $historique = $this->Historique->find('all', array(
+            'conditions' => array('fiche_id' => $id),
+            'order' => array(
+                'created DESC',
+                'id DESC'
+            )
+        ));
         return $historique;
     }
 
@@ -413,6 +416,75 @@ class PannelController extends AppController
             'Notification.user_id' => $this->Auth->user('id')
         ));
         $this->redirect($this->referer());
+    }
+
+    protected function _listValidants()
+    {
+        // Requète récupérant les utilisateurs ayant le droit de consultation
+
+        $queryConsultants = array(
+            'fields' => array(
+                'User.id',
+                'User.nom',
+                'User.prenom'
+            ),
+            'joins' => array(
+                $this->Droit->join('OrganisationUser', array('type' => "INNER")),
+                $this->Droit->OrganisationUser->join('User', array('type' => "INNER"))
+            ),
+            'recursive' => -1,
+            'conditions' => array(
+                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
+                'User.id != ' . $this->Auth->user('id'),
+                'Droit.liste_droit_id' => 3
+            ),
+        );
+        $consultants = $this->Droit->find('all', $queryConsultants);
+        $consultants = Hash::combine($consultants, '{n}.User.id', array(
+            '%s %s',
+            '{n}.User.prenom',
+            '{n}.User.nom'
+        ));
+        $return = array('consultants' => $consultants);
+
+
+// Requète récupérant les utilisateurs ayant le droit de validation
+        if($this->Session->read('Organisation.cil') != null) {
+            $cil = $this->Session->read('Organisation.cil');
+        } else {
+            $cil = 0;
+        }
+
+
+        $queryValidants = array(
+            'fields' => array(
+                'User.id',
+                'User.nom',
+                'User.prenom'
+            ),
+            'joins' => array(
+                $this->Droit->join('OrganisationUser', array('type' => "INNER")),
+                $this->Droit->OrganisationUser->join('User', array('type' => "INNER"))
+            ),
+            'conditions' => array(
+                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
+                'NOT' => array(
+                    'User.id' => array(
+                        $this->Auth->user('id'),
+                        $cil
+                    )
+                ),
+                'Droit.liste_droit_id' => 2
+            )
+        );
+        $validants = $this->Droit->find('all', $queryValidants);
+        $validants = Hash::combine($validants, '{n}.User.id', array(
+            '%s %s',
+            '{n}.User.prenom',
+            '{n}.User.nom'
+        ));
+        $return['validants'] = $validants;
+        return $return;
     }
 
 }

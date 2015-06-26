@@ -15,6 +15,14 @@ class Etat extends AppModel {
                   'className'  => 'EtatFiche',
                   'foreignKey' => 'etat_id',
                   'dependent'  => false,
+                  //'conditions' => array('Model.field' => 'value'),
+                  //'fields'       => '',
+                  //'order'        => '',
+                  //'limit'        => '',
+                  //'offset'       => '',
+                  //'exclusive'    => '',
+                  //'finderQuery'  => '',
+                  //'counterQuery' => ''
               )
           );
       

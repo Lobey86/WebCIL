@@ -103,10 +103,12 @@ JS dans Pannel.js
 
 .thcent {
     text-align: center;
+    vertical-align: middle;
 }
 
 .tdcent {
     text-align: center;
+    vertical-align: middle;
 }
 
 .thleft {
@@ -228,30 +230,38 @@ tr[class^='selectDestValidValider'] {
 
 #flashsuccess {
     position: absolute;
-    top: 10px;
-    left: 25px;
-    right: 25px;
+    top: 0;
+    left: 35%;
+    right: 35%;
+    border: 1px solid #5CB85C;
+    z-index: 20;
 }
 
 #flasherror {
     position: absolute;
-    top: 10px;
-    left: 25px;
-    right: 25px;
+    top: 0;
+    left: 35%;
+    right: 35%;
+    border: 1px solid #D9534F;
+    z-index: 20;
 }
 
 #flashinfo {
     position: absolute;
-    top: 10px;
-    left: 25px;
-    right: 25px;
+    top: 0;
+    left: 35%;
+    right: 35%;
+    border: 1px solid #337AB7;
+    z-index: 20;
 }
 
 #flashwarning {
     position: absolute;
-    top: 10px;
-    left: 25px;
-    right: 25px;
+    top: 0;
+    left: 35%;
+    right: 35%;
+    border: 1px solid #F0AD4E;
+    z-index: 20;
 }
 
 #relatif {
@@ -277,6 +287,9 @@ tr[class^='selectDestValidValider'] {
 
 .droitsVille {
     display: none;
+    border: 1px solid #d3d3d3;
+    border-radius: 10px;
+    padding: 15px;
 }
 
 .droitsParticuliers {
@@ -307,9 +320,8 @@ tr[class^='selectDestValidValider'] {
     float: right;
     width: 0;
     height: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
+    border: 5px solid transparent;
+    border-right-width: 0;
     border-left-color: #cccccc;
     margin-top: 5px;
     margin-right: -10px;
@@ -401,12 +413,10 @@ fieldset {
 
 .boutondelfile {
     float: right;
-    display: none;
 }
 
 .boutondlfile {
     float: right;
-    display: none;
     margin-right: 10px;
 }
 
@@ -433,14 +443,13 @@ select.form-control + .chosen-container.chosen-container-single .chosen-single {
     line-height: 1.428571429;
     color: #555;
     vertical-align: middle;
-    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 0 0 0 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    background-image: none;
+    background: #fff none;
 }
 
 select.form-control + .chosen-container.chosen-container-single .chosen-single div {
@@ -451,7 +460,6 @@ select.form-control + .chosen-container.chosen-container-single .chosen-single d
 select.form-control + .chosen-container .chosen-drop {
     background-color: #FFF;
     border: 1px solid #CCC;
-    border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 4px;
     -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
@@ -469,23 +477,21 @@ select.form-control + .chosen-container .chosen-search input[type=text] {
     line-height: 1.428571429;
     color: #555;
     vertical-align: middle;
-    background-color: #FFF;
     border: 1px solid #CCC;
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    background-image: none;
+    background: #FFF none;
 }
 
 select.form-control + .chosen-container .chosen-results {
-    margin: 2px 0 0;
     padding: 5px 0;
     font-size: 14px;
     list-style: none;
     background-color: #fff;
-    margin-bottom: 5px;
+    margin: 2px 0 5px;
 }
 
 select.form-control + .chosen-container .chosen-results li,
@@ -505,8 +511,7 @@ select.form-control + .chosen-container .chosen-results li.active-result:hover,
 select.form-control + .chosen-container .chosen-results li.highlighted {
     color: #FFF;
     text-decoration: none;
-    background-color: #428BCA;
-    background-image: none;
+    background: #428BCA none;
 }
 
 select.form-control + .chosen-container-multi .chosen-choices {
@@ -518,14 +523,13 @@ select.form-control + .chosen-container-multi .chosen-choices {
     line-height: 1.428571429;
     color: #555;
     vertical-align: middle;
-    background-color: #FFF;
     border: 1px solid #CCC;
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-    background-image: none;
+    background: #FFF none;
 }
 
 select.form-control + .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
@@ -535,7 +539,6 @@ select.form-control + .chosen-container-multi .chosen-choices li.search-field in
 
 select.form-control + .chosen-container-multi .chosen-choices li.search-choice {
 
-    background-image: none;
     padding: 3px 24px 3px 5px;
     margin: 0 6px 0 0;
     font-size: 14px;
@@ -548,8 +551,7 @@ select.form-control + .chosen-container-multi .chosen-choices li.search-choice {
     border: 1px solid #ccc;
     border-radius: 4px;
     color: #333;
-    background-color: #FFF;
-    border-color: #CCC;
+    background: #FFF none;
 }
 
 select.form-control + .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
@@ -577,10 +579,8 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
     clear: both;
     margin-bottom: 15px;
     margin-top: 15px;
-    border-color: #ddd;
-    border-width: 1px;
     border-radius: 4px 4px 4px 4px;
-    border-style: solid;
+    border: 1px solid #ddd;
     padding: 15px;
     display: none;
 }
@@ -642,9 +642,203 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
     margin-top: 30px;
 }
 
+.bottom5 {
+    margin-bottom: 5px;
+}
+
+.bottom7 {
+    margin-bottom: 7px;
+}
+
+.bottom10 {
+    margin-bottom: 10px;
+}
+
+.bottom15 {
+    margin-bottom: 15px;
+}
+
+.bottom17 {
+    margin-bottom: 17px;
+}
+
+.bottom30 {
+    margin-bottom: 30px;
+}
+
 .etatIcone {
     border: 1px solid #dcdcdc;
     border-radius: 3px;
     text-align: center;
     padding: 10px;
+}
+
+.panel-body-custom {
+    padding: 0 0 0 0;
+}
+
+.container-fluid-custom {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.fa-primary {
+    color: #3E87C6;
+}
+
+.fa-warn {
+    color: #F0AD4E;
+}
+
+.fa-danger {
+    color: #D9534F
+}
+
+.fa-success {
+    color: #5CB85C;
+}
+
+.versioning {
+    font-size: 0.9em;
+    border-top: 1px solid #d3d3d3;
+}
+
+.head {
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.requis {
+    color: red;
+}
+
+.send {
+    margin-top: 25px;
+}
+
+.titreDiv {
+    margin-bottom: 15px;
+}
+
+#form-container {
+    border: 1px solid #d3d3d3;
+    min-height: 500px;
+    position: relative;
+    padding: 0 0 0 0;
+}
+
+.draggable {
+    position: absolute;
+}
+
+.mover {
+    cursor: move;
+}
+
+.ui-selected {
+    background-color: #E3E3E3;
+}
+
+#field-affix {
+    position: fixed;
+    right: 55px;
+    width: 30%;
+}
+
+.closer {
+    cursor: pointer;
+}
+
+.form-oblig {
+    border: 1px solid #E3E3E3;
+    padding-bottom: 35px;
+}
+
+.row35 {
+    height: 35px;
+    overflow: visible;
+}
+
+.btn-default-primary {
+    background-color: #ffffff;
+    border-color: #337ab7;
+    color: #337ab7;
+}
+
+.btn-default-primary:hover,
+.btn-default-primary:focus,
+.btn-default-primary.focus,
+.btn-default-primary:active,
+.btn-default-primary.active,
+.open > .dropdown-toggle.btn-default-primary {
+    background-color: #ffffff;
+    border-color: #286090;
+    color: #286090;
+}
+
+.btn-default-success {
+    background-color: #ffffff;
+    border-color: #5cb85c;
+    color: #5cb85c;
+}
+
+.btn-default-success:hover,
+.btn-default-success:focus,
+.btn-default-success.focus,
+.btn-default-success:active,
+.btn-default-success.active,
+.open > .dropdown-toggle.btn-default-success {
+    background-color: #ffffff;
+    border-color: #449d44;
+    color: #449d44;
+}
+
+.btn-default-danger {
+    background-color: #ffffff;
+    border-color: #d9534f;
+    color: #d9534f;
+}
+
+.btn-default-danger:hover,
+.btn-default-danger:focus,
+.btn-default-danger.focus,
+.btn-default-danger:active,
+.btn-default-danger.active,
+.open > .dropdown-toggle.btn-default-danger {
+    background-color: #ffffff;
+    border-color: #c9302c;
+    color: #c9302c;
+}
+
+.btn-default-default {
+    background-color: #ffffff;
+    border-color: #666666;
+    color: #666666;
+}
+
+.btn-default-default:hover,
+.btn-default-default:focus,
+.btn-default-default.focus,
+.btn-default-default:active,
+.btn-default-default.active,
+.open > .dropdown-toggle.btn-default-default {
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+}
+
+.left5 {
+    margin-left: 5px;
+}
+
+.boutonsFileHide {
+    display: none;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 144dpi) {
+    .chosen-container .chosen-search input[type="text"] {
+        background: image-url('chosen-sprite@2x.png') 100% -20px / 52px 37px no-repeat scroll #fff !important;
+    }
 }

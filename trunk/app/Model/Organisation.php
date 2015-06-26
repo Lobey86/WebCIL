@@ -188,6 +188,13 @@ class Organisation extends AppModel
             //'conditions' => '',
             //'fields'     => '',
             //'order'      => ''
+        ),
+        'Service' => array(
+        	'className'  => 'Service',
+        	'foreignKey' => 'organisation_id',
+        	//'conditions' => '',
+        	//'fields'     => '',
+        	//'order'      => ''
         )
     );
 

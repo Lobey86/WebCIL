@@ -101,6 +101,17 @@ class User extends AppModel
         )
     );
 
+    /**
+     * hasOne associations
+     * @var array
+     */
+    public $hasOne = array(
+        'Admin' => array(
+            'className' => 'Admin',
+            'foreignKey' => 'user_id',
+            'dependent' => true
+        )
+    );
 
     public function beforeSave($options = array())
     {

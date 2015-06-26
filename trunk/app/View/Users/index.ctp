@@ -1,27 +1,16 @@
 <?php
 echo $this->Html->script('users.js');
-?>
-    <div class="well">
-        <?php
-if ( file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo')) ) {
-    echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'), array('class' => 'pull-right logo-well'));
-}
-?>
-        <h1>Gestion des utilisateurs</h1>
-    </div>
 
-<?php
-if ( $this->Autorisation->isSu() ) {
+if($this->Autorisation->isSu()) {
     echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span> Filtrer les utilisateurs', $options = array(
         'type' => 'button',
-        'class' => 'btn btn-primary pull-right',
+        'class' => 'btn btn-default-default pull-right',
         'id' => 'filtrageUsers'
     ));
 
-    if ( !empty($this->request->data) ) {
+    if(!empty($this->request->data)) {
         echo '<div id="filtreUsers">';
-    }
-    else {
+    } else {
         echo '<div id="filtreUsers" style="display: none;">';
     }
 
@@ -55,10 +44,10 @@ if ( $this->Autorisation->isSu() ) {
     echo $this->Html->link('Réinitialiser', array(
         'controller' => 'users',
         'action' => 'index'
-    ), array('class' => 'btn btn-danger'));
+    ), array('class' => 'btn btn-default-danger'));
     echo $this->Form->button('Appliquer les filtres', array(
         'type' => 'submit',
-        'class' => 'btn btn-success'
+        'class' => 'btn btn-default-success'
     ));
     ?>
             </div>
@@ -67,77 +56,78 @@ if ( $this->Autorisation->isSu() ) {
 <?php
 }
 ?>
-    <table class="table table-hover">
+    <table class="table">
         <thead>
-        <th>Utilisateur</th>
-        <th>Créé le</th>
-        <th>Organisations</th>
-        <th>Actions</th>
+        <th class="col-md-2">Utilisateur</th>
+        <th class="col-md-8">Synthèse</th>
+        <th class="col-md-2">Actions</th>
         </thead>
         <tbody>
         <?php
-foreach ( $users as $donnees ) {
+foreach($users as $donnees) {
     ?>
     <tr>
         <td class="tdleft">
-            <?php echo $donnees[ 'User' ][ 'prenom' ] . ' ' . $donnees[ 'User' ][ 'nom' ]; ?>
+            <?php echo $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']; ?>
         </td>
         <td class="tdleft">
-            <?php echo date('d-m-Y', strtotime($donnees[ 'User' ][ 'created' ])); ?>
+            <div class="col-md-4">
+                <strong>Organisations: </strong>
+                <ul>
+                    <?php
+                    if($donnees['User']['id'] != 1) {
+                        foreach($donnees['Organisations'] as $key => $value) {
+                            echo '<li>' . $value['Organisation']['raisonsociale'] . '</li>';
+                        }
+                    } else {
+                        echo '<li> Toutes </li>';
+                    }
+                    ?>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <strong>Login: </strong>
+                <?php echo $donnees['User']['username']; ?>
+            </div>
         </td>
         <td class="tdleft">
-            <ul>
-                <?php
-                if ( $donnees[ 'User' ][ 'id' ] != 1 ) {
-                    foreach ( $donnees[ 'Organisations' ] as $key => $value ) {
-                        echo '<li>' . $value[ 'Organisation' ][ 'raisonsociale' ] . '</li>';
+            <div class="btn-group">
+                <?php if($this->Autorisation->authorized(9, $droits)) {
+                    echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
+                        'controller' => 'users',
+                        'action' => 'edit',
+                        $donnees['User']['id']
+                    ), array(
+                        'class' => 'btn btn-default-default boutonEdit btn-sm',
+                        'escapeTitle' => false
+                    ));
+                }
+
+                if($this->Autorisation->authorized(10, $droits)) {
+                    if($donnees['User']['id'] != 1) {
+                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                            'controller' => 'users',
+                            'action' => 'delete',
+                            $donnees['User']['id']
+                        ), array(
+                            'class' => 'btn btn-default-danger boutonDelete btn-sm',
+                            'escapeTitle' => false
+                        ), 'Voulez vous vraiment supprimer ' . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']);
+
+                    } else {
+                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                            'controller' => 'users',
+                            'action' => 'delete',
+                            $donnees['User']['id']
+                        ), array(
+                            'class' => 'btn btn-default-danger boutonDelete btn-sm',
+                            'escapeTitle' => false,
+                            "disabled" => "disabled"
+                        ), 'Voulez vous vraiment supprimer ' . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']);
                     }
                 }
-                else {
-                    echo '<li> Toutes </li>';
-                }
                 ?>
-            </ul>
-        </td>
-        <td class="tdleft">
-
-            <?php if ( $this->Autorisation->authorized(9, $droits) ) {
-                echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
-                    'controller' => 'users',
-                    'action' => 'edit',
-                    $donnees[ 'User' ][ 'id' ]
-                ), array(
-                    'class' => 'btn btn-default boutonEdit boutonsAction5',
-                    'escapeTitle' => false
-                ));
-            }
-
-            if ( $this->Autorisation->authorized(10, $droits) ) {
-                if ( $donnees[ 'User' ][ 'id' ] != 1 ) {
-                    echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
-                        'controller' => 'users',
-                        'action' => 'delete',
-                        $donnees[ 'User' ][ 'id' ]
-                    ), array(
-                        'class' => 'btn btn-danger boutonDelete boutonsAction5',
-                        'escapeTitle' => false
-                    ), 'Voulez vous vraiment supprimer ' . $donnees[ 'User' ][ 'prenom' ] . ' ' . $donnees[ 'User' ][ 'nom' ]);
-
-                }
-                else {
-                    echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
-                        'controller' => 'users',
-                        'action' => 'delete',
-                        $donnees[ 'User' ][ 'id' ]
-                    ), array(
-                        'class' => 'btn btn-danger boutonDelete boutonsAction5',
-                        'escapeTitle' => false,
-                        "disabled" => "disabled"
-                    ), 'Voulez vous vraiment supprimer ' . $donnees[ 'User' ][ 'prenom' ] . ' ' . $donnees[ 'User' ][ 'nom' ]);
-
-                }
-            }
-            ?>
+            </div>
         </td>
     </tr>
 <?php
@@ -146,13 +136,15 @@ foreach ( $users as $donnees ) {
         </tbody>
     </table>
 <?php
-if ( $this->Autorisation->authorized(8, $droits) ) {
+if($this->Autorisation->authorized(8, $droits)) {
+    echo '<div class="row text-center">';
     echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter un utilisateur', array(
         'controller' => 'users',
         'action' => 'add'
     ), array(
-        'class' => 'btn btn-primary pull-right sender',
+        'class' => 'btn btn-default-primary sender',
         'escapeTitle' => false
     ));
+    echo '</div>';
 }
 ?>

@@ -19,17 +19,13 @@ $cakeDescription = 'WebCIL';
 <head>
     <?php echo $this->Html->charset(); ?>
     <title>
-        <?php echo $cakeDescription ?>:
-        <?php echo $title_for_layout; ?>
+        <?php echo $cakeDescription ?>
     </title>
     <?php
     echo $this->Html->script('jquery-1.11.0.min');
     echo $this->Html->script('bootstrap.min.js');
-    echo $this->Html->script('jquery.blockUI.js');
     echo $this->Html->script('formulaire.js');
-    echo $this->Html->script('jqprint.js', array('inline' => false));
     echo $this->Html->script('fadeflash.js', array('inline' => false));
-    echo $this->Html->script('jquery-ui.js', array('inline' => false));
     echo $this->Html->script('bootstrap-filestyle.min.js', array('inline' => false));
     echo $this->Html->script('chosen.jquery.min.js');
     echo $this->Html->script('main.js');
@@ -54,7 +50,8 @@ $cakeDescription = 'WebCIL';
 
 <div id="container">
     <div id="content">
-        <div class="container theme-showcase" id="relatif" role="main" style="margin-top: 60px">
+        <div class="container-fluid container-fluid-custom theme-showcase" id="relatif" role="main"
+             style="margin-top: 60px;">
             <div id="unprintable_div">
                 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                     <div class="container-fluid">
@@ -74,75 +71,173 @@ $cakeDescription = 'WebCIL';
                         <div class="navbar-collapse collapse">
 
                             <?php
-                            if ( isset($prenom) && isset($nom) ) {
+                            if(isset($prenom) && isset($nom)) {
                                 ?>
                                 <ul class="nav navbar-nav">
-                                    <li <?php if ( $this->params[ 'controller' ] == "pannel" || $this->params[ 'controller' ] == "fiches" ) {
-                                        echo "class='active'";
-                                    } ?>><?php echo $this->Html->link('Pannel', array(
-                                            'plugin' => '',
-                                            'controller' => 'pannel',
-                                            'action' => 'index'
-                                        )); ?></li>
-                                    <?php if ( $this->Autorisation->authorized(array(
+                                    <?php
+                                    if($this->Autorisation->authorized(array(
+                                        '1',
+                                        '2',
+                                        '3',
+                                        '5'
+                                    ), $this->Session->read('Droit.liste'))
+                                    ) {
+                                        ?>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown">Fiches
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <?php
+                                                if($this->Autorisation->authorized(array(
+                                                    '1'
+                                                ), $this->Session->read('Droit.liste'))
+                                                ) {
+                                                    echo '<li>' . $this->Html->link('<i class="fa fa-files-o fa-fw"></i> Mes fiches', array(
+                                                            'controller' => 'pannel',
+                                                            'action' => 'index'
+                                                        ), array('escape' => false)) . '</li>';
+                                                }
+                                                if($this->Autorisation->authorized(array(
+                                                    '1',
+                                                    '2',
+                                                    '5'
+                                                ), $this->Session->read('Droit.liste'))
+                                                ) {
+                                                    echo '<li>' . $this->Html->link('<i class="fa fa-inbox fa-fw"></i> Fiches reçues', array(
+                                                            'controller' => 'pannel',
+                                                            'action' => 'inbox'
+                                                        ), array('escape' => false)) . '</li>';
+                                                }
+                                                if($this->Autorisation->authorized(array(
+                                                    '1'
+                                                ), $this->Session->read('Droit.liste'))
+                                                ) {
+
+                                                    echo '<li>' . $this->Html->link('<i class="fa fa-check fa-fw"></i> Mes fiches validées', array(
+                                                            'controller' => 'pannel',
+                                                            'action' => 'archives'
+                                                        ), array('escape' => false)) . '</li>';
+                                                    echo '<li class="divider"></li>';
+                                                    echo '<li>' . $this->Html->link('<i class="fa fa-plus fa-fw"></i> Créer une fiche', array('#' => '#'), array(
+                                                            'escape' => false,
+                                                            'data-toggle' => 'modal',
+                                                            'data-target' => '#myModal'
+                                                        )) . '</li>';
+
+                                                }
+                                                ?>
+                                            </ul>
+                                        </li>
+
+                                    <?php
+                                    }
+                                    if($this->Autorisation->authorized(array(
                                         '4',
                                         '5',
                                         '6',
                                         '7'
                                     ), $this->Session->read('Droit.liste'))
                                     ) { ?>
-                                        <li <?php if ( $this->params[ 'controller' ] == "registres" ) {
-                                            echo "class='active'";
-                                        } ?>><?php echo $this->Html->link('Registre', array(
+                                        <li><?php echo $this->Html->link('Registre', array(
                                             'plugin' => '',
                                             'controller' => 'registres',
                                             'action' => 'index'
                                         )); ?></li><?php } ?>
 
-                                    <?php if ( $this->Autorisation->authorized(array(
-                                        '8',
-                                        '9',
-                                        '10'
-                                    ), $droits)
-                                    ) { ?>
-                                        <li <?php if ( $this->params[ 'controller' ] == "users" ) {
-                                            echo "class='active'";
-                                        } ?>><?php echo $this->Html->link('Gestion des utilisateurs', array(
-                                                'plugin' => '',
-                                                'controller' => 'users',
-                                                'action' => 'index'
-                                            )); ?></li> <?php } ?>
 
-                                    <?php if ( $this->Autorisation->authorized(array(
-                                        '11',
-                                        '12'
-                                    ), $droits)
-                                    ) { ?>
-                                        <li <?php if ( $this->params[ 'controller' ] == "organisations" ) {
-                                            echo "class='active'";
-                                        } ?>><?php echo $this->Html->link('Gestion des organisations', array(
-                                                'plugin' => '',
-                                                'controller' => 'organisations',
-                                                'action' => 'index'
-                                            )); ?></li>
-                                    <?php } ?>
 
-                                    <?php if ( $this->Autorisation->authorized(array(
-                                        '13',
-                                        '14',
-                                        '15'
-                                    ), $droits)
-                                    ) { ?>
-                                        <li <?php if ( $this->params[ 'controller' ] == "roles" ) {
-                                            echo "class='active'";
-                                        } ?>><?php echo $this->Html->link('Gestion des rôles', array(
-                                                'plugin' => '',
-                                                'controller' => 'roles',
-                                                'action' => 'index'
-                                            )); ?></li>
-                                    <?php } ?>
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle"
+                                           data-toggle="dropdown">Administration
+                                                                  de <?php echo $this->Session->read('Organisation.raisonsociale'); ?>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <?php
 
+                                            echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i> Informations générales', array(
+                                                    'controller' => 'organisations',
+                                                    'action' => 'edit',
+                                                    $this->Session->read('Organisation.id')
+                                                ), array('escape' => false)) . '</li>';
+
+
+                                            echo '<li>' . $this->Html->link('<i class="fa fa-sitemap fa-fw"></i> Services', array(
+                                                    'controller' => 'services',
+                                                    'action' => 'index'
+                                                ), array('escape' => false)) . '</li>';
+
+                                            echo '<li>' . $this->Html->link('<i class="fa fa-check-square-o fa-fw"></i> Formulaire', array(
+                                                    'controller' => 'Formulaires',
+                                                    'action' => 'index'
+                                                ), array('escape' => false)) . '</li>';
+                                            echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i> Modèles', array(
+                                                    'controller' => 'modeles',
+                                                    'action' => 'index'
+                                                ), array('escape' => false)) . '</li>';
+
+
+                                            ?>
+                                        </ul>
                                     </li>
+
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle"
+                                           data-toggle="dropdown">Administration des utilisateurs
+                                            <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <?php
+
+                                            echo '<li>' . $this->Html->link('<i class="fa fa-tags fa-fw"></i> Profils', array(
+                                                    'controller' => 'roles',
+                                                    'action' => 'index'
+                                                ), array('escape' => false)) . '</li>';
+
+
+                                            echo '<li>' . $this->Html->link('<i class="fa fa-users fa-fw"></i> Utilisateurs', array(
+                                                    'controller' => 'users',
+                                                    'action' => 'index'
+                                                ), array('escape' => false)) . '</li>';
+
+                                            echo '<li class="divider"></li>';
+                                            echo '<li>' . $this->Html->link('<i class="fa fa-user-plus fa-fw"></i> Ajouter un utilisateur', array(
+                                                    'controller' => 'users',
+                                                    'action' => 'add'
+                                                ), array('escape' => false)) . '</li>';
+
+
+                                            ?>
+                                        </ul>
+                                    </li>
+                                    <?php
+                                    if($this->Session->read('Su')) {
+                                        ?>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown">Administration
+                                                                      de l'application
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <?php
+                                                echo '<li>' . $this->Html->link('<i class="fa fa-institution fa-fw"></i> Organisations', array(
+                                                        'controller' => 'organisations',
+                                                        'action' => 'index'
+                                                    ), array('escape' => false)) . '</li>';
+
+                                                echo '<li>' . $this->Html->link('<i class="fa fa-group fa-fw"></i> Administrateurs', array(
+                                                        'controller' => 'admins',
+                                                        'action' => 'index'
+                                                    ), array('escape' => false)) . '</li>';
+                                                ?>
+                                            </ul>
+                                        </li>
+                                    <?php
+                                    }
+                                    ?>
                                 </ul>
                                 <ul class="nav navbar-nav pull-right">
                                     <li class="dropdown">
@@ -151,35 +246,29 @@ $cakeDescription = 'WebCIL';
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu" role="menu">
-                                            <li><?php echo $this->Html->link('Mon pannel', array(
-                                                    'controller' => 'pannel',
-                                                    'action' => 'index'
-                                                )); ?></li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">Votre Compte</li>
-                                            <li><?php echo $this->Html->link('Modifier mon compte', array(
-                                                    'controller' => 'users',
-                                                    'action' => 'edit',
-                                                    $userId
-                                                )); ?></li>
-                                            <li><?php echo $this->Html->link('Déconnexion', array(
-                                                    'controller' => 'users',
-                                                    'action' => 'logout'
-                                                )); ?></li>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">Vos organisations</li>
+                                            <li class="dropdown-header">Mes organisations</li>
                                             <?php
-                                            foreach ( $organisations as $datas ) {
+                                            foreach($organisations as $datas) {
                                                 ?>
-                                                <li><?php echo $this->Html->link($datas[ 'Organisation' ][ 'raisonsociale' ], array(
+                                                <li><?php echo $this->Html->link($datas['Organisation']['raisonsociale'], array(
                                                         'controller' => 'organisations',
                                                         'action' => 'change',
-                                                        $datas[ 'Organisation' ][ 'id' ]
+                                                        $datas['Organisation']['id']
                                                     )); ?></li>
                                             <?php
                                             }
                                             ?>
-
+                                            <li class="divider"></li>
+                                            <li class="dropdown-header">Mon compte</li>
+                                            <li><?php echo $this->Html->link('<i class="fa fa-cog fa-fw"></i> Modifier mon compte', array(
+                                                    'controller' => 'users',
+                                                    'action' => 'edit',
+                                                    $userId
+                                                ), array('escapeTitle' => false)); ?></li>
+                                            <li><?php echo $this->Html->link('<i class="fa fa-lock fa-fw"></i> Déconnexion', array(
+                                                    'controller' => 'users',
+                                                    'action' => 'logout'
+                                                ), array('escapeTitle' => false)); ?></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -192,30 +281,32 @@ $cakeDescription = 'WebCIL';
                                         <ul class="dropdown-menu" role="menu">
 
                                             <?php
-                                            if ( empty($notificationsStayed) ) echo '<li class="dropdown-header">Aucune notification</li>';
-                                            foreach ( $notificationsStayed as $key => $value ) {
-                                                switch ( $value[ 'Notification' ][ 'content' ] ) {
+                                            if(empty($notificationsStayed)) echo '<li class="dropdown-header">Aucune notification</li>';
+                                            foreach($notificationsStayed as $key => $value) {
+                                                switch($value['Notification']['content']) {
                                                     case 1:
-                                                        echo '<li class="list-group-item list-group-item-info">Votre avis est demandée sur la fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong></li>';
+                                                        echo '<li class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
                                                         break;
                                                     case 2:
-                                                        echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong></li>';
+                                                        echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
                                                         break;
                                                     case 3:
-                                                        echo '<li class="list-group-item list-group-item-success">La fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong> a été validée</li>';
+                                                        echo '<li class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</li>';
                                                         break;
                                                     case 4:
-                                                        echo '<li class="list-group-item list-group-item-danger">La fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong> a été refusée</li>';
+                                                        echo '<li class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</li>';
                                                         break;
                                                     case 5:
-                                                        echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong></li>';
+                                                        echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
                                                         break;
                                                 }
                                             }
-                                            if ( !empty($notificationsStayed) ) {
-                                                echo '<li>' . $this->Html->link('Effacer les notifications', array(
+                                            if(!empty($notificationsStayed)) {
+                                                echo '<li>' . $this->Html->link('<i class="fa fa-fw fa-trash"></i> Effacer les notifications', array(
                                                         'controller' => 'pannel',
                                                         'action' => 'dropNotif'
+                                                    ), array(
+                                                        'escape' => false
                                                     )) . '</li>';
                                             }
                                             ?>
@@ -232,12 +323,28 @@ $cakeDescription = 'WebCIL';
                 </div>
 
             </div>
-            <?php echo $this->Session->flash(); ?>
-            <?php echo $this->fetch('content'); ?>
+            <?php echo $this->Session->flash();
+            if($this->params['action'] != 'login') {
+                ?>
+                <div class="row head">
+                    <div class="col-md-6">
+                        <h2><?php echo $title; ?></h2>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <?php
+                        if(file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'))) {
+                            echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'), array('class' => 'logo-well'));
+                        }
+                        ?>
+                    </div>
+                </div>
+            <?php
+            }
+            echo $this->fetch('content'); ?>
 
             <!-- Modal de notification -->
             <?php
-            if ( !empty($notifications) ) {
+            if(!empty($notifications)) {
                 echo '
                     <div class="modal fade" id="modalNotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
                       <div class="modal-dialog">
@@ -247,22 +354,22 @@ $cakeDescription = 'WebCIL';
                         </div>
                         <div class="modal-body">
                         <ul class="list-group">';
-                foreach ( $notifications as $key => $value ) {
-                    switch ( $value[ 'Notification' ][ 'content' ] ) {
+                foreach($notifications as $key => $value) {
+                    switch($value['Notification']['content']) {
                         case 1:
-                            echo '<li class="list-group-item list-group-item-info">Votre avis est demandée sur la fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong></li>';
+                            echo '<li class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
                             break;
                         case 2:
-                            echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong></li>';
+                            echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
                             break;
                         case 3:
-                            echo '<li class="list-group-item list-group-item-success">La fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong> a été validée</li>';
+                            echo '<li class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</li>';
                             break;
                         case 4:
-                            echo '<li class="list-group-item list-group-item-danger">La fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong> a été refusée</li>';
+                            echo '<li class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</li>';
                             break;
                         case 5:
-                            echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche de l\'outil <strong>"' . $value[ 'Fiche' ][ 'outilnom' ] . '"</strong></li>';
+                            echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
                             break;
                     }
                 }
@@ -275,7 +382,7 @@ $cakeDescription = 'WebCIL';
                     'controller' => 'pannel',
                     'action' => 'validNotif'
                 ), array(
-                    'class' => 'btn btn-primary',
+                    'class' => 'btn btn-default-primary',
                     'escapeTitle' => false
                 ));
 
@@ -286,9 +393,58 @@ $cakeDescription = 'WebCIL';
             }
             ?>
         </div>
-
-        <div id="footer">
-
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">Choisir un formulaire</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <th class="col-md-3">
+                                Nom
+                            </th>
+                            <th class="col-md-7">
+                                Description
+                            </th>
+                            <th class="col-md-2">
+                                Action
+                            </th>
+                            </thead>
+                            <tbody>
+                            <?php
+                            foreach($formulaires_actifs as $key => $value) {
+                                echo '<tr>
+<td>' . $value['Formulaire']['libelle'] . '</td>
+<td>' . $value['Formulaire']['description'] . '</td>
+<td>' . $this->Html->link('Choisir', array(
+                                        'controller' => 'fiches',
+                                        'action' => 'add',
+                                        $value['Formulaire']['id']
+                                    ), array('class' => 'btn btn-default-default')) . '</td>
+</tr>';
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
+                                class="fa fa-fw fa-arrow-left"></i> Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer" class="container-fluid-custom">
+            <div class="text-center versioning">
+                WebCIL V0.9 - Adullact-Projet
+            </div>
         </div>
     </div>
 </div>
