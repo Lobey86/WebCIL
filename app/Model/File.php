@@ -20,39 +20,57 @@ class File extends AppModel
     public function saveFile($data, $id = null)
     {
 
-        if ( isset($data[ 'Fiche' ][ 'fichiers' ]) && !empty($data[ 'Fiche' ][ 'fichiers' ] && $data[ 'Fiche' ][ 'fichiers' ][ '0' ][ 'error' ] == 0) ) {
+        if(isset($data['Fiche']['fichiers']) && !empty($data['Fiche']['fichiers'])) {
 
-            foreach ( $data[ 'Fiche' ][ 'fichiers' ] as $key => $file ) {
-
+            foreach($data['Fiche']['fichiers'] as $key => $file) {
                 $success = true;
-                $this->begin();
-                $folder = WWW_ROOT . 'files';
-                $extension = strtolower(pathinfo($file[ 'name' ], PATHINFO_EXTENSION));
-                $name = $file[ 'name' ];
-                if ( !empty($file[ 'tmp_name' ]) ) {
-                    $url = time();
-                    $success = $success && move_uploaded_file($file[ 'tmp_name' ], $folder . '/' . $url . $key . '.' . $extension);
-                    if ( $success ) {
-                        $this->create(array(
-                            'nom' => $name,
-                            'url' => $url . $key . '.' . $extension,
-                            'fiche_id' => $id
-                        ));
-                        $success = $success && $this->save();
+                if(!empty($file['name'])) {
+                    $this->begin();
+                    $folder = WWW_ROOT . 'files';
+                    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                    $name = $file['name'];
+                    if(!empty($file['tmp_name'])) {
+                        $url = time();
+                        $success = $success && move_uploaded_file($file['tmp_name'], $folder . '/' . $url . $key . '.' . $extension);
+                        if($success) {
+                            $this->create(array(
+                                'nom' => $name,
+                                'url' => $url . $key . '.' . $extension,
+                                'fiche_id' => $id
+                            ));
+                            $success = $success && $this->save();
+                        }
+                    } else {
+                        $success = false;
                     }
                 }
-                else {
-                    $success = false;
-                }
-                if ( $success ) {
+
+                if($success) {
                     $this->commit();
-                }
-                else {
+                } else {
                     $this->rollback();
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    public function deleteFile($id)
+    {
+        $success = true;
+        $this->begin();
+        $fichier = $this->find('first', array('conditions' => array('id' => $id)));
+        debug($fichier);
+        debug($id);
+        $success = $success && unlink(WWW_ROOT . 'files/' . $fichier['File']['url']);
+        $success = $success && $this->delete($id);
+        if($success) {
+            $this->commit();
+            return true;
+        } else {
+            $this->rollback();
+            return false;
+        }
     }
 }

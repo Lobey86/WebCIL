@@ -187,8 +187,20 @@ Configure::write('App.encoding', 'UTF-8');
  * the cake shell command: cake schema create Sessions
 
  */
+$sessionDurationMinutes = 4 * 60;
 Configure::write('Session', array(
-    'defaults' => 'php'
+    'defaults' => 'php',
+    'cookie' => 'WebCIL',
+    'timeout' => $sessionDurationMinutes,
+    'cookieTimeout' => $sessionDurationMinutes,
+    'checkAgent' => false,
+    'autoRegenerate' => false,
+    'ini' => array(
+        'session.cookie_secure' => 0,
+        'session.cookie_lifetime' => 0,
+        'session.cookie_httponly' => 0,
+        'session.gc_maxlifetime' => $sessionDurationMinutes * 60,
+    ),
 ));
 
 /**

@@ -39,4 +39,17 @@ class OrganisationUser extends AppModel
             'dependent' => true
         )
     );
+
+    /**
+     * hasOne associations
+     *
+     * @var array
+     */
+    	public $hasOne = array(
+    		'OrganisationUserService' => array(
+    			'className'  => 'OrganisationUserService',
+    			'foreignKey' => 'organisation_user_id',
+    			'dependent'  => true
+    		)
+    	);
 }

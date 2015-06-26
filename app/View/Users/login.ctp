@@ -23,7 +23,7 @@
         ?>
     </div>
     <?php
-    echo $this->Form->submit('Connexion', array('class' => 'btn btn-lg btn-success'));
+    echo $this->Form->submit('Connexion', array('class' => 'btn btn-lg btn-default-success'));
     echo $this->Form->end();
     ?>
 </div>

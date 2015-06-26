@@ -8,7 +8,7 @@ class Role extends AppModel
         'libelle' => array(
             array(
                 'rule' => array('notEmpty'),
-                'message' => 'Un nom de rôle est requis'
+                'message' => 'Un nom de profil est requis'
             )
         )
     );

@@ -13,21 +13,20 @@ class DroitsComponent extends Component
     public function authorized($level)
     {
         $table = $this->Session->read('Droit.liste');
-        if ( is_array($level) ) {
-            foreach ( $level as $value ) {
-                foreach ( $table as $valeur ) {
-                    if ( $valeur == $value ) {
+        if(is_array($level)) {
+            foreach($level as $value) {
+                foreach($table as $valeur) {
+                    if($valeur == $value) {
                         return true;
                     }
                 }
             }
-        }
-        else {
-            if ( in_array($level, $table) ) {
+        } else {
+            if(in_array($level, $table)) {
                 return true;
             }
         }
-        if ( $this->isSu() ) {
+        if($this->isSu()) {
             return true;
         }
         return false;
@@ -43,7 +42,7 @@ class DroitsComponent extends Component
             'conditions' => array('id' => $idFiche),
             'fields' => array('user_id')
         ));
-        if ( isset($id_user_fiche[ 'Fiche' ][ 'user_id' ]) && $id_user_fiche[ 'Fiche' ][ 'user_id' ] == $this->Session->read('Auth.User.id') ) {
+        if(isset($id_user_fiche['Fiche']['user_id']) && $id_user_fiche['Fiche']['user_id'] == $this->Session->read('Auth.User.id')) {
             return true;
         }
         return false;
@@ -54,8 +53,8 @@ class DroitsComponent extends Component
 
     public function isCil()
     {
-        if ( $this->Session->read('Organisation.cil') != NULL ) {
-            if ( $this->Session->read('Organisation.cil') == $this->Session->read('Auth.User.id') ) {
+        if($this->Session->read('Organisation.cil') != NULL) {
+            if($this->Session->read('Organisation.cil') == $this->Session->read('Auth.User.id')) {
                 return true;
             }
         }
@@ -78,16 +77,13 @@ class DroitsComponent extends Component
                 'user_id'
             )
         ));
-        if ( $this->isSu() ) {
+        if($this->isSu()) {
             return true;
-        }
-        elseif ( $infoFiche[ 'Fiche' ][ 'organisation_id' ] == $this->Session->read('Organisation.id') && $infoFiche[ 'Fiche' ][ 'user_id' ] == $this->Session->read('Auth.User.id') ) {
+        } elseif($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && $infoFiche['Fiche']['user_id'] == $this->Session->read('Auth.User.id')) {
             return true;
-        }
-        elseif ( $infoFiche[ 'Fiche' ][ 'organisation_id' ] == $this->Session->read('Organisation.id') && $this->Session->read('Auth.User.id') == $this->Session->read('Organisation.cil') ) {
+        } elseif($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && $this->Session->read('Auth.User.id') == $this->Session->read('Organisation.cil')) {
             return true;
-        }
-        else {
+        } else {
             $validations = $EtatFiche->find('all', array(
                 'conditions' => array(
                     'fiche_id' => $id,
@@ -100,13 +96,13 @@ class DroitsComponent extends Component
                     'etat_id' => 6
                 )
             ));
-            foreach ( $validations as $key => $value ) {
-                if ( $value[ 'EtatFiche' ][ 'user_id' ] == $this->Session->read('Auth.User.id') || $value[ 'EtatFiche' ][ 'previous_user_id' ] == $this->Session->read('Auth.User.id') ) {
+            foreach($validations as $key => $value) {
+                if($value['EtatFiche']['user_id'] == $this->Session->read('Auth.User.id') || $value['EtatFiche']['previous_user_id'] == $this->Session->read('Auth.User.id')) {
                     return true;
                 }
             }
-            foreach ( $consultations as $key => $value ) {
-                if ( $value[ 'EtatFiche' ][ 'user_id' ] == $this->Session->read('Auth.User.id') || $value[ 'EtatFiche' ][ 'previous_user_id' ] == $this->Session->read('Auth.User.id') ) {
+            foreach($consultations as $key => $value) {
+                if($value['EtatFiche']['user_id'] == $this->Session->read('Auth.User.id') || $value['EtatFiche']['previous_user_id'] == $this->Session->read('Auth.User.id')) {
                     return true;
                 }
             }
@@ -138,15 +134,15 @@ class DroitsComponent extends Component
                 'etat_id' => '2'
             )
         ));
-        if ( !empty($infoValidateur) ) {
-            if ( $infoValidateur[ 'EtatFiche' ][ 'user_id' ] == $this->Session->read('Auth.User.id') ) {
+        if(!empty($infoValidateur)) {
+            if($infoValidateur['EtatFiche']['user_id'] == $this->Session->read('Auth.User.id')) {
                 return true;
             }
         }
-        if ( $infoFiche[ 'Fiche' ][ 'organisation_id' ] == $this->Session->read('Organisation.id') && $infoFiche[ 'Fiche' ][ 'user_id' ] == $this->Session->read('Auth.User.id') && $infoEtat < 1 ) {
+        if($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && $infoFiche['Fiche']['user_id'] == $this->Session->read('Auth.User.id') && $infoEtat < 1) {
             return true;
         }
-        if ( $infoFiche[ 'Fiche' ][ 'organisation_id' ] == $this->Session->read('Organisation.id') && ($this->Session->read('Auth.User.id') == $this->Session->read('Organisation.cil') || $this->Session->read('Auth.User.id') == 1) ) {
+        if($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && ($this->Session->read('Auth.User.id') == $this->Session->read('Organisation.cil') || $this->isSu())) {
             return true;
         }
         return false;
@@ -169,7 +165,7 @@ class DroitsComponent extends Component
             )
         ));
         $infoFiche = $Fiche->find('first', array('conditions' => array('id' => $id)));
-        if ( $infoFiche[ 'Fiche' ][ 'organisation_id' ] == $this->Session->read('Organisation.id') && $infoFiche[ 'Fiche' ][ 'user_id' ] == $this->Session->read('Auth.User.id') && $infoEtat < 1 ) {
+        if($infoFiche['Fiche']['organisation_id'] == $this->Session->read('Organisation.id') && $infoFiche['Fiche']['user_id'] == $this->Session->read('Auth.User.id') && $infoEtat < 1) {
             return true;
         }
         return false;
@@ -179,7 +175,8 @@ class DroitsComponent extends Component
 // Vérification du super utilisateur
     public function isSu()
     {
-        if ( $this->Session->read('Auth.User.id') == 1 ) {
+
+        if($this->Session->read('Su')) {
             return true;
         }
         return false;
@@ -194,11 +191,9 @@ class DroitsComponent extends Component
             'conditions' => array('id' => $id),
             'fields' => 'organisation_id'
         ));
-        if ( $verification[ 'Role' ][ 'organisation_id' ] == $this->Session->read('Organisation.id') ) {
+        if($verification['Role']['organisation_id'] == $this->Session->read('Organisation.id')) {
             return true;
         }
         return false;
     }
-
-
 }

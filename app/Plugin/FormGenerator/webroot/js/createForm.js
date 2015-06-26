@@ -14,21 +14,21 @@ $(document).ready(function () {
         $('.ui-selected').removeClass('ui-selected');
         switch (id) {
             case 'btn-small-text':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 small-text ui-selected"><div class="col-md-4"><label><span class="labeler">Label</span></label></div><div class="col-md-8"><input type="text" placeholder="placeholder" class="form-control"/></div></div>');
+                var new_element = jQuery('<div class="draggable form-group col-md-6 small-text ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8"><input type="text" placeholder="Aide à la saisie" class="form-control"/></div></div>');
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
             case 'btn-long-text':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 long-text ui-selected"><div class="col-md-4"><label><span class="labeler">Label</span></label></div><div class="col-md-8"><textarea class="form-control"></textarea></div></div>');
+                var new_element = jQuery('<div class="draggable form-group col-md-6 long-text ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8"><textarea class="form-control" placeholder="Aide à la saisie"></textarea></div></div>');
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
             case 'btn-date':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 date ui-selected"><div class="col-md-4"><label><span class="labeler">Label</span></label></div><div class="col-md-8"><input type="date" placeholder="placeholder" class="form-control"/></div></div>');
+                var new_element = jQuery('<div class="draggable form-group col-md-6 date ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8"><input type="date" placeholder="Aide à la saisie" class="form-control"/></div></div>');
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
@@ -49,14 +49,14 @@ $(document).ready(function () {
                 refresh();
                 break;
             case 'btn-checkbox':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 checkboxes ui-selected"><div class="col-md-4"><label><span class="labeler">Label</span></label></div><div class="col-md-8 contentCheckbox"> Aucune option sélectionnée</div></div>');
+                var new_element = jQuery('<div class="draggable form-group col-md-6 checkboxes ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8 contentCheckbox"> Aucune option sélectionnée</div></div>');
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
             case 'btn-radio':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 radios ui-selected"><div class="col-md-4"><label><span class="labeler">Label</span></label></div><div class="col-md-8 contentRadio"> Aucune option sélectionnée</div></div>');
+                var new_element = jQuery('<div class="draggable form-group col-md-6 radios ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8 contentRadio"> Aucune option sélectionnée</div></div>');
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
@@ -113,9 +113,9 @@ $(document).ready(function () {
         if (object.hasClass('small-text')) {
             var options = jQuery('' +
                     '<div class="col-md-12">' +
-                    '<div class="form-group"><label>Nom du champ <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-small-text" placeholder="Nom du champ" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
-                    '<div class="form-group"><label>Label</label><input type="text" class="form-control labelForm" name="name" id="label-small-text" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                    '<div class="form-group"><label>Place holder</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-small-text" value="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
+                    '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-small-text" placeholder="Nom du champ" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
+                    '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-small-text" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                    '<div class="form-group"><label>Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-small-text" value="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
                     check +
                     '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                     '</div>'
@@ -125,9 +125,9 @@ $(document).ready(function () {
         else if (object.hasClass('long-text')) {
             var options = jQuery('' +
                     '<div class="col-md-12">' +
-                    '<div class="form-group"><label>Nom du champ <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-long-text" placeholder="Nom du champ" value="' + $('.ui-selected').find('textarea').attr('name') + '"></div>' +
-                    '<div class="form-group"><label>Label</label><input type="text" class="form-control labelForm" name="name" id="label-long-text" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                    '<div class="form-group"><label>Place holder</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-long-text" placeholder="' + $('.ui-selected').find('textarea').attr('placeholder') + '"></div>' +
+                    '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-long-text" placeholder="Nom du champ" value="' + $('.ui-selected').find('textarea').attr('name') + '"></div>' +
+                    '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-long-text" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                    '<div class="form-group"><label>Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-long-text" placeholder="' + $('.ui-selected').find('textarea').attr('placeholder') + '"></div>' +
                     check +
                     '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                     '</div>'
@@ -137,9 +137,9 @@ $(document).ready(function () {
         else if (object.hasClass('date')) {
             var options = jQuery('' +
                     '<div class="col-md-12">' +
-                    '<div class="form-group"><label>Nom du champ <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
-                    '<div class="form-group"><label>Label</label><input type="text" class="form-control labelForm" name="name" id="label-date" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                    '<div class="form-group"><label>Place holder</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-datet" placeholder="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
+                    '<div class="form-group"><label>Nom de variable<span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
+                    '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-date" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                    '<div class="form-group"><label>Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-datet" placeholder="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
                     check +
                     '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                     '</div>'
@@ -184,8 +184,8 @@ $(document).ready(function () {
 
             var options = jQuery('' +
                 '<div class="col-md-12">' +
-                '<div class="form-group"><label>Nom du champ <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + nom + '"></div>' +
-                '<div class="form-group"><label>Label</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + nom + '"></div>' +
+                '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
                 '<div class="form-group"><label>Options (1 par ligne)</label><textarea class="form-control checkboxForm">' + list + '</textarea></div>' +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
@@ -212,8 +212,8 @@ $(document).ready(function () {
 
             var options = jQuery('' +
                     '<div class="col-md-12">' +
-                    '<div class="form-group"><label>Nom du champ <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + nom + '"></div>' +
-                    '<div class="form-group"><label>Label</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                    '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + nom + '"></div>' +
+                    '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
                     '<div class="form-group"><label>Options (1 par ligne)</label><textarea class="form-control radioForm">' + list + '</textarea></div>' +
                     '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                     '</div>'

@@ -1,139 +1,191 @@
 <?php
 echo $this->Html->script('organisations.js');
-?>
-<div class="well">
-    <?php
-    if ( file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id')) ) {
-        echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'), array('class' => 'pull-right logo-well'));
-    }
+if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validationErrors[ 'Organisation' ]) ) {
     ?>
-    <h1>Veuillez entrer les informations de la nouvelle organisation</h1>
-</div>
 
+    <div class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        Ces erreurs se sont produites:
+        <ul>
+            <?php
+            foreach ( $this->validationErrors as $donnees ) {
+                foreach ( $donnees as $champ ) {
+                    foreach ( $champ as $error ) {
+                        echo '<li>' . $error . '</li>';
+                    }
+                }
+            }
+            ?>
+        </ul>
+    </div>
+<?php
+}
+?>
 <div class="users form">
     <?php echo $this->Form->create('Organisation', array(
         'action' => 'add',
         'type' => 'file',
-        'autocomplete' => 'off'
+        'autocomplete' => 'off',
+        'class' => 'form-horizontal'
     )); ?>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="Raison Sociale">
-                <span class="glyphicon glyphicon-tag"></span>
-            </span>
-        <?php echo $this->Form->input('raisonsociale', array(
-            'class' => 'form-control',
-            'placeholder' => 'Raison sociale (requis)',
-            'label' => false
-        )); ?>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <?php echo $this->Form->input('raisonsociale', array(
+                    'class' => 'form-control',
+                    'placeholder' => 'Raison sociale (requis)',
+                    'label' => array(
+                        'text' => 'Raison sociale <span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'escape' => true
+                )); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('telephone', array(
+                    'class' => 'form-control',
+                    'placeholder' => 'Téléphone (requis)',
+                    'label' => array(
+                        'text' => 'Téléphone <span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>'
+                )); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('fax', array(
+                    'class' => 'form-control',
+                    'placeholder' => 'Fax (facultatif)',
+                    'label' => array(
+                        'text' => 'Fax',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>'
+                )); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('adresse', array(
+                    'div' => 'input-group inputsForm',
+                    'label' => array(
+                        'text' => 'Adresse <span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
+                    'type' => 'textarea',
+                    'placeholder' => 'Adresse (requis)'
+                )); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('email', array(
+                    'class' => 'form-control',
+                    'placeholder' => 'E-mail (requis)',
+                    'label' => array(
+                        'text' => 'E-mail <span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>'
+                )); ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <?php echo $this->Form->input('sigle', array(
+                    'class' => 'form-control',
+                    'placeholder' => 'Sigle (facultatif)',
+                    'label' => array(
+                        'text' => 'Sigle',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>'
+                )); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('siret', array(
+                    'class' => 'form-control',
+                    'placeholder' => 'N° SIRET (requis)',
+                    'label' => array(
+                        'text' => 'N° Siret <span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>'
+                )); ?>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->input('ape', array(
+                    'class' => 'form-control',
+                    'placeholder' => 'Code APE (requis)',
+                    'label' => array(
+                        'text' => 'Code APE <span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>'
+                )); ?>
+            </div>
+
+            <div>
+                <?php
+                /*
+                if ( file_exists('files' . DS . 'modeles' . DS . $this->Session->read('Organisation.id') . '.odt') ) {
+                    echo '
+        <ul class="list-group">
+            <li class="list-group-item itemfiles">
+            ' . $this->Html->link('<span class="glyphicon glyphicon-download-alt"></span>', '/files/modeles/' . $this->Session->read('Organisation.id') . '.odt', array(
+                            'class' => 'btn btn-default-default pull-right',
+                            'escapeTitle' => false,
+                            'target' => '_blank'
+                        )) . '<span class="glyphicon glyphicon-file"></span> modele.odt</li>
+        </ul> ';
+                }
+                ?>
+            </div>
+            <div class="login">
+                <?php echo $this->Form->input('model_file', array(
+                    'div' => 'input-group inputsForm',
+                    'type' => 'file',
+                    'class' => 'filestyle',
+                    'data-buttonText' => ' Changer le modèle',
+                    'data-buttonName' => "btn-primary",
+                    'data-buttonBefore' => "true",
+                    'label' => false
+                )); */ ?>
+            </div>
+            <div class="col-md-8 col-md-offset-4">
+                <?php echo $this->Form->input('logo_file', array(
+                    'div' => 'input-group inputsForm',
+                    'type' => 'file',
+                    'class' => 'filestyle',
+                    'data-buttonText' => ' Ajouter un logo',
+                    'data-buttonName' => "btn-default-primary",
+                    'data-buttonBefore' => "true",
+                    'label' => false
+                )); ?>
+            </div>
+        </div>
     </div>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="Téléphone">
-                <span class="glyphicon glyphicon-phone-alt"></span>
-            </span>
-        <?php echo $this->Form->input('telephone', array(
-            'class' => 'form-control',
-            'placeholder' => 'Téléphone (requis)',
-            'label' => false
-        )); ?>
-    </div>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="Fax">
-                <span class="glyphicon glyphicon-print"></span>
-            </span>
-        <?php echo $this->Form->input('fax', array(
-            'class' => 'form-control',
-            'placeholder' => 'Fax (facultatif)',
-            'label' => false
-        )); ?>
-    </div>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="Adresse">
-                <span class="glyphicon glyphicon-home"></span>
-            </span>
-        <?php echo $this->Form->input('adresse', array(
-            'div' => 'input-group inputsForm',
-            'label' => false,
-            'class' => 'form-control',
-            'type' => 'textarea',
-            'placeholder' => 'Adresse (requis)'
-        )); ?>
-    </div>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="E-mail">
-                <span class="glyphicon glyphicon-envelope"></span>
-            </span>
-        <?php echo $this->Form->input('email', array(
-            'class' => 'form-control',
-            'placeholder' => 'E-mail (requis)',
-            'label' => false
+    <div class="text-center">
+
+        <?php
+        echo '<div class="btn-group send">';
+        echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, array(
+            'class' => 'btn btn-default-default',
+            'escape' => false
         ));
+        echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', array(
+            'type' => 'submit',
+            'class' => 'btn btn-default-success'
+        ));
+        echo '</div>';
         ?>
     </div>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="Sigle">
-                <span class="glyphicon glyphicon-tag"></span>
-            </span>
-        <?php echo $this->Form->input('sigle', array(
-            'class' => 'form-control',
-            'placeholder' => 'Sigle (facultatif)',
-            'label' => false
-        )); ?>
-    </div>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="N° de SIRET ou SIREN">
-                <span class="glyphicon glyphicon-barcode"></span>
-            </span>
-        <?php echo $this->Form->input('siret', array(
-            'class' => 'form-control',
-            'placeholder' => 'N° SIRET (requis)',
-            'label' => false
-        )); ?>
-    </div>
-    <div class="input-group login">
-            <span class="input-group-addon" data-toggle="popover" data-placement="left" data-trigger="hover"
-                  data-content="Code APE">
-                <span class="glyphicon glyphicon-barcode"></span>
-            </span>
-        <?php echo $this->Form->input('ape', array(
-            'class' => 'form-control',
-            'placeholder' => 'Code APE (requis)',
-            'label' => false
-        )); ?>
-    </div>
-    <div class="login">
-        <?php echo $this->Form->input('model_file', array(
-            'div' => 'input-group inputsForm',
-            'type' => 'file',
-            'class' => 'filestyle',
-            'data-buttonText' => ' Changer le modèle',
-            'data-buttonName' => "btn-primary",
-            'data-buttonBefore' => "true",
-            'label' => false
-        )); ?>
-    </div>
-    <div class="login">
-        <?php echo $this->Form->input('logo_file', array(
-            'div' => 'input-group inputsForm',
-            'type' => 'file',
-            'class' => 'filestyle',
-            'data-buttonText' => 'Ajouter un logo',
-            'data-buttonName' => "btn-primary",
-            'data-buttonBefore' => "true",
-            'label' => false
-        )); ?>
-    </div>
-    <?php
-    echo $this->Html->link('Annuler', array(
-        'controller' => 'organisations',
-        'action' => 'index'
-    ), array('class' => 'btn btn-danger pull-right sender'));
-    echo $this->Form->submit('Enregistrer', array('class' => 'btn btn-primary pull-right sender'));
-    ?>
 </div>

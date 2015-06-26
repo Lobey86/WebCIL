@@ -35,6 +35,7 @@ class AppController extends Controller
     );
     public $components = array(
         'Session',
+        'FormGenerator.FormGen',
         'Droits',
         'Notifications',
         'Auth' => array(
@@ -52,6 +53,7 @@ class AppController extends Controller
 
     public function beforeFilter()
     {
+        $this->set('referer', $this->referer());
         $this->set('nom', $this->Auth->user('nom'));
         $this->set('prenom', $this->Auth->user('prenom'));
         $this->set('userId', $this->Auth->user('id'));
@@ -77,8 +79,13 @@ class AppController extends Controller
                 'Notification.vu' => false
             ),
             'contain' => array(
-                'Fiche' => array(
-                    'outilnom'
+                'Fiche'=>array(
+                    'Valeur'=>array(
+                        'conditions'=>array(
+                            'champ_name'=>'outilnom'
+                        ),
+                        'fields'=>array('champ_name', 'valeur')
+                    )
                 )
             ),
             'order' => array(
@@ -92,8 +99,13 @@ class AppController extends Controller
                 'Notification.user_id' => $this->Auth->user('id'),
             ),
             'contain' => array(
-                'Fiche' => array(
-                    'outilnom'
+                'Fiche'=>array(
+                    'Valeur'=>array(
+                        'conditions'=>array(
+                            'champ_name'=>'outilnom'
+                        ),
+                        'fields'=>array('champ_name', 'valeur')
+                    )
                 )
             ),
             'order' => array(
@@ -101,7 +113,10 @@ class AppController extends Controller
             )
         ));
         $this->set('notificationsStayed', $notificationsStayed);
-
-
     }
+
+    	public function beforeRender() {
+    		parent::beforeRender();
+            $this->set('formulaires_actifs', $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id'), 'active'=>true)));
+        }
 }

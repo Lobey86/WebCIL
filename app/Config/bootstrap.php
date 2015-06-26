@@ -73,8 +73,12 @@ CakePlugin::loadAll(array(
         'bootstrap' => false,
         'routes' => false
     ),
-    'ModelOdtValidator' => array(
+    'FusionConv' => array(
         'bootstrap' => true,
+        'routes' => false
+    ),
+    'FormGenerator' => array(
+        'bootstrap' => false,
         'routes' => false
     )
 ));

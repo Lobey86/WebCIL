@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    console.log('loaded');
 
     $(".historique-button").click(function () {
         var id = $(this).attr('data-value');
@@ -41,6 +42,8 @@ $(document).ready(function () {
             $('#listeRefusee' + variable).show();
         }
     });
+
+
     $(".boutonListAValider").click(function () {
         $("tr[class^='selectDest']").hide();
         var variable = $(this).attr('value');
@@ -52,6 +55,7 @@ $(document).ready(function () {
             $('#listeAValider' + variable).show();
         }
     });
+
 
     $('.sendCancelTrans').click(function () {
         $("tr[class^='selectDestTrans']").hide();
@@ -143,24 +147,6 @@ $(document).ready(function () {
             $('.commentaireRepondre' + variable).show();
         }
     });
-
-
-    $("#datepicker").datepicker({
-        altField: "#datepicker",
-        closeText: 'Fermer',
-        prevText: 'Précédent',
-        nextText: 'Suivant',
-        currentText: 'Aujourd\'hui',
-        monthNames: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-        monthNamesShort: ['Janv.', 'Févr.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
-        dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-        dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
-        dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
-        weekHeader: 'Sem.',
-        dateFormat: 'dd-mm-yy',
-        firstDay: 1
-    });
-
     $("#listEnCoursControle").hide();
     $("#liEnCoursControle").removeClass();
     $("#listEnCoursValidation").hide();
@@ -279,148 +265,6 @@ $(document).ready(function () {
             $('#caretFichesAControler').addClass("glyphicon-chevron-up");
         }
     });
-
-    $('.boutonEdit').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Modifier",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-    $('.boutonShow').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-    $('.boutonSend').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Envoyer",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonDelete').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Supprimer",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonList').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir le parcours complet",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonListValidee').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir le parcours complet",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonListAValider').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Voir le parcours complet",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonPrint').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Imprimer cette fiche du registre",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonSave').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Enregistrer cette fiche du registre",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonReorienter').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Réorienter",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonRelancer').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Remettre en rédaction",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonDl').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Télécharger",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonValider').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Valider",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonRefuser').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Refuser",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonRepondre').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Répondre",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
-
-    $('.boutonArchive').popover({
-            delay: {show: 500, hide: 100},
-            animation: true,
-            content: "Archiver",
-            placement: 'top',
-            trigger: 'hover'
-        }
-    );
 
 
 });
