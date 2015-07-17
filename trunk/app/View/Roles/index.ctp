@@ -62,7 +62,7 @@ if(!empty($roles)) {
     echo "</table>";
 }
 if(empty($roles)) {
-    echo "<div class='text-center'><h3>Il n'existe aucun profil <small>pour cette organisation</small></h3></div>";
+    echo "<div class='text-center'><h3>Il n'existe aucun profil <small>pour cette entité</small></h3></div>";
 }
 if($this->Autorisation->authorized(13, $droits)) {
     echo '<div class="text-center">';

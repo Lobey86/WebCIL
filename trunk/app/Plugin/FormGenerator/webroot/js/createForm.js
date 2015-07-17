@@ -94,8 +94,14 @@ $(document).ready(function () {
         });
         $(".draggable").on('dragstop', function () {
             var position = $(this).position();
+            if (position.left < size / 2) {
+                $(this).css('left', 0);
+            }
+            else {
+                $(this).css('left', size + 1);
+            }
+
             $(this).css('top', Math.ceil(position.top));
-            $(this).css('left', Math.ceil(position.left));
         });
     }
 
@@ -333,7 +339,7 @@ $(document).ready(function () {
         $('#form-container').find('.draggable').each(function () {
             var contenu = {};
             contenu['ligne'] = $(this).position().top / 35 + 1;
-            if ($(this).position().left == 0) {
+            if ($(this).position().left < 10) {
                 contenu['colonne'] = 1;
             }
             else {

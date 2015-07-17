@@ -3,7 +3,7 @@ echo $this->Html->script('organisations.js');
 ?>
     <table class="table ">
         <thead>
-        <th class="thleft col-md-2">Organisation</th>
+        <th class="thleft col-md-2">Entité</th>
         <th class="thleft col-md-8">Synthèse</th>
         <th class='thleft col-md-2'>Actions</th>
         </thead>
@@ -51,7 +51,7 @@ echo $this->Html->script('organisations.js');
                                 'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
                                 'title' => 'Supprimer cette organisation',
                                 'escapeTitle' => false
-                            ), 'Voulez vous vraiment supprimer l\'organisation ' . $donnees[ 'Organisation' ][ 'raisonsociale' ]);
+                            ), 'Voulez vous vraiment supprimer l\'entité ' . $donnees[ 'Organisation' ][ 'raisonsociale' ]);
                         }
                         ?>
                     </div>
@@ -64,7 +64,7 @@ echo $this->Html->script('organisations.js');
     </table>
 <?php
 if ( $this->Autorisation->isSu() ) {
-    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter une organisation', array(
+    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter une entité', array(
         'controller' => 'organisations',
         'action' => 'add'
     ), array(
