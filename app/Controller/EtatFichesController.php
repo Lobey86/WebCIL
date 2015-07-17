@@ -341,7 +341,7 @@ class EtatFichesController extends AppController
             ));
         }
         else {
-            $this->Session->setFlash('Aucun CIL n\'a été défini pour cette organisation', 'flasherror');
+            $this->Session->setFlash('Aucun CIL n\'a été défini pour cette entité', 'flasherror');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
