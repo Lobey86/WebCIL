@@ -842,3 +842,7 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
         background: image-url('chosen-sprite@2x.png') 100% -20px / 52px 37px no-repeat scroll #fff !important;
     }
 }
+
+.navbar-brand {
+    padding: 0 0 0 0;
+}

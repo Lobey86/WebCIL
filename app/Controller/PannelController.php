@@ -182,7 +182,7 @@
         public function inbox()
         {
             if(!$this->Droits->authorized([2, 3, 5])) {
-                $this->redirect(['controller' => 'registre', 'action' => 'index']);
+                $this->redirect($this->referer());
             }
             $this->set('title', 'Fiches reçues');
             // Requète récupérant les fiches qui demande une validation
