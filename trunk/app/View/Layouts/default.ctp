@@ -63,11 +63,12 @@
                                         <span class="icon-bar"></span>
                                         <span class="icon-bar"></span>
                                     </button>
-                                    <?php echo $this->Html->link('Web-CIL', [
-                                        'plugin'     => NULL,
-                                        'controller' => 'pannel',
-                                        'action'     => 'index'
-                                    ], ['class' => 'navbar-brand']); ?></div>
+                                    <?php echo $this->Html->image('logo_WebCil.png', [
+                                        'alt'   => 'Web-Cil',
+                                        'url'   => [
+                                            'controller' => 'pannel',
+                                            'action'     => 'index'],
+                                        'class' => 'navbar-brand']); ?></div>
                                 <div class="navbar-collapse collapse">
 
                                     <?php
@@ -100,9 +101,8 @@
                                                                             ], ['escape' => FALSE]) . '</li>';
                                                                     }
                                                                     if($this->Autorisation->authorized([
-                                                                        '1',
                                                                         '2',
-                                                                        '5'
+                                                                        '3'
                                                                     ], $this->Session->read('Droit.liste'))
                                                                     ) {
                                                                         echo '<li>' . $this->Html->link('<i class="fa fa-inbox fa-fw"></i> Fiches reçues', [
@@ -133,81 +133,122 @@
 
                                                         <?php
                                                     }
-                                                    if($this->Autorisation->authorized([
-                                                        '4',
-                                                        '5',
-                                                        '6',
-                                                        '7'
-                                                    ], $this->Session->read('Droit.liste'))
-                                                    ) { ?>
-                                                        <li><?php echo $this->Html->link('Registre', [
-                                                            'plugin'     => '',
-                                                            'controller' => 'registres',
-                                                            'action'     => 'index'
-                                                        ]); ?></li><?php } ?>
+                                                ?>
+                                                <li><?php echo $this->Html->link('Registre', [
+                                                        'plugin'     => '',
+                                                        'controller' => 'registres',
+                                                        'action'     => 'index'
+                                                    ]); ?></li>
 
-
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                       data-toggle="dropdown">Administration
-                                                                              de <?php echo $this->Session->read('Organisation.raisonsociale'); ?>
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <?php
-
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i> Informations générales', [
-                                                                    'controller' => 'organisations',
-                                                                    'action'     => 'edit',
-                                                                    $this->Session->read('Organisation.id')
-                                                                ], ['escape' => FALSE]) . '</li>';
-
-
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-check-square-o fa-fw"></i> Formulaire', [
-                                                                    'controller' => 'Formulaires',
-                                                                    'action'     => 'index'
-                                                                ], ['escape' => FALSE]) . '</li>';
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i> Modèles', [
-                                                                    'controller' => 'modeles',
-                                                                    'action'     => 'index'
-                                                                ], ['escape' => FALSE]) . '</li>';
-                                                        ?>
-                                                    </ul>
-                                                </li>
-
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                       data-toggle="dropdown">Administration des utilisateurs
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <?php
-
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-tags fa-fw"></i> Profils', [
-                                                                    'controller' => 'roles',
-                                                                    'action'     => 'index'
-                                                                ], ['escape' => FALSE]) . '</li>';
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-sitemap fa-fw"></i> Services', [
-                                                                    'controller' => 'services',
-                                                                    'action'     => 'index'
-                                                                ], ['escape' => FALSE]) . '</li>';
-
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-users fa-fw"></i> Utilisateurs', [
-                                                                    'controller' => 'users',
-                                                                    'action'     => 'index'
-                                                                ], ['escape' => FALSE]) . '</li>';
-
-                                                            echo '<li class="divider"></li>';
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-user-plus fa-fw"></i> Ajouter un utilisateur', [
-                                                                    'controller' => 'users',
-                                                                    'action'     => 'add'
-                                                                ], ['escape' => FALSE]) . '</li>';
-
-
-                                                        ?>
-                                                    </ul>
-                                                </li>
                                                 <?php
+                                                    if($this->Autorisation->authorized([
+                                                        '11',
+                                                        '12'
+                                                    ], $this->Session->read('Droit.liste'))
+                                                    ) {
+                                                        ?>
+
+                                                        <li class="dropdown">
+                                                            <a href="#" class="dropdown-toggle"
+                                                               data-toggle="dropdown">Administration
+                                                                                      de <?php echo $this->Session->read('Organisation.raisonsociale'); ?>
+                                                                <span class="caret"></span>
+                                                            </a>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <?php
+                                                                    if($this->Autorisation->authorized([
+                                                                        '12',
+                                                                        '11'
+                                                                    ], $this->Session->read('Droit.liste'))
+                                                                    ) {
+                                                                        echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i> Informations générales', [
+                                                                                'controller' => 'organisations',
+                                                                                'action'     => 'edit',
+                                                                                $this->Session->read('Organisation.id')
+                                                                            ], ['escape' => FALSE]) . '</li>';
+                                                                    }
+
+                                                                    if($this->Autorisation->authorized([
+                                                                        '12'
+                                                                    ], $this->Session->read('Droit.liste'))
+                                                                    ) {
+                                                                        echo '<li>' . $this->Html->link('<i class="fa fa-check-square-o fa-fw"></i> Formulaire', [
+                                                                                'controller' => 'Formulaires',
+                                                                                'action'     => 'index'
+                                                                            ], ['escape' => FALSE]) . '</li>';
+                                                                        echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i> Modèles', [
+                                                                                'controller' => 'modeles',
+                                                                                'action'     => 'index'
+                                                                            ], ['escape' => FALSE]) . '</li>';
+                                                                    }
+                                                                ?>
+                                                            </ul>
+                                                        </li>
+                                                        <?php
+                                                    }
+                                                    if($this->Autorisation->authorized([
+                                                        '8',
+                                                        '9',
+                                                        '10',
+                                                        '11',
+                                                        '12',
+                                                        '13',
+                                                        '14',
+                                                        '15'
+                                                    ], $this->Session->read('Droit.liste'))
+                                                    ) {
+                                                        ?>
+                                                        <li class="dropdown">
+                                                            <a href="#" class="dropdown-toggle"
+                                                               data-toggle="dropdown">Administration des utilisateurs
+                                                                <span class="caret"></span>
+                                                            </a>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <?php
+                                                                    if($this->Autorisation->authorized([
+                                                                        '13',
+                                                                        '14',
+                                                                        '15'
+                                                                    ], $this->Session->read('Droit.liste'))
+                                                                    ) {
+                                                                        echo '<li>' . $this->Html->link('<i class="fa fa-tags fa-fw"></i> Profils', [
+                                                                                'controller' => 'roles',
+                                                                                'action'     => 'index'
+                                                                            ], ['escape' => FALSE]) . '</li>';
+                                                                    }
+                                                                    if($this->Autorisation->authorized([
+                                                                        '12',
+                                                                        '11'
+                                                                    ], $this->Session->read('Droit.liste'))
+                                                                    ) {
+                                                                        echo '<li>' . $this->Html->link('<i class="fa fa-sitemap fa-fw"></i> Services', [
+                                                                                'controller' => 'services',
+                                                                                'action'     => 'index'
+                                                                            ], ['escape' => FALSE]) . '</li>';
+                                                                    }
+                                                                    if($this->Autorisation->authorized([
+                                                                        '8',
+                                                                        '9',
+                                                                        '10'
+                                                                    ], $this->Session->read('Droit.liste'))
+                                                                    ) {
+                                                                        echo '<li>' . $this->Html->link('<i class="fa fa-users fa-fw"></i> Utilisateurs', [
+                                                                                'controller' => 'users',
+                                                                                'action'     => 'index'
+                                                                            ], ['escape' => FALSE]) . '</li>';
+
+                                                                        echo '<li class="divider"></li>';
+                                                                        echo '<li>' . $this->Html->link('<i class="fa fa-user-plus fa-fw"></i> Ajouter un utilisateur', [
+                                                                                'controller' => 'users',
+                                                                                'action'     => 'add'
+                                                                            ], ['escape' => FALSE]) . '</li>';
+                                                                    }
+
+                                                                ?>
+                                                            </ul>
+                                                        </li>
+                                                        <?php
+                                                    }
                                                     if($this->Session->read('Su')) {
                                                         ?>
                                                         <li class="dropdown">

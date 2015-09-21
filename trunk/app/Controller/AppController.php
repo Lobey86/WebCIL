@@ -38,6 +38,7 @@ class AppController extends Controller
         'FormGenerator.FormGen',
         'Droits',
         'Notifications',
+
         'Auth' => array(
             'loginRedirect' => array(
                 'controller' => 'organisations',
