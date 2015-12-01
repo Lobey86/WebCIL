@@ -21021,3 +21021,467 @@ Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
 Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
 [main] - APP/webroot/index.php, line 108
 'Erreur du serveur Cloudooo "http://192.168.2.35:8011/" (code 0): <type 'exceptions.TypeError'>:convertFile() takes at least 4 arguments (2 given)'
+2015-09-21 10:19:15 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-09-23 17:44:54 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-09-23 17:45:36 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-10-15 09:19:00 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-10-15 09:19:15 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-03 15:12:46 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-03 15:19:05 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-11-03 15:27:20 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-03 15:28:27 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-03 15:30:31 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-03 17:51:50 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:04:41 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:06:16 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:06:26 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:06:38 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:07:18 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:07:46 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:08:14 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-11-04 14:08:14 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-11-04 14:27:38 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:27:39 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:36:03 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-11-04 14:36:03 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-11-04 14:44:02 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:44:29 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:44:32 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:52:12 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-04 14:52:14 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-11-23 15:39:27 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:15:08 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:25:21 Notice: Notice (8): Undefined index: Count in [/var/www/webcil/app/View/Organisations/index.ctp, line 20]
+Trace:
+include - APP/View/Organisations/index.ctp, line 20
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::render() - CORE/Cake/View/View.php, line 460
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 192
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:25:21 Notice: Notice (8): Undefined index: Count in [/var/www/webcil/app/View/Organisations/index.ctp, line 20]
+Trace:
+include - APP/View/Organisations/index.ctp, line 20
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::render() - CORE/Cake/View/View.php, line 460
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 192
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:26:46 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-12-01 09:31:11 Notice: Notice (8): Undefined variable: file in [/var/www/webcil/app/Controller/ModelesController.php, line 33]
+Trace:
+ModelesController::download() - APP/Controller/ModelesController.php, line 33
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:31:11 Notice: Notice (8): Undefined variable: file in [/var/www/webcil/app/Controller/ModelesController.php, line 36]
+Trace:
+ModelesController::download() - APP/Controller/ModelesController.php, line 36
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:31:11 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error500() - CORE/Cake/Error/ExceptionRenderer.php, line 242
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-12-01 09:38:02 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:39:25 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:46:02 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:49:27 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error500() - CORE/Cake/Error/ExceptionRenderer.php, line 242
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-12-01 09:54:24 Notice: Notice (8): Undefined index: Service in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 10:14:35 Notice: Notice (8): Undefined index: OrganisationUserService in [/var/www/webcil/app/Controller/UsersController.php, line 475]
+Trace:
+UsersController::login() - APP/Controller/UsersController.php, line 475
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 10:33:02 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-12-01 11:15:38 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+
+2015-12-01 11:17:48 Notice: Notice (8): Undefined variable: title in [/var/www/webcil/app/View/Layouts/default.ctp, line 368]
+Trace:
+include - APP/View/Layouts/default.ctp, line 368
+View::_evaluate() - CORE/Cake/View/View.php, line 929
+View::_render() - CORE/Cake/View/View.php, line 891
+View::renderLayout() - CORE/Cake/View/View.php, line 523
+View::render() - CORE/Cake/View/View.php, line 468
+Controller::render() - CORE/Cake/Controller/Controller.php, line 952
+ExceptionRenderer::_outputMessage() - CORE/Cake/Error/ExceptionRenderer.php, line 273
+ExceptionRenderer::error400() - CORE/Cake/Error/ExceptionRenderer.php, line 219
+ExceptionRenderer::render() - CORE/Cake/Error/ExceptionRenderer.php, line 175
+ErrorHandler::handleException() - CORE/Cake/Error/ErrorHandler.php, line 120
+[main] - [internal], line ??
+

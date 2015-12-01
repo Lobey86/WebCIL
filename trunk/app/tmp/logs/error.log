@@ -58316,3 +58316,741 @@ Request URL: /css/jquery-ui.structure.min.css
 Stack Trace:
 #0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #1 {main}
+2015-07-10 17:14:56 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-10 17:15:25 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-10 17:40:03 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-10 17:40:22 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 08:42:29 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 08:43:09 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 08:43:54 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 08:44:47 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 09:43:52 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 09:45:58 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 09:46:25 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "AND"
+LINE 1: ...e"."user_id" = 1 AND "Fiche"."organisation_id" =  AND "EtatF...
+                                                             ^
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT "EtatFic...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT "EtatFic...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT "EtatFic...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(EtatFiche), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#6 /var/www/webcil/app/Controller/PannelController.php(83): Model->find('all', Array)
+#7 [internal function]: PannelController->index()
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(PannelController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 09:47:31 Error: [MissingTableException] Table organisations for model Organisation was not found in datasource default.
+Exception Attributes: array (
+  'table' => 'organisations',
+  'class' => 'Organisation',
+  'ds' => 'default',
+)
+Request URL: /users/logout
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Model.php(3496): Model->setSource('organisations')
+#1 /var/www/webcil/lib/Cake/Model/Model.php(2900): Model->getDataSource()
+#2 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#3 /var/www/webcil/app/Controller/AppController.php(62): Model->find('all', Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(28): AppController->beforeFilter()
+#5 [internal function]: UsersController->beforeFilter(Object(CakeEvent))
+#6 /var/www/webcil/lib/Cake/Event/CakeEventManager.php(247): call_user_func(Array, Object(CakeEvent))
+#7 /var/www/webcil/lib/Cake/Controller/Controller.php(674): CakeEventManager->dispatch(Object(CakeEvent))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(182): Controller->startupProcess()
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#10 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2015-07-15 09:47:32 Error: [MissingTableException] Table organisations for model Organisation was not found in datasource default.
+Exception Attributes: array (
+  'table' => 'organisations',
+  'class' => 'Organisation',
+  'ds' => 'default',
+)
+Request URL: /users/logout
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Model.php(3496): Model->setSource('organisations')
+#1 /var/www/webcil/lib/Cake/Model/Model.php(2900): Model->getDataSource()
+#2 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#3 /var/www/webcil/app/Controller/AppController.php(62): Model->find('all', Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(28): AppController->beforeFilter()
+#5 [internal function]: UsersController->beforeFilter(Object(CakeEvent))
+#6 /var/www/webcil/lib/Cake/Event/CakeEventManager.php(247): call_user_func(Array, Object(CakeEvent))
+#7 /var/www/webcil/lib/Cake/Controller/Controller.php(674): CakeEventManager->dispatch(Object(CakeEvent))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(182): Controller->startupProcess()
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#10 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2015-07-15 09:47:40 Error: [MissingTableException] Table organisations for model Organisation was not found in datasource default.
+Exception Attributes: array (
+  'table' => 'organisations',
+  'class' => 'Organisation',
+  'ds' => 'default',
+)
+Request URL: /
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Model.php(3496): Model->setSource('organisations')
+#1 /var/www/webcil/lib/Cake/Model/Model.php(2900): Model->getDataSource()
+#2 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('all', Array)
+#3 /var/www/webcil/app/Controller/AppController.php(62): Model->find('all', Array)
+#4 [internal function]: AppController->beforeFilter(Object(CakeEvent))
+#5 /var/www/webcil/lib/Cake/Event/CakeEventManager.php(247): call_user_func(Array, Object(CakeEvent))
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(674): CakeEventManager->dispatch(Object(CakeEvent))
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(182): Controller->startupProcess()
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(PannelController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 15:26:18 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near ")"
+LINE 1: ...S "Role"   WHERE "Role"."organisation_id" = (Array) AND "Rol...
+                                                             ^
+Request URL: /users/edit/52
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT COUNT(*)...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT COUNT(*)...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT COUNT(*)...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(Role), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('count', Array)
+#6 /var/www/webcil/app/Controller/UsersController.php(343): Model->find('count', Array)
+#7 [internal function]: UsersController->edit('52')
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 15:29:13 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near ")"
+LINE 1: ...S "Role"   WHERE "Role"."organisation_id" = (Array) AND "Rol...
+                                                             ^
+Request URL: /users/edit/52
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT COUNT(*)...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT COUNT(*)...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT COUNT(*)...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(Role), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('count', Array)
+#6 /var/www/webcil/app/Controller/UsersController.php(343): Model->find('count', Array)
+#7 [internal function]: UsersController->edit('52')
+#8 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#9 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#10 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#11 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2015-07-15 15:30:02 Error: [PDOException] SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "organisation_user_id" violates not-null constraint
+DETAIL:  Failing row contains (106, null, 67, 2015-07-15, 2015-07-15).
+Request URL: /users/edit/52
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(349): Model->save()
+#5 [internal function]: UsersController->edit('52')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 15:31:08 Error: [PDOException] SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "organisation_user_id" violates not-null constraint
+DETAIL:  Failing row contains (107, null, 67, 2015-07-15, 2015-07-15).
+Request URL: /users/edit/52
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(349): Model->save()
+#5 [internal function]: UsersController->edit('52')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 15:31:53 Error: [PDOException] SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "organisation_user_id" violates not-null constraint
+DETAIL:  Failing row contains (108, null, 67, 2015-07-15, 2015-07-15).
+Request URL: /users/edit/52
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(351): Model->save()
+#5 [internal function]: UsersController->edit('52')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 15:32:01 Error: [PDOException] SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "organisation_user_id" violates not-null constraint
+DETAIL:  Failing row contains (109, null, 67, 2015-07-15, 2015-07-15).
+Request URL: /users/edit/52
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(351): Model->save()
+#5 [internal function]: UsersController->edit('52')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 17:23:53 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near ","
+LINE 1: ...ole_id", "modified", "created") VALUES (184, Array, '2015-07...
+                                                             ^
+Request URL: /users/edit/55
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(357): Model->save()
+#5 [internal function]: UsersController->edit('55')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 17:25:14 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near ","
+LINE 1: ...ole_id", "modified", "created") VALUES (185, Array, '2015-07...
+                                                             ^
+Request URL: /users/edit/55
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(357): Model->save()
+#5 [internal function]: UsersController->edit('55')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 17:26:41 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near ","
+LINE 1: ...ole_id", "modified", "created") VALUES (186, Array, '2015-07...
+                                                             ^
+Request URL: /users/edit/55
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(357): Model->save()
+#5 [internal function]: UsersController->edit('55')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-15 17:27:09 Error: [PDOException] SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near ","
+LINE 1: ...ole_id", "modified", "created") VALUES (187, Array, '2015-07...
+                                                             ^
+Request URL: /users/edit/55
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(358): Model->save()
+#5 [internal function]: UsersController->edit('55')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-16 08:44:00 Error: Fatal Error (1): Call to undefined method DroitsComponent::deleteAll() in [/var/www/webcil/app/Controller/UsersController.php, line 316]
+2015-07-16 08:44:00 Error: [FatalErrorException] Call to undefined method DroitsComponent::deleteAll()
+Request URL: /users/edit/55
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Error/ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Call to undefin...', '/var/www/webcil...', 316)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to undefin...', '/var/www/webcil...', 316, Array)
+#2 /var/www/webcil/lib/Cake/Core/App.php(929): call_user_func('ErrorHandler::h...', 1, 'Call to undefin...', '/var/www/webcil...', 316, Array)
+#3 /var/www/webcil/lib/Cake/Core/App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2015-07-16 08:45:08 Error: [PDOException] SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "organisation_user_id" violates not-null constraint
+DETAIL:  Failing row contains (224, null, 60, 2015-07-16, 2015-07-16).
+Request URL: /users/edit/55
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserRole), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(363): Model->save()
+#5 [internal function]: UsersController->edit('55')
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-16 08:47:32 Error: [PDOException] SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "service_id" violates not-null constraint
+DETAIL:  Failing row contains (29, 222, null, 2015-07-16, 2015-07-16).
+Request URL: /users/add
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(OrganisationUserService), Array, Array)
+#4 /var/www/webcil/app/Controller/UsersController.php(211): Model->save()
+#5 [internal function]: UsersController->add()
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(UsersController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-07-16 09:07:50 Error: Fatal Error (1): Call to undefined function arrray_keys() in [/var/www/webcil/app/View/Users/add.ctp, line 147]
+2015-07-16 09:07:50 Error: [FatalErrorException] Call to undefined function arrray_keys()
+Request URL: /users/add
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Error/ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Call to undefin...', '/var/www/webcil...', 147)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to undefin...', '/var/www/webcil...', 147, Array)
+#2 /var/www/webcil/lib/Cake/Core/App.php(929): call_user_func('ErrorHandler::h...', 1, 'Call to undefin...', '/var/www/webcil...', 147, Array)
+#3 /var/www/webcil/lib/Cake/Core/App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2015-07-16 14:03:16 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:03:17 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:04:09 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:04:09 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:04:30 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:04:31 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:05:27 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:05:28 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:06:43 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 14:06:44 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-07-16 15:38:10 Error: Fatal Error (1): Call to a member function find() on a non-object in [/var/www/webcil/app/Controller/FichesController.php, line 305]
+2015-07-16 15:38:10 Error: [FatalErrorException] Call to a member function find() on a non-object
+Request URL: /fiches/genereFusion/93
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Error/ErrorHandler.php(203): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/var/www/webcil...', 305)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/var/www/webcil...', 305, Array)
+#2 /var/www/webcil/lib/Cake/Core/App.php(929): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/var/www/webcil...', 305, Array)
+#3 /var/www/webcil/lib/Cake/Core/App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2015-08-03 10:31:41 Error: [MissingControllerException] Controller class RegistreController could not be found.
+Exception Attributes: array (
+  'class' => 'RegistreController',
+  'plugin' => NULL,
+)
+Request URL: /registre
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-08-03 10:32:15 Error: [MissingControllerException] Controller class RegistreController could not be found.
+Exception Attributes: array (
+  'class' => 'RegistreController',
+  'plugin' => NULL,
+)
+Request URL: /registre
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-08-03 10:32:22 Error: [MissingControllerException] Controller class RegistreController could not be found.
+Exception Attributes: array (
+  'class' => 'RegistreController',
+  'plugin' => NULL,
+)
+Request URL: /registre
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-08-03 10:32:59 Error: [MissingControllerException] Controller class RegistreController could not be found.
+Exception Attributes: array (
+  'class' => 'RegistreController',
+  'plugin' => NULL,
+)
+Request URL: /registre
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-09-21 10:02:23 Error: Fatal Error (4): syntax error, unexpected 'echo' (T_ECHO), expecting ',' or ';' in [/var/www/webcil/app/View/Layouts/login.ctp, line 57]
+2015-09-21 10:02:23 Error: [FatalErrorException] syntax error, unexpected 'echo' (T_ECHO), expecting ',' or ';'
+Request URL: /users/login
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Error/ErrorHandler.php(203): ErrorHandler::handleFatalError(4, 'syntax error, u...', '/var/www/webcil...', 57)
+#1 [internal function]: ErrorHandler::handleError(4, 'syntax error, u...', '/var/www/webcil...', 57, Array)
+#2 /var/www/webcil/lib/Cake/Core/App.php(929): call_user_func('ErrorHandler::h...', 4, 'syntax error, u...', '/var/www/webcil...', 57, Array)
+#3 /var/www/webcil/lib/Cake/Core/App.php(902): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2015-11-03 15:19:05 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-11-04 14:08:14 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-11-04 14:08:14 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-11-04 14:36:03 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-11-04 14:36:03 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-12-01 09:26:46 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-12-01 09:31:11 Warning: Warning (2): Missing argument 1 for ModelesController::download() in [/var/www/webcil/app/Controller/ModelesController.php, line 31]
+Trace:
+ModelesController::download() - APP/Controller/ModelesController.php, line 31
+ReflectionMethod::invokeArgs() - [internal], line ??
+Controller::invokeAction() - CORE/Cake/Controller/Controller.php, line 490
+Dispatcher::_invoke() - CORE/Cake/Routing/Dispatcher.php, line 185
+Dispatcher::dispatch() - CORE/Cake/Routing/Dispatcher.php, line 160
+[main] - APP/webroot/index.php, line 108
+
+2015-12-01 09:31:11 Error: [PDOException] SQLSTATE[22P02]: Invalid text representation: 7 ERROR:  invalid input syntax for integer: "/var/www/webcil/app/files/modeles/"
+LINE 1: ... "public"."files" AS "File"   WHERE "File"."id" = '/var/www/...
+                                                             ^
+Request URL: /modeles/download
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('SELECT COUNT(*)...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(665): DboSource->execute('SELECT COUNT(*)...', Array, Array)
+#3 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1077): DboSource->fetchAll('SELECT COUNT(*)...', false)
+#4 /var/www/webcil/lib/Cake/Model/Model.php(2900): DboSource->read(Object(File), Array)
+#5 /var/www/webcil/lib/Cake/Model/Model.php(2872): Model->_readDataSource('count', Array)
+#6 /var/www/webcil/lib/Cake/Model/Model.php(2782): Model->find('count', Array)
+#7 /var/www/webcil/lib/Cake/Network/CakeResponse.php(1265): Model->exists()
+#8 /var/www/webcil/app/Controller/ModelesController.php(36): CakeResponse->file('files/modeles/', Array)
+#9 [internal function]: ModelesController->download()
+#10 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(ModelesController), Array)
+#11 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#12 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(ModelesController), Object(CakeRequest), Object(CakeResponse))
+#13 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#14 {main}
+2015-12-01 09:49:26 Error: [PDOException] SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "fiches_id" violates not-null constraint
+DETAIL:  Failing row contains (4, null, test, 2015-12-01, 2015-12-01).
+Request URL: /registres/edit
+Stack Trace:
+#0 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(458): PDOStatement->execute(Array)
+#1 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(424): DboSource->_execute('INSERT INTO "pu...', Array)
+#2 /var/www/webcil/lib/Cake/Model/Datasource/DboSource.php(1004): DboSource->execute('INSERT INTO "pu...')
+#3 /var/www/webcil/lib/Cake/Model/Model.php(1832): DboSource->create(Object(Modification), Array, Array)
+#4 /var/www/webcil/app/Controller/RegistresController.php(118): Model->save()
+#5 [internal function]: RegistresController->edit()
+#6 /var/www/webcil/lib/Cake/Controller/Controller.php(490): ReflectionMethod->invokeArgs(Object(RegistresController), Array)
+#7 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(185): Controller->invokeAction(Object(CakeRequest))
+#8 /var/www/webcil/lib/Cake/Routing/Dispatcher.php(160): Dispatcher->_invoke(Object(RegistresController), Object(CakeRequest), Object(CakeResponse))
+#9 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
+2015-12-01 10:33:02 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-12-01 11:15:38 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
+2015-12-01 11:17:48 Error: [MissingControllerException] Controller class CssController could not be found.
+Exception Attributes: array (
+  'class' => 'CssController',
+  'plugin' => NULL,
+)
+Request URL: /css/jquery-ui.structure.min.css
+Stack Trace:
+#0 /var/www/webcil/app/webroot/index.php(108): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#1 {main}
