@@ -24,7 +24,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique',
+                    'value' => $organisation['Organisation']['raisonsociale']
                 ));
                 echo $this->Form->input('declarantservice', array(
                     'label' => array(
@@ -36,7 +36,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['service']
                 ));
                 echo $this->Form->input('declarantadresse', array(
                     'label' => array(
@@ -49,7 +49,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['adresse']
                 ));
                 echo $this->Form->input('declarantemail', array(
                     'label' => array(
@@ -61,7 +61,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['email']
                 ));
                 ?>
 
@@ -78,7 +78,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['sigle']
                 ));
                 echo $this->Form->input('declarantsiret', array(
                     'label' => array(
@@ -90,7 +90,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['siret']
                 ));
                 echo $this->Form->input('declarantape', array(
                     'label' => array(
@@ -102,7 +102,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['ape']
                 ));
                 echo $this->Form->input('declaranttelephone', array(
                     'label' => array(
@@ -114,7 +114,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['telephone']
                 ));
                 echo $this->Form->input('declarantfax', array(
                     'label' => array(
@@ -126,7 +126,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'readonly' => 'readonly',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique'
+                    'value' => $organisation['Organisation']['fax']
                 ));
                 ?>
             </div>
