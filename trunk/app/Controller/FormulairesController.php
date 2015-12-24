@@ -7,7 +7,8 @@ class FormulairesController extends AppController
         'FormGenerator.Formulaire',
         'FormGenerator.Champ',
         'FormGeneric',
-        'Fiche'
+        'Fiche',
+        'Organisation'
     );
 
     public function index()
@@ -58,12 +59,18 @@ class FormulairesController extends AppController
                 $this->Formulaire->getInsertId()
             ));
         }
-    }
+    } 
 
     public function add($id = null)
     {
+        $organisation =  $this->Organisation->find('first', array(
+            'conditions' => array('Organisation.id' => $this->Session->read('Organisation.id'))
+        ));
+
+        $organisation['Organisation']['service'] = ($this->Session->read('User.service') == null)? '' : $this->Session->read('User.service');
+        
         $this->set('title', 'Créer un formulaire');
-        $this->set(compact('id'));
+        $this->set(compact(['id', 'organisation']));
         if($this->request->is('POST')) {
             if($id == null) {
                 $id = $this->request->data['Formulaire']['id'];
@@ -117,10 +124,15 @@ class FormulairesController extends AppController
 
     public function edit($id = null)
     {
+        $organisation =  $this->Organisation->find('first', array(
+            'conditions' => array('Organisation.id' => $this->Session->read('Organisation.id'))
+        ));
+
+        $organisation['Organisation']['service'] = ($this->Session->read('User.service') == null)? '' : $this->Session->read('User.service');
+        
         $this->set('title', 'Editer un formulaire');
-        $this->set(compact('id'));
         $champs = $this->Champ->find('all', array('conditions' => array('formulaires_id' => $id)));
-        $this->set(compact('champs'));
+        $this->set(compact(['id', 'organisation', 'champs']));
         $this->Formulaire->updateAll(array('active' => 0), array('id' => $id));
         if($this->request->is(array(
             'POST',
