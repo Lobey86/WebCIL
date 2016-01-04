@@ -21,7 +21,8 @@
             'FormGeneric',
             'FormGenerator.Champ',
             'Valeur',
-            'Modele'
+            'Modele',
+            'Extrait'
         ];
 
 
@@ -283,8 +284,8 @@
 
 
         /**
-         *** Gère le téléchargement des pieces jointes d'une fiche
-         **/
+        ** Gère le téléchargement des pieces jointes d'une fiche
+        */
 
         public function download($url = NULL)
         {
@@ -293,23 +294,41 @@
                 'name'     => 'file'
             ]);
         }
+        
+        /**
+        ** Gère le téléchargement des extraits de registre
+        */
+        public function downloadFile($id_fiche)
+        {
+            $data = $this->Valeur->find('all', ['conditions' => ['fiche_id' => $id_fiche]]);
+     
+            $pdf = $this->Extrait->find('first', [
+                'conditions' => ['id_fiche' => $id_fiche],
+                'fields' => ['data']
+            ]);
+            
+            header("content-type: application/pdf");
+            header('Content-Disposition: attachment; filename="'.$data[11]['Valeur']['valeur'].'_CIL00'.$id_fiche.'.pdf"');
+            echo($pdf['Extrait']['data']);
+        }
 
 
         /**
          *** Génération PDF à la volée
          **/
-        function genereFusion($id)
+        function genereFusion($id, $save = false)
         {
             App::uses('FusionConvBuilder', 'FusionConv.Utility');
+            
             $data = $this->Valeur->find('all', ['conditions' => ['fiche_id' => $id]]);
             $fiche = $this->Fiche->find('first', ['conditions' => ['id' => $id]]);
             $modele = $this->Modele->find('first', ['conditions' => ['formulaires_id' => $fiche['Fiche']['form_id']]]);
+            
             if(!empty($modele)) {
                 $file = $modele['Modele']['fichier'];
             } else {
                 $file = '1.odt';
             }
-
 
             $donnees = [];
             foreach($data as $key => $value) {
@@ -323,12 +342,10 @@
                 $types['Valeur.' . $key] = 'text';
             }
 
-
             $correspondances = [];
             foreach($donnees['Valeur'] as $key => $value) {
                 $correspondances['valeur_' . $key] = 'Valeur.' . $key;
             }
-
 
             $MainPart = new GDO_PartType();
 
@@ -342,13 +359,21 @@
             $Fusion->process();
             App::uses('FusionConvConverterCloudooo', 'FusionConv.Utility/Converter');
             $pdf = FusionConvConverterCloudooo::convert($Fusion->getContent()->binary);
-
-
-            $this->response->disableCache();
-            $this->response->body($pdf);
-            $this->response->type('application/pdf');
-            $this->response->download($id . '.pdf');
-
-            return $this->response;
+            
+            if($save == false){
+                $this->response->disableCache();
+                $this->response->body($pdf);
+                $this->response->type('application/pdf');
+                $this->response->download($data[11]['Valeur']['valeur'].'_'.'CIL00'.$id . '.pdf');
+                
+                return $this->response;
+            } else{
+                $this->Extrait->save(['id_fiche'=>$id,'data'=> $pdf]);
+                
+                $this->redirect(array(
+                    'controller'=>'registres',
+                    'action' => 'index'
+                ));
+            }
         }
     }

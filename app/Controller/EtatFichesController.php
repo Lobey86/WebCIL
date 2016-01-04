@@ -387,7 +387,7 @@ class EtatFichesController extends AppController
                 'action' => 'index'
             ));
         }
-
+        
     }
 
 
@@ -396,7 +396,6 @@ class EtatFichesController extends AppController
      **/
     public function archive($id)
     {
-
         if ( !$id ) {
             $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
             $this->redirect(array(
@@ -422,12 +421,12 @@ class EtatFichesController extends AppController
                 )
             ));
 
-// TODO: Génération PDF définitive
-
             $this->Session->setFlash('La fiche a été archivée', 'flashsuccess');
             $this->redirect(array(
-                'controller' => 'registres',
-                'action' => 'index'
+                'controller' => 'Fiches',
+                'action' => 'genereFusion',
+                $id,
+                true
             ));
         }
     }

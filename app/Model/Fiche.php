@@ -6,6 +6,17 @@ class Fiche extends AppModel
     public $name = 'Fiche';
 
     /**
+     * hasOne associations
+     * @var array
+     */
+    public $hasOne = array(
+        'Extrait' => array(
+            'className' => 'Extrait',
+            'foreignKey' => 'fiche_id'
+        ),
+    );
+    
+    /**
      * belongsTo associations
      * @var array
      */
@@ -56,7 +67,6 @@ class Fiche extends AppModel
             'dependant' => true
         )
     );
-
 
     public function isOwner($idUser = NULL, $fiche = NULL)
     {
