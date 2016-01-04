@@ -196,7 +196,8 @@
                     'after'   => '</div>',
                     'class'   => 'form-control',
                     'div'     => 'form-group',
-                    'type'    => 'textarea'
+                    'type'    => 'textarea',
+                    'required' => 'required'
                 ]);
             ?>
         </div>
@@ -320,7 +321,6 @@
 </div>
 </div>
 <hr/>';
-
 
     echo '<div class="col-md-6 form-horizontal top17">' . $this->Form->input('fichiers.', [
             'type'    => 'file',
