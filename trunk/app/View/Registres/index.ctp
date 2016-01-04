@@ -5,15 +5,17 @@ echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span>Filtre
     'class' => 'btn btn-default-primary btn-sm pull-right',
     'id' => 'filtrage'
 ));
+
 ?>
 <div id="divFiltrage">
     <?php
     echo $this->Form->create('Registre', $options = array('action' => 'index'));
+
     ?>
     <div class="input-group login">
-		<span class="input-group-addon">
-			<span class="glyphicon glyphicon-user"></span>
-		</span>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+        </span>
         <?php
         echo $this->Form->input('user', array(
             'options' => $listeUsers,
@@ -21,22 +23,24 @@ echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span>Filtre
             'empty' => 'Selectionnez un utilisateur',
             'label' => false
         ));
+
         ?>
     </div>
     <div class="input-group login">
-		<span class="input-group-addon">
-			<span class="glyphicon glyphicon-tag"></span>
-		</span>
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-tag"></span>
+        </span>
         <?php
         echo $this->Form->input('outil', array(
             'class' => 'form-control',
             'placeholder' => 'Nom du traitement',
             'label' => false
         ));
+
         ?>
     </div>
     <?php
-    if($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
+    if ($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
         echo '<div class = "input-group login">';
         echo $this->Form->input('archive', array(
             'type' => 'checkbox',
@@ -55,14 +59,16 @@ echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span>Filtre
     echo $this->Html->link('Supprimer les filtres', array(
         'controller' => 'registres',
         'action' => 'index'
-    ), array('class' => 'btn btn-default-danger pull-right'));
+        ), array('class' => 'btn btn-default-danger pull-right'));
     echo $this->Form->submit('Filtrer', array('class' => 'btn btn-default-primary'));
     echo $this->Form->end();
+
     ?>
 
 </div>
 <?php
-if(!empty($fichesValid)) {
+if (!empty($fichesValid)) {
+
     ?>
     <table class="table ">
         <thead>
@@ -75,15 +81,22 @@ if(!empty($fichesValid)) {
         <th class="thleft col-md-2">
             Outils
         </th>
-        </thead>
-        <tbody>
+    </thead>
+    <tbody>
         <?php
-        foreach($fichesValid as $key => $value) {
-            if($value['Fiche']['numero'] != NULL) {
+        foreach ($fichesValid as $key => $value) {
+            if ($value['Fiche']['numero'] != NULL) {
                 $numero = $value['Fiche']['numero'];
             } else {
                 $numero = 'CIL00' . $value['Fiche']['id'];
             }
+            
+            if ($value['EtatFiche']['etat_id'] != 7){
+                $DlOrGenerate = 'genereFusion';
+            } else {
+                $DlOrGenerate = 'downloadFile';
+            }
+
             echo '
 				<tr>
 					<td class="tdleft">
@@ -105,27 +118,27 @@ if(!empty($fichesValid)) {
                     </div>
 					</td>
 					<td class="tdleft">
-					<div class="btn-group">' . $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
+                    <div class="btn-group">' . $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
                     'controller' => 'fiches',
-                    'action' => 'genereFusion',
-                    $value['Fiche']['id']
+                    'action' => $DlOrGenerate,
+                    $value['Fiche']['id'],
                 ), array(
-                    'escape' => false,
-                    'class' => 'btn btn-default-default btn-sm my-tooltip',
-                    'title' => 'Télécharger l\'extrait de registre'
-                ));
-            if($value['Readable']) {
+                'escape' => false,
+                'class' => 'btn btn-default-default btn-sm my-tooltip',
+                'title' => 'Télécharger l\'extrait de registre'
+            ));
+            if ($value['Readable']) {
                 echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
                     'controller' => 'fiches',
                     'action' => 'show',
                     $value['Fiche']['id']
-                ), array(
+                    ), array(
                     'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                     'title' => 'Voir la fiche',
                     'escapeTitle' => false
                 ));
             }
-            if(($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] != 7) {
+            if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] != 7) {
                 echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array(
                     'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip btn-edit-registre',
                     'escapeTitle' => false,
@@ -133,28 +146,28 @@ if(!empty($fichesValid)) {
                     'data-target' => '#modalEditRegistre',
                     'title' => 'Modifier la fiche'
                 ));
-                if($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
+                if ($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
                     echo $this->Html->link('<span class="glyphicon glyphicon-lock"></span>', array(
                         'controller' => 'etatFiches',
                         'action' => 'archive',
                         $value['Fiche']['id']
-                    ), array(
+                        ), array(
                         'class' => 'btn btn-default-danger boutonArchive btn-sm my-tooltip',
                         'title' => 'Vérouiller la fiche',
                         'escapeTitle' => false
-                    ), 'Voulez-vous vérouiller cette fiche? Une fois vérouillée, toute modification est impossible.');
+                        ), 'Voulez-vous vérouiller cette fiche? Une fois vérouillée, toute modification est impossible.');
                 }
             }
             echo '</div></td>
 					</tr>';
-
         }
+
         ?>
-        </tbody>
+    </tbody>
     </table>
-<?php
+    <?php
 } else {
-    if($search) {
+    if ($search) {
         echo "<div class='text-center'><h3>Il n'y a aucune fiche pour ces filtres <small>";
         echo $this->Html->link('Cliquez ici pour annuler les filtres', array(
             'controller' => 'registres',
@@ -165,6 +178,7 @@ if(!empty($fichesValid)) {
         echo "<div class='text-center'><h3>Il n'y a aucune fiche à afficher</h3></div>";
     }
 }
+
 ?>
 <div class="modal fade" id="modalEditRegistre" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -180,8 +194,8 @@ if(!empty($fichesValid)) {
                     <div class="col-md-12 text-warning">
                         <div class="col-md-12 text-center"><i class="fa fa-fw fa-exclamation-triangle"></i></div>
                         <div class="col-md-12">Vous allez modifier une fiche insérée au registre. Merci de préciser le
-                                               motif de cette
-                                               modification
+                            motif de cette
+                            modification
                         </div>
 
                     </div>
@@ -206,6 +220,7 @@ if(!empty($fichesValid)) {
                             'required' => 'required'
                         ));
                         echo $this->Form->hidden('idEditRegistre', array('id' => 'idEditRegistre'));
+
                         ?>
                     </div>
                 </div>
@@ -213,9 +228,10 @@ if(!empty($fichesValid)) {
             <div class="modal-footer">
                 <button type="button" class="btn btn-default-default" data-dismiss="modal">Annuler</button>
                 <button type="submit" class="btn btn-default-success">Modifier la fiche</button>
-                <?php
-                echo $this->Form->end();
-                ?>
+<?php
+echo $this->Form->end();
+
+?>
             </div>
         </div>
     </div>
