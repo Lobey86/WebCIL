@@ -11,7 +11,6 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 $cakeDescription = 'Web-CIL';
 ?>
 <!DOCTYPE html>
@@ -332,31 +331,35 @@ $cakeDescription = 'Web-CIL';
                                            data-toggle="dropdown">
                                             <span class="glyphicon glyphicon-envelope"></span>
                                         </a>
-                                        <ul class="dropdown-menu" role="menu">
+                                        <ul class="info_notification dropdown-menu" role="menu">
 
                                             <?php
                                             if (empty($notificationsStayed)) {
                                                 echo '<li class="dropdown-header">Aucune notification</li>';
                                             }
+
                                             foreach ($notificationsStayed as $key => $value) {
-                                                switch ($value['Notification']['content']) {
-                                                    case 1:
-                                                        echo '<li class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
-                                                        break;
-                                                    case 2:
-                                                        echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
-                                                        break;
-                                                    case 3:
-                                                        echo '<li class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</li>';
-                                                        break;
-                                                    case 4:
-                                                        echo '<li class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</li>';
-                                                        break;
-                                                    case 5:
-                                                        echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
-                                                        break;
+                                                if($this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']){
+                                                    switch ($value['Notification']['content']) {
+                                                        case 1:
+                                                            echo '<li class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
+                                                            break;
+                                                        case 2:
+                                                            echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
+                                                            break;
+                                                        case 3:
+                                                            echo '<li class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</li>';
+                                                            break;
+                                                        case 4:
+                                                            echo '<li class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</li>';
+                                                            break;
+                                                        case 5:
+                                                            echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
+                                                            break;
+                                                    }
                                                 }
                                             }
+                                            
                                             if (!empty($notificationsStayed)) {
                                                 echo '<li>' . $this->Html->link('<i class="fa fa-fw fa-trash"></i> Effacer les notifications',
                                                         [
@@ -380,6 +383,7 @@ $cakeDescription = 'Web-CIL';
                 </div>
 
             </div>
+            
             <?php echo $this->Session->flash();
             if ($this->params['action'] != 'login') {
                 ?>
@@ -403,16 +407,32 @@ $cakeDescription = 'Web-CIL';
             <!-- Modal de notification -->
             <?php
             if (!empty($notifications)) {
-                echo '
-                    <div class="modal fade" id="modalNotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
+                $this->Organisation = new Organisation();
+                
+                echo '<div class="modal fade" id="modalNotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
                             <h4 class="modal-title" id="myModalLabel">Nouvelles notifications</h4>
                         </div>
-                        <div class="modal-body">
-                        <ul class="list-group">';
+                    <div class="modal-body">';
+                
+                $oldmairie = '';
+                
                 foreach ($notifications as $key => $value) {
+                    $nameOrganisation = $this->Organisation->find('first', [
+                        'conditions' => ['id' => $value['Fiche']['organisation_id']],
+                        'fields'=>['raisonsociale']
+                    ]);
+                    
+                    $mairie = $nameOrganisation['Organisation']['raisonsociale'];
+                    
+                    if($oldmairie != $mairie) {
+                        echo '<div class="modal-header">
+                                <h5 class="modal-title" id="myModalLabel">'.$mairie.'</h5>
+                            </div>';
+                    }
+                        
                     switch ($value['Notification']['content']) {
                         case 1:
                             echo '<li class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
@@ -430,12 +450,12 @@ $cakeDescription = 'Web-CIL';
                             echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
                             break;
                     }
+                    $oldmairie = $mairie;
                 }
 
-
-                echo '</ul>
-                        </div>
-                        <div class="modal-footer">';
+                echo '</div>
+                    <div class="modal-footer">';
+                
                 echo $this->Html->link('Fermer', [
                     'controller' => 'pannel',
                     'action' => 'validNotif'
@@ -445,6 +465,7 @@ $cakeDescription = 'Web-CIL';
                 ]);
 
                 echo '</div>
+                    </div>
                     </div>
                 </div>
             </div>';
