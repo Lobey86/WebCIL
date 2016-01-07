@@ -522,7 +522,7 @@ $cakeDescription = 'Web-CIL';
         </div>
         <div id="footer" class="container-fluid-custom">
             <div class="text-center versioning">
-                Web-CIL V0.9 - Adullact-Projet
+                Web-CIL V0.9.0 - Adullact-Projet
             </div>
         </div>
     </div>
