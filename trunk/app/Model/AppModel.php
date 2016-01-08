@@ -1,35 +1,31 @@
 <?php
+
 /**
- * Application model for CakePHP.
+ * Model AppModel
  *
- * This file is application-wide model file. You can put all
- * application-wide model-related methods here.
+ * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
+ * 
+ * Copyright (c) Adullact (http://www.adullact.org)
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
+ * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Model
- * @since         CakePHP(tm) v 0.2.9
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * 
+ * @copyright   Copyright (c) Adullact (http://www.adullact.org)
+ * @link        https://adullact.net/projects/webcil/
+ * @since       webcil v0.9.0
+ * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
+ * @version     v0.9.0
+ * @package     AppModel
  */
-
 App::uses('Model', 'Model');
 
-/**
- * Application model for Cake.
- *
- * Add your application-wide methods in the class below, your models
- * will inherit them.
- *
- * @package       app.Model
- */
 class AppModel extends Model {
-	public $recursive = -1;
-	public $actsAs = array( 'DatabaseTable', 'Containable' );
+
+    public $recursive = -1;
+    public $actsAs = array('DatabaseTable', 'Containable');
+
 }

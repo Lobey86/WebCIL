@@ -1,11 +1,43 @@
 <?php
+
+/**
+ * Model User
+ *
+ * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
+ * 
+ * Copyright (c) Adullact (http://www.adullact.org)
+ *
+ * Licensed under The CeCiLL V2 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @copyright   Copyright (c) Adullact (http://www.adullact.org)
+ * @link        https://adullact.net/projects/webcil/
+ * @since       webcil v0.9.0
+ * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
+ * @version     v0.9.0
+ * @package     AppModel
+ */
 App::uses('AppModel', 'Model');
 App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 
-class User extends AppModel
-{
+class User extends AppModel {
+
     public $name = 'User';
     public $actAs = array('Password');
+
+    /**
+     * validate associations
+     *
+     * @var array
+     * 
+     * @access public
+     * @created 24/10/2015
+     * @version V0.9.0
+     */
     public $validate = array(
         'username' => array(
             array(
@@ -48,6 +80,15 @@ class User extends AppModel
         )
     );
 
+    /**
+     * hasAndBelongsToMany associations
+     *
+     * @var array
+     * 
+     * @access public
+     * @created 18/12/2015
+     * @version V0.9.0
+     */
     public $hasAndBelongsToMany = array(
         'Organisation' => array(
             'className' => 'Organisation',
@@ -64,9 +105,15 @@ class User extends AppModel
             'with' => 'OrganisationUser'
         )
     );
+
     /**
      * hasMany associations
+     * 
      * @var array
+     * 
+     * @access public
+     * @created 26/03/2015
+     * @version V0.9.0 
      */
     public $hasMany = array(
         'Fiche' => array(
@@ -103,7 +150,12 @@ class User extends AppModel
 
     /**
      * hasOne associations
+     * 
      * @var array
+     * 
+     * @access public
+     * @created 26/06/2015
+     * @version V0.9.0
      */
     public $hasOne = array(
         'Admin' => array(
@@ -113,27 +165,43 @@ class User extends AppModel
         )
     );
 
-    public function beforeSave($options = array())
-    {
-        if ( isset($this->data[ $this->alias ][ 'password' ]) ) {
+    /**
+     * @param type $options
+     * @return boolean
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function beforeSave($options = array()) {
+        if (isset($this->data[$this->alias]['password'])) {
             $passwordHasher = new SimplePasswordHasher();
-            $this->data[ $this->alias ][ 'password' ] = $passwordHasher->hash($this->data[ $this->alias ][ 'password' ]);
+            $this->data[$this->alias]['password'] = $passwordHasher->hash($this->data[$this->alias]['password']);
         }
         return true;
     }
 
-    function comparePassword($field = array(), $compareField = null)
-    {
-        foreach ( $field as $key => $value ) {
+    /**
+     * @param type $field
+     * @param type|null $compareField
+     * @return boolean
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    function comparePassword($field = array(), $compareField = null) {
+        foreach ($field as $key => $value) {
             $v1 = $value;
-            $v2 = $this->data[ $this->name ][ $compareField ];
+            $v2 = $this->data[$this->name][$compareField];
 
-            if ( $v1 != $v2 ) return false;
-            else
+            if ($v1 != $v2) {
+                return false;
+            } else {
                 continue;
+            }
         }
         return true;
     }
-
 
 }
