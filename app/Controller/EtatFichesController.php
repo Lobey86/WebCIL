@@ -1,10 +1,28 @@
 <?php
 
-/**************************************************
- ** Controller de l'état de validation des fiches **
- **************************************************/
-class EtatFichesController extends AppController
-{
+/**
+ * EtatFichesController
+ * Controller de l'état de validation des fiches
+ *
+ * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
+ * 
+ * Copyright (c) Adullact (http://www.adullact.org)
+ *
+ * Licensed under The CeCiLL V2 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @copyright   Copyright (c) Adullact (http://www.adullact.org)
+ * @link        https://adullact.net/projects/webcil/
+ * @since       webcil v0.9.0
+ * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
+ * @version     v0.9.0
+ * @package     App.Controller
+ */
+class EtatFichesController extends AppController {
 
     public $uses = array(
         'EtatFiche',
@@ -16,42 +34,44 @@ class EtatFichesController extends AppController
     );
 
     /**
-     *** Envoie ou renvoie une fiche en validation et crée les états
-     **/
-
-    public function sendValidation()
-    {
+     * Envoie ou renvoie une fiche en validation et crée les états
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function sendValidation() {
         $idEncoursValid = $this->EtatFiche->find('first', array(
             'conditions' => array(
-                'EtatFiche.fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ],
+                'EtatFiche.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
                 'EtatFiche.etat_id' => 2
             ),
             'fields' => 'id'
         ));
-        if ( !empty($idEncoursValid) ) {
-            $id = $idEncoursValid[ 'EtatFiche' ][ 'id' ];
+        if (!empty($idEncoursValid)) {
+            $id = $idEncoursValid['EtatFiche']['id'];
             $this->EtatFiche->id = $id;
             $this->EtatFiche->saveField('etat_id', 3);
         }
         $this->EtatFiche->create(array(
             'EtatFiche' => array(
-                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ],
+                'fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
                 'etat_id' => 2,
                 'previous_user_id' => $this->Auth->user('id'),
-                'user_id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ]
+                'user_id' => $this->request->data['EtatFiche']['destinataire']
             )
         ));
         $this->EtatFiche->save();
-        $this->Notifications->add(2, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ], $this->request->data[ 'EtatFiche' ][ 'destinataire' ]);
+        $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
         $destinataire = $this->User->find('first', array(
             'conditions' => array(
-                'id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ]
+                'id' => $this->request->data['EtatFiche']['destinataire']
             )
         ));
         $this->Historique->create(array(
             'Historique' => array(
-                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche à ' . $destinataire[ 'User' ][ 'prenom' ] . ' ' . $destinataire[ 'User' ][ 'nom' ] . ' pour validation',
-                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche à ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' pour validation',
+                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
             )
         ));
 
@@ -61,40 +81,40 @@ class EtatFichesController extends AppController
             'controller' => 'pannel',
             'action' => 'index'
         ));
-
     }
 
-
     /**
-     *** Envoie une fiche en réorientation
-     **/
-
-    public function reorientation()
-    {
-        $this->EtatFiche->delete($this->request->data[ 'EtatFiche' ][ 'etatFiche' ]);
+     * Envoie une fiche en réorientation
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function reorientation() {
+        $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
         $this->EtatFiche->create(array(
             'EtatFiche' => array(
-                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ],
+                'fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
                 'etat_id' => 2,
                 'previous_user_id' => $this->Auth->user('id'),
-                'user_id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ]
+                'user_id' => $this->request->data['EtatFiche']['destinataire']
             )
         ));
         $this->EtatFiche->save();
         $destinataire = $this->User->find('first', array(
             'conditions' => array(
-                'id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ]
+                'id' => $this->request->data['EtatFiche']['destinataire']
             )
         ));
         $this->Historique->create(array(
             'Historique' => array(
-                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' réoriente la fiche vers ' . $destinataire[ 'User' ][ 'prenom' ] . ' ' . $destinataire[ 'User' ][ 'nom' ] . ' pour validation',
-                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' réoriente la fiche vers ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' pour validation',
+                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
             )
         ));
         $this->Historique->save();
-        $this->Notifications->del(2, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]);
-        $this->Notifications->add(2, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ], $this->request->data[ 'EtatFiche' ][ 'destinataire' ]);
+        $this->Notifications->del(2, $this->request->data['EtatFiche']['ficheNum']);
+        $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
         $this->Session->setFlash('La fiche a été redirigée', 'flashsuccess');
         $this->redirect(array(
             'controller' => 'pannel',
@@ -102,34 +122,35 @@ class EtatFichesController extends AppController
         ));
     }
 
-
     /**
-     *** Gère le refus de validation et le commentaire associé
-     **/
-
-    public function refuse()
-    {
+     * Gère le refus de validation et le commentaire associé
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function refuse() {
         $idEncoursValid = $this->EtatFiche->find('first', array(
             'conditions' => array(
-                'EtatFiche.fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ],
+                'EtatFiche.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
                 'EtatFiche.etat_id' => 2
             ),
             'fields' => 'id'
         ));
-        $id = $idEncoursValid[ 'EtatFiche' ][ 'id' ];
+        $id = $idEncoursValid['EtatFiche']['id'];
         $this->EtatFiche->id = $id;
         $this->EtatFiche->saveField('etat_id', 4);
         $idDestinataire = $this->Fiche->find('first', array(
-            'conditions' => array('Fiche.id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]),
+            'conditions' => array('Fiche.id' => $this->request->data['EtatFiche']['ficheNum']),
             'fields' => array('id'),
             'contain' => array('User' => array('id'))
         ));
-        $idDestinataire = $idDestinataire[ 'User' ][ 'id' ];
+        $idDestinataire = $idDestinataire['User']['id'];
 
         $this->Commentaire->create(array(
             'Commentaire' => array(
                 'etat_fiches_id' => $id,
-                'content' => $this->request->data[ 'EtatFiche' ][ 'content' ],
+                'content' => $this->request->data['EtatFiche']['content'],
                 'user_id' => $this->Auth->user('id'),
                 'destinataire_id' => $idDestinataire
             )
@@ -138,11 +159,11 @@ class EtatFichesController extends AppController
         $this->Historique->create(array(
             'Historique' => array(
                 'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' refuse la fiche',
-                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
             )
         ));
         $this->Historique->save();
-        $this->Notifications->add(4, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ], $idDestinataire);
+        $this->Notifications->add(4, $this->request->data['EtatFiche']['ficheNum'], $idDestinataire);
         $this->Session->setFlash('La fiche a été refusée', 'flashsuccess');
         $this->redirect(array(
             'controller' => 'pannel',
@@ -150,52 +171,52 @@ class EtatFichesController extends AppController
         ));
     }
 
-
     /**
-     *** Gère l'envoie de la demande d'avis
-     **/
-
-    public function askAvis()
-    {
+     * Gère l'envoie de la demande d'avis
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function askAvis() {
         $count = $this->EtatFiche->find('count', array(
             'conditions' => array(
                 'previous_user_id' => $this->Auth->user('id'),
-                'user_id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ],
-                'previous_etat_id' => $this->request->data[ 'EtatFiche' ][ 'etatFiche' ],
-                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                'user_id' => $this->request->data['EtatFiche']['destinataire'],
+                'previous_etat_id' => $this->request->data['EtatFiche']['etatFiche'],
+                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
             )
         ));
-        if ( $count > 0 ) {
+        if ($count > 0) {
             $this->Session->setFlash('La fiche est déjà en attente d\'avis de la part de cet utilisateur', 'flashwarning');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
             ));
-        }
-        else {
+        } else {
             $this->EtatFiche->create(array(
                 'EtatFiche' => array(
                     'etat_id' => 6,
                     'previous_user_id' => $this->Auth->user('id'),
-                    'user_id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ],
-                    'previous_etat_id' => $this->request->data[ 'EtatFiche' ][ 'etatFiche' ],
-                    'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                    'user_id' => $this->request->data['EtatFiche']['destinataire'],
+                    'previous_etat_id' => $this->request->data['EtatFiche']['etatFiche'],
+                    'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
                 )
             ));
             $this->EtatFiche->save();
             $destinataire = $this->User->find('first', array(
                 'conditions' => array(
-                    'id' => $this->request->data[ 'EtatFiche' ][ 'destinataire' ]
+                    'id' => $this->request->data['EtatFiche']['destinataire']
                 )
             ));
             $this->Historique->create(array(
                 'Historique' => array(
-                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' demande l\'avis de ' . $destinataire[ 'User' ][ 'prenom' ] . ' ' . $destinataire[ 'User' ][ 'nom' ],
-                    'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' demande l\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
+                    'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
                 )
             ));
             $this->Historique->save();
-            $this->Notifications->add(1, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ], $this->request->data[ 'EtatFiche' ][ 'destinataire' ]);
+            $this->Notifications->add(1, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
 
             $this->Session->setFlash('La fiche a été envoyée pour avis', 'flashsuccess');
             $this->redirect(array(
@@ -205,43 +226,44 @@ class EtatFichesController extends AppController
         }
     }
 
-
     /**
-     *** Gère la réponse à une demande d'avis
-     **/
-
-    public function answerAvis()
-    {
+     * Gère la réponse à une demande d'avis
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function answerAvis() {
         $idEncoursAnswer = $this->EtatFiche->find('first', array(
-            'conditions' => array('EtatFiche.id' => $this->request->data[ 'EtatFiche' ][ 'etatFiche' ]),
+            'conditions' => array('EtatFiche.id' => $this->request->data['EtatFiche']['etatFiche']),
             'fields' => 'previous_etat_id'
         ));
-        $id = $idEncoursAnswer[ 'EtatFiche' ][ 'previous_etat_id' ];
-        $this->EtatFiche->delete($this->request->data[ 'EtatFiche' ][ 'etatFiche' ]);
+        $id = $idEncoursAnswer['EtatFiche']['previous_etat_id'];
+        $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
 
         $this->Commentaire->create(array(
             'Commentaire' => array(
                 'etat_fiches_id' => $id,
-                'content' => $this->request->data[ 'EtatFiche' ][ 'commentaireRepondre' ],
+                'content' => $this->request->data['EtatFiche']['commentaireRepondre'],
                 'user_id' => $this->Auth->user('id'),
-                'destinataire_id' => $this->request->data[ 'EtatFiche' ][ 'previousUserId' ]
+                'destinataire_id' => $this->request->data['EtatFiche']['previousUserId']
             )
         ));
         $this->Commentaire->save();
 
         $destinataire = $this->User->find('first', array(
             'conditions' => array(
-                'id' => $this->request->data[ 'EtatFiche' ][ 'previousUserId' ]
+                'id' => $this->request->data['EtatFiche']['previousUserId']
             )
         ));
         $this->Historique->create(array(
             'Historique' => array(
-                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' répond à la demande d\'avis de ' . $destinataire[ 'User' ][ 'prenom' ] . ' ' . $destinataire[ 'User' ][ 'nom' ],
-                'fiche_id' => $this->request->data[ 'EtatFiche' ][ 'ficheNum' ]
+                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' répond à la demande d\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
+                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
             )
         ));
         $this->Historique->save();
-        $this->Notifications->add(5, $this->request->data[ 'EtatFiche' ][ 'ficheNum' ], $this->request->data[ 'EtatFiche' ][ 'previousUserId' ]);
+        $this->Notifications->add(5, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['previousUserId']);
 
         $this->Session->setFlash('Le commentaire a été ajouté', 'flashsuccess');
         $this->redirect(array(
@@ -250,22 +272,24 @@ class EtatFichesController extends AppController
         ));
     }
 
-
     /**
-     *** Gère la remise en rédaction d'une fiche refusée
-     **/
-
-    public function relaunch($id)
-    {
-        if ( !$id ) {
+     * Gère la remise en rédaction d'une fiche refusée
+     * 
+     * @param int $id
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function relaunch($id) {
+        if (!$id) {
             $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
             ));
-        }
-        else {
-            if ( $this->EtatFiche->deleteAll(array('fiche_id' => $id)) ) {
+        } else {
+            if ($this->EtatFiche->deleteAll(array('fiche_id' => $id))) {
                 $this->EtatFiche->create(array(
                     'EtatFiche' => array(
                         'fiche_id' => $id,
@@ -274,7 +298,7 @@ class EtatFichesController extends AppController
                         'user_id' => $this->Auth->user('id')
                     )
                 ));
-                if ( $this->EtatFiche->save() ) {
+                if ($this->EtatFiche->save()) {
                     $this->Historique->create(array(
                         'Historique' => array(
                             'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' replace la fiche en rédaction',
@@ -292,17 +316,21 @@ class EtatFichesController extends AppController
         }
     }
 
-
     /**
-     *** Gère l'envoie en validation au CIL
-     **/
-    public function cilValid($id)
-    {
+     * Gère l'envoie en validation au CIL
+     * 
+     * @param int $id
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function cilValid($id) {
         $cil = $this->Organisation->find('first', array(
             'conditions' => array('Organisation.id' => $this->Session->read('Organisation.id')),
             'fields' => array('cil')
         ));
-        if ( $cil[ 'Organisation' ][ 'cil' ] != null ) {
+        if ($cil['Organisation']['cil'] != null) {
 
 
             $idEncoursValid = $this->EtatFiche->find('first', array(
@@ -312,8 +340,8 @@ class EtatFichesController extends AppController
                 ),
                 'fields' => 'id'
             ));
-            if ( !empty($idEncoursValid) ) {
-                $etatId = $idEncoursValid[ 'EtatFiche' ][ 'id' ];
+            if (!empty($idEncoursValid)) {
+                $etatId = $idEncoursValid['EtatFiche']['id'];
                 $this->EtatFiche->id = $etatId;
                 $this->EtatFiche->saveField('etat_id', 3);
             }
@@ -322,7 +350,7 @@ class EtatFichesController extends AppController
                     'fiche_id' => $id,
                     'etat_id' => 2,
                     'previous_user_id' => $this->Auth->user('id'),
-                    'user_id' => $cil[ 'Organisation' ][ 'cil' ]
+                    'user_id' => $cil['Organisation']['cil']
                 )
             ));
             $this->EtatFiche->save();
@@ -333,14 +361,13 @@ class EtatFichesController extends AppController
                 )
             ));
             $this->Historique->save();
-            $this->Notifications->add(2, $id, $cil[ 'Organisation' ][ 'cil' ]);
+            $this->Notifications->add(2, $id, $cil['Organisation']['cil']);
             $this->Session->setFlash('La fiche a été envoyée au CIL', 'flashsuccess');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
             ));
-        }
-        else {
+        } else {
             $this->Session->setFlash('Aucun CIL n\'a été défini pour cette entité', 'flasherror');
             $this->redirect(array(
                 'controller' => 'pannel',
@@ -349,12 +376,16 @@ class EtatFichesController extends AppController
         }
     }
 
-
     /**
-     *** Gère la validation du CIL
-     **/
-    public function insertRegistre($id)
-    {
+     * Gère la validation du CIL
+     * 
+     * @param int $id
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function insertRegistre($id) {
         $idEncoursValid = $this->EtatFiche->find('first', array(
             'conditions' => array(
                 'EtatFiche.fiche_id' => $id,
@@ -363,11 +394,11 @@ class EtatFichesController extends AppController
             'fields' => array('id'),
             'contain' => array('Fiche' => array('user_id'))
         ));
-        if ( !empty($idEncoursValid) ) {
-            $id_etat = $idEncoursValid[ 'EtatFiche' ][ 'id' ];
+        if (!empty($idEncoursValid)) {
+            $id_etat = $idEncoursValid['EtatFiche']['id'];
             $this->EtatFiche->id = $id_etat;
             $this->EtatFiche->saveField('etat_id', 5);
-            $this->Notifications->add(3, $id, $idEncoursValid[ 'Fiche' ][ 'user_id' ]);
+            $this->Notifications->add(3, $id, $idEncoursValid['Fiche']['user_id']);
             $this->Session->setFlash('La fiche a été enregistrée dans le registre', 'flashsuccess');
             $this->redirect(array(
                 'controller' => 'pannel',
@@ -379,31 +410,32 @@ class EtatFichesController extends AppController
                     'fiche_id' => $id
                 )
             ));
-        }
-        else {
+        } else {
             $this->Session->setFlash('Cette fiche n\'est pas en cours de validation', 'flasherror');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
             ));
         }
-        
     }
 
-
     /**
-     *** Gère l'archivage des fiches
-     **/
-    public function archive($id)
-    {
-        if ( !$id ) {
+     * Gère l'archivage des fiches
+     * 
+     * @param int $id
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function archive($id) {
+        if (!$id) {
             $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
             $this->redirect(array(
                 'controller' => 'registres',
                 'action' => 'index'
             ));
-        }
-        else {
+        } else {
             $this->EtatFiche->deleteAll(array('EtatFiche.fiche_id' => $id), false);
             $this->EtatFiche->create(array(
                 'EtatFiche' => array(
@@ -430,4 +462,5 @@ class EtatFichesController extends AppController
             ));
         }
     }
+
 }

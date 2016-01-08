@@ -1,23 +1,26 @@
 <?php
+
 /**
- * Static content controller.
+ * PagesController
  *
- * This file will render views from views/pages/
+ * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
+ * 
+ * Copyright (c) Adullact (http://www.adullact.org)
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
+ * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
- * @since         CakePHP(tm) v 0.2.9
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * 
+ * @copyright   Copyright (c) Adullact (http://www.adullact.org)
+ * @link        https://adullact.net/projects/webcil/
+ * @since       webcil v0.9.0
+ * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
+ * @version     v0.9.0
+ * @package     App.Controller
  */
-
 App::uses('AppController', 'Controller');
 
 /**
@@ -30,48 +33,52 @@ App::uses('AppController', 'Controller');
  */
 class PagesController extends AppController {
 
-/**
- * This controller does not use a model
- *
- * @var array
- */
-	public $uses = array();
+    /**
+     * This controller does not use a model
+     *
+     * @var array
+     */
+    public $uses = array();
 
-/**
- * Displays a view
- *
- * @param mixed What page to display
- * @return void
- * @throws NotFoundException When the view file could not be found
- *	or MissingViewException in debug mode.
- */
-	public function display() {
-		$path = func_get_args();
+    /**
+     * Displays a view
+     * 
+     * @return void
+     * @throws MissingViewException
+     * @throws NotFoundException When the view file could not be found or MissingViewException in debug mode.
+     * 
+     * @access public
+     * @created 24/10/2014
+     * @version V0.9.0
+     */
+    public function display() {
+        $path = func_get_args();
 
-		$count = count($path);
-		if (!$count) {
-			return $this->redirect('/');
-		}
-		$page = $subpage = $title_for_layout = null;
+        $count = count($path);
+        if (!$count) {
+            return $this->redirect('/');
+        }
+        $page = $subpage = $title_for_layout = null;
 
-		if (!empty($path[0])) {
-			$page = $path[0];
-		}
-		if (!empty($path[1])) {
-			$subpage = $path[1];
-		}
-		if (!empty($path[$count - 1])) {
-			$title_for_layout = Inflector::humanize($path[$count - 1]);
-		}
-		$this->set(compact('page', 'subpage', 'title_for_layout'));
+        if (!empty($path[0])) {
+            $page = $path[0];
+        }
+        if (!empty($path[1])) {
+            $subpage = $path[1];
+        }
+        if (!empty($path[$count - 1])) {
+            $title_for_layout = Inflector::humanize($path[$count - 1]);
+        }
+        $this->set(compact('page', 'subpage', 'title_for_layout'));
 
-		try {
-			$this->render(implode('/', $path));
-		} catch (MissingViewException $e) {
-			if (Configure::read('debug')) {
-				throw $e;
-			}
-			throw new NotFoundException();
-		}
-	}
+        try {
+            $this->render(implode('/', $path));
+        } catch (MissingViewException $e) {
+            if (Configure::read('debug')) {
+                throw $e;
+            }
+            throw new NotFoundException();
+        }
+    }
+
 }
