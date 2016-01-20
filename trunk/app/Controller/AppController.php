@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application level Controller
  * This file is application-wide controller file. You can put all
@@ -14,7 +15,6 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('Controller', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
 
@@ -25,8 +25,8 @@ App::uses('CakeEmail', 'Network/Email');
  * @package        app.Controller
  * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller
-{
+class AppController extends Controller {
+
     public $uses = array(
         'Organisation',
         'Droit',
@@ -51,60 +51,42 @@ class AppController extends Controller
         )
     );
 
-    public function beforeFilter()
-    {
+    /**
+     * @access public
+     * @created 29/04/2015
+     * @version V0.9.0
+     */
+    public function beforeFilter() {
         $this->set('referer', $this->referer());
         $this->set('nom', $this->Auth->user('nom'));
         $this->set('prenom', $this->Auth->user('prenom'));
         $this->set('userId', $this->Auth->user('id'));
 
-        if ( $this->Droits->isSu() ) {
+        if ($this->Droits->isSu()) {
             $this->set('organisations', $this->Organisation->find('all', array()));
-        }
-        else {
+        } else {
             $this->set('organisations', $this->OrganisationUser->find('all', array(
-                'conditions' => array(
-                    'OrganisationUser.user_id' => $this->Auth->user('id')
-                ),
-                'contain' => array(
-                    'Organisation'
-                )
+                        'conditions' => array(
+                            'OrganisationUser.user_id' => $this->Auth->user('id')
+                        ),
+                        'contain' => array(
+                            'Organisation'
+                        )
             )));
         }
         $this->set('droits', $this->Session->read('Droit.liste'));
-
-        $notifications = $this->Notification->find('all', array(
-            'conditions' => array(
-                'Notification.user_id' => $this->Auth->user('id'),
-                'Notification.vu' => false
-            ),
-            'contain' => array(
-                'Fiche'=>array(
-                    'Valeur'=>array(
-                        'conditions'=>array(
-                            'champ_name'=>'outilnom'
-                        ),
-                        'fields'=>array('champ_name', 'valeur')
-                    )
-                )
-            ),
-            'order' => array(
-                'Notification.content'
-            )
-        ));
-        $this->set('notifications', $notifications);
 
         $notificationsStayed = $this->Notification->find('all', array(
             'conditions' => array(
                 'Notification.user_id' => $this->Auth->user('id'),
             ),
             'contain' => array(
-                'Fiche'=>array(
-                    'Valeur'=>array(
-                        'conditions'=>array(
-                            'champ_name'=>'outilnom'
+                'Fiche' => array(
+                    'Valeur' => array(
+                        'conditions' => array(
+                            'champ_name' => 'outilnom'
                         ),
-                        'fields'=>array('champ_name', 'valeur')
+                        'fields' => array('champ_name', 'valeur')
                     )
                 )
             ),
@@ -115,8 +97,14 @@ class AppController extends Controller
         $this->set('notificationsStayed', $notificationsStayed);
     }
 
-    	public function beforeRender() {
-    		parent::beforeRender();
-            $this->set('formulaires_actifs', $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id'), 'active'=>true)));
-        }
+    /**
+     * @access public
+     * @created 26/06/2015
+     * @version V0.9.0
+     */
+    public function beforeRender() {
+        parent::beforeRender();
+        $this->set('formulaires_actifs', $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id'), 'active' => true)));
+    }
+
 }

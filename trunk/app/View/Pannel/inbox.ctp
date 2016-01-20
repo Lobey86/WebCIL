@@ -1,5 +1,8 @@
 <?php
     echo $this->Html->script('pannel.js');
+    
+    $idFicheNotification = $this->Session->read('idFicheNotification');
+    unset($_SESSION['idFicheNotification']);
 ?>
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -84,6 +87,7 @@
                                             <button type='button'
                                                     class='btn btn-default-default boutonListAValider btn-sm my-tooltip'
                                                     title="Voir le parcours"
+                                                    id='<?php echo $donnee['Fiche']['id']; ?>'
                                                     value='<?php echo $donnee['Fiche']['id']; ?>'>
                                                 <span class='glyphicon glyphicon-list-alt'></span>
                                             </button>
@@ -454,3 +458,13 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        openTarget("<?php echo $idFicheNotification ?>");
+
+    });
+    
+</script>

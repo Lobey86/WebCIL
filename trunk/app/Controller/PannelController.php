@@ -1,10 +1,29 @@
 <?php
 
-/**************************************************
- ************** Controller du pannel ***************
- **************************************************/
-class PannelController extends AppController
-{
+/**
+ * PannelController
+ * Controller du pannel
+ *
+ * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
+ * 
+ * Copyright (c) Adullact (http://www.adullact.org)
+ *
+ * Licensed under The CeCiLL V2 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @copyright   Copyright (c) Adullact (http://www.adullact.org)
+ * @link        https://adullact.net/projects/webcil/
+ * @since       webcil v0.9.0
+ * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
+ * @version     v0.9.0
+ * @package     App.Controller
+ */
+class PannelController extends AppController {
+
     public $uses = [
         'Pannel',
         'Fiche',
@@ -14,17 +33,19 @@ class PannelController extends AppController
         'EtatFiche',
         'Commentaire',
         'Notification',
-        'Historique'
+        'Historique',
+        'Organisation'
     ];
-
     public $components = ['FormGenerator.FormGen', 'Droits'];
 
     /**
-     *** Accueil de la page, listing des fiches et de leurs catégories
-     **/
-
-    public function index()
-    {
+     * Accueil de la page, listing des fiches et de leurs catégories
+     * 
+     * @access public
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    public function index() {
         if (!$this->Droits->authorized(1)) {
             $this->redirect(['controller' => 'pannel', 'action' => 'inbox']);
         }
@@ -41,7 +62,7 @@ class PannelController extends AppController
             'conditions' => ['EtatFiche2.etat_id BETWEEN 2 AND 5'],
             'order' => null,
             'group' => null
-        ], $this->EtatFiche);
+                ], $this->EtatFiche);
         $subQuery = '"Fiche"."user_id" = ' . $this->Auth->user('id') . ' AND "Fiche"."organisation_id" = ' . $this->Session->read('Organisation.id') . ' AND "EtatFiche"."fiche_id" NOT IN (' . $subQuery . ') ';
         $subQueryExpression = $db->expression($subQuery);
 
@@ -81,41 +102,30 @@ class PannelController extends AppController
                     ]
                 ]
             ]
-
         ]);
         $this->set('encours', $encours);
 
-
         // Requète récupérant les fiches en cours de validation
-
         $requete = $this->EtatFiche->find('all', [
-                'conditions' => [
-                    'EtatFiche.etat_id' => 2,
-                    'Fiche.user_id' => $this->Auth->user('id'),
-                    'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-                ],
-                'contain' => [
-                    'Fiche' => [
+            'conditions' => [
+                'EtatFiche.etat_id' => 2,
+                'Fiche.user_id' => $this->Auth->user('id'),
+                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
+            ],
+            'contain' => [
+                'Fiche' => [
+                    'fields' => [
+                        'id',
+                        'created',
+                        'modified'
+                    ],
+                    'Valeur' => [
+                        'conditions' => [
+                            'champ_name' => 'outilnom'
+                        ],
                         'fields' => [
-                            'id',
-                            'created',
-                            'modified'
-                        ],
-                        'Valeur' => [
-                            'conditions' => [
-                                'champ_name' => 'outilnom'
-                            ],
-                            'fields' => [
-                                'champ_name',
-                                'valeur'
-                            ]
-                        ],
-                        'User' => [
-                            'fields' => [
-                                'id',
-                                'nom',
-                                'prenom'
-                            ]
+                            'champ_name',
+                            'valeur'
                         ]
                     ],
                     'User' => [
@@ -125,15 +135,20 @@ class PannelController extends AppController
                             'prenom'
                         ]
                     ]
+                ],
+                'User' => [
+                    'fields' => [
+                        'id',
+                        'nom',
+                        'prenom'
+                    ]
                 ]
             ]
-
+                ]
         );
         $this->set('encoursValidation', $requete);
 
-
         // Requète récupérant les fiches refusées par un validateur
-
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
                 'EtatFiche.etat_id' => 4,
@@ -173,14 +188,50 @@ class PannelController extends AppController
                 ]
             ]
         ]);
+
+        $notifications = $this->Notification->find('all', array(
+            'conditions' => array(
+                'Notification.user_id' => $this->Auth->user('id'),
+                'Notification.vu' => false
+            ),
+            'contain' => array(
+                'Fiche' => array(
+                    'Valeur' => array(
+                        'conditions' => array(
+                            'champ_name' => 'outilnom'
+                        ),
+                        'fields' => array('champ_name', 'valeur')
+                    )
+                )
+            ),
+            'order' => array(
+                'Notification.content'
+            )
+        ));
+        $this->set('notifications', $notifications);
+
+        $nameOrganisation = [];
+
+        foreach ($notifications as $key => $value) {
+            $nameOrganisation[$key] = $this->Organisation->find('first', [
+                'conditions' => ['id' => $value['Fiche']['organisation_id']],
+                'fields' => ['raisonsociale']
+            ]);
+        }
+        $this->set('nameOrganisation', $nameOrganisation);
+
         $this->set('refusees', $requete);
         $return = $this->_listValidants();
         $this->set('validants', $return['validants']);
         $this->set('consultants', $return['consultants']);
     }
 
-    public function inbox()
-    {
+    /**
+     * @access public
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    public function inbox() {
         if (!$this->Droits->authorized([2, 3, 5])) {
             $this->redirect($this->referer());
         }
@@ -229,7 +280,6 @@ class PannelController extends AppController
                         'id',
                         'nom',
                         'prenom'
-
                     ]
                 ]
             ]
@@ -238,7 +288,6 @@ class PannelController extends AppController
 
 
         // Requète récupérant les fiches qui demande un avis
-
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
                 'EtatFiche.etat_id' => 6,
@@ -281,52 +330,38 @@ class PannelController extends AppController
                         'id',
                         'nom',
                         'prenom'
-
                     ]
                 ]
             ]
         ]);
+
         $this->set('dmdAvis', $requete);
         $return = $this->_listValidants();
         $this->set('validants', $return['validants']);
         $this->set('consultants', $return['consultants']);
     }
 
-
-    public function archives()
-    {
+    /**
+     * @access public
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    public function archives() {
         $this->set('title', 'Fiches validées');
         // Requète récupérant les fiches validées par le CIL
 
         $requete = $this->EtatFiche->find('all', [
-                'conditions' => [
-                    'EtatFiche.etat_id' => 5,
-                    'Fiche.user_id' => $this->Auth->user('id'),
-                    'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-                ],
-                'contain' => [
-                    'Fiche' => [
-                        'fields' => [
-                            'id',
-                            'created',
-                            'modified'
-                        ],
-                        'User' => [
-                            'fields' => [
-                                'id',
-                                'nom',
-                                'prenom'
-                            ]
-                        ],
-                        'Valeur' => [
-                            'conditions' => [
-                                'champ_name' => 'outilnom'
-                            ],
-                            'fields' => [
-                                'champ_name',
-                                'valeur'
-                            ]
-                        ]
+            'conditions' => [
+                'EtatFiche.etat_id' => 5,
+                'Fiche.user_id' => $this->Auth->user('id'),
+                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
+            ],
+            'contain' => [
+                'Fiche' => [
+                    'fields' => [
+                        'id',
+                        'created',
+                        'modified'
                     ],
                     'User' => [
                         'fields' => [
@@ -334,19 +369,41 @@ class PannelController extends AppController
                             'nom',
                             'prenom'
                         ]
+                    ],
+                    'Valeur' => [
+                        'conditions' => [
+                            'champ_name' => 'outilnom'
+                        ],
+                        'fields' => [
+                            'champ_name',
+                            'valeur'
+                        ]
+                    ]
+                ],
+                'User' => [
+                    'fields' => [
+                        'id',
+                        'nom',
+                        'prenom'
                     ]
                 ]
             ]
-
+                ]
         );
         $this->set('validees', $requete);
-
     }
 
-    // Fonction appelée pour le composant parcours, permettant d'afficher le parcours parcouru par une fiche et les commentaires liés (uniquement ceux visibles par l'utilisateur)
-
-    public function parcours($id)
-    {
+    /**
+     * Fonction appelée pour le composant parcours, permettant d'afficher le parcours parcouru par une fiche et les commentaires liés (uniquement ceux visibles par l'utilisateur)
+     * 
+     * @param int $id
+     * @return type
+     * 
+     * @access public
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    public function parcours($id) {
         $parcours = $this->EtatFiche->find('all', [
             'conditions' => [
                 'EtatFiche.fiche_id' => $id
@@ -391,8 +448,15 @@ class PannelController extends AppController
         return $parcours;
     }
 
-    public function getHistorique($id)
-    {
+    /**
+     * @param int $id
+     * @return type
+     * 
+     * @access public
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    public function getHistorique($id) {
         $historique = $this->Historique->find('all', [
             'conditions' => ['fiche_id' => $id],
             'order' => [
@@ -404,11 +468,14 @@ class PannelController extends AppController
         return $historique;
     }
 
-
-    // Fonction de suppression des notifications
-
-    public function dropNotif()
-    {
+    /**
+     * Fonction de suppression des notifications
+     * 
+     * @access public
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    public function dropNotif() {
         $this->Notification->deleteAll([
             'Notification.user_id' => $this->Auth->user('id'),
             false
@@ -416,19 +483,28 @@ class PannelController extends AppController
         $this->redirect($this->referer());
     }
 
-    public function validNotif()
-    {
+    /**
+     * @access public
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    public function validNotif() {
         $this->Notification->updateAll([
             'Notification.vu' => true
-        ],
-            [
-                'Notification.user_id' => $this->Auth->user('id')
-            ]);
+                ], [
+            'Notification.user_id' => $this->Auth->user('id')
+        ]);
         $this->redirect($this->referer());
     }
 
-    protected function _listValidants()
-    {
+    /**
+     * @return type
+     * 
+     * @access protected
+     * @created 02/12/2015
+     * @version V0.9.0
+     */
+    protected function _listValidants() {
         // Requète récupérant les utilisateurs ayant le droit de consultation
 
         $queryConsultants = [
@@ -450,9 +526,9 @@ class PannelController extends AppController
         ];
         $consultants = $this->Droit->find('all', $queryConsultants);
         $consultants = Hash::combine($consultants, '{n}.User.id', [
-            '%s %s',
-            '{n}.User.prenom',
-            '{n}.User.nom'
+                    '%s %s',
+                    '{n}.User.prenom',
+                    '{n}.User.nom'
         ]);
         $return = ['consultants' => $consultants];
 
@@ -488,9 +564,9 @@ class PannelController extends AppController
         ];
         $validants = $this->Droit->find('all', $queryValidants);
         $validants = Hash::combine($validants, '{n}.User.id', [
-            '%s %s',
-            '{n}.User.prenom',
-            '{n}.User.nom'
+                    '%s %s',
+                    '{n}.User.prenom',
+                    '{n}.User.nom'
         ]);
         $return['validants'] = $validants;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -15,11 +16,11 @@ $cakeDescription = 'Web-CIL';
 ?>
 <!DOCTYPE html>
 <html>
-<head>
+    <head>
     <?php echo $this->Html->charset(); ?>
-    <title>
+        <title>
         <?php echo $cakeDescription ?>
-    </title>
+        </title>
     <?php
     echo $this->Html->script('jquery-1.11.0.min');
     echo $this->Html->script('bootstrap.min.js');
@@ -44,24 +45,24 @@ $cakeDescription = 'Web-CIL';
     echo $this->fetch('css');
     echo $this->fetch('script');
     ?>
-</head>
-<body>
+    </head>
+    <body>
 
-<div id="container">
-    <div id="content">
-        <div class="container-fluid container-fluid-custom theme-showcase" id="relatif" role="main"
-             style="margin-top: 60px;">
-            <div id="unprintable_div">
-                <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                                    data-target=".navbar-collapse">
-                                <span class="sr-only">Navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
+        <div id="container">
+            <div id="content">
+                <div class="container-fluid container-fluid-custom theme-showcase" id="relatif" role="main"
+                     style="margin-top: 60px;">
+                    <div id="unprintable_div">
+                        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                            data-target=".navbar-collapse">
+                                        <span class="sr-only">Navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
                             <?php echo $this->Html->image('logo_WebCil.png', [
                                 'alt' => 'Web-Cil',
                                 'url' => [
@@ -70,12 +71,12 @@ $cakeDescription = 'Web-CIL';
                                 ],
                                 'class' => 'navbar-brand'
                             ]); ?></div>
-                        <div class="navbar-collapse collapse">
+                                <div class="navbar-collapse collapse">
 
                             <?php
                             if (isset($prenom) && isset($nom)) {
                                 ?>
-                                <ul class="nav navbar-nav">
+                                    <ul class="nav navbar-nav">
                                     <?php
                                     if ($this->Autorisation->authorized([
                                         '1',
@@ -139,7 +140,7 @@ $cakeDescription = 'Web-CIL';
                                         <?php
                                     }
                                     ?>
-                                    <li><?php echo $this->Html->link('Registre', [
+                                        <li><?php echo $this->Html->link('Registre', [
                                             'plugin' => '',
                                             'controller' => 'registres',
                                             'action' => 'index'
@@ -288,15 +289,15 @@ $cakeDescription = 'Web-CIL';
                                         <?php
                                     }
                                     ?>
-                                </ul>
-                                <ul class="nav navbar-nav pull-right">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle"
-                                           data-toggle="dropdown"><?php echo $prenom . " " . $nom . " - " . $this->Session->read('Organisation.raisonsociale'); ?>
-                                            <span class="caret"></span>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li class="dropdown-header">Mes entités</li>
+                                    </ul>
+                                    <ul class="nav navbar-nav pull-right">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown"><?php echo $prenom . " " . $nom . " - " . $this->Session->read('Organisation.raisonsociale'); ?>
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li class="dropdown-header">Mes entités</li>
                                             <?php
                                             foreach ($organisations as $datas) {
                                                 ?>
@@ -309,29 +310,29 @@ $cakeDescription = 'Web-CIL';
                                                 <?php
                                             }
                                             ?>
-                                            <li class="divider"></li>
-                                            <li class="dropdown-header">Mon compte</li>
-                                            <li><?php echo $this->Html->link('<i class="fa fa-cog fa-fw"></i> Modifier mon compte',
+                                                <li class="divider"></li>
+                                                <li class="dropdown-header">Mon compte</li>
+                                                <li><?php echo $this->Html->link('<i class="fa fa-cog fa-fw"></i> Modifier mon compte',
                                                     [
                                                         'controller' => 'users',
                                                         'action' => 'edit',
                                                         $userId
                                                     ], ['escapeTitle' => false]); ?></li>
-                                            <li><?php echo $this->Html->link('<i class="fa fa-lock fa-fw"></i> Déconnexion',
+                                                <li><?php echo $this->Html->link('<i class="fa fa-lock fa-fw"></i> Déconnexion',
                                                     [
                                                         'controller' => 'users',
                                                         'action' => 'logout'
                                                     ], ['escapeTitle' => false]); ?></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <ul class="nav navbar-nav pull-right">
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle"
-                                           data-toggle="dropdown">
-                                            <span class="glyphicon glyphicon-envelope"></span>
-                                        </a>
-                                        <ul class="info_notification dropdown-menu" role="menu">
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav navbar-nav pull-right">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown">
+                                                <span class="glyphicon glyphicon-envelope"></span>
+                                            </a>
+                                            <ul class="info_notification dropdown-menu" role="menu">
 
                                             <?php
                                             if (empty($notificationsStayed)) {
@@ -342,19 +343,19 @@ $cakeDescription = 'Web-CIL';
                                                 if($this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']){
                                                     switch ($value['Notification']['content']) {
                                                         case 1:
-                                                            echo '<li class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
+                                                            echo '<a href="pannel/inbox" class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
                                                             break;
                                                         case 2:
-                                                            echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
+                                                            echo '<a href="pannel/inbox" class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
                                                             break;
                                                         case 3:
-                                                            echo '<li class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</li>';
+                                                            echo '<a href="registres/index" class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</a>';
                                                             break;
                                                         case 4:
-                                                            echo '<li class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</li>';
+                                                            echo '<a href="pannel/index" class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</a>';
                                                             break;
                                                         case 5:
-                                                            echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
+                                                            echo '<a href="pannel/index" class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
                                                             break;
                                                     }
                                                 }
@@ -370,132 +371,65 @@ $cakeDescription = 'Web-CIL';
                                                         ]) . '</li>';
                                             }
                                             ?>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 <?php
                             }
                             ?>
+                                </div>
+
+                            </div>
+
                         </div>
 
                     </div>
 
-                </div>
-
-            </div>
-            
             <?php echo $this->Session->flash();
             if ($this->params['action'] != 'login') {
                 ?>
-                <div class="row head">
-                    <div class="col-md-6">
-                        <h2><?php echo $title; ?></h2>
-                    </div>
-                    <div class="col-md-6 text-right">
+                    <div class="row head">
+                        <div class="col-md-6">
+                            <h2><?php echo $title; ?></h2>
+                        </div>
+                        <div class="col-md-6 text-right">
                         <?php
                         if (file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'))) {
                             echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'),
                                 ['class' => 'logo-well']);
                         }
                         ?>
+                        </div>
                     </div>
-                </div>
                 <?php
             }
             echo $this->fetch('content'); ?>
 
-            <!-- Modal de notification -->
-            <?php
-            if (!empty($notifications)) {
-                $this->Organisation = new Organisation();
-                
-                echo '<div class="modal fade" id="modalNotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-                    <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" id="myModalLabel">Nouvelles notifications</h4>
-                        </div>
-                    <div class="modal-body">';
-                
-                $oldmairie = '';
-                
-                foreach ($notifications as $key => $value) {
-                    $nameOrganisation = $this->Organisation->find('first', [
-                        'conditions' => ['id' => $value['Fiche']['organisation_id']],
-                        'fields'=>['raisonsociale']
-                    ]);
-                    
-                    $mairie = $nameOrganisation['Organisation']['raisonsociale'];
-                    
-                    if($oldmairie != $mairie) {
-                        echo '<div class="modal-header">
-                                <h5 class="modal-title" id="myModalLabel">'.$mairie.'</h5>
-                            </div>';
-                    }
-                        
-                    switch ($value['Notification']['content']) {
-                        case 1:
-                            echo '<li class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
-                            break;
-                        case 2:
-                            echo '<li class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
-                            break;
-                        case 3:
-                            echo '<li class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</li>';
-                            break;
-                        case 4:
-                            echo '<li class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</li>';
-                            break;
-                        case 5:
-                            echo '<li class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></li>';
-                            break;
-                    }
-                    $oldmairie = $mairie;
-                }
-
-                echo '</div>
-                    <div class="modal-footer">';
-                
-                echo $this->Html->link('Fermer', [
-                    'controller' => 'pannel',
-                    'action' => 'validNotif'
-                ], [
-                    'class' => 'btn btn-default-primary',
-                    'escapeTitle' => false
-                ]);
-
-                echo '</div>
-                    </div>
-                    </div>
                 </div>
-            </div>';
-            }
-            ?>
-        </div>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">Choisir un formulaire</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-bordered">
-                            <thead>
-                            <th class="col-md-3">
-                                Nom
-                            </th>
-                            <th class="col-md-7">
-                                Description
-                            </th>
-                            <th class="col-md-2">
-                                Action
-                            </th>
-                            </thead>
-                            <tbody>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="myModalLabel">Choisir un formulaire</h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <th class="col-md-3">
+                                        Nom
+                                    </th>
+                                    <th class="col-md-7">
+                                        Description
+                                    </th>
+                                    <th class="col-md-2">
+                                        Action
+                                    </th>
+                                    </thead>
+                                    <tbody>
                             <?php
                             foreach ($formulaires_actifs as $key => $value) {
                                 echo '<tr>
@@ -509,24 +443,24 @@ $cakeDescription = 'Web-CIL';
 </tr>';
                             }
                             ?>
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
+                                        class="fa fa-fw fa-arrow-left"></i> Annuler
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
-                                class="fa fa-fw fa-arrow-left"></i> Annuler
-                        </button>
+                </div>
+                <div id="footer" class="container-fluid-custom">
+                    <div class="text-center versioning">
+                        Web-CIL V0.9.0 - Adullact-Projet
                     </div>
                 </div>
             </div>
         </div>
-        <div id="footer" class="container-fluid-custom">
-            <div class="text-center versioning">
-                Web-CIL V0.9.0 - Adullact-Projet
-            </div>
-        </div>
-    </div>
-</div>
 <?php echo $this->element('sql_dump'); ?>
-</body>
+    </body>
 </html>
