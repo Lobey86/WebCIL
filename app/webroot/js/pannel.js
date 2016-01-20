@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    console.log('loaded');
-
     $(".historique-button").click(function () {
         var id = $(this).attr('data-value');
         $("#historique-fiche" + id).toggle();

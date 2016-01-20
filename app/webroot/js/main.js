@@ -3,9 +3,9 @@ $(document).ready(function () {
 
     $(".usersDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width: '100%'});
     $('.my-tooltip').tooltip({
-            delay: {"show": 800, "hide": 0},
-            container: "body"
-        }
+        delay: {"show": 800, "hide": 0},
+        container: "body"
+    }
     );
 
     $('[id^="collapse"]').on('shown.bs.collapse', function () {
@@ -45,3 +45,16 @@ $(document).ready(function () {
         $('#idUploadModele').val(id);
     })
 });
+
+function openTarget(idFicheNotification) {
+    var scrollToTarget = function (idFicheNotification) {
+        $("html, body").animate({scrollTop: $("#" + idFicheNotification).offset().top - 90}, 1000);
+        if (idFicheNotification !== 0) {
+            $("#" + idFicheNotification).click();
+        }
+    };
+
+    if (idFicheNotification) {
+        scrollToTarget(idFicheNotification);
+    }
+}

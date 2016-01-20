@@ -1,10 +1,14 @@
 <?php
+
 echo $this->Html->script('registre.js');
 echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span>Filtrer la liste', $options = array(
     'type' => 'button',
     'class' => 'btn btn-default-primary btn-sm pull-right',
     'id' => 'filtrage'
 ));
+
+$idFicheNotification = $this->Session->read('idFicheNotification');
+unset($_SESSION['idFicheNotification']);
 
 ?>
 <div id="divFiltrage">
@@ -70,19 +74,19 @@ echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span>Filtre
 if (!empty($fichesValid)) {
 
     ?>
-    <table class="table ">
-        <thead>
-        <th class="thleft col-md-2">
-            Nom du traitement
-        </th>
-        <th class="thleft col-md-8">
-            Synthèse
-        </th>
-        <th class="thleft col-md-2">
-            Outils
-        </th>
-    </thead>
-    <tbody>
+<table class="table ">
+    <thead>
+    <th class="thleft col-md-2">
+        Nom du traitement
+    </th>
+    <th class="thleft col-md-8">
+        Synthèse
+    </th>
+    <th class="thleft col-md-2">
+        Outils
+    </th>
+</thead>
+<tbody>
         <?php
         foreach ($fichesValid as $key => $value) {
             if ($value['Fiche']['numero'] != NULL) {
@@ -118,7 +122,7 @@ if (!empty($fichesValid)) {
                     </div>
 					</td>
 					<td class="tdleft">
-                    <div class="btn-group">' . $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
+                    <div id='.$value['Fiche']['id'].' class="btn-group">' . $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
                     'controller' => 'fiches',
                     'action' => $DlOrGenerate,
                     $value['Fiche']['id'],
@@ -163,8 +167,8 @@ if (!empty($fichesValid)) {
         }
 
         ?>
-    </tbody>
-    </table>
+</tbody>
+</table>
     <?php
 } else {
     if ($search) {
@@ -236,3 +240,13 @@ echo $this->Form->end();
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        openTarget("<?php echo $idFicheNotification ?>");
+
+    });
+
+</script>
