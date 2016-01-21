@@ -305,6 +305,13 @@ class FichesController extends AppController {
                 $this->request->data['Fiche'][$value['Valeur']['champ_name']] = $value['Valeur']['valeur'];
             }
         }
+        
+        $this->requestAction(array( 
+            'controller' => 'pannel', 
+            'action' => 'supprimerLaNotif', 
+            $id
+        ));
+        
         $this->set(compact('valeurs'));
         $this->set(compact('champs'));
         $this->set('id', $id);
@@ -409,7 +416,13 @@ class FichesController extends AppController {
             $this->response->body($pdf);
             $this->response->type('application/pdf');
             $this->response->download($data[11]['Valeur']['valeur'] . '_' . 'CIL00' . $id . '.pdf');
-
+            
+            $this->requestAction(array( 
+                'controller' => 'pannel', 
+                'action' => 'supprimerLaNotif', 
+                $id
+            ));
+            
             return $this->response;
         } else {
             $this->Extrait->save(['id_fiche' => $id, 'data' => $pdf]);

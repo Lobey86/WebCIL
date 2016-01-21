@@ -289,8 +289,10 @@ class OrganisationsController extends AppController {
         $idArray = $this->OrganisationUser->find('first', ['conditions' => ['OrganisationUser.user_id' => $this->Auth->user('id')]]);
 
         $this->Notification->updateAll([
-            'Notification.vu' => true], [
-            'Notification.user_id' => $this->Auth->user('id')
+            'Notification.vu' => true,
+            ], [
+            'Notification.user_id' => $this->Auth->user('id'),
+            'Notification.fiche_id' => $idFicheNotification
         ]);
 
         if ($id != $idArray['OrganisationUser']['organisation_id']) {

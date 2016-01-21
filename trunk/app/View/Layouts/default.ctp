@@ -335,33 +335,79 @@ $cakeDescription = 'Web-CIL';
                                             <ul class="info_notification dropdown-menu" role="menu">
 
                                             <?php
-                                            if (empty($notificationsStayed)) {
-                                                echo '<li class="dropdown-header">Aucune notification</li>';
-                                            }
-
                                             foreach ($notificationsStayed as $key => $value) {
                                                 if($this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']){
                                                     switch ($value['Notification']['content']) {
                                                         case 1:
-                                                            echo '<a href="pannel/inbox" class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                                                            echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"'.$value['Fiche']['Valeur'][0]['valeur'].'"</strong></i>',
+                                                                [
+                                                                    'controller' => 'organisations',
+                                                                    'action' => 'changenotification',
+                                                                    $value['Fiche']['organisation_id'],
+                                                                    'pannel',
+                                                                    'inbox',
+                                                                    $value['Fiche']['id']
+                                                                ], [
+                                                                     'escape' => false
+                                                            ]) . '</a>';
                                                             break;
                                                         case 2:
-                                                            echo '<a href="pannel/inbox" class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                                                            echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>',
+                                                                [
+                                                                    'controller' => 'organisations',
+                                                                    'action' => 'changenotification',
+                                                                    $value['Fiche']['organisation_id'],
+                                                                    'pannel',
+                                                                    'inbox',
+                                                                    $value['Fiche']['id']
+                                                                ], [
+                                                                     'escape' => false
+                                                            ]) . '</a>';
                                                             break;
                                                         case 3:
-                                                            echo '<a href="registres/index" class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</a>';
+                                                            echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</i>',
+                                                                [
+                                                                    'controller' => 'organisations',
+                                                                    'action' => 'changenotification',
+                                                                    $value['Fiche']['organisation_id'],
+                                                                    'registres',
+                                                                    'index',
+                                                                    $value['Fiche']['id']
+                                                                ], [
+                                                                     'escape' => false
+                                                            ]) . '</a>';
                                                             break;
                                                         case 4:
-                                                            echo '<a href="pannel/index" class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</a>';
+                                                            echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</i>',
+                                                                [
+                                                                    'controller' => 'organisations',
+                                                                    'action' => 'changenotification',
+                                                                    $value['Fiche']['organisation_id'],
+                                                                    'pannel',
+                                                                    'index',
+                                                                    $value['Fiche']['id']
+                                                                ], [
+                                                                     'escape' => false
+                                                            ]) . '</a>';
                                                             break;
                                                         case 5:
-                                                            echo '<a href="pannel/index" class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                                                            echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>',
+                                                                [
+                                                                    'controller' => 'organisations',
+                                                                    'action' => 'changenotification',
+                                                                    $value['Fiche']['organisation_id'],
+                                                                    'pannel',
+                                                                    'index',
+                                                                    $value['Fiche']['id']
+                                                                ], [
+                                                                     'escape' => false
+                                                            ]) . '</a>';
                                                             break;
                                                     }
-                                                }
+                                                } 
                                             }
                                             
-                                            if (!empty($notificationsStayed)) {
+                                            if (!empty($notificationsStayed) && $this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']) {
                                                 echo '<li>' . $this->Html->link('<i class="fa fa-fw fa-trash"></i> Effacer les notifications',
                                                         [
                                                             'controller' => 'pannel',
@@ -369,6 +415,8 @@ $cakeDescription = 'Web-CIL';
                                                         ], [
                                                             'escape' => false
                                                         ]) . '</li>';
+                                            } else {
+                                                echo '<li class="dropdown-header">Aucune notification</li>';
                                             }
                                             ?>
                                             </ul>
@@ -464,3 +512,13 @@ $cakeDescription = 'Web-CIL';
 <?php echo $this->element('sql_dump'); ?>
     </body>
 </html>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+        openTarget("<?php echo $idFicheNotification ?>");
+
+    });
+    
+</script>

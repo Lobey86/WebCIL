@@ -583,9 +583,17 @@ echo $this->Html->script('pannel.js');
 
 <!-- Modal de notification -->
 <?php
-    if (!empty($notifications)) {
-        $this->Organisation = new Organisation();
+    $arrayNotificationNotVuNotAfficher = [];
 
+    foreach ($notifications as $key => $value) {
+        if($value['Notification']['vu'] == false && $value['Notification']['afficher'] == false ){
+            array_push($arrayNotificationNotVuNotAfficher , $value['Notification']['fiche_id']);
+        }
+    }
+
+    if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
+        $this->Organisation = new Organisation();
+        
         echo '<div class="modal fade" id="modalNotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
             <div class="modal-dialog">
             <div class="modal-content">
@@ -597,7 +605,6 @@ echo $this->Html->script('pannel.js');
         $oldmairie = '';
                
         foreach ($notifications as $key => $value) {
-                    
             $mairie = $nameOrganisation[$key]['Organisation']['raisonsociale'];
                    
             if($oldmairie != $mairie) {
@@ -606,25 +613,32 @@ echo $this->Html->script('pannel.js');
                     </div>';
             }
                         
-                switch ($value['Notification']['content']) {
-                    case 1:
-                        echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/inbox/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
-                        break;
-                    case 2:
-                        echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/inbox/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
-                        break;
-                    case 3:
-                        echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/registres/index/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</a>';
-                        break;
-                    case 4:
-                        echo '<a id="refus" href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/index/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</a>';
-                        break;
-                    case 5:
-                        echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/index/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
-                        break;
-                }
-                $oldmairie = $mairie;
+            switch ($value['Notification']['content']) {
+                case 1:
+                    echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/inbox/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                    break;
+                case 2:
+                    echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/inbox/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                    break;
+                case 3:
+                    echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/registres/index/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</a>';
+                    break;
+                case 4:
+                    echo '<a id="refus" href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/index/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</a>';
+                    break;
+                case 5:
+                    echo '<a href="organisations/changenotification/'.$value['Fiche']['organisation_id'].'/pannel/index/'.$value['Fiche']['id'].'" class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                    break;
             }
+            
+            $oldmairie = $mairie;
+                
+            $this->requestAction(array( 
+                'controller' => 'pannel', 
+                'action' => 'notifAfficher', 
+                $arrayNotificationNotVuNotAfficher[$key]
+            ));
+        }
 
             echo '</div>
                 <div class="modal-footer">';

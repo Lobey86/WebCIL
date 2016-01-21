@@ -192,7 +192,9 @@ class PannelController extends AppController {
         $notifications = $this->Notification->find('all', array(
             'conditions' => array(
                 'Notification.user_id' => $this->Auth->user('id'),
-                'Notification.vu' => false
+                'Notification.vu' => false,
+                'Notification.afficher' => false
+                
             ),
             'contain' => array(
                 'Fiche' => array(
@@ -469,7 +471,7 @@ class PannelController extends AppController {
     }
 
     /**
-     * Fonction de suppression des notifications
+     * Fonction de suppression de toute les notifications d'un utilisateur
      * 
      * @access public
      * @created 02/12/2015
@@ -482,19 +484,54 @@ class PannelController extends AppController {
         ]);
         $this->redirect($this->referer());
     }
+    
+    /**
+     * Fonction de suppression d'une notification d'un utilisateur
+     * 
+     * @access public
+     * @created 20/01/2016
+     * @version V0.9.0
+     */
+    public function supprimerLaNotif($idFiche) {
+        $this->Notification->deleteAll([
+            'Notification.fiche_id' => $idFiche ,
+            'Notification.user_id' => $this->Auth->user('id')
+        ]);
+    }
 
     /**
+     * Permet de mettre dans la base de donner les notifications deja afficher 
+     * quand on fermer la pop-up avec le bouton FERMER
+     * 
      * @access public
      * @created 02/12/2015
      * @version V0.9.0
      */
     public function validNotif() {
         $this->Notification->updateAll([
-            'Notification.vu' => true
+            'Notification.afficher' => true
                 ], [
             'Notification.user_id' => $this->Auth->user('id')
         ]);
         $this->redirect($this->referer());
+    }
+    
+    /**
+     * Permet de mettre en base les notifs deja afficher
+     * 
+     * @param int $idFicheEnCourAffigage
+     * 
+     * @access public
+     * @created 20/01/2016
+     * @version V0.9.0
+     */
+    public function notifAfficher($idFicheEnCourAffigage = 0) {
+        $this->Notification->updateAll([
+            'Notification.afficher' => true
+                ], [
+            'Notification.user_id' => $this->Auth->user('id'),
+            'Notification.fiche_id' => $idFicheEnCourAffigage  
+        ]);
     }
 
     /**
