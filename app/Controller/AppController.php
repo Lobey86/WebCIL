@@ -31,7 +31,8 @@ class AppController extends Controller {
         'Organisation',
         'Droit',
         'OrganisationUser',
-        'Notification'
+        'Notification',
+        'Pannel'
     );
     public $components = array(
         'Session',
@@ -79,6 +80,7 @@ class AppController extends Controller {
         $notificationsStayed = $this->Notification->find('all', array(
             'conditions' => array(
                 'Notification.user_id' => $this->Auth->user('id'),
+                'Notification.afficher' => true,
             ),
             'contain' => array(
                 'Fiche' => array(
