@@ -72,7 +72,7 @@
                                                     $donnee['Fiche']['id']
                                                 ], [
                                                     'class'       => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                                                    'escapeTitle' => FALSE,
+                                                    'escapeTitle' => false,
                                                     'title'       => 'Voir la fiche'
                                                 ]) . $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
                                                     'controller' => 'fiches',
@@ -80,7 +80,7 @@
                                                     $donnee['Fiche']['id']
                                                 ], [
                                                     'class'       => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
-                                                    'escapeTitle' => FALSE,
+                                                    'escapeTitle' => false,
                                                     'title'       => 'Modifier la fiche'
                                                 ]);
                                             ?>
@@ -188,7 +188,7 @@
                                                 'options' => $consultants,
                                                 'class'   => 'usersDeroulant transformSelect form-control bottom5',
                                                 'empty'   => 'Selectionnez un utilisateur',
-                                                'label'   => FALSE
+                                                'label'   => false
                                             ]);
                                             echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                             echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
@@ -217,7 +217,7 @@
                                                 'options' => $validants,
                                                 'class'   => 'usersDeroulant transformSelect form-control bottom5',
                                                 'empty'   => 'Selectionnez un utilisateur',
-                                                'label'   => FALSE
+                                                'label'   => false
                                             ]);
                                             echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                             echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
@@ -242,7 +242,7 @@
                                             echo $this->Form->create('EtatFiche', $options = ['action' => 'refuse']);
                                             echo $this->Form->input('content', [
                                                 'div'    => 'input-group inputsForm',
-                                                'label'  => FALSE,
+                                                'label'  => false,
                                                 'before' => '<span class="labelFormulaire">Expliquez les raisons de votre refus</span>',
                                                 'class'  => 'form-control',
                                                 'type'   => 'textarea'
@@ -349,12 +349,13 @@
                                             ], [
                                                 'class'       => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                                 'title'       => 'Voir la fiche',
-                                                'escapeTitle' => FALSE
+                                                'escapeTitle' => false
                                             ]);
                                             ?>
                                             <button type='button'
                                                     class='btn btn-default-default boutonRepondre boutonsAction5 btn-sm my-tooltip'
                                                     title="Répondre"
+                                                    id="<?php echo $donnee['Fiche']['id']; ?>"
                                                     value='<?php echo $donnee['Fiche']['id']; ?>'>
                                                 <span class='glyphicon glyphicon-share-alt'></span>
                                             </button>
@@ -368,7 +369,7 @@
                                             echo $this->Form->create('EtatFiche', $options = ['action' => 'answerAvis']);
                                             echo $this->Form->input('commentaireRepondre', [
                                                 'div'    => 'input-group inputsForm',
-                                                'label'  => FALSE,
+                                                'label'  => false,
                                                 'before' => '<span class="labelFormulaire">Donnez votre avis</span>',
                                                 'class'  => 'form-control',
                                                 'type'   => 'textarea'
