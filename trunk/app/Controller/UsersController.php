@@ -198,7 +198,7 @@ class UsersController extends AppController {
             if (!$this->User->exists()) {
                 throw new NotFoundException('User invalide');
             }
-            $this->set('user', $this->User->read(NULL, $id));
+            $this->set('user', $this->User->read(null, $id));
         } else {
             $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
             $this->redirect([
@@ -303,7 +303,7 @@ class UsersController extends AppController {
     }
 
     /**
-     * Modification d'un utilisateur
+     * Modification d'un utilisateur en tant qu'administrateur
      * 
      * @param int|null $id
      * @throws NotFoundException
@@ -314,7 +314,7 @@ class UsersController extends AppController {
      */
     public function edit($id = null) {
         $this->set('title', 'Editer un utilisateur');
-        if ($this->Droits->authorized(9) || $id == $this->Auth->user('id')) {
+        if ($this->Droits->authorized(9) == true || $id == $this->Auth->user('id')) {
             $this->User->id = $id;
             if (!$this->User->exists()) {
                 throw new NotFoundException('User Invalide');
@@ -353,7 +353,6 @@ class UsersController extends AppController {
                                         'user_id' => $id
                                     ]
                                 ]);
-
 
                                 if ($count == 0) {
                                     $this->OrganisationUser->create([
@@ -443,6 +442,90 @@ class UsersController extends AppController {
             ]);
         }
     }
+    
+    /**
+     * Modification du mot de passe par un utilisateur connecté
+     * 
+     * @param int|null $id
+     * @throws NotFoundException
+     * 
+     * @access public
+     * @created 03/02/2016
+     * @version V0.9.0
+     */
+    public function changepassword($id = null) {
+        $this->set('title', 'Modification de mes informations personnelles');
+        
+        if ($id == $this->Auth->user('id')) {
+            $this->User->id = $id;
+            if (!$this->User->exists()) {
+                throw new NotFoundException('User Invalide');
+            }
+            
+            $infoUser = $this->User->find('first', array(
+            'conditions' => array('id' => $id)
+            ));     
+            
+            if ($this->request->is('post') || $this->request->is('put')) {
+
+                if($this->request->data['User']['old_password'] != "" && $this->request->data['User']['new_passwd'] != "" && $this->request->data['User']['new_password'] != ""){
+                    if (AuthComponent::password($this->request->data['User']['old_password']) == $infoUser['User']['password']) {
+                        if ($this->request->data['User']['new_password'] != "") {    
+                            if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
+                                if ($this->request->data['User']['new_password'] != '') {
+                                    $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+                                }
+                            } else {
+                                $this->Session->setFlash('Le nouveau mot de passe ne correspond pas a la vérification du mot de passe. Merci de réessayer.', "flasherror");
+                                $this->redirect([
+                                    'controller' => 'users',
+                                    'action' => 'changepassword',
+                                    $id
+                                ]);
+                            }
+                        } else {
+                            $this->Session->setFlash('Le nouveau mot de passe ne peut pas être vide.', "flasherror");
+                            $this->redirect([
+                            'controller' => 'users',
+                            'action' => 'changepassword',
+                            $id
+                        ]);
+                        }
+                    } else {
+                        $this->Session->setFlash('Le mot de passe actuelle est invalide. Merci de ressayer', "flasherror");
+                        $this->redirect([
+                            'controller' => 'users',
+                            'action' => 'changepassword',
+                            $id
+                        ]);
+                    }
+                }
+                
+                if ($this->User->save($this->request->data)) {
+                    $this->Session->setFlash('L\'utilisateur a été sauvegardé. Reconnectez-vous avec vos nouvelles informations.', "flashsuccess");
+                    $this->redirect([
+                        'controller' => 'users',
+                        'action' => 'logout'
+                    ]);
+                } else {
+                    $this->Session->setFlash('L\'utilisateur n\'a pas été sauvegardé. Merci de réessayer.', "flasherror");
+                    $this->redirect([
+                        'controller' => 'pannel',
+                        'action' => 'index'
+                    ]);
+                }
+            } else {
+                $table = $this->_createTable($id);
+                $this->set('tableau', $table['tableau']);
+            }
+        } else {
+            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
+        }
+    }
 
     /**
      * Suppression d'un utilisateur
@@ -466,7 +549,7 @@ class UsersController extends AppController {
                         ])
                 ) {
                     if ($this->Droits->isCil()) {
-                        $this->Organisation->updateAll(['Organisation.cil' => NULL], ['Organisation.cil' => $id]);
+                        $this->Organisation->updateAll(['Organisation.cil' => null], ['Organisation.cil' => $id]);
                     }
                     if ($this->User->delete()) {
                         $this->Session->setFlash('Utilisateur supprimé', 'flashsuccess');
@@ -499,9 +582,9 @@ class UsersController extends AppController {
                 $this->_cleanSession();
                 $su = $this->Admin->find('count', ['conditions' => ['user_id' => $this->Auth->user('id')]]);
                 if ($su) {
-                    $this->Session->write('Su', TRUE);
+                    $this->Session->write('Su', true);
                 } else {
-                    $this->Session->write('Su', FALSE);
+                    $this->Session->write('Su', false);
                 }
                 $service = $this->OrganisationUser->find('first', [
                     'conditions' => ['user_id' => $this->Auth->user('id')],
@@ -593,7 +676,7 @@ class UsersController extends AppController {
                 }
             }
         }
-        if ($id != NULL) {
+        if ($id != null) {
             $this->set("userid", $id);
 
             $organisationUser = $this->OrganisationUser->find('all', [
@@ -612,7 +695,7 @@ class UsersController extends AppController {
                     $tableau['User'][$value['OrganisationUser']['organisation_id']][] = $valeur['liste_droit_id'];
                 }
             }
-            $this->request->data = $this->User->read(NULL, $id);
+            $this->request->data = $this->User->read(null, $id);
             unset($this->request->data['User']['password']);
         }
         $listedroits = $this->ListeDroit->find('all', ['recursive' => -1]);
