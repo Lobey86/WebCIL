@@ -23,14 +23,17 @@
         }
         echo $this->Form->create('User', [
             'autocomplete'  => 'off',
-            'inputDefaults' => ['div' => FALSE],
+            'inputDefaults' => ['div' => false],
             'class'         => 'form-horizontal'
         ]); ?>
     <div class="row">
         <div class="col-md-6">
             <?php
-                if(empty($this->validationErrors['User']['username']))
-                    echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+                if(empty($this->validationErrors['User']['username'])) {
+                    echo '<div class="form-group">';
+                } else {
+                    echo '<div class="form-group has-error">';
+                }
 
                 echo $this->Form->input('username', [
                     'class'        => 'form-control',
@@ -48,9 +51,9 @@
         <div class="form-group">
             <?php echo $this->Form->input('new_password', [
                 'class'        => 'form-control',
-                'placeholder'  => 'Mot de passe',
+                'placeholder'  => 'Nouveau mot de passe',
                 'label'        => [
-                    'text'  => 'Mot de passe <span class="requis">*</span>',
+                    'text'  => 'Nouveau mot de passe <span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between'      => '<div class="col-md-8">',
@@ -62,9 +65,9 @@
         <div class="form-group">
             <?php echo $this->Form->input('new_passwd', [
                 'class'        => 'form-control',
-                'placeholder'  => 'Mot de passe (verification)',
+                'placeholder'  => 'Nouveau mot de passe (verification)',
                 'label'        => [
-                    'text'  => 'Vérification du mot de passe <span class="requis">*</span>',
+                    'text'  => 'Vérification du nouveau mot de passe <span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between'      => '<div class="col-md-8">',
@@ -204,7 +207,7 @@
         echo '<div class="btn-group send">';
         echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, [
             'class'  => 'btn btn-default-default',
-            'escape' => FALSE
+            'escape' => false
         ]);
         echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', [
             'type'  => 'submit',
@@ -217,4 +220,3 @@
 </div>
 <?php
     echo $this->Html->script('users.js');
-?>

@@ -40,7 +40,6 @@ $cakeDescription = 'Web-CIL';
     echo $this->Html->css('jquery-ui.css');
     echo $this->Html->css('font-awesome.min.css');
 
-
     echo $this->fetch('meta');
     echo $this->fetch('css');
     echo $this->fetch('script');
@@ -315,7 +314,7 @@ $cakeDescription = 'Web-CIL';
                                                 <li><?php echo $this->Html->link('<i class="fa fa-cog fa-fw"></i> Modifier mon compte',
                                                     [
                                                         'controller' => 'users',
-                                                        'action' => 'edit',
+                                                        'action' => 'changepassword',
                                                         $userId
                                                     ], ['escapeTitle' => false]); ?></li>
                                                 <li><?php echo $this->Html->link('<i class="fa fa-lock fa-fw"></i> Déconnexion',
