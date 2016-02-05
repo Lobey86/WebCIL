@@ -209,49 +209,93 @@ echo $this->Html->css(array(
     </div>
     <div id="form-container" class="col-md-8">
         <?php
+        $test = array();
         foreach($champs as $key => $value) {
             $details = json_decode($value['Champ']['details'], true);
             $line = 35 * ($value['Champ']['ligne'] - 1);
+            
             if($value['Champ']['colonne'] == 1) {
                 $colonne = 'left: 0px;';
             } else {
                 $colonne = 'right: 0px;';
             }
+            
             switch($value['Champ']['type']) {
                 case 'input':
-                    if($details['obligatoire']) {
-                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span> <span class="obligatoire">*</span></label></div><div class="col-md-8"><input type="text" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/></div></div>';
-                    } else {
-                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span></label></div><div class="col-md-8"><input type="text" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/></div></div>';
-                    }
+                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked">'
+                                . '<div class="col-md-4">'
+                                    . '<label>'
+                                        . '<span class="labeler">' . $details['label'] . '</span>'
+                                        .($details['obligatoire']?'<span class="obligatoire">*</span>':'')
+                                    . '</label>'
+                                . '</div>'
+                                . '<div class="col-md-8">'
+                                    . '<input type="text" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/>'
+                                . '</div>'
+                            . '</div>';
                     break;
+                    
                 case 'textarea':
-                    if($details['obligatoire']) {
-                        echo '<div class="draggable form-group col-md-6 long-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span> <span class="obligatoire">*</span></label></div><div class="col-md-8"><textarea class="form-control" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '"></textarea></div></div>';
-                    } else {
-                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span></label></div><div class="col-md-8"><input type="text" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/></div></div>';
-                    }
+                    echo '<div class="draggable form-group col-md-6 long-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked">'
+                            . '<div class="col-md-4">'
+                                . '<label>'
+                                    . '<span class="labeler">' . $details['label'] . '</span>'
+                                    .($details['obligatoire']?'<span class="obligatoire">*</span>':'')
+                                . '</label>'
+                            . '</div>'
+                            . '<div class="col-md-8">'
+                                . '<textarea type="textarea" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '"class="form-control"></textarea>'
+                            . '</div>'
+                        . '</div>';
                     break;
+                    
                 case 'date':
-                    if($details['obligatoire']) {
-                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span> <span class="obligatoire">*</span></label></div><div class="col-md-8"><input type="date" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/></div></div>';
-                    } else {
-                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span></label></div><div class="col-md-8"><input type="date" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/></div></div>';
-                    }
+                    echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked">'
+                            . '<div class="col-md-4">'
+                                . '<label>'
+                                    . '<span class="labeler">' . $details['label'] . '</span>'
+                                    .($details['obligatoire']?'<span class="obligatoire">*</span>':'')
+                                . '</label>'
+                            . '</div>'
+                            . '<div class="container">'
+                                .'<div class="row">'
+                                    .'<div class="col-sm-2">'
+                                        .'<input type="text" class="form-control" id="'.$details['name'].'" name="'.$details['name'].'" placeholder="'.$details['placeholder'].'" id="datetimepicker4"></input>
+'                                   .'</div>'
+                                .'</div>'
+                            .'</div>'
+                        .'</div>';
+                    
+                    $test[] = $details['name'];
                     break;
+                    
                 case 'title':
-                    echo '<div class="draggable form-group col-md-6 title text-center" style="top:' . $line . 'px; ' . $colonne . '"><h1>' . $details['content'] . '</h1></div>';
+                    echo '<div class="draggable form-group col-md-6 title text-center" style="top:' . $line . 'px; ' . $colonne . '">'
+                            . '<h1>' . $details['content'] . '</h1>'
+                        . '</div>';
                     break;
+                
                 case 'help':
-                    echo '<div class="draggable form-group col-md-6 help text-center" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-12 alert alert-info"><div class="col-md-12"><i class="fa fa-fw fa-info-circle fa-2x"></i></div><div class="col-md-12 messager">' . $details['content'] . '</div></div></div>';
+                    echo '<div class="draggable form-group col-md-6 help text-center" style="top:' . $line . 'px; ' . $colonne . '">'
+                            . '<div class="col-md-12 alert alert-info">'
+                                . '<div class="col-md-12">'
+                                    . '<i class="fa fa-fw fa-info-circle fa-2x"></i>'
+                                . '</div>'
+                                . '<div class="col-md-12 messager">' . $details['content'] . '</div>'
+                            . '</div>'
+                        . '</div>';
                     break;
+                
                 case 'checkboxes':
                     echo '<div class="draggable form-group col-md-6 checkboxes" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span></label></div><div class="col-md-8 contentCheckbox">';
+                    
                     foreach($details['options'] as $val) {
                         echo '<div class="checkbox"><input type="checkbox" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
                     }
+                    
                     echo '</div></div>';
                     break;
+                    
                 case 'radios':
                     echo '<div class="draggable form-group col-md-6 radios" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span></label></div><div class="col-md-8 contentRadio">';
                     foreach($details['options'] as $val) {
@@ -277,37 +321,30 @@ echo $this->Html->css(array(
             <div class="btn-group-vertical col-md-6">
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-small-text"><i
                         class="fa fa-font fa-fw"></i>
-                    Petit
-                    champ
-                    texte
+                    Petit champ texte
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-long-text"><i
-                        class="fa fa-text-height fa-fw"></i> Grand
-                                                             champ
-                                                             texte
+                        class="fa fa-text-height fa-fw"></i> 
+                    Grand champ texte
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-date"><i
                         class="fa fa-calendar fa-fw"></i>
-                    Champ
-                    date
+                    Champ date
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-checkbox"><i
-                        class="fa fa-check-square-o fa-fw"></i> Cases
-                                                                à
-                                                                cocher
+                        class="fa fa-check-square-o fa-fw"></i> 
+                    Cases à cocher
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-radio"><i
-                        class="fa fa-check-circle-o fa-fw"></i> Choix
-                                                                unique
+                        class="fa fa-check-circle-o fa-fw"></i> 
+                    Choix unique
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-title"><i class="fa fa-tag fa-fw"></i>
-                    Titre de
-                    catégorie
+                    Titre de catégorie
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-help"><i
                         class="fa fa-info-circle fa-fw"></i>
-                    Champ
-                    d'information
+                    Champ d'information
                 </button>
             </div>
         </div>
@@ -326,8 +363,8 @@ echo $this->Html->css(array(
         ?>
     </div>
     <div class="top30 btn-group col-md-12">
-        <button class="btn btn-default-success" id="successForm"><i class="fa fa-fw fa-check"></i> Enregistrer ce
-                                                                                                   formulaire
+        <button class="btn btn-default-success" id="successForm"><i class="fa fa-fw fa-check"></i> 
+            Enregistrer ce formulaire
         </button>
     </div>
 <?php
@@ -339,3 +376,25 @@ echo $this->Form->create('Formulaire', array(
 echo $this->Form->hidden('id', array('value' => $id));
 echo $this->Form->hidden('json', array('id' => 'hiddenForm'));
 echo $this->Form->end();
+?>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var test = <?php echo json_encode($test); ?>;
+        var nb = test.length;
+        
+        for (var i = 0; i < nb; i++) {
+          
+            $('#' + test[i]).datetimepicker({
+                viewMode: 'year',
+                startView: "decade",
+                format: 'dd/mm/yyyy',
+                minView: 2,
+                language: 'fr'
+            });
+        }
+
+    });
+</script>
