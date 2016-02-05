@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var incrementation_id = 0;
     refresh();
     $("#form-container").resizable({
         handles: "s"
@@ -14,54 +15,145 @@ $(document).ready(function () {
         $('.ui-selected').removeClass('ui-selected');
         switch (id) {
             case 'btn-small-text':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 small-text ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8"><input type="text" placeholder="Aide à la saisie" class="form-control"/></div></div>');
+                var new_element = jQuery(
+                    '<div class="draggable form-group col-md-6 small-text ui-selected">\n\
+                        <div class="col-md-4">\n\
+                            <label>\n\
+                                <span class="labeler">Petit champ texte</span>\n\
+                            </label>\n\
+                        </div>\n\
+                        <div class="col-md-8">\n\
+                            <input type="text" class="form-control" placeholder="Aide à la saisie"/>\n\
+                        </div>\n\
+                    </div>'
+                );
+                
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
+                
             case 'btn-long-text':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 long-text ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8"><textarea class="form-control" placeholder="Aide à la saisie"></textarea></div></div>');
+                var new_element = jQuery(
+                    '<div class="draggable form-group col-md-6 long-text ui-selected">\n\
+                        <div class="col-md-4">\n\
+                            <label>\n\
+                                <span class="labeler">Grand champ texte</span>\n\
+                            </label>\n\
+                        </div>\n\
+                        <div class="col-md-8">\n\
+                            <textarea class="form-control" placeholder="Aide à la saisie"/>\n\
+                        </div>\n\
+                    </div>'
+                );
+                
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
+                
             case 'btn-date':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 date ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8"><input type="date" placeholder="Aide à la saisie" class="form-control"/></div></div>');
+                var new_element = jQuery(
+                        '<div class="draggable form-group col-md-6 date ui-selected">\n\
+                            <div class="col-md-4">\n\
+                                <label>\n\
+                                    <span class="labeler">Champ date</span>\n\
+                                </label>\n\
+                            </div>\n\
+                            <div class="container">\n\
+                                <div class="row">\n\
+                                    <div class="col-sm-2">\n\
+                                        <input type="text" class="form-control" placeholder="jj/mm/aaaa" id="datetimepicker'+incrementation_id+'"/>\n\
+                                    <\div>\n\
+                                <\div>\n\
+                            </div>\n\
+                        </div>'
+                );
+        
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
+                incrementation_id ++;
                 break;
+                
             case 'btn-title':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 title ui-selected text-center"><h1>Titre</h1></div>');
+                var new_element = jQuery(
+                    '<div class="draggable form-group col-md-6 title ui-selected text-center">\n\
+                        <h1>Titre de catégorie</h1>\n\
+                    </div>'
+                );
+                
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
+                
             case 'btn-help':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 help text-center ui-selected"><div class="col-md-12 alert alert-info"><div class="col-md-12"><i class="fa fa-fw fa-info-circle fa-2x"></i></div><div class="col-md-12 messager"> Message</div></div></div>');
+                var new_element = jQuery(
+                    '<div class="draggable form-group col-md-6 help text-center ui-selected">\n\
+                        <div class="col-md-12 alert alert-info">\n\
+                            <div class="col-md-12">\n\
+                                <i class="fa fa-fw fa-info-circle fa-2x"></i>\n\
+                            </div>\n\
+                            <div class="col-md-12 messager">Champ d\'information</div>\n\
+                        </div>\n\
+                    </div>'
+                );
+               
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
+                
             case 'btn-checkbox':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 checkboxes ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8 contentCheckbox"> Aucune option sélectionnée</div></div>');
+                var new_element = jQuery(
+                    '<div class="draggable form-group col-md-6 checkboxes ui-selected">\n\
+                        <div class="col-md-4">\n\
+                            <label>\n\
+                                <span class="labeler">Cases à cocher</span>\n\
+                            </label>\n\
+                        </div>\n\
+                        <div class="col-md-8 contentCheckbox"> Aucune option sélectionnée</div>\n\
+                    </div>');
+                
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
+                
             case 'btn-radio':
-                var new_element = jQuery('<div class="draggable form-group col-md-6 radios ui-selected"><div class="col-md-4"><label><span class="labeler">Nom</span></label></div><div class="col-md-8 contentRadio"> Aucune option sélectionnée</div></div>');
+                var new_element = jQuery(
+                    '<div class="draggable form-group col-md-6 radios ui-selected">\n\
+                        <div class="col-md-4">\n\
+                            <label>\n\
+                                <span class="labeler">Choix unique </span>\n\
+                            </label>\n\
+                        </div>\n\
+                        <div class="col-md-8 contentRadio"> Aucune option sélectionnée</div>\n\
+                    </div>'
+                );
+                
                 $('#form-container').append(new_element);
                 hideDetails();
                 displayDetails($('.ui-selected'));
                 refresh();
                 break;
+        }
+
+        for (var i = 0; i < incrementation_id; i++){
+            $('#datetimepicker'+ i).datetimepicker({
+                viewMode: 'year',
+                startView: "decade",
+                format: 'dd/mm/yyyy',
+                minView: 2,
+                language: 'fr'
+            });
         }
     });
 
@@ -80,6 +172,7 @@ $(document).ready(function () {
             opacity: 0.70,
             grid: [size, 35]
         });
+        
         $(".draggable").click(function () {
             if ($(this).hasClass("ui-selected")) {
                 $(this).removeClass("ui-selected");
@@ -92,6 +185,7 @@ $(document).ready(function () {
                 displayDetails($(this));
             }
         });
+        
         $(".draggable").on('dragstop', function () {
             var position = $(this).position();
             if (position.left < size / 2) {
@@ -116,12 +210,13 @@ $(document).ready(function () {
         else {
             var check = '<div class="checkbox"><input type="checkbox" name="name" id="oblig-small-text" class="obligForm"> Champ obligatoire</div>';
         }
-        if (object.hasClass('small-text')) {
+        
+        if (object.hasClass('small-text') || object.hasClass('date')) {
             var options = jQuery('' +
                     '<div class="col-md-12">' +
                     '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-small-text" placeholder="Nom du champ" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
                     '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-small-text" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                    '<div class="form-group"><label>Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-small-text" value="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
+                    '<div class="form-group"><label>Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-small-text" placeholder="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
                     check +
                     '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                     '</div>'
@@ -140,37 +235,23 @@ $(document).ready(function () {
                 )
                 ;
         }
-        else if (object.hasClass('date')) {
-            var options = jQuery('' +
-                    '<div class="col-md-12">' +
-                    '<div class="form-group"><label>Nom de variable<span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
-                    '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-date" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                    '<div class="form-group"><label>Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-datet" placeholder="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
-                    check +
-                    '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
-                    '</div>'
-                )
-                ;
-        }
         else if (object.hasClass('title')) {
             var options = jQuery('' +
                     '<div class="col-md-12">' +
                     '<div class="form-group">Contenu<input type="text" class="form-control titleForm" name="content-title" id="content-title" value="' + $('.ui-selected').find('h1').html() + '"></div>' +
                     '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                     '</div>'
-                )
-                ;
-        }
-        else if (object.hasClass('help')) {
+                );
+        
+        } else if (object.hasClass('help')) {
             var options = jQuery('' +
                     '<div class="col-md-12">' +
                     '<div class="form-group">Contenu<input type="text" class="form-control helpForm" name="content-help" id="content-help" value="' + $('.ui-selected').find('.messager').html() + '"></div>' +
                     '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                     '</div>'
-                )
-                ;
-        }
-        else if (object.hasClass('checkboxes')) {
+                );
+        
+        } else if (object.hasClass('checkboxes') || object.hasClass('radios')) {
             var list = '';
             $('.ui-selected').find('input').each(function () {
                 if (list == '') {
@@ -197,52 +278,29 @@ $(document).ready(function () {
                 '</div>'
             );
         }
-        else if (object.hasClass('radios')) {
-            var list = '';
-            $('.ui-selected').find('input').each(function () {
-                if (list == '') {
-                    list = list + $(this).val();
-                }
-                else {
-                    list = list + '\n' + $(this).val();
-                }
 
-            });
-
-            if (!$('.ui-selected').find('input').attr('name')) {
-                var nom = 'undefined';
-            }
-            else {
-                var nom = $('.ui-selected').find('input').attr('name').replace('[]', '');
-            }
-
-            var options = jQuery('' +
-                    '<div class="col-md-12">' +
-                    '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-date" placeholder="Nom du champ" value="' + nom + '"></div>' +
-                    '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                    '<div class="form-group"><label>Options (1 par ligne)</label><textarea class="form-control radioForm">' + list + '</textarea></div>' +
-                    '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
-                    '</div>'
-                )
-                ;
-        }
         $('#field-options').append(options);
+        
         $('#applicable').click(function () {
             $('#applicable').parent().parent().find('input').each(function () {
                 if ($(this).hasClass('labelForm')) {
                     $('.ui-selected').find('label').html('<span class="labeler">' + $(this).val() + '</span>');
                 }
+                
                 if ($(this).hasClass('nameForm')) {
                     checkName($(this).val());
                     $('.ui-selected').find('input').attr('name', $(this).val());
                     $('.ui-selected').find('textarea').attr('name', $(this).val());
                 }
+                
                 if ($(this).hasClass('placeholderForm')) {
                     $('.ui-selected').find('input').attr('placeholder', $(this).val());
                 }
+                
                 if ($(this).hasClass('placeholderForm')) {
                     $('.ui-selected').find('textarea').attr('placeholder', $(this).val());
                 }
+                
                 if ($(this).hasClass('obligForm')) {
                     if ($(this).prop('checked')) {
                         $('.ui-selected').find('label').html('<span class="labeler">' +
@@ -255,9 +313,11 @@ $(document).ready(function () {
                         $('.ui-selected').attr('data', 'unchecked');
                     }
                 }
+                
                 if ($(this).hasClass('titleForm')) {
                     $('.ui-selected').find('h1').html($(this).val());
                 }
+                
                 if ($(this).hasClass('helpForm')) {
                     $('.ui-selected').find('.messager').html($(this).val());
                 }
@@ -441,5 +501,4 @@ $(document).ready(function () {
             document.forms["addForm"].submit();
         }
     });
-
 });

@@ -29,6 +29,8 @@ $cakeDescription = 'Web-CIL';
     echo $this->Html->script('bootstrap-filestyle.min.js', ['inline' => false]);
     echo $this->Html->script('chosen.jquery.min.js');
     echo $this->Html->script('main.js');
+    echo $this->Html->script('bootstrap-datetimepicker.min');
+    echo $this->Html->script('locales/bootstrap-datetimepicker.fr.js');
 
     echo $this->Html->meta('icon');
 
@@ -39,6 +41,7 @@ $cakeDescription = 'Web-CIL';
     echo $this->Html->css('main.css');
     echo $this->Html->css('jquery-ui.css');
     echo $this->Html->css('font-awesome.min.css');
+    echo $this->Html->css('bootstrap-datetimepicker.min');
 
     echo $this->fetch('meta');
     echo $this->fetch('css');
