@@ -171,16 +171,18 @@ class FormulairesController extends AppController {
     }
 
     public function edit($id = null) {
+        $this->set('title', 'Editer un formulaire');
+        
         $organisation = $this->Organisation->find('first', array(
             'conditions' => array('Organisation.id' => $this->Session->read('Organisation.id'))
         ));
 
         $organisation['Organisation']['service'] = ($this->Session->read('User.service') == null) ? '' : $this->Session->read('User.service');
 
-        $this->set('title', 'Editer un formulaire');
         $champs = $this->Champ->find('all', array('conditions' => array('formulaires_id' => $id)));
         $this->set(compact(['id', 'organisation', 'champs']));
         $this->Formulaire->updateAll(array('active' => 0), array('id' => $id));
+        
         if ($this->request->is(array(
                     'POST',
                     'PUT'
@@ -189,26 +191,33 @@ class FormulairesController extends AppController {
             if ($id == null) {
                 $id = $this->request->data['Formulaire']['id'];
             }
+            
             if ($this->Champ->deleteAll(array('formulaires_id' => $id))) {
                 $array = json_decode($this->request->data['Formulaire']['json'], true);
+                
                 foreach ($array as $key => $value) {
                     $sortie = array();
+                    
                     foreach ($value as $clef => $valeur) {
                         switch ($clef) {
                             case 'type':
                                 $type = $valeur;
                                 break;
+                            
                             case 'ligne':
                                 $ligne = $valeur;
                                 break;
+                            
                             case 'colonne':
                                 $colonne = $valeur;
                                 break;
+                            
                             default:
                                 $sortie[$clef] = $valeur;
                                 break;
                         }
                     }
+
                     $this->Champ->create(array(
                         'formulaires_id' => $id,
                         'type' => $type,
@@ -216,8 +225,10 @@ class FormulairesController extends AppController {
                         'colonne' => $colonne,
                         'details' => json_encode($sortie)
                     ));
+                    
                     $this->Champ->save();
                 }
+                
                 $this->Session->setFlash('Le formulaire a été enregistré', 'flashsuccess');
                 $this->redirect(array(
                     'controller' => 'formulaires',
