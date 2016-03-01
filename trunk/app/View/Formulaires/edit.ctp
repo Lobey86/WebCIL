@@ -13,7 +13,6 @@ echo $this->Html->css(array(
         <div class="row">
             <div class="col-md-6">
                 <?php
-
                 echo $this->Form->input('declarantraisonsociale', array(
                     'label' => array(
                         'text' => 'Raison Sociale <span class="obligatoire">*</span>',
@@ -26,6 +25,7 @@ echo $this->Html->css(array(
                     'div' => 'form-group',
                     'value' => $organisation['Organisation']['raisonsociale']
                 ));
+                
                 echo $this->Form->input('declarantservice', array(
                     'label' => array(
                         'text' => 'Service',
@@ -38,6 +38,7 @@ echo $this->Html->css(array(
                     'div' => 'form-group',
                     'value' => $organisation['Organisation']['service']
                 ));
+                
                 echo $this->Form->input('declarantadresse', array(
                     'label' => array(
                         'text' => 'Adresse <span class="obligatoire">*</span>',
@@ -51,6 +52,7 @@ echo $this->Html->css(array(
                     'div' => 'form-group',
                     'value' => $organisation['Organisation']['adresse']
                 ));
+                
                 echo $this->Form->input('declarantemail', array(
                     'label' => array(
                         'text' => 'E-mail <span class="obligatoire">*</span>',
@@ -80,6 +82,7 @@ echo $this->Html->css(array(
                     'div' => 'form-group',
                     'value' => $organisation['Organisation']['sigle']
                 ));
+                
                 echo $this->Form->input('declarantsiret', array(
                     'label' => array(
                         'text' => 'N° de SIRET <span class="obligatoire">*</span>',
@@ -92,6 +95,7 @@ echo $this->Html->css(array(
                     'div' => 'form-group',
                     'value' => $organisation['Organisation']['siret']
                 ));
+                
                 echo $this->Form->input('declarantape', array(
                     'label' => array(
                         'text' => 'Code APE <span class="obligatoire">*</span>',
@@ -104,6 +108,7 @@ echo $this->Html->css(array(
                     'div' => 'form-group',
                     'value' => $organisation['Organisation']['ape']
                 ));
+                
                 echo $this->Form->input('declaranttelephone', array(
                     'label' => array(
                         'text' => 'Téléphone <span class="obligatoire">*</span>',
@@ -116,6 +121,7 @@ echo $this->Html->css(array(
                     'div' => 'form-group',
                     'value' => $organisation['Organisation']['telephone']
                 ));
+                
                 echo $this->Form->input('declarantfax', array(
                     'label' => array(
                         'text' => 'Fax',
@@ -209,7 +215,7 @@ echo $this->Html->css(array(
     </div>
     <div id="form-container" class="col-md-8">
         <?php
-        $test = array();
+        $calendrier = array();
         foreach($champs as $key => $value) {
             $details = json_decode($value['Champ']['details'], true);
             $line = 35 * ($value['Champ']['ligne'] - 1);
@@ -220,53 +226,59 @@ echo $this->Html->css(array(
                 $colonne = 'right: 0px;';
             }
             
+            if($details['obligatoire'] == true){
+                $champObligatoire = "checked";
+            } else {
+                $champObligatoire = "unchecked";
+            }
+            
             switch($value['Champ']['type']) {
                 case 'input':
-                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked">'
+                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; '.$colonne.'" data="'.$champObligatoire.'">'
                                 . '<div class="col-md-4">'
                                     . '<label>'
                                         . '<span class="labeler">' . $details['label'] . '</span>'
-                                        .($details['obligatoire']?'<span class="obligatoire">*</span>':'')
+                                        .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
                                     . '</label>'
                                 . '</div>'
                                 . '<div class="col-md-8">'
-                                    . '<input type="text" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/>'
+                                    . '<input type="text" name="'.$details['name'].'" checked="'.$details['obligatoire'].'" placeholder="' . $details['placeholder'] . '" class="form-control"/>'
                                 . '</div>'
                             . '</div>';
                     break;
                     
                 case 'textarea':
-                    echo '<div class="draggable form-group col-md-6 long-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked">'
+                    echo '<div class="draggable form-group col-md-6 long-text" style="top:' . $line . 'px; ' . $colonne . '" data="'.$champObligatoire.'">'
                             . '<div class="col-md-4">'
                                 . '<label>'
                                     . '<span class="labeler">' . $details['label'] . '</span>'
-                                    .($details['obligatoire']?'<span class="obligatoire">*</span>':'')
+                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
                                 . '</label>'
                             . '</div>'
                             . '<div class="col-md-8">'
-                                . '<textarea type="textarea" name="' . $details['name'] . '" placeholder="' . $details['placeholder'] . '"class="form-control"></textarea>'
+                                . '<textarea type="textarea" name="' . $details['name'] . '" checked="'.$details['obligatoire'].'" placeholder="' . $details['placeholder'] . '"class="form-control"></textarea>'
                             . '</div>'
                         . '</div>';
                     break;
                     
                 case 'date':
-                    echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '" data="checked">'
+                    echo '<div class="draggable form-group col-md-6 date" style="top:' . $line . 'px; ' . $colonne . '" data="'.$champObligatoire.'">'
                             . '<div class="col-md-4">'
                                 . '<label>'
                                     . '<span class="labeler">' . $details['label'] . '</span>'
-                                    .($details['obligatoire']?'<span class="obligatoire">*</span>':'')
+                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
                                 . '</label>'
                             . '</div>'
                             . '<div class="container">'
                                 .'<div class="row">'
                                     .'<div class="col-sm-2">'
-                                        .'<input type="text" class="form-control" id="'.$details['name'].'" name="'.$details['name'].'" placeholder="'.$details['placeholder'].'" id="datetimepicker4"></input>
+                                        .'<input type="date" class="form-control" id="'.$details['name'].'" name="'.$details['name'].'" required="'.$details['obligatoire'].'" placeholder="'.$details['placeholder'].'"></input>
 '                                   .'</div>'
                                 .'</div>'
                             .'</div>'
                         .'</div>';
                     
-                    $test[] = $details['name'];
+                    $calendrier[] = $details['name'];
                     break;
                     
                 case 'title':
@@ -287,21 +299,60 @@ echo $this->Html->css(array(
                     break;
                 
                 case 'checkboxes':
-                    echo '<div class="draggable form-group col-md-6 checkboxes" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span></label></div><div class="col-md-8 contentCheckbox">';
+                    echo '<div class="draggable form-group col-md-6 checkboxes" style="top:' . $line . 'px; ' . $colonne .'" data="'.$champObligatoire.'">'
+                            . '<div class="col-md-4">'
+                                . '<label>'
+                                    . '<span class="labeler">' . $details['label'] . '</span>'
+                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
+                                . '</label>'
+                            . '</div>'
+                            . '<div class="col-md-8 contentCheckbox">';
                     
                     foreach($details['options'] as $val) {
-                        echo '<div class="checkbox"><input type="checkbox" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
+                        echo '<div class="checkbox">'
+                                . '<input type="checkbox" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
                     }
                     
                     echo '</div></div>';
                     break;
                     
                 case 'radios':
-                    echo '<div class="draggable form-group col-md-6 radios" style="top:' . $line . 'px; ' . $colonne . '"><div class="col-md-4"><label><span class="labeler">' . $details['label'] . '</span></label></div><div class="col-md-8 contentRadio">';
-                    foreach($details['options'] as $val) {
-                        echo '<div class="radio"><input type="radio" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
-                    }
-                    echo '</div></div>';
+                    echo '<div class="draggable form-group col-md-6 radios" style="top:' . $line . 'px; ' . $colonne .'" data="'.$champObligatoire.'">'
+                            . '<div class="col-md-4">'
+                                . '<label>'
+                                    . '<span class="labeler">' . $details['label'] . '</span>'
+                                . '</label>'
+                            . '</div>'
+                            . '<div class="col-md-8 contentRadio">';
+                                foreach($details['options'] as $val) {
+                                    echo '<div class="radio"><input type="radio" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
+                                }
+                        echo '</div></div>';
+                    break;
+                    
+                case 'deroulant':
+                    echo '<div class="draggable form-group col-md-6 deroulant" style="top:' . $line . 'px; ' . $colonne .'" data="'.$champObligatoire.'">'
+                            .'<div class="col-md-4">'
+                                .'<label>'
+                                    .'<span class="labeler">' . $details['label'] . '</span>'
+                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
+                                .'</label>'
+                            .'</div>'
+                            .'<select class="form-control contentDeroulant">';
+                            foreach($details['options'] as $val) {
+                                echo '<option type="deroulant" name ="'.$details['name'].'" value="' . $val . '"> '. $val . '</option></div>';
+                            }
+                            echo '</select>'
+                        .'</div>';
+                    break;
+                    
+                case 'texte':
+                    echo '<div class="draggable form-group col-md-6 texte" style="top:' . $line . 'px;' . $colonne . '">'
+                            . '<h5>' . $details['content'] . '</h5>'
+                        . '</div>';
+                    break;    
+                    
+                default :
                     break;
             }
         }
@@ -339,12 +390,20 @@ echo $this->Html->css(array(
                         class="fa fa-check-circle-o fa-fw"></i> 
                     Choix unique
                 </button>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-deroulant"><i
+                        class="fa  fa-list-alt fa-fw"></i>
+                    Menu déroulant
+                </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-title"><i class="fa fa-tag fa-fw"></i>
                     Titre de catégorie
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-help"><i
                         class="fa fa-info-circle fa-fw"></i>
                     Champ d'information
+                </button>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-texte"><i
+                        class="fa fa-pencil fa-fw"></i>
+                    Texte
                 </button>
             </div>
         </div>
@@ -382,12 +441,12 @@ echo $this->Form->end();
 
     $(document).ready(function () {
 
-        var test = <?php echo json_encode($test); ?>;
-        var nb = test.length;
+        var afficherCalendrier = <?php echo json_encode($calendrier); ?>;
+        var nb = afficherCalendrier.length;
         
         for (var i = 0; i < nb; i++) {
           
-            $('#' + test[i]).datetimepicker({
+            $('#' + afficherCalendrier[i]).datetimepicker({
                 viewMode: 'year',
                 startView: "decade",
                 format: 'dd/mm/yyyy',

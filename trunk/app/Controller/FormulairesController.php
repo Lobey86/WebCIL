@@ -197,7 +197,6 @@ class FormulairesController extends AppController {
                 
                 foreach ($array as $key => $value) {
                     $sortie = array();
-                    
                     foreach ($value as $clef => $valeur) {
                         switch ($clef) {
                             case 'type':
