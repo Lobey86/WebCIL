@@ -4,11 +4,7 @@ $(document).ready(function () {
     refresh();
     
     $("#form-container").resizable({
-        handles: "s",
-//        minHeight: 1500,
-//        resize: function( event, ui ) {
-//            ui.size.height = Math.round( ui.size.height / 30 ) * 70;
-//        }
+        handles: "s"
     });
 
 
@@ -431,10 +427,14 @@ $(document).ready(function () {
                 
                 /*Concerne les champs "Cases à cocher, Choix unique, Menu déroulant"*/
                 $('#applicable').parent().parent().find('textarea').each(function () {
+                    
+                    alert("ICI");
+                    
                     if ($(this).hasClass('checkboxForm')) {
+                        alert("ICI2");
                         var options = $(this).val().split('\n');
                         var objet = '';
-                        var nom = $('.ui-selected').find('option').attr('name').replace('[]', '');
+                        var nom = $(this).parent().parent().find('.nameForm').val();
 
                         $.each(options, function (index, value) {
                             objet = objet + '<div class="checkbox"><input type="checkbox" name="' + nom + '" value="' + value + '">' + value + '</div>';
