@@ -251,7 +251,7 @@ echo $this->Html->script('pannel.js');
                 ?>
         <div class="row bottom10">
             <div class="col-md-12 text-center">
-                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter une fiche', ['#' => '#'], [
+                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Créer une fiche', ['#' => '#'], [
                             'escape'      => FALSE,
                             'data-toggle' => 'modal',
                             'data-target' => '#myModal',
