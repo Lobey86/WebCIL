@@ -51,7 +51,7 @@ class AppController extends Controller {
             )
         )
     );
-
+    
     /**
      * @access public
      * @created 29/04/2015

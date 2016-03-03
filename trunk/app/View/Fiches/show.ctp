@@ -193,202 +193,234 @@ echo $this->Form->create('Fiche', array(
     <div class="row">
         <div class="row row35"></div>
         <?php
-        echo '
-<div class="col-md-6">';
+        echo '<hr/>';
+        
+        $incrementation_id = 0;
+        
+        echo '<div class="col-md-6">';
         foreach($champs as $value) {
             if($value['Champ']['colonne'] > $col) {
-                echo '
-</div>';
-                echo '
-<div class="col-md-6">';
+                echo '</div>';
+                echo '<div class="col-md-6">';
                 $line = 1;
                 $col++;
             }
+            
             if($value['Champ']['ligne'] > $line) {
                 for($i = $line; $i < $value['Champ']['ligne']; $i++) {
-                    echo '
-    <div class="row row35"></div>
-                      ';
+                    echo '<div class="row row35"></div>';
                 }
+                
                 $line = $value['Champ']['ligne'];
             }
+            
             $options = json_decode($value['Champ']['details'], true);
-            echo '
-    <div class="row row35">
-    <div class="col-md-12">';
+
+            $afficherObligation = "";
+
+            if($options['obligatoire'] == true){
+                $afficherObligation = '<span class="obligatoire"> *</span>';
+            }
+            
+            echo '<div class="row row35"><div class="col-md-12">';
+            
             switch($value['Champ']['type']) {
                 case 'input':
-                    echo $this->Form->input($options['name'], array(
-                        'label' => array(
-                            'text' => $options['label'],
+                    echo $this->Form->input($options['name'], [
+                        'label'       => [
+                            'text'  => $options['label'].$afficherObligation,
                             'class' => 'col-md-4 control-label'
-                        ),
-                        'between' => '<div class="col-md-8">',
-                        'after' => '</div>',
-                        'class' => 'form-control',
-                        'div' => 'form-group',
-                        'placeholder' => $options['placeholder'],
-                        'required' => $options['obligatoire']
-                    ));
-
+                        ],
+                        'between'     => '<div class="col-md-8">',
+                        'after'       => '</div>',
+                        'class'       => 'form-control',
+                        'div'         => 'form-group',
+                        'required'    => $options['obligatoire']
+                    ]);
                     break;
+                
                 case 'textarea':
-                    echo $this->Form->input($options['name'], array(
-                        'label' => array(
-                            'text' => $options['label'],
+                    echo $this->Form->input($options['name'], [
+                        'label'       => [
+                            'text'  => $options['label'].$afficherObligation,
                             'class' => 'col-md-4 control-label'
-                        ),
-                        'between' => '<div class="col-md-8">',
-                        'after' => '</div>',
-                        'class' => 'form-control',
-                        'div' => 'form-group',
-                        'placeholder' => $options['placeholder'],
-                        'required' => $options['obligatoire'],
-                        'type' => 'textarea'
-                    ));
+                        ],
+                        'between'     => '<div class="col-md-8">',
+                        'after'       => '</div>',
+                        'class'       => 'form-control',
+                        'div'         => 'form-group',
+                        'required'    => $options['obligatoire'],
+                        'type'        => 'textarea'
+                    ]);
                     break;
+                
                 case 'date':
-                    echo '<div class="form-group"><label class="col-md-4 control-label">' . $options['label'] . '</label><div class="col-md-8"><input type="date" class="form-control" placeholder="' . $options['placeholder'] . '" required="' . $options['obligatoire'] . '"/></div></div>';
+                    echo $this->Form->input($options['name'], [
+                        'label'       => [
+                            'text'  => $options['label'].$afficherObligation,
+                            'class' => 'col-md-4 control-label'
+                        ],
+                        'id'          => 'datetimepicker'.$incrementation_id,
+                        'between'     => '<div class="col-md-8">',
+                        'after'       => '</div>',
+                        'class'       => 'form-control',
+                        'div'         => 'form-group',
+                        'required'    => $options['obligatoire'],
+                    ]);
+                    $incrementation_id ++;
                     break;
+                
                 case 'title':
                     echo '<div class="col-md-12 text-center"><h1>' . $options['content'] . '</h1></div>';
                     break;
+                
+                case 'texte':
+                    echo '<div class="form-group"><div class="container"><h5 class="col-md-4 control-label">' . $options['content'] . '</h5></div></div>';
+                    break;
+
                 case 'help':
                     echo '<div class="col-md-12 alert alert-info text-center">
-            <div class="col-md-12"><i class="fa fa-fw fa-info-circle fa-2x"></i></div>
-            <div class="col-md-12">' . $options['content'] . '</div>
-        </div>';
+                            <div class="col-md-12"><i class="fa fa-fw fa-info-circle fa-2x"></i></div>
+                            <div class="col-md-12">' . $options['content'] . '</div>
+                        </div>';
                     break;
+                
                 case 'checkboxes':
-                    if($options['obligatoire']) {
-                        $oblig = 'required = "required"';
-                    } else {
-                        $oblig = '';
-                    }
-                    echo '
-        <div class="form-group">
-            <label class="col-md-4 control-label">' . $options['label'] . '</label>
-            <div class="col-md-8">';
-                    $opt = array();
-                    foreach($options['options'] as $va) {
-                        $opt[$va] = $va;
-                    }
-                    echo $this->Form->input($options['name'], array(
-                        'label' => false,
-                        'type' => 'select',
+                    echo '<div class="form-group">
+                            <label class="col-md-4 control-label">' . $options['label']. '</label>
+                        <div class="col-md-8">';
+
+                    echo $this->Form->input($options['name'], [
+                        'label'    => false,
+                        'type'     => 'select',
                         'multiple' => 'checkbox',
-                        'options' => $opt,
-                    ));
-                    echo '
-            </div>
-        </div>
-                           ';
+                        'options'  => $options['options']
+                    ]);
+                    echo '</div></div>';
                     break;
+                    
+                case 'deroulant':
+                    echo '<div class="form-group">
+                            <label class="col-md-4 control-label">' . $options['label'].$afficherObligation . '</label>
+                        <div class="col-md-8">';
+
+                    echo $this->Form->select($options['label'], $options['options'], [
+                        'required' => $options['obligatoire'],
+                        'empty' => true,
+                    ]);
+                    
+                    echo '</div></div>';
+                    break;     
+                    
                 case 'radios':
-                    echo '
-        <div class=" col-md-12 form-group">
-            <label class="col-md-4 control-label">' . $options['label'] . '</label>
-            <div class="col-md-8 radio">';
-                    echo $this->Form->radio($options['name'], $options['options'], array(
-                        'label' => false,
-                        'legend' => false,
+                    echo '<div class="form-group">
+                            <label class="col-md-4 control-label">' . $options['label'] . '</label>
+                        <div class="col-md-8">';
+
+                    echo $this->Form->radio($options['name'],$options['options'], [
+                        'label'     => false,
+                        'legend'    => false,
                         'separator' => '<br/>'
-                    ));
-                    echo '
-            </div>
-        </div>
-                           ';
+                    ]);
+
+                    echo '</div></div>';
                     break;
+                
             }
             $line++;
-            echo '</div>
-</div>';
+            echo '</div></div>';
 
         }
-        echo '
-</div>
-</div>';
-        echo '
-<div class="col-md-12 top30">
-<h4>Pièces jointes</h4>
-        <table>
-        <tbody>
-        <tr>';
-        foreach($files as $val) {
-            $ext = explode('.', $val['File']['url']);
-            $ext = strtolower(end($ext));
-            switch($ext) {
-                case 'pdf':
-                    $icone = 'file-pdf-o';
-                    break;
-                case 'xls':
-                case 'xlsx':
-                    $icone = 'file-excel-o';
-                    break;
-                case 'doc':
-                case 'docx':
-                    $icone = 'file-word-o';
-                    break;
-                case 'zip':
-                case 'rar':
-                case 'tar':
-                case'gz':
-                    $icone = 'file-archive-o';
-                    break;
-                case 'avi':
-                case 'mpg':
-                case 'mpeg':
-                case 'mkv':
-                case 'mp4':
-                case 'mov':
-                    $icone = 'file-video-o';
-                    break;
-                case 'jpg':
-                case 'jpeg':
-                case 'gif':
-                case 'png':
-                case 'bmp':
-                    $icone = 'file-image-o';
-                    break;
-                case 'ppt':
-                case 'pptx':
-                    $icone = 'file-powerpoint-o';
-                    break;
-                case 'odt':
-                case 'ods':
-                case 'txt':
-                    $icone = 'file-text-o';
-                    break;
-                default:
-                    $icone = 'file-o';
-                    break;
+        echo '</div></div>';
+        
+        if($files == null){
+            echo '<div class="col-md-12 top30">
+                <h4>Aucune Pièces jointes</h4>
+                </div>';
+        } else {
+        
+            echo '<div class="col-md-12 top30">
+                    <h4>Pièces jointes</h4>
+                    <table>
+                    <tbody>
+                    <tr>';
+        
+            foreach($files as $val) {
+                $ext = explode('.', $val['File']['url']);
+                $ext = strtolower(end($ext));
+                switch($ext) {
+                    case 'pdf':
+                        $icone = 'file-pdf-o';
+                        break;
+                    case 'xls':
+                    case 'xlsx':
+                        $icone = 'file-excel-o';
+                        break;
+                    case 'doc':
+                    case 'docx':
+                        $icone = 'file-word-o';
+                        break;
+                    case 'zip':
+                    case 'rar':
+                    case 'tar':
+                    case'gz':
+                        $icone = 'file-archive-o';
+                        break;
+                    case 'avi':
+                    case 'mpg':
+                    case 'mpeg':
+                    case 'mkv':
+                    case 'mp4':
+                    case 'mov':
+                        $icone = 'file-video-o';
+                        break;
+                    case 'jpg':
+                    case 'jpeg':
+                    case 'gif':
+                    case 'png':
+                    case 'bmp':
+                        $icone = 'file-image-o';
+                        break;
+                    case 'ppt':
+                    case 'pptx':
+                        $icone = 'file-powerpoint-o';
+                        break;
+                    case 'odt':
+                    case 'ods':
+                    case 'txt':
+                        $icone = 'file-text-o';
+                        break;
+                    default:
+                        $icone = 'file-o';
+                        break;
+                }
+                echo ' <tr>
+        <td class="col-md-1">
+       <i class="fa fa-fw fa-' . $icone . '"></i>
+       </td>
+       <td class="col-md-9 tdleft">
+       ' . $val['File']['nom'] . '
+       </td>
+       <td class="col-md-2">
+       ' . $this->Html->link('<span class="glyphicon glyphicon-download-alt"></span>', array(
+                           'controller' => 'files',
+                           'action' => 'download',
+                           $val['File']['id']
+                       ), array(
+                           'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                           'title' => 'Télécharger le fichier',
+                           'escapeTitle' => false
+                       )) . '
+       </td>
+        </tr>';
             }
-            echo ' <tr>
- <td class="col-md-1">
-<i class="fa fa-fw fa-' . $icone . '"></i>
-</td>
-<td class="col-md-9 tdleft">
-' . $val['File']['nom'] . '
-</td>
-<td class="col-md-2">
-' . $this->Html->link('<span class="glyphicon glyphicon-download-alt"></span>', array(
-                    'controller' => 'files',
-                    'action' => 'download',
-                    $val['File']['id']
-                ), array(
-                    'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                    'title' => 'Télécharger le fichier',
-                    'escapeTitle' => false
-                )) . '
-</td>
- </tr>';
+        
+            echo '</tr>
+            </tbody>
+            </table>
+            </div>
+            ';
         }
-        echo '</tr>
-        </tbody>
-        </table>
-        </div>
-        ';
-
 
         echo '
 <div class="row">';
@@ -408,7 +440,8 @@ echo $this->Form->create('Fiche', array(
         echo '
 </div>';
         ?>
-        <script type="text/javascript">
-            $(":input").prop("disabled", true);
-            $(".boutonDl").prop("disabled", false);
-        </script>
+
+<script type="text/javascript">
+    $(":input").prop("disabled", true);
+    $(".boutonDl").prop("disabled", false);
+</script>

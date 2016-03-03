@@ -338,7 +338,7 @@ echo $this->Html->css(array(
                                     .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
                                 .'</label>'
                             .'</div>'
-                            .'<select class="form-control contentDeroulant">';
+                            .'<select class="form-control" name ="'.$details['name'].'">';
                             foreach($details['options'] as $val) {
                                 echo '<option type="deroulant" name ="'.$details['name'].'" value="' . $val . '"> '. $val . '</option></div>';
                             }
