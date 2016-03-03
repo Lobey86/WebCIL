@@ -60,8 +60,8 @@ $(document).ready(function () {
                                 <div class="row">\n\
                                     <div class="col-sm-2">\n\
                                         <input type="date" class="form-control" placeholder="jj/mm/aaaa" id="datetimepicker'+incrementation_id+'"/>\n\
-                                    <\div>\n\
-                                <\div>\n\
+                                    </div>\n\
+                                </div>\n\
                             </div>\n\
                         </div>'
                 );
@@ -262,8 +262,7 @@ $(document).ready(function () {
                 '<div class="col-md-12">' +
                     '<div class="form-group">\n\
                         <label>Contenu</label>\n\
-                        <input type="text" class="form-control texteForm" name="content-texte" id="content-texte" value="' + $('.ui-selected').find('h5').html() + '"></input>\n\
-                    </div>' +
+                        <textarea class="form-control texteForm" name="content-texte" id="content-texte" value="' + $('.ui-selected').find('h5').html() + '">' + $('.ui-selected').find('h5').html() + '</textarea></div>' +
                     '<div class=" btn-group text-center">\n\
                         <button type="button" class="btn btn-default-danger btn-sm" id="closer">\n\
                             <i class="fa fa-trash"></i>\n\
@@ -306,7 +305,6 @@ $(document).ready(function () {
                 '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="checkboxes" id="name-checkboxes" placeholder="Nom UNIQUE" value="' + nom + '"></div>' +
                 '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
                 '<div class="form-group"><label>Options (1 par ligne)</label><textarea class="form-control checkboxForm">' + list + '</textarea></div>' +
-                check +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
             );
@@ -427,11 +425,7 @@ $(document).ready(function () {
                 
                 /*Concerne les champs "Cases à cocher, Choix unique, Menu déroulant"*/
                 $('#applicable').parent().parent().find('textarea').each(function () {
-                    
-                    alert("ICI");
-                    
                     if ($(this).hasClass('checkboxForm')) {
-                        alert("ICI2");
                         var options = $(this).val().split('\n');
                         var objet = '';
                         var nom = $(this).parent().parent().find('.nameForm').val();
@@ -473,7 +467,9 @@ $(document).ready(function () {
                         var options = $(this).val().split('\n');
                         var objet = '';
                         var nom = $(this).parent().parent().find('.nameForm').val();
-
+console.log($('.ui-selected').find('option').attr('name'));
+console.log($(this).parent().parent().find('.nameForm').val());
+console.log(nom);
                         $.each(options, function (index, value) {
                             objet = objet + '<option name="' + nom + '" value="' + value +'">'+ value +'</option>';
                         });
@@ -673,7 +669,7 @@ $(document).ready(function () {
                     return;
                 }
                 contenu['type'] = 'deroulant';
-                contenu['name'] = $('.ui-selected').find('option').attr('name');
+                contenu['name'] = $(this).find('option').attr('name');
                 contenu['label'] = $(this).find('.labeler').html();
                 
                 var option = [];
@@ -700,9 +696,9 @@ $(document).ready(function () {
             
             retour.push(contenu);
         });
-//        console.log(retour);
+
         var ret = JSON.stringify(retour, null, '\t');
-//        console.log(ret);
+
         if (success) {
             $("#hiddenForm").attr('value', ret);
             document.forms["addForm"].submit();

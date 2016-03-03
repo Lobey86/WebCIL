@@ -221,40 +221,41 @@ echo $this->Html->css(array(
                     </div>
                 </div>
             </div>
-            <div class="btn-group-vertical col-md-6">
+                        <div class="btn-group-vertical col-md-6">
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-small-text"><i
                         class="fa fa-font fa-fw"></i>
-                    Petit
-                    champ
-                    texte
+                    Petit champ texte
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-long-text"><i
-                        class="fa fa-text-height fa-fw"></i> Grand
-                                                             champ
-                                                             texte
+                        class="fa fa-text-height fa-fw"></i> 
+                    Grand champ texte
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-date"><i
                         class="fa fa-calendar fa-fw"></i>
-                    Champ
-                    date
+                    Champ date
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-checkbox"><i
-                        class="fa fa-check-square-o fa-fw"></i> Cases
-                                                                à
-                                                                cocher
+                        class="fa fa-check-square-o fa-fw"></i> 
+                    Cases à cocher
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-radio"><i
-                        class="fa fa-check-circle-o fa-fw"></i> Choix
-                                                                unique
+                        class="fa fa-check-circle-o fa-fw"></i> 
+                    Choix unique
+                </button>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-deroulant"><i
+                        class="fa  fa-list-alt fa-fw"></i>
+                    Menu déroulant
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-title"><i class="fa fa-tag fa-fw"></i>
-                    Titre de
-                    catégorie
+                    Titre de catégorie
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-help"><i
                         class="fa fa-info-circle fa-fw"></i>
-                    Champ
-                    d'information
+                    Champ d'information
+                </button>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-texte"><i
+                        class="fa fa-pencil fa-fw"></i>
+                    Texte
                 </button>
             </div>
         </div>
