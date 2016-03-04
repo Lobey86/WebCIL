@@ -127,3 +127,5 @@ CakeLog::config('error', array(
 
 include_once(APP . DS . "Plugin" . DS . "Cakeflow" . DS . "Config" . DS . "cakeflow.conf.php");
 
+$versionFile = file(APP . 'VERSION.txt');
+define('VERSION', trim(array_pop($versionFile)));
