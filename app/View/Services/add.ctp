@@ -18,7 +18,7 @@ echo $this->Form->create('Service', array(
                 ),
                 'between' => '<div class="col-md-8">',
                 'after' => '</div>',
-                'required' => false
+                'required' => true
             ));
             echo $this->Form->hidden('organisation_id', array('value' => $this->Session->read('Organisation.id')));
             ?>
