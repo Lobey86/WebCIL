@@ -252,7 +252,7 @@ class OrganisationsController extends AppController {
                         if ($this->Organisation->saveAddEditForm($this->request->data, $id)) {
                             $this->Session->setFlash('L\'entité a été modifiée', 'flashsuccess');
                             $this->redirect([
-                                'controller' => 'organisations',
+                                'controller' => 'pannel',
                                 'action' => 'index'
                             ]);
                         } else {
