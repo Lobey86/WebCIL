@@ -506,7 +506,7 @@ $cakeDescription = 'Web-CIL';
                 </div>
                 <div id="footer" class="container-fluid-custom">
                     <div class="text-center versioning">
-                        Web-CIL V0.9.0 - Adullact-Projet
+                        <?php echo "Web-CIL v".VERSION."- Adullact-Projet" ;?>
                     </div>
                 </div>
             </div>
