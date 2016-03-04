@@ -51,8 +51,8 @@ class User extends AppModel {
         ),
         'password' => array(
             array(
-                'rule' => 'notEmpty',
-                'message' => 'Un mot de passe est requis'
+                'rule' =>  array('minLength', '5'),
+                'message' => 'Un mot de passe est requis avec minimum 5 caractères'
             )
         ),
         'passwd' => array(
@@ -77,7 +77,15 @@ class User extends AppModel {
                 'rule' => 'isUnique',
                 'message' => 'Cette adresse e-mail est déjà utilisée'
             )
-        )
+        ),
+        'nom' => array(
+            'rule' => '/^[a-z]{1,}$/i',
+            'message' => 'Seulement des lettres sont accepté'
+        ),
+        'prenom'=> array(
+            'rule' => '/^[a-z]{1,}$/i',
+            'message' => 'Seulement des lettres sont accepté'
+        ),
     );
 
     /**
