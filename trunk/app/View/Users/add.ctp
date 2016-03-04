@@ -24,7 +24,7 @@
 
         echo $this->Form->create('User', [
             'autocomplete'  => 'off',
-            'inputDefaults' => ['div' => FALSE],
+            'inputDefaults' => ['div' => false],
             'class'         => 'form-horizontal'
         ]);
     ?>
@@ -32,8 +32,11 @@
         <div class="col-md-6">
 
             <?php
-                if(empty($this->validationErrors['User']['username']))
-                    echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+                if(empty($this->validationErrors['User']['username'])){
+                    echo '<div class="form-group">';
+                } else {
+                    echo '<div class="form-group has-error">';
+                }
             ?>
             <?php
                 echo $this->Form->input('username', [
@@ -45,29 +48,36 @@
                     ],
                     'between'     => '<div class="col-md-8">',
                     'after'       => '</div>',
-                    'required'    => FALSE
+                    'required'    => true
                 ]);
             ?>
         </div>
 
         <?php
-            if(empty($this->validationErrors['User']['password']))
-                echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+            if(empty($this->validationErrors['User']['password'])){
+                echo '<div class="form-group">';
+            } else{
+                echo '<div class="form-group has-error">';
+            }
+            
             echo $this->Form->input('password', [
                 'class'       => 'form-control',
-                'placeholder' => 'Mot de passe',
+                'placeholder' => 'Mot de passe (minimum 5 caractères)',
                 'label'       => [
                     'text'  => 'Mot de passe <span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between'     => '<div class="col-md-8">',
                 'after'       => '</div>',
-                'required'    => FALSE
+                'required'    => true
             ]); ?>
     </div>
     <?php
-        if(empty($this->validationErrors['User']['passwd']))
-            echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+        if(empty($this->validationErrors['User']['passwd'])){
+            echo '<div class="form-group">';
+        } else {
+            echo '<div class="form-group has-error">';
+        }
     ?>
 
     <?php echo $this->Form->input('passwd', [
@@ -79,7 +89,7 @@
         ],
         'between'     => '<div class="col-md-8">',
         'after'       => '</div>',
-        'required'    => FALSE
+        'required'    => true
     ]); ?>
 </div>
 
@@ -94,7 +104,7 @@
             ],
             'between'     => '<div class="col-md-8">',
             'after'       => '</div>',
-            'required'    => FALSE
+            'required'    => true
         ]);
     ?>
 </div>
@@ -109,14 +119,18 @@
             ],
             'between'     => '<div class="col-md-8">',
             'after'       => '</div>',
-            'required'    => FALSE
+            'required'    => true
         ]);
     ?>
 </div>
 
 <?php
-    if(empty($this->validationErrors['User']['email']))
-        echo '<div class="form-group">'; else echo '<div class="form-group has-error">';
+    if(empty($this->validationErrors['User']['email'])){
+        echo '<div class="form-group">';
+    } else {
+        echo '<div class="form-group has-error">';
+    }
+    
     echo $this->Form->input('email', [
         'class'       => 'form-control',
         'placeholder' => 'E-mail',
@@ -126,7 +140,7 @@
         ],
         'between'     => '<div class="col-md-8">',
         'after'       => '</div>',
-        'required'    => FALSE
+        'required'    => true
     ]);
 ?>
 </div>
@@ -134,11 +148,11 @@
 <div class="col-md-6">
     <div class="form-group">
         <?php
-
             $listeOrganisations = [];
             foreach($tableau['Organisation'] as $key => $datas) {
                 $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
             }
+            
             if(count($listeOrganisations) == 1) {
                 echo $this->Form->input('Organisation.Organisation_id', [
                     'options'  => $listeOrganisations,
@@ -152,7 +166,7 @@
                     'between'  => '<div class="col-md-8">',
                     'after'    => '</div>',
                     'multiple' => 'multiple',
-                    'required' => 'true'
+                    'required' => true
                 ]);
             } else {
                 echo $this->Form->input('Organisation.Organisation_id', [
@@ -166,7 +180,7 @@
                     'between'  => '<div class="col-md-8">',
                     'after'    => '</div>',
                     'multiple' => 'multiple',
-                    'required' => 'true'
+                    'required' => true
                 ]);
             }
         ?>
@@ -205,6 +219,7 @@
                                 ],
                                 'between' => '<div class="col-md-8">',
                                 'after'   => '</div>',
+                                'required' => true
                             ]);
                         }
                         echo '</div><div class="form-group">';
@@ -219,7 +234,8 @@
                                 ],
                                 'between'  => '<div class="col-md-8">',
                                 'after'    => '</div>',
-                                'multiple' => 'multiple'
+                                'multiple' => 'multiple',
+                                'required' => true
                             ]);
                         } else {
                             echo "Aucun profil n'a été créé pour cette entité";
@@ -238,7 +254,7 @@
         echo '<div class="btn-group send">';
         echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, [
             'class'  => 'btn btn-default-default',
-            'escape' => FALSE
+            'escape' => false
         ]);
         echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', [
             'type'  => 'submit',
@@ -253,4 +269,3 @@
 </div>
 <?php
     echo $this->Html->script('users.js');
-?>
