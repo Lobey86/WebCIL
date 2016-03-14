@@ -312,7 +312,8 @@ CREATE TABLE notifications (
 	fiche_id INTEGER NOT NULL REFERENCES fiches(id),
 	vu BOOLEAN NOT NULL,
 	created DATE,
-	modified DATE
+	modified DATE,
+	afficher BOOLEAN
 );
 
 
