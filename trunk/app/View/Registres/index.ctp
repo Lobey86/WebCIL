@@ -89,7 +89,7 @@ if (!empty($fichesValid)) {
 <tbody>
         <?php
         foreach ($fichesValid as $key => $value) {
-            if ($value['Fiche']['numero'] != NULL) {
+            if ($value['Fiche']['numero'] != null) {
                 $numero = $value['Fiche']['numero'];
             } else {
                 $numero = 'CIL00' . $value['Fiche']['id'];
@@ -101,69 +101,71 @@ if (!empty($fichesValid)) {
                 $DlOrGenerate = 'downloadFile';
             }
 
-            echo '
-				<tr>
-					<td class="tdleft">
-						' . $value['Fiche']['Valeur'][0]['valeur'] . '
-					</td>
-					<td class="tdleft">
-                    <div class="row">
-                    <div class="col-md-8">
-                    <strong>Date de création: </strong> ' . $value['EtatFiche']['created'] . '
-                    </div>
-                    <div class="col-md-4">
-                    <strong>Numéro d\'enregistrement </strong>' . $numero . '
-                    </div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-12">
-                    <strong>Finalité principale: </strong> ' . $value['Fiche']['Valeur'][1]['valeur'] . '
-                    </div>
-                    </div>
-					</td>
-					<td class="tdleft">
-                    <div id='.$value['Fiche']['id'].' class="btn-group">' . $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
-                    'controller' => 'fiches',
-                    'action' => $DlOrGenerate,
-                    $value['Fiche']['id'],
-                ), array(
-                'escape' => false,
-                'class' => 'btn btn-default-default btn-sm my-tooltip',
-                'title' => 'Télécharger l\'extrait de registre'
-            ));
-            if ($value['Readable']) {
-                echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
-                    'controller' => 'fiches',
-                    'action' => 'show',
-                    $value['Fiche']['id']
-                    ), array(
-                    'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                    'title' => 'Voir la fiche',
-                    'escapeTitle' => false
+            if($value['Fiche']['Valeur'] != null){
+                echo '<tr>
+                        <td class="tdleft">
+                            ' . $value['Fiche']['Valeur'][0]['valeur'] . '
+                        </td>
+                        <td class="tdleft">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <strong>Date de création: </strong> ' . $value['EtatFiche']['created'] . '
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Numéro d\'enregistrement </strong>' . $numero . '
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong>Finalité principale: </strong> ' . $value['Fiche']['Valeur'][1]['valeur'] . '
+                                </div>
+                            </div>
+                        </td>
+                        <td class="tdleft">
+                            <div id='.$value['Fiche']['id'].' class="btn-group">' . $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
+                                'controller' => 'fiches',
+                                'action' => $DlOrGenerate,
+                                $value['Fiche']['id'],
+                                ), array(
+                                    'escape' => false,
+                                    'class' => 'btn btn-default-default btn-sm my-tooltip',
+                                    'title' => 'Télécharger l\'extrait de registre'
                 ));
-            }
-            if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] != 7) {
-                echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array(
-                    'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip btn-edit-registre',
-                    'escapeTitle' => false,
-                    'data-toggle' => 'modal',
-                    'data-target' => '#modalEditRegistre',
-                    'title' => 'Modifier la fiche'
-                ));
-                if ($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
-                    echo $this->Html->link('<span class="glyphicon glyphicon-lock"></span>', array(
-                        'controller' => 'etatFiches',
-                        'action' => 'archive',
+
+                if ($value['Readable']) {
+                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
+                        'controller' => 'fiches',
+                        'action' => 'show',
                         $value['Fiche']['id']
                         ), array(
-                        'class' => 'btn btn-default-danger boutonArchive btn-sm my-tooltip',
-                        'title' => 'Vérouiller la fiche',
+                        'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                        'title' => 'Voir la fiche',
                         'escapeTitle' => false
-                        ), 'Voulez-vous vérouiller cette fiche? Une fois vérouillée, toute modification est impossible.');
+                    ));
                 }
+                if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] != 7) {
+                    echo $this->Form->button('<span class="glyphicon glyphicon-pencil"></span>', array(
+                        'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip btn-edit-registre',
+                        'escapeTitle' => false,
+                        'data-toggle' => 'modal',
+                        'data-target' => '#modalEditRegistre',
+                        'title' => 'Modifier la fiche'
+                    ));
+                    if ($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
+                        echo $this->Html->link('<span class="glyphicon glyphicon-lock"></span>', array(
+                            'controller' => 'etatFiches',
+                            'action' => 'archive',
+                            $value['Fiche']['id']
+                            ), array(
+                            'class' => 'btn btn-default-danger boutonArchive btn-sm my-tooltip',
+                            'title' => 'Vérouiller la fiche',
+                            'escapeTitle' => false
+                            ), 'Voulez-vous vérouiller cette fiche? Une fois vérouillée, toute modification est impossible.');
+                    }
+                }
+                echo '</div></td>
+                                            </tr>';
             }
-            echo '</div></td>
-					</tr>';
         }
 
         ?>
@@ -248,5 +250,5 @@ echo $this->Form->end();
         openTarget("<?php echo $idFicheNotification ?>");
 
     });
-
+    
 </script>

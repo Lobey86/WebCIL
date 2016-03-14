@@ -26,6 +26,7 @@ class RegistresController extends AppController {
     public $uses = [
         'EtatFiche',
         'Fiche',
+        'Valeur',
         'OrganisationUser',
         'Modification'
     ];
@@ -37,6 +38,7 @@ class RegistresController extends AppController {
      */
     public function index() {
         $this->set('title', 'Registre ' . $this->Session->read('Organisation.raisonsociale'));
+        
         $condition = [
             'EtatFiche.etat_id' => [
                 5,
@@ -44,22 +46,27 @@ class RegistresController extends AppController {
             ],
             'Fiche.organisation_id' => $this->Session->read('Organisation.id')
         ];
-        $search = FALSE;
+        
+        $search = false;
         if (!empty($this->request->data['Registre']['user'])) {
             $condition['Fiche.user_id'] = $this->request->data['Registre']['user'];
-            $search = TRUE;
+            $search = true;
         }
+        $condition2 = null;
         if (!empty($this->request->data['Registre']['outil'])) {
-            $condition['Fiche.outilnom'] = $this->request->data['Registre']['outil'];
-            $search = TRUE;
+            $condition2['valeur'] = [$this->request->data['Registre']['outil']];
+            //$condition['Fiche.outilnom'] = $this->request->data['Registre']['outil'];
+            $search = true;
         }
+        
         if (isset($this->request->data['Registre']['archive']) && $this->request->data['Registre']['archive'] == 1) {
             $condition['EtatFiche.etat_id'] = 7;
-            $search = TRUE;
+            $search = true;
         }
+        
         if (isset($this->request->data['Registre']['nonArchive']) && $this->request->data['Registre']['nonArchive'] == 1) {
             $condition['EtatFiche.etat_id'] = 5;
-            $search = TRUE;
+            $search = true;
         }
 
         if ($this->Droits->authorized([
@@ -79,28 +86,31 @@ class RegistresController extends AppController {
                             'nom',
                             'prenom'
                         ],
-                        'Valeur' => [
+                        'Valeur'  => [
                             'conditions' => [
                                 'champ_name' => [
                                     'outilnom',
                                     'finaliteprincipale'
-                                ]
+                                ],
+                                $condition2,
                             ],
                             'fields' => [
                                 'champ_name',
                                 'valeur'
                             ]
-                        ]
+                        ],
                     ]
                 ]
             ]);
+
             foreach ($fichesValid as $key => $value) {
                 if ($this->Droits->isReadable($value['Fiche']['id'])) {
-                    $fichesValid[$key]['Readable'] = TRUE;
+                    $fichesValid[$key]['Readable'] = true;
                 } else {
-                    $fichesValid[$key]['Readable'] = FALSE;
+                    $fichesValid[$key]['Readable'] = false;
                 }
             }
+            
             $this->set('search', $search);
             $this->set('fichesValid', $fichesValid);
 
@@ -118,10 +128,12 @@ class RegistresController extends AppController {
                     ]
                 ]
             ]);
+            
             $listeUsers = [];
             foreach ($liste as $key => $value) {
                 $listeUsers[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
             }
+            
             $this->set('listeUsers', $listeUsers);
         } else {
             $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
@@ -138,7 +150,6 @@ class RegistresController extends AppController {
      * @version V0.9.0
      */
     public function edit() {
-        debug($this->request->data);
         $this->Modification->create([
             'fiches_id' => $this->request->data['Registre']['idEditRegistre'],
             'modif' => $this->request->data['Registre']['motif']
