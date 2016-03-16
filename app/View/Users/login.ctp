@@ -5,7 +5,7 @@
         <?php echo $this->Form->input('username', [
             'class'       => 'form-control',
             'placeholder' => 'Login',
-            'label'       => FALSE
+            'label'       => false
         ]); ?>
     </div>
     <div class="input-group login">
@@ -14,7 +14,7 @@
             echo $this->Form->input('password', [
                 'class'       => 'form-control',
                 'placeholder' => 'Mot de passe',
-                'label'       => FALSE
+                'label'       => false
             ]);
         ?>
     </div>
