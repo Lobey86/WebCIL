@@ -330,3 +330,16 @@ CREATE TABLE valeurs (
   modified DATE,
   champ_name VARCHAR(100) NOT NULL
 );
+
+--
+-- Création de la table extraits
+--
+CREATE TABLE extraits(
+  id serial NOT NULL,
+  id_fiche integer,
+  data bytea,
+  CONSTRAINT pk_extraits PRIMARY KEY (id),
+  CONSTRAINT fk_extraits FOREIGN KEY (id_fiche)
+      REFERENCES fiches (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);
