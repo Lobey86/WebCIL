@@ -12,4 +12,4 @@ CREATE TABLE fiches
   organisation_id integer,
   numero character varying(200),
   CONSTRAINT fiches_pkey PRIMARY KEY (id)
-)
+);

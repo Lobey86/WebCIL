@@ -1,7 +1,6 @@
 --
 -- Création de la table roles
 --
-
 CREATE TABLE roles (
   id SERIAL NOT NULL PRIMARY KEY,
   libelle VARCHAR(50),

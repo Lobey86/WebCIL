@@ -1,8 +1,6 @@
-
 --
 -- Création de la table organisations
 --
-
 CREATE TABLE organisations (
   id SERIAL NOT NULL PRIMARY KEY,
   raisonsociale VARCHAR(75),

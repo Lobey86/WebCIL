@@ -1,8 +1,6 @@
-
 --
 -- Création de la table users
 --
-
 CREATE TABLE users (
   id SERIAL NOT NULL PRIMARY KEY,
   nom VARCHAR(50),

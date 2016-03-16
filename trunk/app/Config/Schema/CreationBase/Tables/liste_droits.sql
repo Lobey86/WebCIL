@@ -1,8 +1,6 @@
-
 --
 -- Création de la table liste_droits
 --
-
 CREATE TABLE liste_droits (
   id SERIAL NOT NULL PRIMARY KEY,
   libelle VARCHAR(50),
@@ -24,6 +22,6 @@ INSERT INTO liste_droits (libelle, value) VALUES
 ('Supprimer un utilisateur', 10),
 ('Créer une organisation', 11),
 ('Modifier une organisation', 12),
-('Créer un rôle', 13),
-('Modifier un rôle', 14),
-('Supprimer un rôle', 15);
+('Créer un profil', 13),
+('Modifier un profil', 14),
+('Supprimer un profil', 15);

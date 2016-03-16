@@ -1,8 +1,6 @@
-
 --
 -- Création de la table role_droits
 --
-
 CREATE TABLE role_droits(
   id SERIAL NOT NULL PRIMARY KEY,
   role_id INTEGER NOT NULL REFERENCES roles(id),
