@@ -1,7 +1,6 @@
 --
 -- Création de la table historiques
 --
-
 CREATE TABLE historiques (
   id SERIAL NOT NULL PRIMARY KEY,
   content VARCHAR(300),
