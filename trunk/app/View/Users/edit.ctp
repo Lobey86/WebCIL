@@ -62,7 +62,7 @@
                 'between' => '<div class="col-md-8">',
                 'after' => '</div>',
                 'type' => 'password',
-                'autocomplete' => 'off',
+                'autocomplete' => 'off'
             ]);
             ?>
         </div>
@@ -185,6 +185,7 @@
                                 ],
                                 'between' => '<div class="col-md-8">',
                                 'after' => '</div>',
+                                'multiple' => 'multiple'
                             ]);
                         } else {
                             echo $this->Form->input('Role.role_ida.' . $datas['infos']['id'], [
@@ -197,7 +198,7 @@
                                 ],
                                 'between' => '<div class="col-md-8">',
                                 'after' => '</div>',
-                                'empty' => 'Choisissez un rôle pour l\'utilisateur',
+                                'multiple' => 'multiple'
                             ]);
                         }
                     } else {
@@ -206,11 +207,11 @@
                     ?>
                 </div>
 
-                <?php
-            }
+            <?php
         }
-        echo '</div>';
-        ?>
+    }
+    echo '</div>';
+    ?>
     </div>
     <?php
     echo '<div class="text-center">';

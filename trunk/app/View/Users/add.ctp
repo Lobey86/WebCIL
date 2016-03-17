@@ -156,20 +156,20 @@ echo $this->Form->input('email', [
             $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
         }
         
-        echo $this->Form->input('Organisation.Organisation_id', [
-            'options' => $listeOrganisations,
+            echo $this->Form->input('Organisation.Organisation_id', [
+                'options' => $listeOrganisations,
             'selected' => $this->Session->read('Organisation.id'),
-            'class' => 'form-control',
-            'id' => 'deroulant',
-            'label' => [
-                'text' => 'Entités <span class="requis">*</span>',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'multiple' => 'multiple',
-            'required' => false
-        ]);
+                'class' => 'form-control',
+                'id' => 'deroulant',
+                'label' => [
+                    'text' => 'Entités <span class="requis">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'multiple' => 'multiple',
+                'required' => false
+            ]);
         ?>
     </div>
 
@@ -206,22 +206,21 @@ echo $this->Form->input('email', [
                         ],
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'required' => false
                     ]);
                 }
                 echo '</div><div class="form-group">';
                 if (!empty($listeroles)) {
                     echo $this->Form->input('Role.' . $datas['infos']['id'], [
                         'options' => $listeroles,
-                        'class' => 'form-control',
-                        'id' => 'roleUser',
+                        'class' => 'form-control deroulantRoles' . $key,
+                        'id' => $key,
                         'label' => [
                             'text' => 'Profils au sein de ' . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'empty' => 'Choisissez un rôle pour l\'utilisateur',
+                        'multiple' => 'multiple'
                     ]);
                 } else {
                     echo "Aucun profil n'a été créé pour cette entité";
