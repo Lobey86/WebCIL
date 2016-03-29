@@ -397,14 +397,14 @@ class FichesController extends AppController {
         foreach ($donnees['Valeur'] as $key => $value) {
             $correspondances['valeur_' . $key] = 'Valeur.' . $key;
         }
-
+        
         $MainPart = new GDO_PartType();
-
+        
         $Document = FusionConvBuilder::main($MainPart, $donnees, $types, $correspondances);
-
+        
         $sMimeType = 'application/vnd.oasis.opendocument.text';
 
-        $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(WWW_ROOT . '/files/modeles/' . $file));
+        $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(WWW_ROOT . 'files/modeles/' . $file));
         $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
 
         $Fusion->process();
