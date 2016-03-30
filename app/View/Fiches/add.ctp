@@ -146,6 +146,7 @@
                     'after'    => '</div>',
                     'class'    => 'form-control',
                     'required' => 'required',
+                    'readonly' => 'readonly',
                     'div'      => 'form-group',
                     'value'    => $this->Session->read('Auth.User.prenom') . ' ' . $this->Session->read('Auth.User.nom')
                 ]);
@@ -162,6 +163,7 @@
                     'after'    => '</div>',
                     'class'    => 'form-control',
                     'required' => 'required',
+                    'readonly' => 'readonly',
                     'div'      => 'form-group',
                     'value'    => $this->Session->read('Auth.User.email')
                 ]);
