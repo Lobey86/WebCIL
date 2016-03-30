@@ -39,25 +39,37 @@ if (!empty($modeles)) {
                     'title' => 'Télécharger le modèle'
                 ));
 
+                echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                    'controller' => 'modeles',
+                    'action' => 'delete',
+                    $value['Modele']['fichier']
+                        ), array(
+                    'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                    'title' => 'Supprimer le model',
+                    'escape' => false
+                        ), 'Voulez vous supprimer le model ?'
+                );
             } else {
                 echo 'Aucun modèle pour ce formulaire';
-                
+
                 echo '</td>
                     <td class="tdleft">
                     <div class="btn-group">';
-            }
-            
+
                 echo $this->Form->button('<i class="fa fa-upload"></i>', array(
                     'escape' => false,
                     'class' => 'btn btn-default-default btn-sm my-tooltip btn-upload-modele',
-                    'title' => 'Envoyer un modèle',
+                    'title' => 'Importer un modèle',
                     'data-toggle' => 'modal',
                     'data-target' => '#modalUploadModele',
                     'data' => $value['Formulaire']['id']
                 ));
 
                 echo '</div>';
-            
+            }
+
+
+
             echo '</td></tr>';
         }
         ?>
@@ -78,35 +90,35 @@ if (!empty($modeles)) {
             <div class="modal-body">
                 <div class="row top17">
                     <div class="col-md-12">
-<?php
-echo $this->Form->create('Modele', array(
-    'action' => 'add',
-    'class' => 'form-horizontal',
-    'type' => 'file'
-));
+                        <?php
+                        echo $this->Form->create('Modele', array(
+                            'action' => 'add',
+                            'class' => 'form-horizontal',
+                            'type' => 'file'
+                        ));
 
-echo $this->Form->input('modele', array(
-    'type' => 'file',
-    'label' => array(
-        'text' => 'Modèle',
-        'class' => 'col-md-4 control-label'
-    ),
-    'between' => '<div class="col-md-8">',
-    'after' => '</div>',
-    'class' => 'filestyle fichiers draggable',
-    'div' => 'form-group'
-));
-echo $this->Form->hidden('idUploadModele', array('id' => 'idUploadModele'));
-?>
+                        echo $this->Form->input('modele', array(
+                            'type' => 'file',
+                            'label' => array(
+                                'text' => 'Modèle',
+                                'class' => 'col-md-4 control-label'
+                            ),
+                            'between' => '<div class="col-md-8">',
+                            'after' => '</div>',
+                            'class' => 'filestyle fichiers draggable',
+                            'div' => 'form-group'
+                        ));
+                        echo $this->Form->hidden('idUploadModele', array('id' => 'idUploadModele'));
+                        ?>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default-default" data-dismiss="modal">Annuler</button>
                 <button type="submit" class="btn btn-default-success">Envoyer ce modèle</button>
-<?php
-echo $this->Form->end();
-?>
+                <?php
+                echo $this->Form->end();
+                ?>
             </div>
         </div>
     </div>
