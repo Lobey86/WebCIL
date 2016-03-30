@@ -281,7 +281,7 @@ CREATE TABLE modeles (
 --
 CREATE TABLE valeurs (
     id SERIAL NOT NULL PRIMARY KEY,
-    fiche_id INTEGER NOT NULL REFERENCES fiches(id),
+    fiche_id INTEGER NOT NULL REFERENCES fiches(id) ON DELETE CASCADE,
     valeur TEXT NOT NULL,
     created DATE,
     modified DATE,
