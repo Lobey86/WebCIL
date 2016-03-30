@@ -1,5 +1,8 @@
 <?php
 
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
+
 /**
  * ModelesController
  *
@@ -73,4 +76,31 @@ class ModelesController extends AppController {
         return $this->response;
     }
 
+    /**
+     * Permet de supprimer en bdd de le model associer par qu'ontre on ne 
+     * supprime dans aucun cas le fichier enregistré
+     * 
+     * @param type $file --> c'est le nom du model (en générale 15614325.odt)
+     * qui est enregistré dans app/webroot/files/models
+     */
+    public function delete($file) {
+        $modeles = $this->Modele->find('all', array(
+            'conditions' => array('fichier' => $file)
+        ));
+        if ($modeles) {
+            $isDeleted = $this->Modele->deleteAll(array(
+                'fichier' => $file
+            ));
+
+            if ($isDeleted) {
+                $this->Session->setFlash('Le model a été supprimé', 'flashsuccess');
+            } else {
+                $this->Session->setFlash('Impossible de supprimer le model', 'flasherror');
+            }
+        } else {
+            $this->Session->setFlash('Ce model n\'existe pas', 'flasherror');
+        }
+        
+        $this->redirect($this->referer());
+    }
 }
