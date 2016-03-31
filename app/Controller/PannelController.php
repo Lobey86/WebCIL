@@ -46,6 +46,9 @@ class PannelController extends AppController {
      * @version V0.9.0
      */
     public function index() {
+        $this->Session->write('nameController', "pannel");
+        $this->Session->write('nameView', "index");
+        
         if (!$this->Droits->authorized(1)) {
             $this->redirect(['controller' => 'pannel', 'action' => 'inbox']);
         }
@@ -234,6 +237,9 @@ class PannelController extends AppController {
      * @version V0.9.0
      */
     public function inbox() {
+        $this->Session->write('nameController', "pannel");
+        $this->Session->write('nameView', "inbox");
+        
         if (!$this->Droits->authorized([2, 3, 5])) {
             $this->redirect($this->referer());
         }
@@ -349,6 +355,9 @@ class PannelController extends AppController {
      * @version V0.9.0
      */
     public function archives() {
+        $this->Session->write('nameController', "pannel");
+        $this->Session->write('nameView', "archives");
+        
         $this->set('title', 'Fiches validées');
         // Requète récupérant les fiches validées par le CIL
 

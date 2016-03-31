@@ -37,6 +37,9 @@ class RegistresController extends AppController {
      * @version V0.9.0
      */
     public function index() {
+        $this->Session->write('nameController', "registres");
+        $this->Session->write('nameView', "index");
+        
         $this->set('title', 'Registre ' . $this->Session->read('Organisation.raisonsociale'));
         
         $condition = [
