@@ -294,7 +294,39 @@ class PannelController extends AppController {
         ]);
         $this->set('dmdValid', $requete);
 
+        $notifications = $this->Notification->find('all', array(
+            'conditions' => array(
+                'Notification.user_id' => $this->Auth->user('id'),
+                'Notification.vu' => false,
+                'Notification.afficher' => false
+                
+            ),
+            'contain' => array(
+                'Fiche' => array(
+                    'Valeur' => array(
+                        'conditions' => array(
+                            'champ_name' => 'outilnom'
+                        ),
+                        'fields' => array('champ_name', 'valeur')
+                    )
+                )
+            ),
+            'order' => array(
+                'Notification.content'
+            )
+        ));
+        $this->set('notifications', $notifications);
+        
+        $nameOrganisation = [];
 
+        foreach ($notifications as $key => $value) {
+            $nameOrganisation[$key] = $this->Organisation->find('first', [
+                'conditions' => ['id' => $value['Fiche']['organisation_id']],
+                'fields' => ['raisonsociale']
+            ]);
+        }
+        $this->set('nameOrganisation', $nameOrganisation);
+        
         // Requète récupérant les fiches qui demande un avis
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
