@@ -1,6 +1,12 @@
 <?php
 $col = 1;
 $line = 1;
+
+$nameController = $this->Session->read('nameController');
+$nameView = $this->Session->read('nameView');
+unset($_SESSION['nameController']);
+unset($_SESSION['nameView']);
+
 echo $this->Form->create('Fiche', [
     'action' => 'edit',
     'class' => 'form-horizontal',
@@ -408,12 +414,12 @@ echo $this->Form->create('Fiche', [
                 ], [
             'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
             'title' => 'Télécharger le fichier',
-            'escapeTitle' => FALSE
+            'escapeTitle' => false
         ]) . $this->Form->button('<span class="glyphicon glyphicon-trash"></span>', [
             'type' => 'button',
             'class' => 'btn btn-default-danger btn-sm my-tooltip left5 btn-del-file',
             'title' => 'Supprimer ce fichier',
-            'escapeTitle' => FALSE,
+            'escapeTitle' => false,
             'data' => $val['File']['id']
         ]) . '
 </td>
@@ -422,7 +428,7 @@ echo $this->Form->create('Fiche', [
             'type' => 'button',
             'class' => 'btn btn-default-default btn-sm my-tooltip left5 btn-cancel-file',
             'title' => 'Annuler la suppression',
-            'escapeTitle' => FALSE,
+            'escapeTitle' => false,
             'data' => $val['File']['id']
         ]) . '
 </td>
@@ -452,15 +458,15 @@ echo $this->Form->create('Fiche', [
 
 
     echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i> Annuler', [
-        'controller' => 'pannel',
-        'action' => 'index'
+        'controller' => $nameController,
+        'action' => $nameView
             ], [
         'class' => 'btn btn-default-default',
-        'escape' => FALSE
+        'escape' => false
     ]);
     echo $this->Form->button('<i class="fa fa-fw fa-check"></i> Enregistrer', [
         'class' => 'btn btn-default-success',
-        'escape' => FALSE,
+        'escape' => false,
         'type' => 'submit'
     ]);
     echo $this->Form->end();

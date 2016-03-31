@@ -1,6 +1,14 @@
 <?php
 $col = 1;
 $line = 1;
+
+$nameController = $this->Session->read('nameController');
+$nameView = $this->Session->read('nameView');
+unset($_SESSION['nameController']);
+unset($_SESSION['nameView']);
+
+//debug($nameView);die;
+
 echo $this->Form->create('Fiche', array(
     'action' => 'edit',
     'class' => 'form-horizontal'
@@ -427,8 +435,8 @@ echo $this->Form->create('Fiche', array(
         echo '<div class="col-md-12 top17 text-center"><div class="btn-group">';
 
         echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i> Revenir', array(
-            'controller' => 'pannel',
-            'action' => 'index'
+            'controller' => $nameController,
+            'action' => $nameView
         ), array(
             'class' => 'btn btn-default-default',
             'escape' => false
