@@ -407,6 +407,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'options' => $validants,
                                         'class' => 'usersDeroulant transformSelect form-control bottom5',
                                         'empty' => 'Selectionnez un utilisateur',
+                                        'required' => true,
                                         'label' => false
                                     ]);
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
