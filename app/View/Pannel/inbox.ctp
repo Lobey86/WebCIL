@@ -375,8 +375,10 @@ if (!empty($dmdAvis)) {
                                 echo $this->Form->input('commentaireRepondre', [
                                     'div' => 'input-group inputsForm',
                                     'label' => false,
-                                    'before' => '<span class="labelFormulaire">Donnez votre avis</span>',
+                                    'before' => '<span class="labelFormulaire">Donnez votre avis</span><span class="obligatoire">*</span>',
+                                    'required' => true,
                                     'class' => 'form-control',
+                                    
                                     'type' => 'textarea'
                                 ]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
