@@ -73,8 +73,8 @@ class Fiche extends AppModel {
      * @version V0.9.0
      */
     public $hasMany = array(
-        'File' => array(
-            'className' => 'File',
+        'Fichier' => array(
+            'className' => 'Fichier',
             'foreignKey' => 'fiche_id',
             'dependent' => true,
         ),

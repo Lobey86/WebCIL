@@ -167,9 +167,9 @@ CREATE TABLE etat_fiches (
 );
 
 --
--- Création de la table files
+-- Création de la table fichiers
 --
-CREATE TABLE files (
+CREATE TABLE fichiers (
     id SERIAL NOT NULL PRIMARY KEY,
     nom VARCHAR(50),
     url VARCHAR(100),

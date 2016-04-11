@@ -23,9 +23,9 @@
  */
 App::uses('AppModel', 'Model');
 
-class File extends AppModel {
+class Fichier extends AppModel {
 
-    public $name = 'File';
+    public $name = 'Fichier';
 
     /**
      * belongsTo associations
@@ -52,7 +52,7 @@ class File extends AppModel {
      * @created 29/04/2015
      * @version V0.9.0
      */
-    public function saveFile($data, $id = null) {
+    public function saveFichier($data, $id = null) {
 
         if (isset($data['Fiche']['fichiers']) && !empty($data['Fiche']['fichiers'])) {
 
@@ -98,12 +98,10 @@ class File extends AppModel {
      * @created 26/06/2015
      * @version V0.9.0
      */
-    public function deleteFile($id) {
+    public function deleteFichier($id) {
         $success = true;
         $this->begin();
         $fichier = $this->find('first', array('conditions' => array('id' => $id)));
-        debug($fichier);
-        debug($id);
         $success = $success && unlink(WWW_ROOT . 'files/' . $fichier['File']['url']);
         $success = $success && $this->delete($id);
         if ($success) {
