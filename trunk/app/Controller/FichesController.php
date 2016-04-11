@@ -32,7 +32,7 @@ class FichesController extends AppController {
     public $uses = [
         'Fiche',
         'Organisation',
-        'File',
+        'Fichier',
         'EtatFiche',
         'Historique',
         'FormGeneric',
@@ -77,7 +77,7 @@ class FichesController extends AppController {
                 ]);
                 if ($this->Fiche->save()) {
                     $last = $this->Fiche->getLastInsertID();
-                    if ($this->File->saveFile($this->request->data, $last)) {
+                    if ($this->Fichier->saveFichier($this->request->data, $last)) {
                         foreach ($this->request->data['Fiche'] as $key => $value) {
                             if ($key != 'formulaire_id') {
                                 if (is_array($value)) {
@@ -220,7 +220,7 @@ class FichesController extends AppController {
                     $this->Valeur->commit();
                 }
             }
-            if ($this->File->saveFile($this->request->data, $id)) {
+            if ($this->Fichier->saveFichier($this->request->data, $id)) {
                 $this->Historique->create([
                     'Historique' => [
                         'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' modifie la fiche',
@@ -231,7 +231,7 @@ class FichesController extends AppController {
             }
             if (isset($this->request->data['delfiles']) && !empty($this->request->data['delfiles'])) {
                 foreach ($this->request->data['delfiles'] as $val) {
-                    $this->File->deleteFile($val);
+                    $this->Fichier->deleteFichier($val);
                 }
             }
             $this->Session->setFlash('La fiche a été modifiée', 'flashsuccess');
@@ -248,7 +248,7 @@ class FichesController extends AppController {
                     'ligne ASC'
                 ]
             ]);
-            $files = $this->File->find('all', ['conditions' => ['fiche_id' => $id]]);
+            $files = $this->Fichier->find('all', ['conditions' => ['fiche_id' => $id]]);
             $this->set(compact('files'));
             $valeurs = $this->Valeur->find('all', ['conditions' => ['fiche_id' => $id]]);
             foreach ($valeurs as $key => $value) {
@@ -315,7 +315,7 @@ class FichesController extends AppController {
         $this->set(compact('valeurs'));
         $this->set(compact('champs'));
         $this->set('id', $id);
-        $files = $this->File->find('all', ['conditions' => ['fiche_id' => $id]]);
+        $files = $this->Fichier->find('all', ['conditions' => ['fiche_id' => $id]]);
         $this->set(compact('files'));
     }
 
