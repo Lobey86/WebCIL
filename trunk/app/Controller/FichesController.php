@@ -66,8 +66,8 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function add($id = null) {
-
         $this->set('title', 'Création d\'une fiche');
+
         if ($this->Droits->authorized(1)) {
             if ($this->request->is('POST')) {
                 $this->Fiche->create([
@@ -381,13 +381,37 @@ class FichesController extends AppController {
             $file = '1.odt';
         }
 
+        //On recupere les champs 'deroulant', 'checkboxes', 'radios' qui sont dans le formulaire associer a la fiche
+        $typeChamps = ['deroulant', 'checkboxes', 'radios'];
+        $idForm = $this->Fiche->find('first', [
+            'conditions' => ['id' => $id]
+        ]);
+        $champs = $this->Champ->find('all', [
+            'conditions' => ['formulaires_id' => $idForm['Fiche']['form_id']],
+            'type' => $typeChamps,
+        ]);
+        
+        //On decode les infos du champ details pour ensuite faire un tableau avec le name du champs et les valeurs
+        $choixChampMultiple = [];
+        foreach($champs as $value) {
+            $options = json_decode($value['Champ']['details'], true);
+            $choixChampMultiple[$options['name']] = $options['options'];
+        }
+
+        /*On vérifie que le tableau qu'on a créé juste au dessus existe. 
+        Si il exite on on prend la valeur de l'id choisit dans le tableau,
+        sinon on prend directement la valeur enregistré dans la table Valeur
+        */
         $donnees = [];
         foreach ($data as $key => $value) {
-            $donnees['Valeur'][$value['Valeur']['champ_name']] = $value['Valeur']['valeur'];
+            if(!empty($choixChampMultiple[$value['Valeur']['champ_name']])){
+                $donnees['Valeur'][$value['Valeur']['champ_name']] = $choixChampMultiple[$value['Valeur']['champ_name']][intval($value['Valeur']['valeur'])];
+            } else {
+                $donnees['Valeur'][$value['Valeur']['champ_name']] = $value['Valeur']['valeur'];
+            }
         }
         unset($donnees['Valeur']['fichiers']);
-
-
+        
         $types = [];
         foreach ($donnees['Valeur'] as $key => $value) {
             $types['Valeur.' . $key] = 'text';
