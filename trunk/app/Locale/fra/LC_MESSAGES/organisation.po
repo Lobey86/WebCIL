@@ -1,0 +1,79 @@
+# Locale fra
+# Organisation.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#########################: View/Organisations/edit.ctp#########################
+
+msgid "organisation.textRaisonSociale"
+msgstr "Raison sociale "
+
+msgid "organisation.placeholderRaisonSociale"
+msgstr "Raison sociale (requis)"
+
+msgid "organisation.textTelephone"
+msgstr "Téléphone "
+
+msgid "organisation.placeholderTelephone"
+msgstr "Téléphone (requis)"
+
+msgid "organisation.textFax"
+msgstr "Fax"
+
+msgid "organisation.placeholderFax"
+msgstr "Fax (facultatif)"
+
+msgid "organisation.textAdresse"
+msgstr "Adresse "
+
+msgid "organisation.placeholderAdresse"
+msgstr "Adresse (requis)"
+
+msgid "organisation.textE-mail"
+msgstr "E-mail "
+
+msgid "organisation.placeholderE-mail"
+msgstr "E-mail (requis)"
+
+msgid "organisation.textSigle"
+msgstr "Sigle"
+
+msgid "organisation.placeholderSigle"
+msgstr "Sigle (facultatif)"
+
+msgid "organisation.textSIRET"
+msgstr "N° Siret "
+
+msgid "organisation.placeholderSIRET"
+msgstr "N° SIRET (requis)"
+
+msgid "organisation.textAPE"
+msgstr "Code APE "
+
+msgid "organisation.placeholderAPE"
+msgstr "Code APE (requis)"
+
+msgid "organisation.textCIL"
+msgstr "CIL"
+
+msgid "organisation.placeholderCIL"
+msgstr "Selectionnez un nouveau CIL"
+
+msgid "organisation.btnLogo"
+msgstr "Changer le logo"
+
+###############################################################################
+
+
+#########################: View/Organisations/Controller.php#########################
+
+msgid "organisation.titreInfoGenerales"
+msgstr "Informations générales - "
+
+###############################################################################

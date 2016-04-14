@@ -71,9 +71,12 @@ msgstr "Déconnexion"
 ###################### Utiliser dans toute l'application ######################
 
 msgid "default.btnAnnuler"
-msgstr "Annuler"
+msgstr " Annuler"
 
 msgid "default.btnEnvoyer"
-msgstr "Envoyer"
+msgstr " Envoyer"
+
+msgid "default.btnEnregistrer"
+msgstr " Enregistrer"
 
 ###############################################################################

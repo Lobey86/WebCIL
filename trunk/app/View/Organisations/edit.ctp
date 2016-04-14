@@ -34,22 +34,24 @@
             <div class="form-group">
                 <?php echo $this->Form->input('raisonsociale', [
                     'class'       => 'form-control',
-                    'placeholder' => 'Raison sociale (requis)',
+                    'placeholder' => __d('organisation', 'organisation.placeholderRaisonSociale'),
+                    'required' => true,
                     'label'       => [
-                        'text'  => 'Raison sociale <span class="requis">*</span>',
+                        'text'  => __d('organisation', 'organisation.textRaisonSociale').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
                     'after'       => '</div>',
-                    'escape'      => TRUE
+                    'escape'      => true
                 ]); ?>
             </div>
             <div class="form-group">
                 <?php echo $this->Form->input('telephone', [
                     'class'       => 'form-control',
-                    'placeholder' => 'Téléphone (requis)',
+                    'placeholder' => __d('organisation', 'organisation.placeholderTelephone'),
+                    'required' => true,
                     'label'       => [
-                        'text'  => 'Téléphone <span class="requis">*</span>',
+                        'text'  => __d('organisation', 'organisation.textTelephone').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -59,9 +61,9 @@
             <div class="form-group">
                 <?php echo $this->Form->input('fax', [
                     'class'       => 'form-control',
-                    'placeholder' => 'Fax (facultatif)',
+                    'placeholder' => __d('organisation', 'organisation.placeholderFax'),
                     'label'       => [
-                        'text'  => 'Fax',
+                        'text'  => __d('organisation', 'organisation.textFax'),
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -72,22 +74,24 @@
                 <?php echo $this->Form->input('adresse', [
                     'div'         => 'input-group inputsForm',
                     'label'       => [
-                        'text'  => 'Adresse <span class="requis">*</span>',
+                        'text'  => __d('organisation', 'organisation.textAdresse').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
                     'after'       => '</div>',
                     'class'       => 'form-control',
                     'type'        => 'textarea',
-                    'placeholder' => 'Adresse (requis)'
+                    'placeholder' => __d('organisation', 'organisation.placeholderAdresse'),
+                    'required' => true
                 ]); ?>
             </div>
             <div class="form-group">
                 <?php echo $this->Form->input('email', [
                     'class'       => 'form-control',
-                    'placeholder' => 'E-mail (requis)',
+                    'placeholder' => __d('organisation', 'organisation.placeholderE-mail'),
+                    'required' => true,
                     'label'       => [
-                        'text'  => 'E-mail <span class="requis">*</span>',
+                        'text'  => __d('organisation', 'organisation.textE-mail').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -99,9 +103,9 @@
             <div class="form-group">
                 <?php echo $this->Form->input('sigle', [
                     'class'       => 'form-control',
-                    'placeholder' => 'Sigle (facultatif)',
+                    'placeholder' => __d('organisation', 'organisation.placeholderSigle'),
                     'label'       => [
-                        'text'  => 'Sigle',
+                        'text'  => __d('organisation', 'organisation.textSigle'),
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -111,9 +115,10 @@
             <div class="form-group">
                 <?php echo $this->Form->input('siret', [
                     'class'       => 'form-control',
-                    'placeholder' => 'N° SIRET (requis)',
+                    'placeholder' => __d('organisation', 'organisation.placeholderSIRET'),
+                    'required' => true,
                     'label'       => [
-                        'text'  => 'N° Siret <span class="requis">*</span>',
+                        'text'  => __d('organisation', 'organisation.textSIRET').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -123,9 +128,10 @@
             <div class="form-group">
                 <?php echo $this->Form->input('ape', [
                     'class'       => 'form-control',
-                    'placeholder' => 'Code APE (requis)',
+                    'placeholder' => __d('organisation', 'organisation.placeholderAPE'),
+                    'required' => true,
                     'label'       => [
-                        'text'  => 'Code APE <span class="requis">*</span>',
+                        'text'  => __d('organisation', 'organisation.textAPE').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -138,9 +144,9 @@
                         'options' => $users,
                         'div'     => 'input-group inputsForm',
                         'class'   => 'form-control usersDeroulant',
-                        'empty'   => 'Selectionnez un nouveau CIL',
+                        'empty'   => __d('organisation', 'organisation.placeholderCIL'),
                         'label'   => [
-                            'text'  => 'CIL',
+                            'text'  => __d('organisation', 'organisation.textCIL'),
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
@@ -196,10 +202,10 @@
                     'div'               => 'input-group inputsForm',
                     'type'              => 'file',
                     'class'             => 'filestyle',
-                    'data-buttonText'   => ' Changer le logo',
+                    'data-buttonText'   => __d('organisation', 'organisation.btnLogo'),
                     'data-buttonName'   => "btn-default-primary",
                     'data-buttonBefore' => "true",
-                    'label'             => FALSE
+                    'label'             => false
                 ]); ?>
             </div>
         </div>
@@ -208,11 +214,11 @@
 
         <?php
             echo '<div class="btn-group send">';
-            echo $this->Html->link('<i class="fa fa-arrow-left"></i>Annuler', $referer, [
+            echo $this->Html->link('<i class="fa fa-arrow-left"></i>'. __d('default', 'default.btnAnnuler'), $referer, [
                 'class'  => 'btn btn-default-default',
-                'escape' => FALSE
+                'escape' => false
             ]);
-            echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', [
+            echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnregistrer'),[
                 'type'  => 'submit',
                 'class' => 'btn btn-default-success'
             ]);
