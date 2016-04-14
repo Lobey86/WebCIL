@@ -190,11 +190,10 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), [
+                                    echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>'. __d('pannel', 'pannel.btnAnnuler'), array(
                                         'type' => 'button',
-                                        'class' => 'btn btn-default-danger pull-right sendCancel',
-                                        'onClick' => 'return false'
-                                    ]);
+                                        'class' => 'btn btn-default-default sendCancel',
+                                    ));
                                     echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
                                         'type' => 'submit',
                                         'class' => 'btn btn-default-success pull-right'
@@ -220,11 +219,10 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), [
+                                    echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>'. __d('pannel', 'pannel.btnAnnuler'), array(
                                         'type' => 'button',
-                                        'class' => 'btn btn-default-danger pull-right sendCancel',
-                                        'onClick' => 'return false'
-                                    ]);
+                                        'class' => 'btn btn-default-default sendCancel',
+                                    ));
                                     echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
                                         'type' => 'submit',
                                         'class' => 'btn btn-default-success pull-right'
@@ -402,11 +400,10 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), [
+                                    echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>'. __d('pannel', 'pannel.btnAnnuler'), array(
                                         'type' => 'button',
-                                        'class' => 'btn btn-default-danger pull-right sendCancel',
-                                        'onClick' => 'return false'
-                                    ]);
+                                        'class' => 'btn btn-default-default sendCancel',
+                                    ));
                                     echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
                                         'type' => 'submit',
                                         'class' => 'btn btn-default-success pull-right'
