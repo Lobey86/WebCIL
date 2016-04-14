@@ -41,7 +41,7 @@
     Configure::write('Error', [
         'handler' => 'ErrorHandler::handleError',
         'level'   => E_ALL & ~E_DEPRECATED,
-        'trace'   => TRUE
+        'trace'   => true
     ]);
 
     /**
@@ -64,13 +64,18 @@
     Configure::write('Exception', [
         'handler'  => 'ErrorHandler::handleException',
         'renderer' => 'ExceptionRenderer',
-        'log'      => TRUE
+        'log'      => true
     ]);
 
     /**
      * Application wide charset encoding
      */
     Configure::write('App.encoding', 'UTF-8');
+    
+    /**
+     * Language
+     */
+    Configure::write('Config.language', 'fra');
 
     /**
      * To configure CakePHP *not* to use mod_rewrite and to
@@ -189,8 +194,8 @@
         'cookie'         => 'WebCIL',
         'timeout'        => $sessionDurationMinutes,
         'cookieTimeout'  => $sessionDurationMinutes,
-        'checkAgent'     => FALSE,
-        'autoRegenerate' => FALSE,
+        'checkAgent'     => false,
+        'autoRegenerate' => false,
         'ini'            => [
             'session.cookie_secure'   => 0,
             'session.cookie_lifetime' => 0,
