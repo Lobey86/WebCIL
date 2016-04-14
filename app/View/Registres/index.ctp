@@ -74,16 +74,16 @@ unset($_SESSION['idFicheNotification']);
 if (!empty($fichesValid)) {
 
     ?>
-<table class="table ">
+<table class="table">
     <thead>
     <th class="thleft col-md-2">
-        Nom du traitement
+        <?php echo __d('registre', 'registre.titreTableauNomTraitement');?>
     </th>
     <th class="thleft col-md-8">
-        Synthèse
+        <?php echo __d('registre', 'registre.titreTableauSynthese');?>
     </th>
     <th class="thleft col-md-2">
-        Outils
+        <?php echo __d('registre', 'registre.titreTableauOutil');?>
     </th>
 </thead>
 <tbody>
@@ -102,36 +102,36 @@ if (!empty($fichesValid)) {
             }
 
             if($value['Fiche']['Valeur'] != null){
-                echo '<tr>
+                ?>
+                    <tr>
                         <td class="tdleft">
-                            ' . $value['Fiche']['Valeur'][0]['valeur'] . '
+                            <?php echo $value['Fiche']['Valeur'][0]['valeur'];?>
                         </td>
                         <td class="tdleft">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <strong>Date de création: </strong> ' . $value['EtatFiche']['created'] . '
+                                    <strong><?php echo __d('registre', 'registre.textTableauDateCreation');?></strong><?php echo $value['EtatFiche']['created'];?>
                                 </div>
                                 <div class="col-md-4">
-                                    <strong>Numéro d\'enregistrement </strong>' . $numero . '
+                                    <strong><?php echo __d('registre', 'registre.textTableauNumeroEnregistrement');?></strong><?php echo $numero;?>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <strong>Finalité principale: </strong> ' . $value['Fiche']['Valeur'][1]['valeur'] . '
+                                    <strong><?php echo __d('registre', 'registre.textTableauFinalitePrincipale');?></strong><?php echo $value['Fiche']['Valeur'][1]['valeur'];?>
                                 </div>
                             </div>
                         </td>
                         <td class="tdleft">
-                            <div id='.$value['Fiche']['id'].' class="btn-group">' . $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
+                            <div id= '<?php echo $value['Fiche']['id'];?>' class="btn-group"><?php echo $this->Html->link('<i class="fa fa-file-pdf-o"></i>', array(
                                 'controller' => 'fiches',
                                 'action' => $DlOrGenerate,
                                 $value['Fiche']['id'],
                                 ), array(
                                     'escape' => false,
                                     'class' => 'btn btn-default-default btn-sm my-tooltip',
-                                    'title' => 'Télécharger l\'extrait de registre'
+                                    'title' => __d('registre', 'registre.commentaireTelechargeRegistrePDF')
                 ));
-
                 if ($value['Readable']) {
                     echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
                         'controller' => 'fiches',
@@ -139,7 +139,7 @@ if (!empty($fichesValid)) {
                         $value['Fiche']['id']
                         ), array(
                         'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                        'title' => 'Voir la fiche',
+                        'title' => __d('registre', 'registre.commentaireVoirTraitement'),
                         'escapeTitle' => false
                     ));
                 }
@@ -149,7 +149,7 @@ if (!empty($fichesValid)) {
                         'escapeTitle' => false,
                         'data-toggle' => 'modal',
                         'data-target' => '#modalEditRegistre',
-                        'title' => 'Modifier la fiche'
+                        'title' => __d('registre', 'registre.commentaireModifierTraitement')
                     ));
                     if ($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
                         echo $this->Html->link('<span class="glyphicon glyphicon-lock"></span>', array(
@@ -158,13 +158,14 @@ if (!empty($fichesValid)) {
                             $value['Fiche']['id']
                             ), array(
                             'class' => 'btn btn-default-danger boutonArchive btn-sm my-tooltip',
-                            'title' => 'Vérouiller la fiche',
+                            'title' => __d('registre', 'registre.commentaireVerouillerTraitement'),
                             'escapeTitle' => false
-                            ), 'Voulez-vous vérouiller cette fiche? Une fois vérouillée, toute modification est impossible.');
+                            ), __d('registre', 'registre.confirmationVerouillerTraitement'));
                     }
                 }
-                echo '</div></td>
-                                            </tr>';
+                ?>
+               </div></td></tr>
+            <?php
             }
         }
 
