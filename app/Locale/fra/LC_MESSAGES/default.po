@@ -64,3 +64,16 @@ msgstr "Modifier mon compte"
 
 msgid "default.sousTitreDeconnexion"
 msgstr "Déconnexion"
+
+###############################################################################
+
+
+###################### Utiliser dans toute l'application ######################
+
+msgid "default.btnAnnuler"
+msgstr "Annuler"
+
+msgid "default.btnEnvoyer"
+msgstr "Envoyer"
+
+###############################################################################

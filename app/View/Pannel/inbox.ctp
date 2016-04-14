@@ -191,11 +191,11 @@ unset($_SESSION['idFicheNotification']);
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default sendCancel',
                                 ));
-                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
+                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
                                     'type' => 'submit',
                                     'class' => 'btn btn-default-success pull-right'
                                 ]);
@@ -220,11 +220,11 @@ unset($_SESSION['idFicheNotification']);
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default sendCancel'
                                 ));
-                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
+                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
                                     'type' => 'submit',
                                     'class' => 'btn btn-default-success pull-right'
                                 ]);
@@ -249,11 +249,11 @@ unset($_SESSION['idFicheNotification']);
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default refusCancel top5'
                                 ));
-                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
+                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
                                     'type' => 'submit',
                                     'class' => 'btn btn-default-success pull-right top5'
                                 ]);
@@ -382,11 +382,11 @@ unset($_SESSION['idFicheNotification']);
                                 echo $this->Form->hidden('previousUserId', ['value' => $donnee['EtatFiche']['previous_user_id']]);
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default repondreCancel',
                                 ));
-                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
+                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
                                     'type' => 'submit',
                                     'class' => 'btn btn-default-success pull-right btnDivSend'
                                 ]);
@@ -457,7 +457,7 @@ unset($_SESSION['idFicheNotification']);
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default-default" data-dismiss="modal"><?php echo __d('pannel', 'pannel.btnAnnuler'); ?></button>
+                <button type="button" class="btn btn-default-default" data-dismiss="modal"><?php echo __d('default', 'default.btnAnnuler'); ?></button>
                 <button type="submit" class="btn btn-default-success">Valider</button>
                 <?php
                 echo $this->Form->end();
