@@ -205,7 +205,7 @@ class OrganisationsController extends AppController {
      */
     public function edit($id = null) {
         if ($id == $this->Session->read('Organisation.id')) {
-            $this->set('title', 'Informations générales - ' . $this->Session->read('Organisation.raisonsociale'));
+            $this->set('title', __d('organisation', 'organisation.titreInfoGenerales') . $this->Session->read('Organisation.raisonsociale'));
         } else {
             $this->set('title', 'Editer une entité');
         }
