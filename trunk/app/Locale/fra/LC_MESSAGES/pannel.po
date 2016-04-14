@@ -150,10 +150,4 @@ msgstr "Envoyer pour validation"
 msgid "pannel.textSelectUser"
 msgstr "Selectionnez un utilisateur"
 
-msgid "pannel.btnAnnuler"
-msgstr "Annuler"
-
-msgid "pannel.btnEnvoyer"
-msgstr "Envoyer"
-
 ###############################################################################
