@@ -52,7 +52,9 @@ class PannelController extends AppController {
         if (!$this->Droits->authorized(1)) {
             $this->redirect(['controller' => 'pannel', 'action' => 'inbox']);
         }
-        $this->set('title', 'Mes fiches');
+        $this->set('title', __d('pannel', 'pannel.titreTraitement'));
+        
+        
         // Requète récupérant les fiches en cours de rédaction
         $db = $this->EtatFiche->getDataSource();
         $subQuery = $db->buildStatement([
@@ -243,7 +245,7 @@ class PannelController extends AppController {
         if (!$this->Droits->authorized([2, 3, 5])) {
             $this->redirect($this->referer());
         }
-        $this->set('title', 'Fiches reçues');
+        $this->set('title', __d('pannel', 'pannel.titreTraitementRecue'));
         // Requète récupérant les fiches qui demande une validation
 
         $requete = $this->EtatFiche->find('all', [
@@ -390,7 +392,7 @@ class PannelController extends AppController {
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "archives");
         
-        $this->set('title', 'Fiches validées');
+        $this->set('title', __d('pannel', 'pannel.titreTraitementValidee'));
         // Requète récupérant les fiches validées par le CIL
 
         $requete = $this->EtatFiche->find('all', [

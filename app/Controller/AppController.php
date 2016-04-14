@@ -58,6 +58,12 @@ class AppController extends Controller {
      * @version V0.9.0
      */
     public function beforeFilter() {
+        $locale = Configure::read('Config.language');
+        
+        if ($locale && file_exists(APP . 'View' . DS . $locale . DS . $this->viewPath)) {
+            $this->viewPath = $locale . DS . $this->viewPath;
+        }
+        
         $this->set('referer', $this->referer());
         $this->set('nom', $this->Auth->user('nom'));
         $this->set('prenom', $this->Auth->user('prenom'));

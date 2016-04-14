@@ -1,0 +1,159 @@
+# Locale fra
+# pannel.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#########################: View/Pannel/index.ctp###############################
+
+msgid "pannel.traitementEnCours"
+msgstr "Mes traitements en cours de rédaction ("
+
+msgid "pannel.traitementEnAttente"
+msgstr "Mes traitements en attente ("
+
+msgid "pannel.traitementRefusees"
+msgstr "Mes traiments refusées ("
+
+msgid "pannel.aucunTraitementEnCours"
+msgstr "Vous n'avez aucun traitement en cours"
+
+msgid "pannel.aucunTraitementEnAttente"
+msgstr "Vous n'avez aucun traitement en attente"
+
+msgid "pannel.aucunTraitementRefusees"
+msgstr "Vous n'avez aucun traitement refusée"
+
+msgid "pannel.btnCreerTraitement"
+msgstr "Créer un traitement"
+
+msgid "pannel.commentaireSupprimer"
+msgstr "Supprimer le traitement"
+
+msgid "pannel.confirmationSupprimer"
+msgstr "Voulez vous supprimer le traitement de"
+
+msgid "pannel.commentaireReorienterTraitement"
+msgstr "Réorienter le traitement"
+
+msgid "pannel.commentaireReplacerTraitementRedaction"
+msgstr "Replacer le traitement en rédaction"
+
+msgid "pannel.commentaireEnvoyerTraitement"
+msgstr "Envoyer le traitement"
+
+msgid "pannel.textEnvoyerCIL"
+msgstr "Envoyer au CIL"
+
+
+###############################################################################
+
+
+#########################: Controller/PannelController.php#####################
+
+msgid "pannel.titreTraitement"
+msgstr "Mes traitements"
+
+msgid "pannel.titreTraitementRecue"
+msgstr "Mes traitements reçues"
+
+msgid "pannel.titreTraitementValidee"
+msgstr "Mes traitements validées"
+
+###############################################################################
+
+
+#########################: View/Pannel/inbox.ctp###############################
+
+msgid "pannel.traitementValidation"
+msgstr "Traitements reçues en validation ("
+
+msgid "pannel.traitementConsultation"
+msgstr "Traitements reçues en consultation ("
+
+msgid "pannel.aucunTraitementValidation"
+msgstr "Vous n'avez aucun traitement en validation"
+
+msgid "pannel.aucunTraitementConsultation"
+msgstr "Vous n'avez aucun traitement en consultation"
+
+msgid "pannel.commentaireValiderTraitement"
+msgstr "Valider le traitement"
+
+msgid "pannel.textValiderInsererRegistre"
+msgstr "Valider la fiche et l'insérer dans le registre"
+
+msgid "pannel.commentaireRepondre"
+msgstr "Répondre"
+
+
+###############################################################################
+
+
+#########################: View/Pannel/archive.ctp#############################
+
+msgid "pannel.traitementValidationInsereeRegistre"
+msgstr "Mes traitement validées et insérées au registre ("
+
+msgid "pannel.aucunTraitementValidationInsereeRegistre"
+msgstr "Vous n'avez aucune fiche validées et insérées au registre"
+
+msgid "pannel.commentaireTelechargeRegistre"
+msgstr "Télécharger l'extrait de registre"
+
+###############################################################################
+
+
+###############: View/Pannel/inbox.ctp + archive.ctp + index.ctp###############
+
+msgid "pannel.motTraitement"
+msgstr " traitement"
+
+msgid "pannel.motEtat"
+msgstr "Etat"
+
+msgid "pannel.motSynthese"
+msgstr "Synthèse"
+
+msgid "pannel.motActions"
+msgstr "Actions"
+
+msgid "pannel.motNomTraitement"
+msgstr "Nom du traitement : "
+
+msgid "pannel.motCreee"
+msgstr "Créée par : "
+
+msgid "pannel.motDerniereModification"
+msgstr "Dernière modification le : "
+
+msgid "pannel.commentaireVoirTraitement"
+msgstr "Voir le traitement"
+
+msgid "pannel.commentaireModifierTraitement"
+msgstr "Modifier le traitement"
+
+msgid "pannel.commentaireVoirParcours"
+msgstr "Voir le parcours"
+
+msgid "pannel.textEnvoyerConsultation"
+msgstr "Envoyer pour consultation"
+
+msgid "pannel.textEnvoyerValidation"
+msgstr "Envoyer pour validation"
+
+msgid "pannel.textSelectUser"
+msgstr "Selectionnez un utilisateur"
+
+msgid "pannel.btnAnnuler"
+msgstr "Annuler"
+
+msgid "pannel.btnEnvoyer"
+msgstr "Envoyer"
+
+###############################################################################

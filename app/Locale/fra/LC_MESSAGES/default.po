@@ -1,0 +1,66 @@
+# Locale fra
+# default.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#: View/Layouts/default.ctp
+#: Bare du menu
+msgid "default.titreTraitement"
+msgstr "Traitements"
+
+msgid "default.sousTitreMesTraitement"
+msgstr "Mes traitements"
+
+msgid "default.sousTitreTraitementRecues"
+msgstr "Mes traitements reçues"
+
+msgid "default.sousTitreTraitementValidees"
+msgstr "Mes traitements validées"
+
+msgid "default.titreRegistre"
+msgstr "Registre"
+
+msgid "default.titreAdministration"
+msgstr "Administration de : "
+
+msgid "default.sousTitreInfoGenerale"
+msgstr "Informations générales"
+
+msgid "default.sousTitreFormulaire"
+msgstr "Mes formulaires"
+
+msgid "default.sousTitreModele"
+msgstr "Mes modèles"
+
+msgid "default.titreAdministrationUser"
+msgstr "Administration des utilisateurs"
+
+msgid "default.sousTitreProfils"
+msgstr "Profils"
+
+msgid "default.sousTitreServices"
+msgstr "Services"
+
+msgid "default.sousTitreUser"
+msgstr "Utilisateurs"
+
+msgid "default.sousTitreAjouterUser"
+msgstr "Ajouter un utilisateur"
+
+msgid "default.sousTitreEntite"
+msgstr "Mes entités"
+
+msgid "default.sousTitreCompte"
+msgstr "Mon compte"
+
+msgid "default.sousTitreModifCompte"
+msgstr "Modifier mon compte"
+
+msgid "default.sousTitreDeconnexion"
+msgstr "Déconnexion"

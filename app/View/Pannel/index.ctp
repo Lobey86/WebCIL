@@ -1,27 +1,23 @@
 <?php
 echo $this->Html->script('pannel.js');
-?>
 
-<!-- Banette des fiches en cours de rédaction -->
-
-<?php
 // balise du scrollTo
 $idFicheNotification = $this->Session->read('idFicheNotification');
 unset($_SESSION['idFicheNotification']);
 
 if ($this->Autorisation->authorized(1, $droits)) {
     ?>
-
+    <!-- Banette des fiches en cours de rédaction -->
     <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="panel-title">Mes fiches en cours de rédaction (<?php echo count($encours); ?>
-                        fiche<?php
-    if (count($encours) > 1) {
-        echo 's';
-    }
-    ?>)</h3>
+                    <h3 class="panel-title"> <?php
+                        echo __d('pannel', 'pannel.traitementEnCours') . count($encours) . __d('pannel', 'pannel.motTraitement');
+                        if (count($encours) > 1) {
+                            echo 's';
+                        }
+                        ?>)</h3>
                 </div>
             </div>
         </div>
@@ -30,17 +26,17 @@ if ($this->Autorisation->authorized(1, $droits)) {
             if (!empty($encours)) {
                 ?>
 
-                <table class="table">
+                <table class="table  table-bordered">
                     <thead>
                         <tr>
                             <th class="thleft col-md-1">
-                                Etat
+                                <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
                             <th class="thleft col-md-9 col-md-offset-1">
-                                Synthèse
+                                <?php echo __d('pannel', 'pannel.motSynthese'); ?>
                             </th>
                             <th class="thleft col-md-2 col-md-offset-10">
-                                Actions
+                                <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
                         </tr>
                     </thead>
@@ -57,20 +53,17 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 <td class='tdleft col-md-9 col-md-offset-1'>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <strong>Nom du traitement:
+                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                                             </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
                                         </div>
-
                                     </div>
                                     <div class="row top15">
                                         <div class="col-md-6">
-                                            <strong>Créée
-                                                par:
+                                            <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
                                             </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong>Dernière modification
-                                                le:
+                                            <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
                                             </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], '%e-%m-%Y'); ?>
                                         </div>
                                     </div>
@@ -85,7 +78,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 ], [
                                             'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                             'escapeTitle' => false,
-                                            'title' => 'Voir la fiche'
+                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
                                         ]) . $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'edit',
@@ -93,12 +86,12 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 ], [
                                             'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
                                             'escapeTitle' => false,
-                                            'title' => 'Editer la fiche'
+                                            'title' => __d('pannel', 'pannel.commentaireModifierTraitement')
                                         ]);
                                         ?>
                                         <button type='button'
                                                 class='btn btn-default-default boutonList btn-sm my-tooltip'
-                                                title='Voir le parcours'
+                                                title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                                 id='<?php echo $donnee['Fiche']['id']; ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
                                             <span class='glyphicon glyphicon-list-alt'></span>
@@ -108,7 +101,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             class='btn btn-default-default dropdown-toggle boutonSend btn-sm my-tooltip'
                                             type='button'
                                             id='dropdownMenu1' data-toggle='dropdown'
-                                            title='Envoyer la fiche'>
+                                            title='<?php echo __d('pannel', 'pannel.commentaireEnvoyerTraitement'); ?>'>
                                             <span class='glyphicon glyphicon-send'></span>
                                             <span class='caret'></span>
                                         </button>
@@ -117,21 +110,17 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             <li role='presentation'>
                                                 <a role='menuitem' tabindex='-1' href='#'
                                                    class='envoiConsult'
-                                                   value='<?php echo $donnee['Fiche']['id']; ?>'>Envoyer
-                                                    pour
-                                                    consultation
+                                                   value='<?php echo $donnee['Fiche']['id']; ?>'><?php echo __d('pannel', 'pannel.textEnvoyerConsultation'); ?>
                                                 </a>
                                             </li>
                                             <li role='presentation'>
                                                 <a role='menuitem' tabindex='-1' href='#'
                                                    class='envoiValid'
-                                                   value='<?php echo $donnee['Fiche']['id']; ?>'>Envoyer
-                                                    pour
-                                                    validation
+                                                   value='<?php echo $donnee['Fiche']['id']; ?>'><?php echo __d('pannel', 'pannel.textEnvoyerValidation'); ?>
                                                 </a>
                                             </li>
                                             <li role='presentation'><?php
-                                                echo $this->Html->link('Envoyer au CIL pour clôture', [
+                                                echo $this->Html->link(__d('pannel', 'pannel.textEnvoyerCIL'), [
                                                     'controller' => 'etatFiches',
                                                     'action' => 'cilValid',
                                                     $donnee['Fiche']['id']
@@ -150,8 +139,8 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             ], [
                                         'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
                                         'escapeTitle' => false,
-                                        'title' => 'Supprimer la fiche'
-                                            ], 'Voulez vous supprimer la fiche de ' . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
+                                        'title' => __d('pannel', 'pannel.commentaireSupprimer')
+                                            ], __d('pannel', 'pannel.confirmationSupprimer') . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
                                     ?>
 
                                 </td>
@@ -194,20 +183,21 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->input('destinataire', [
                                         'options' => $consultants,
                                         'class' => 'usersDeroulant transformSelect form-control bottom5',
-                                        'empty' => 'Selectionnez un utilisateur',
+                                        'empty' => __d('pannel', 'pannel.textSelectUser'),
                                         'label' => false,
                                         'required' => true
                                     ]);
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i> Annuler', [
+                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), [
                                         'type' => 'button',
-                                        'class' => 'btn btn-default-default sendCancel top5'
+                                        'class' => 'btn btn-default-danger pull-right sendCancel',
+                                        'onClick' => 'return false'
                                     ]);
-                                    echo $this->Form->button('<i class="fa fa-check"></i> Envoyer', [
+                                    echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
                                         'type' => 'submit',
-                                        'class' => 'btn btn-default-success top5'
+                                        'class' => 'btn btn-default-success pull-right'
                                     ]);
                                     echo '</div>';
                                     echo $this->Form->end();
@@ -223,20 +213,21 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->input('destinataire', [
                                         'options' => $validants,
                                         'class' => 'usersDeroulant transformSelect form-control bottom5',
-                                        'empty' => 'Selectionnez un utilisateur',
+                                        'empty' => __d('pannel', 'pannel.textSelectUser'),
                                         'label' => false,
                                         'required' => true
                                     ]);
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i> Annuler', [
+                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), [
                                         'type' => 'button',
-                                        'class' => 'btn btn-default-default sendCancel top5'
+                                        'class' => 'btn btn-default-danger pull-right sendCancel',
+                                        'onClick' => 'return false'
                                     ]);
-                                    echo $this->Form->button('<i class="fa fa-check"></i> Envoyer', [
+                                    echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
                                         'type' => 'submit',
-                                        'class' => 'btn btn-default-success top5'
+                                        'class' => 'btn btn-default-success pull-right'
                                     ]);
                                     echo '</div>';
                                     echo $this->Form->end();
@@ -244,73 +235,73 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 </td>
                             </tr>
                             <tr class='completion'></tr>
-                    <?php
-                }
-                ?>
+                            <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
 
 
-        <?php
-    } else {
-
-        echo "<div class='text-center'><h3>Vous n'avez aucune fiche</h3></div>";
-    }
-    ?>
+                <?php
+            } else {
+                ?>
+                <div class='text-center'>
+                    <h3> <?php echo __d('pannel', 'pannel.aucunTraitementEnCours'); ?></h3>
+                </div>
+                <?php
+            }
+            ?>
             <div class="row bottom10">
                 <div class="col-md-12 text-center">
-    <?php
-    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Créer une fiche', ['#' => '#'], [
-        'escape' => false,
-        'data-toggle' => 'modal',
-        'data-target' => '#myModal',
-        'class' => 'btn btn-default-primary'
-    ]);
-    ?>
+                    <?php
+                    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnCreerTraitement'), ['#' => '#'], [
+                        'escape' => false,
+                        'data-toggle' => 'modal',
+                        'data-target' => '#myModal',
+                        'class' => 'btn btn-default-primary'
+                    ]);
+                    ?>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <!-- Panel de fiches en attente -->
-
+    <!-- Banette des fiches en attente -->
     <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="panel-title">Mes fiches en attente (<?php echo count($encoursValidation); ?>
-                        fiche<?php
-            if (count($encoursValidation) > 1) {
-                echo 's';
-            }
-            ?>)</h3>
+                    <h3 class="panel-title"> <?php
+                        echo __d('pannel', 'pannel.traitementEnAttente') . count($encoursValidation) . __d('pannel', 'pannel.motTraitement');
+                        if (count($encoursValidation) > 1) {
+                            echo 's';
+                        }
+                        ?>)</h3>
                 </div>
             </div>
         </div>
         <div class="panel-body panel-body-custom">
-    <?php
-    if (!empty($encoursValidation)) {
-        ?>
-
+            <?php
+            if (!empty($encoursValidation)) {
+                ?>
                 <table class="table  table-bordered">
                     <thead>
                         <tr>
                             <th class="thleft col-md-1">
-                                Etat
+                                <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
                             <th class="thleft col-md-9 col-md-offset-1">
-                                Synthèse
+                                <?php echo __d('pannel', 'pannel.motSynthese'); ?>
                             </th>
                             <th class="thleft col-md-2 col-md-offset-10">
-                                Actions
+                                <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-        <?php
-        foreach ($encoursValidation as $donnee) {
-            ?>
+                        <?php
+                        foreach ($encoursValidation as $donnee) {
+                            ?>
                             <tr>
                                 <td class='tdleft col-md-1'>
                                     <div class="etatIcone">
@@ -320,47 +311,45 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 <td class='tdleft col-md-9 col-md-offset-1'>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <strong>Nom du traitement:
+                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                                             </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
                                         </div>
 
                                     </div>
                                     <div class="row top15">
                                         <div class="col-md-6">
-                                            <strong>Créée
-                                                par:
+                                            <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
                                             </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong>Dernière modification
-                                                le:
+                                            <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
                                             </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], '%e-%m-%Y'); ?>
                                         </div>
                                     </div>
                                 </td>
                                 <td class='tdcent col-md-2 col-md-offset-10'>
                                     <div class="btn-group">
-            <?php
-            echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
-                'controller' => 'fiches',
-                'action' => 'show',
-                $donnee['Fiche']['id']
-                    ], [
-                'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                'escapeTitle' => false,
-                'title' => 'Voir la fiche'
-            ]);
-            ?>
+                                        <?php
+                                        echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                            'controller' => 'fiches',
+                                            'action' => 'show',
+                                            $donnee['Fiche']['id']
+                                                ], [
+                                            'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                                            'escapeTitle' => false,
+                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
+                                        ]);
+                                        ?>
                                         <button type='button'
                                                 class='btn btn-default-default boutonList btn-sm my-tooltip'
-                                                title='Voir le parcours'
+                                                title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                                 id='<?php echo $donnee['Fiche']['id']; ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
                                             <span class='glyphicon glyphicon-list-alt'></span>
                                         </button>
                                         <button type='button'
                                                 class='btn btn-default-default boutonReorienter btn-sm my-tooltip'
-                                                title="Réorienter la fiche"
+                                                title='<?php echo __d('pannel', 'pannel.commentaireReorienterTraitement'); ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
                                             <span class='glyphicon glyphicon-transfer'></span>
                                         </button>
@@ -384,17 +373,17 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     ?>
                                 </td>
                                 <td class="tdleft">
-            <?php
-            $historique = $this->requestAction([
-                'controller' => 'Pannel',
-                'action' => 'getHistorique',
-                $donnee['Fiche']['id']
-            ]);
-            echo $this->element('historique', [
-                "historique" => $historique,
-                "id" => $donnee['Fiche']['id']
-            ]);
-            ?>
+                                    <?php
+                                    $historique = $this->requestAction([
+                                        'controller' => 'Pannel',
+                                        'action' => 'getHistorique',
+                                        $donnee['Fiche']['id']
+                                    ]);
+                                    echo $this->element('historique', [
+                                        "historique" => $historique,
+                                        "id" => $donnee['Fiche']['id']
+                                    ]);
+                                    ?>
                                 </td>
                             </tr>
                             <tr class='selectDestTrans<?php echo $donnee['Fiche']['id']; ?>'>
@@ -406,81 +395,83 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->input('destinataire', [
                                         'options' => $validants,
                                         'class' => 'usersDeroulant transformSelect form-control bottom5',
-                                        'empty' => 'Selectionnez un utilisateur',
+                                        'empty' => __d('pannel', 'pannel.textSelectUser'),
                                         'required' => true,
                                         'label' => false
                                     ]);
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i> Annuler', [
+                                    echo $this->Form->button('<i class="fa fa-arrow-left"></i>' . __d('pannel', 'pannel.btnAnnuler'), [
                                         'type' => 'button',
-                                        'class' => 'btn btn-default-default sendCancel top5'
+                                        'class' => 'btn btn-default-danger pull-right sendCancel',
+                                        'onClick' => 'return false'
                                     ]);
-                                    echo $this->Form->button('<i class="fa fa-check"></i> Envoyer', [
+                                    echo $this->Form->button('<i class="fa fa-check"></i>' . __d('pannel', 'pannel.btnEnvoyer'), [
                                         'type' => 'submit',
-                                        'class' => 'btn btn-default-success top5'
+                                        'class' => 'btn btn-default-success pull-right'
                                     ]);
                                     echo '</div>';
                                     echo $this->Form->end();
                                     ?>
                                 </td>
                             </tr>
-                    <?php
-                }
-                ?>
+                            <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
 
 
-        <?php
-    } else {
-
-        echo "<div class='text-center'><h3>Vous n'avez aucune fiche</h3></div>";
-    }
-    ?>
+                <?php
+            } else {
+                ?>
+                <div class='text-center'>
+                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementEnAttente'); ?></h3>
+                </div>
+                <?php
+            }
+            ?>
         </div>
     </div>
 
-
-    <!-- Fiches refusées -->
-
+    <!-- Banette des fiches refusées -->
     <div class="panel panel-primary">
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 id="FichesRefusees" class="panel-title">Mes fiches refusées (<?php echo count($refusees); ?>
-                        fiche<?php
-    if (count($refusees) > 1) {
-        echo 's';
-    }
-    ?>)</h3>
+                    <h3 id="FichesRefusees" class="panel-title"><?php
+                        echo __d('pannel', 'pannel.traitementRefusees') . count($refusees) . __d('pannel', 'pannel.motTraitement');
+                        if (count($refusees) > 1) {
+                            echo 's';
+                        }
+                        ?>)</h3>
                 </div>
             </div>
         </div>
         <div class="panel-body panel-body-custom">
-    <?php
-    if (!empty($refusees)) {
-        ?>
+            <?php
+            if (!empty($refusees)) {
+                ?>
 
                 <table class="table  table-bordered">
                     <thead>
                         <tr>
                             <th class="thleft col-md-1">
-                                Etat
+                                <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
                             <th class="thleft col-md-9 col-md-offset-1">
-                                Synthèse
+                                <?php echo __d('pannel', 'pannel.motSynthese'); ?>
                             </th>
                             <th class="thleft col-md-2 col-md-offset-10">
-                                Actions
+                                <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-        <?php
-        foreach ($refusees as $donnee) {
-            ?>
+                        <?php
+                        foreach ($refusees as $donnee) {
+                            ?>
                             <tr>
                                 <td class='tdleft col-md-1'>
                                     <div class="etatIcone">
@@ -490,20 +481,18 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 <td class='tdleft col-md-9 col-md-offset-1'>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <strong>Nom du traitement:
+                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                                             </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
                                         </div>
 
                                     </div>
                                     <div class="row top15">
                                         <div class="col-md-6">
-                                            <strong>Créée
-                                                par:
+                                            <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
                                             </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?>
                                         </div>
                                         <div class="col-md-6">
-                                            <strong>Dernière modification
-                                                le:
+                                            <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
                                             </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], '%e-%m-%Y'); ?>
                                         </div>
                                     </div>
@@ -518,7 +507,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 ], [
                                             'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                             'escapeTitle' => false,
-                                            'title' => 'Voir la fiche'
+                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
                                         ]);
                                         echo $this->Html->link('<span class="glyphicon glyphicon-repeat"></span>', [
                                             'controller' => 'EtatFiches',
@@ -526,28 +515,28 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             $donnee['Fiche']['id']
                                                 ], [
                                             'class' => 'btn btn-default-default boutonRelancer btn-sm my-tooltip',
-                                            'title' => 'Replacer la fiche en rédaction',
+                                            'title' => __d('pannel', 'pannel.commentaireReplacerTraitementRedaction'),
                                             'escapeTitle' => false
                                         ]);
                                         ?>
                                         <button type='button'
                                                 class='btn btn-default-default boutonList btn-sm my-tooltip boutonListRefusee'
-                                                title='Voir le parcours'
+                                                title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                                 id='<?php echo $donnee['Fiche']['id']; ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
                                             <span class='glyphicon glyphicon-list-alt'></span>
                                         </button>
-            <?php
-            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
-                'controller' => 'fiches',
-                'action' => 'delete',
-                $donnee['Fiche']['id']
-                    ], [
-                'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
-                'escapeTitle' => false,
-                'title' => 'Supprimer la fiche'
-                    ], 'Voulez vous supprimer la fiche de ' . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
-            ?>
+                                        <?php
+                                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                                            'controller' => 'fiches',
+                                            'action' => 'delete',
+                                            $donnee['Fiche']['id']
+                                                ], [
+                                            'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
+                                            'escapeTitle' => false,
+                                            'title' => __d('pannel', 'pannel.commentaireSupprimer')
+                                                ], __d('pannel', 'pannel.confirmationSupprimer') . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
+                                        ?>
 
                                     </div>
                                 </td>
@@ -567,32 +556,35 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     ?>
                                 </td>
                                 <td class="tdleft">
-            <?php
-            $historique = $this->requestAction([
-                'controller' => 'Pannel',
-                'action' => 'getHistorique',
-                $donnee['Fiche']['id']
-            ]);
-            echo $this->element('historique', [
-                "historique" => $historique,
-                "id" => $donnee['Fiche']['id']
-            ]);
-            ?>
+                                    <?php
+                                    $historique = $this->requestAction([
+                                        'controller' => 'Pannel',
+                                        'action' => 'getHistorique',
+                                        $donnee['Fiche']['id']
+                                    ]);
+                                    echo $this->element('historique', [
+                                        "historique" => $historique,
+                                        "id" => $donnee['Fiche']['id']
+                                    ]);
+                                    ?>
                                 </td>
                             </tr>
-            <?php
-        }
-        ?>
+                            <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
 
 
-        <?php
-    } else {
-
-        echo "<div class='text-center'><h3>Vous n'avez aucune fiche</h3></div>";
-    }
-    ?>
+                <?php
+            } else {
+                ?>
+                <div class='text-center'>
+                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementRefusees'); ?></h3>
+                </div>
+                <?php
+            }
+            ?>
         </div>
     </div>
 

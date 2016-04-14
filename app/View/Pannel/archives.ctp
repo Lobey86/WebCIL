@@ -5,8 +5,8 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="panel-title">Mes fiches validées et insérées au registre (<?php echo count($validees); ?>
-                                        fiche<?php if(count($validees) > 1) {
+                <h3 class="panel-title"><?php echo __d('pannel', 'pannel.traitementValidationInsereeRegistre') . count($validees) . __d('pannel', 'pannel.motTraitement');
+                    if(count($validees) > 1) {
                         echo 's';
                     } ?>)</h3>
             </div>
@@ -20,13 +20,13 @@
                     <thead>
                         <tr>
                             <th class="thleft col-md-1">
-                                Etat
+                                <?php echo __d('pannel', 'pannel.motEtat') ;?>
                             </th>
                             <th class="thleft col-md-9 col-md-offset-1">
-                                Synthèse
+                                <?php echo __d('pannel', 'pannel.motSynthese') ;?>
                             </th>
                             <th class="thleft col-md-2 col-md-offset-10">
-                                Actions
+                                <?php echo __d('pannel', 'pannel.motActions') ;?>
                             </th>
                         </tr>
                     </thead>
@@ -43,21 +43,18 @@
                                     <td class='tdleft col-md-9 col-md-offset-1'>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <strong>Nom du
-                                                        traitement:
+                                                <strong><?php echo __d('pannel','pannel.motNomTraitement');?>
                                                 </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
                                             </div>
 
                                         </div>
                                         <div class="row top15">
                                             <div class="col-md-6">
-                                                <strong>Créée
-                                                        par:
+                                                <strong><?php echo __d('pannel','pannel.motCreee');?>
                                                 </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?>
                                             </div>
                                             <div class="col-md-6">
-                                                <strong>Dernière modification
-                                                        le:
+                                                <strong><?php echo __d('pannel','pannel.motDerniereModification');?>
                                                 </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], '%e-%m-%Y'); ?>
                                             </div>
                                         </div>
@@ -70,16 +67,16 @@
                                                     $donnee['Fiche']['id']
                                                 ], [
                                                     'class'       => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                                                    'title'       => 'Voir la fiche',
-                                                    'escapeTitle' => FALSE
+                                                    'title'       => __d('pannel', 'pannel.commentaireVoirTraitement'),
+                                                    'escapeTitle' => false
                                                 ]) . $this->Html->link('<span class="glyphicon glyphicon-file"></span>', [
                                                     'controller' => 'fiches',
                                                     'action'     => 'genereFusion',
                                                     $donnee['Fiche']['id']
                                                 ], [
                                                     'class'       => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
-                                                    'title'       => 'Télécharger l\'extrait de registre',
-                                                    'escapeTitle' => FALSE
+                                                    'title'       => __d('pannel', 'pannel.commentaireTelechargeRegistre'),
+                                                    'escapeTitle' => false
                                                 ]);
                                             ?>
                                         </div>
@@ -92,8 +89,11 @@
                 </table>
                 <?php
             } else {
-
-                echo "<div class='text-center'><h3>Vous n'avez aucune fiche</h3></div>";
+                ?>
+                <div class='text-center'>
+                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementValidationInsereeRegistre') ;?></h3>
+                </div>";
+            <?php
             }
         ?>
     </div>
