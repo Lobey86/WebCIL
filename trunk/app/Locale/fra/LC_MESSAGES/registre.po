@@ -1,0 +1,47 @@
+# Locale fra
+# pannel.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#########################: View/Registres/index.ctp###############################
+
+msgid "registre.titreTableauNomTraitement"
+msgstr "Nom du traitement"
+
+msgid "registre.titreTableauSynthese"
+msgstr "Synthèse"
+
+msgid "registre.titreTableauOutil"
+msgstr "Outils"
+
+msgid "registre.textTableauDateCreation"
+msgstr "Date de création : "
+
+msgid "registre.textTableauFinalitePrincipale"
+msgstr "Finalité principale : "
+
+msgid "registre.textTableauNumeroEnregistrement"
+msgstr "Numéro d'enregistrement : "
+
+msgid "registre.commentaireTelechargeRegistrePDF"
+msgstr "Télécharger l'extrait de registre"
+
+msgid "registre.commentaireVoirTraitement"
+msgstr "Voir le traitement"
+
+msgid "registre.commentaireModifierTraitement"
+msgstr "Modifier le traitement"
+
+msgid "registre.commentaireVerouillerTraitement"
+msgstr "Vérouiller le traitement"
+
+msgid "registre.confirmationVerouillerTraitement"
+msgstr "Voulez-vous vérouiller ce traitement? Une fois vérouillée, toute modification est impossible."
+
+###############################################################################
