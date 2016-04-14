@@ -1,5 +1,5 @@
 # Locale fra
-# pannel.po
+# registre.po
 #
 # WebCil : https://adullact.net/projects/webcil
 #
