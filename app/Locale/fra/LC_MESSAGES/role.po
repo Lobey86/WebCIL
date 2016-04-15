@@ -1,0 +1,59 @@
+# Locale fra
+# role.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#######################: Controller/RolesController.php######################
+
+msgid "role.titreListeProfil"
+msgstr "Liste des profils"
+
+msgid "role.titreAjouterProfil"
+msgstr "Ajouter un profil"
+
+msgid "role.titreEditerProfil"
+msgstr "Editer un profil"
+
+###############################################################################
+
+
+############################: View/Roles/index.ctp ############################
+
+msgid "role.titreTableauProfil"
+msgstr "Profil"
+
+msgid "role.titreTableauDroit"
+msgstr "Droits"
+
+msgid "role.titreTableauAction"
+msgstr "Actions"
+
+msgid "role.commentaitreModifierProfil"
+msgstr "Modifier le profil"
+
+msgid "role.commentaireSupprimerProfil"
+msgstr "Supprimer le profil"
+
+msgid "role.confirmationSupprimerProfil"
+msgstr "Voulez vous vraiment supprimer le profil : "
+
+msgid "role.btnAjouterProfil"
+msgstr " Ajouter un profil"
+
+###############################################################################
+
+########################: View/Roles/add.ctp + edit.ctp #######################
+
+msgid "role.champNomProfil"
+msgstr "Nom du profil "
+
+msgid "role.placeholderChampNomProfil"
+msgstr "Nom du profil (requis)"
+
+###############################################################################
