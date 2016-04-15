@@ -56,7 +56,7 @@ msgid "formulaire.commentaireSupprimerFormulaire"
 msgstr "Supprimer le formulaire"
 
 msgid "formulaire.confirmationSupprimerFormulaire"
-msgstr "Voulez vous supprimer le formulaire : "
+msgstr "Voulez vous supprimer le formulaire ?"
 
 msgid "formulaire.btnCreerFormulaire"
 msgstr "Créer un formulaire"
