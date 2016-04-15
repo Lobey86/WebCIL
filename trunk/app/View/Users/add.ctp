@@ -41,9 +41,9 @@
             <?php
             echo $this->Form->input('username', [
                 'class' => 'form-control',
-                'placeholder' => 'Login',
+                'placeholder' => __d('user','user.placeholderChampLogin'),
                 'label' => [
-                    'text' => 'Login <span class="requis">*</span>',
+                    'text' => __d('user','user.champLogin').'<span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -62,9 +62,9 @@
 
         echo $this->Form->input('password', [
             'class' => 'form-control',
-            'placeholder' => 'Mot de passe (minimum 5 caractères)',
+            'placeholder' => __d('user','user.placeholderChampMotDePasse'),
             'label' => [
-                'text' => 'Mot de passe <span class="requis">*</span>',
+                'text' => __d('user','user.champMotDePasse').'<span class="requis">*</span>',
                 'class' => 'col-md-4 control-label'
             ],
             'between' => '<div class="col-md-8">',
@@ -84,9 +84,9 @@
     <?php
     echo $this->Form->input('passwd', [
         'class' => 'form-control',
-        'placeholder' => 'Mot de passe (verification)',
+        'placeholder' => __d('user','user.placeholderChampVerifMotDePasse'),
         'label' => [
-            'text' => 'Vérification du mot de passe <span class="requis">*</span>',
+            'text' => __d('user','user.champVerifMotDePasse').'<span class="requis">*</span>',
             'class' => 'col-md-4 control-label'
         ],
         'between' => '<div class="col-md-8">',
@@ -100,9 +100,9 @@
     <?php
     echo $this->Form->input('nom', [
         'class' => 'form-control',
-        'placeholder' => 'Nom',
+        'placeholder' => __d('user','user.placeholderChampNom'),
         'label' => [
-            'text' => 'Nom <span class="requis">*</span>',
+            'text' => __d('default','default.champNom').'<span class="requis">*</span>',
             'class' => 'col-md-4 control-label'
         ],
         'between' => '<div class="col-md-8">',
@@ -115,9 +115,9 @@
     <?php
     echo $this->Form->input('prenom', [
         'class' => 'form-control',
-        'placeholder' => 'Prenom',
+        'placeholder' => __d('user','user.placeholderChampPrenom'),
         'label' => [
-            'text' => 'Prénom <span class="requis">*</span>',
+            'text' => __d('user','user.champPrenom').'<span class="requis">*</span>',
             'class' => 'col-md-4 control-label'
         ],
         'between' => '<div class="col-md-8">',
@@ -136,9 +136,9 @@ if (empty($this->validationErrors['User']['email'])) {
 
 echo $this->Form->input('email', [
     'class' => 'form-control',
-    'placeholder' => 'E-mail',
+    'placeholder' => __d('user','user.placeholderChampE-mail'),
     'label' => [
-        'text' => 'E-mail <span class="requis">*</span>',
+        'text' => __d('default','default.champE-mail').'<span class="requis">*</span>',
         'class' => 'col-md-4 control-label'
     ],
     'between' => '<div class="col-md-8">',
@@ -158,11 +158,11 @@ echo $this->Form->input('email', [
         
             echo $this->Form->input('Organisation.Organisation_id', [
                 'options' => $listeOrganisations,
-            'selected' => $this->Session->read('Organisation.id'),
+                'selected' => $this->Session->read('Organisation.id'),
                 'class' => 'form-control',
                 'id' => 'deroulant',
                 'label' => [
-                    'text' => 'Entités <span class="requis">*</span>',
+                    'text' => __d('user','user.champEntite').'<span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -198,7 +198,7 @@ echo $this->Form->input('email', [
                 if (!empty($listeservices[$datas['infos']['id']])) {
                     echo $this->Form->input('Service.' . $datas['infos']['id'], [
                         'options' => $listeservices[$datas['infos']['id']],
-                        'empty' => 'Choisissez un service',
+                        'empty' => __d('user','user.placeholderChampService'),
                         'class' => 'usersDeroulant transformSelect form-control',
                         'label' => [
                             'text' => 'Service <span class="requis">*</span>',
@@ -215,7 +215,7 @@ echo $this->Form->input('email', [
                         'class' => 'form-control deroulantRoles' . $key,
                         'id' => $key,
                         'label' => [
-                            'text' => 'Profils au sein de ' . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
+                            'text' => __d('user','user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
@@ -237,11 +237,11 @@ echo $this->Form->input('email', [
 
 
     echo '<div class="btn-group send">';
-    echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, [
+    echo $this->Html->link('<i class="fa fa-arrow-left"></i>'. __d('default','default.btnAnnuler'), $referer, [
         'class' => 'btn btn-default-default',
         'escape' => false
     ]);
-    echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', [
+    echo $this->Form->button('<i class="fa fa-check"></i>'.__d('default','default.btnEnregistrer'), [
         'type' => 'submit',
         'class' => 'btn btn-default-success'
     ]);

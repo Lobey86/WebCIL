@@ -58,9 +58,15 @@ if($this->Autorisation->isSu()) {
 ?>
     <table class="table">
         <thead>
-        <th class="col-md-2">Utilisateur</th>
-        <th class="col-md-8">Synthèse</th>
-        <th class="col-md-2">Actions</th>
+            <th class="col-md-2">
+                <?php echo __d('user','user.titreTableauUtilisateur');?>
+            </th>
+            <th class="col-md-8">
+                <?php echo __d('user','user.titreTableauSynthese');?>
+            </th>
+            <th class="col-md-2">
+                <?php echo __d('user','user.titreTableauAction');?>
+            </th>
         </thead>
         <tbody>
         <?php
@@ -72,7 +78,9 @@ foreach($users as $donnees) {
         </td>
         <td class="tdleft">
             <div class="col-md-4">
-                <strong>Entités: </strong>
+                <strong>
+                    <?php echo __d('user','user.textTableauEntite');?>
+                </strong>
                 <ul>
                     <?php
                     if($donnees['User']['id'] != 1) {
@@ -86,7 +94,9 @@ foreach($users as $donnees) {
                 </ul>
             </div>
             <div class="col-md-4">
-                <strong>Login: </strong>
+                <strong>
+                    <?php echo __d('user','user.textTableauLogin');?>
+                </strong>
                 <?php echo $donnees['User']['username']; ?>
             </div>
         </td>
@@ -98,8 +108,9 @@ foreach($users as $donnees) {
                         'action' => 'edit',
                         $donnees['User']['id']
                     ], [
-                        'class' => 'btn btn-default-default boutonEdit btn-sm',
-                        'escapeTitle' => FALSE
+                        'class' => 'btn btn-default-default btn-sm my-tooltip',
+                        'title' => __d('user', 'user.commentaireModifierUser'),
+                        'escapeTitle' => false
                     ]);
                 }
 
@@ -110,20 +121,21 @@ foreach($users as $donnees) {
                             'action' => 'delete',
                             $donnees['User']['id']
                         ], [
-                            'class' => 'btn btn-default-danger boutonDelete btn-sm',
-                            'escapeTitle' => FALSE
-                        ], 'Voulez vous vraiment supprimer ' . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']);
-
+                            'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                            'title' => __d('user', 'user.commentaireSupprimerUser'),
+                            'escapeTitle' => false
+                        ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
                     } else {
                         echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
                             'controller' => 'users',
                             'action' => 'delete',
                             $donnees['User']['id']
                         ], [
-                            'class' => 'btn btn-default-danger boutonDelete btn-sm',
-                            'escapeTitle' => FALSE,
+                            'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                            'escapeTitle' => false,
+                            'title' => __d('user', 'user.commentaireSupprimerUser'),
                             "disabled" => "disabled"
-                        ], 'Voulez vous vraiment supprimer ' . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']);
+                        ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
                     }
                 }
                 ?>
@@ -138,7 +150,7 @@ foreach($users as $donnees) {
 <?php
 if($this->Autorisation->authorized(8, $droits)) {
     echo '<div class="row text-center">';
-    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter un utilisateur', [
+    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('user','user.btnAjouterUser'), [
         'controller' => 'users',
         'action' => 'add'
     ], [

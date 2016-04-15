@@ -38,9 +38,9 @@
 
             echo $this->Form->input('username', [
                 'class' => 'form-control',
-                'placeholder' => 'Login',
+                'placeholder' => __d('user','user.placeholderChampLogin'),
                 'label' => [
-                    'text' => 'Login <span class="requis">*</span>',
+                    'text' => __d('user','user.champLogin').'<span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -50,45 +50,48 @@
             ]);
             ?>
         </div>
-        <div class="form-group">
-            <?php
-            echo $this->Form->input('new_password', [
-                'class' => 'form-control',
-                'placeholder' => 'Nouveau mot de passe',
-                'label' => [
-                    'text' => 'Nouveau mot de passe <span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'type' => 'password',
-                'autocomplete' => 'off'
-            ]);
-            ?>
-        </div>
-        <div class="form-group">
-            <?php
-            echo $this->Form->input('new_passwd', [
-                'class' => 'form-control',
-                'placeholder' => 'Nouveau mot de passe (verification)',
-                'label' => [
-                    'text' => 'Vérification du nouveau mot de passe <span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'type' => 'password',
-                'autocomplete' => 'off'
-            ]);
-            ?>
+        <div class="alert alert-info">
+            <?php echo __d('user','user.textInfoMotDePasse');?>
+            <div class="form-group">
+                <?php
+                echo $this->Form->input('new_password', [
+                    'class' => 'form-control',
+                    'placeholder' => __d('user','user.placeholderChampNouveauMotDePasse'),
+                    'label' => [
+                        'text' => __d('user','user.champNouveauMotDePasse').'<span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'type' => 'password',
+                    'autocomplete' => 'off'
+                ]);
+                ?>
+            </div>
+            <div class="form-group">
+                <?php
+                echo $this->Form->input('new_passwd', [
+                    'class' => 'form-control',
+                    'placeholder' => __d('user','user.placeholderChampVerifNouveauMotDePasse'),
+                    'label' => [
+                        'text' => __d('user','user.champVerifNouveauMotDePasse').'<span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'type' => 'password',
+                    'autocomplete' => 'off'
+                ]);
+                ?>
+            </div>
         </div>
         <div class="form-group">
             <?php
             echo $this->Form->input('nom', [
                 'class' => 'form-control',
-                'placeholder' => 'Nom',
+                'placeholder' => __d('user','user.placeholderChampNom'),
                 'label' => [
-                    'text' => 'Nom <span class="requis">*</span>',
+                    'text' => __d('default','default.champNom').'<span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -101,9 +104,9 @@
             <?php
             echo $this->Form->input('prenom', [
                 'class' => 'form-control',
-                'placeholder' => 'Prenom',
+                'placeholder' => __d('user','user.placeholderChampPrenom'),
                 'label' => [
-                    'text' => 'Prénom <span class="requis">*</span>',
+                    'text' => __d('user','user.champPrenom').'<span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -116,9 +119,9 @@
             <?php
             echo $this->Form->input('email', [
                 'class' => 'form-control',
-                'placeholder' => 'E-mail',
+                'placeholder' => __d('user','user.placeholderChampE-mail'),
                 'label' => [
-                    'text' => 'E-mail <span class="requis">*</span>',
+                    'text' => __d('default','default.champE-mail').'<span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -145,7 +148,7 @@
                     'class' => 'form-control',
                     'id' => 'deroulant',
                     'label' => [
-                        'text' => 'Entités <span class="requis">*</span>',
+                        'text' => __d('user','user.champEntite').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between' => '<div class="col-md-8">',
@@ -180,7 +183,7 @@
                                 'selected' => $tableau['UserRoles'],
                                 'id' => $key,
                                 'label' => [
-                                    'text' => 'Profils au sein de ' . $datas['infos']['raisonsociale'] . '<span class="requis">*</span>',
+                                    'text' => __d('user','user.champProfilEntite') . $datas['infos']['raisonsociale'] . '<span class="requis">*</span>',
                                     'class' => 'col-md-4 control-label'
                                 ],
                                 'between' => '<div class="col-md-8">',
@@ -193,7 +196,7 @@
                                 'class' => 'form-control deroulantRoles' . $key,
                                 'id' => $key,
                                 'label' => [
-                                    'text' => 'profils au sein de ' . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
+                                    'text' => __d('user','user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
                                     'class' => 'col-md-4 control-label'
                                 ],
                                 'between' => '<div class="col-md-8">',
@@ -216,11 +219,11 @@
     <?php
     echo '<div class="text-center">';
     echo '<div class="btn-group send">';
-    echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, [
+    echo $this->Html->link('<i class="fa fa-arrow-left"></i>'.__d('default','default.btnAnnuler'), $referer, [
         'class' => 'btn btn-default-default',
         'escape' => false
     ]);
-    echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', [
+    echo $this->Form->button('<i class="fa fa-check"></i>'.__d('default','default.btnEnregistrer'), [
         'type' => 'submit',
         'class' => 'btn btn-default-success'
     ]);

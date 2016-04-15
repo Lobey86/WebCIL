@@ -23,7 +23,7 @@
         }
         echo $this->Form->create('User', [
             'autocomplete'  => 'off',
-            'inputDefaults' => ['div' => FALSE],
+            'inputDefaults' => ['div' => false],
             'class'         => 'form-horizontal'
         ]); 
             ?>
@@ -37,7 +37,7 @@
 
                 echo $this->Form->input('username', [
                     'class'        => 'form-control',
-                    'placeholder'  => 'Login',
+                    'placeholder'  => __d('user','user.placeholderChampLogin'),
                     'label'        => [
                         'text'  => 'Login <span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -49,29 +49,29 @@
         </div>
         
         <div class="alert alert-info">
-            Si vous ne voulez pas modifier votre mot de passe laisser les 3 champs vides
+            <?php echo __d('user','user.textChangerInfoMotDePasse');?>
             
             <div class="form-group">
                 <?php echo $this->Form->input('old_password', [
                     'class'        => 'form-control',
-                    'placeholder'  => 'Votre mot de passe actuel',
+                    'placeholder'  => __d('user','user.placeholderChampMotDePasseActuel'),
                     'label'        => [
-                        'text'  => 'Votre mot de passe actuel <span class="requis">*</span>',
+                        'text'  => __d('user','user.champMotDePasseActuel').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'      => '<div class="col-md-8">',
                     'after'        => '</div>',
                     'type'         => 'password',
-                    'autocomplete' => 'off'
+                    'autocomplete' => 'off',
                 ]); ?>
             </div>
 
             <div class="form-group">
                 <?php echo $this->Form->input('new_password', [
                     'class'        => 'form-control',
-                    'placeholder'  => 'Nouveau mot de passe',
+                    'placeholder'  => __d('user','user.placeholderChampNouveauMotDePasse'),
                     'label'        => [
-                        'text'  => 'Nouveau mot de passe <span class="requis">*</span>',
+                        'text'  => __d('user','user.champNouveauMotDePasse').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'      => '<div class="col-md-8">',
@@ -84,9 +84,9 @@
             <div class="form-group">
                 <?php echo $this->Form->input('new_passwd', [
                     'class'        => 'form-control',
-                    'placeholder'  => 'Nouveau mot de passe (verification)',
+                    'placeholder'  => __d('user','user.placeholderChampVerifNouveauMotDePasse'),
                     'label'        => [
-                        'text'  => 'Vérification du nouveau mot de passe <span class="requis">*</span>',
+                        'text'  => __d('user','user.champVerifNouveauMotDePasse').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'      => '<div class="col-md-8">',
@@ -101,9 +101,9 @@
             <?php
                 echo $this->Form->input('nom', [
                     'class'       => 'form-control',
-                    'placeholder' => 'Nom',
+                    'placeholder' => __d('user','user.placeholderChampNom'),
                     'label'       => [
-                        'text'  => 'Nom <span class="requis">*</span>',
+                        'text'  => __d('default','default.champNom').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -115,9 +115,9 @@
             <?php
                 echo $this->Form->input('prenom', [
                     'class'       => 'form-control',
-                    'placeholder' => 'Prenom',
+                    'placeholder' => __d('user','user.placeholderChampPrenom'),
                     'label'       => [
-                        'text'  => 'Prénom <span class="requis">*</span>',
+                        'text'  => __d('user','user.champPrenom').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -129,9 +129,9 @@
             <?php
                 echo $this->Form->input('email', [
                     'class'       => 'form-control',
-                    'placeholder' => 'E-mail',
+                    'placeholder' => __d('user','user.placeholderChampE-mail'),
                     'label'       => [
-                        'text'  => 'E-mail <span class="requis">*</span>',
+                        'text'  => __d('default','default.champE-mail').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'     => '<div class="col-md-8">',
@@ -141,7 +141,7 @@
         </div>
         
         <div class="alert alert-warning" role="alert">
-            Si vous enregistrez vos informations, vous serez déconnecté de la session pour mettre a jour les informations.
+            <?php echo __d('user','user.textInfoDeconnection');?>
         </div>
         
     </div>
