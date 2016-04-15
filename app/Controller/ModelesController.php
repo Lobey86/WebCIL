@@ -37,7 +37,7 @@ class ModelesController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', 'Liste des modèles');
+        $this->set('title', __d('modele','modele.titreListeModele'));
         $modeles = $this->Formulaire->find('all', array(
             'contain' => array('Modele'),
             'conditions' => array('organisations_id' => $this->Session->read('Organisation.id'))

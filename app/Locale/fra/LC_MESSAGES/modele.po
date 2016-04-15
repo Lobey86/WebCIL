@@ -1,0 +1,56 @@
+# Locale fra
+# modele.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#######################: Controller/ModelesController.php######################
+
+msgid "modele.titreListeModele"
+msgstr "Liste des modèles"
+
+###############################################################################
+
+
+#########################: View/Modeles/index.ctp#########################
+
+msgid "modele.titreTableauFormulaire"
+msgstr "Formulaire"
+
+msgid "modele.titreTableauFichierModele"
+msgstr "Fichier de modèle"
+
+msgid "modele.titreTableauOutil"
+msgstr "Outils"
+
+msgid "modele.commentaireImporterModel"
+msgstr "Importer un modèle"
+
+msgid "modele.commentaireTelechargerModel"
+msgstr "Télécharger le modèle"
+
+msgid "modele.commentaireSupprimerModel"
+msgstr "Supprimer le modèle"
+
+msgid "modele.confirmationSupprimerModel"
+msgstr "Voulez vous supprimer le modèle ?"
+
+msgid "modele.textTableauAucunModele"
+msgstr "Aucun modèle pour ce formulaire"
+
+msgid "modele.popupEnvoieModele"
+msgstr "Envoie d'un modèle"
+
+msgid "modele.popupChampModele"
+msgstr "Modèle"
+
+msgid "modele.btnEnregistrerModele"
+msgstr " Enregistrer ce modèle"
+
+
+###############################################################################
