@@ -139,8 +139,8 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             ], [
                                         'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
                                         'escapeTitle' => false,
-                                        'title' => __d('pannel', 'pannel.commentaireSupprimer')
-                                            ], __d('pannel', 'pannel.confirmationSupprimer') . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
+                                        'title' => __d('pannel', 'pannel.commentaireSupprimerTraitement')
+                                            ], __d('pannel', 'pannel.confirmationSupprimerTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
                                     ?>
 
                                 </td>
@@ -531,8 +531,8 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 ], [
                                             'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
                                             'escapeTitle' => false,
-                                            'title' => __d('pannel', 'pannel.commentaireSupprimer')
-                                                ], __d('pannel', 'pannel.confirmationSupprimer') . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
+                                            'title' => __d('pannel', 'pannel.commentaireSupprimerTraitement')
+                                                ], __d('pannel', 'pannel.confirmationSupprimerTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
                                         ?>
 
                                     </div>

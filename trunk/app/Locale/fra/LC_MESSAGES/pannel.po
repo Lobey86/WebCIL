@@ -32,10 +32,10 @@ msgstr "Vous n'avez aucun traitement refusée"
 msgid "pannel.btnCreerTraitement"
 msgstr "Créer un traitement"
 
-msgid "pannel.commentaireSupprimer"
+msgid "pannel.commentaireSupprimerTraitement"
 msgstr "Supprimer le traitement"
 
-msgid "pannel.confirmationSupprimer"
+msgid "pannel.confirmationSupprimerTraitement"
 msgstr "Voulez vous supprimer le traitement de"
 
 msgid "pannel.commentaireReorienterTraitement"

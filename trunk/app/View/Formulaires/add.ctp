@@ -9,139 +9,137 @@ echo $this->Html->css(array(
 ));
 ?>
     <div class="col-md-8 form-oblig form-horizontal">
-        <div class="row35"></div>
-        <div class="row">
-            <div class="col-md-6">
+        <!--<div class="row35"></div>-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-6">-->
                 <?php
-
-                echo $this->Form->input('declarantraisonsociale', array(
-                    'label' => array(
-                        'text' => 'Raison Sociale <span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['raisonsociale']
-                ));
-                echo $this->Form->input('declarantservice', array(
-                    'label' => array(
-                        'text' => 'Service',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['service']
-                ));
-                echo $this->Form->input('declarantadresse', array(
-                    'label' => array(
-                        'text' => 'Adresse <span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'type' => 'textarea',
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['adresse']
-                ));
-                echo $this->Form->input('declarantemail', array(
-                    'label' => array(
-                        'text' => 'E-mail <span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['email']
-                ));
-                ?>
-
-            </div>
-            <div class='col-md-6'>
+//                echo $this->Form->input('declarantraisonsociale', array(
+//                    'label' => array(
+//                        'text' => 'Raison Sociale <span class="obligatoire">*</span>',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['raisonsociale']
+//                ));
+//                echo $this->Form->input('declarantservice', array(
+//                    'label' => array(
+//                        'text' => 'Service',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['service']
+//                ));
+//                echo $this->Form->input('declarantadresse', array(
+//                    'label' => array(
+//                        'text' => 'Adresse <span class="obligatoire">*</span>',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'type' => 'textarea',
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['adresse']
+//                ));
+//                echo $this->Form->input('declarantemail', array(
+//                    'label' => array(
+//                        'text' => 'E-mail <span class="obligatoire">*</span>',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['email']
+//                ));
+               ?>
+            <!--</div>-->
+            <!--<div class='col-md-6'>-->
                 <?php
-                echo $this->Form->input('declarantsigle', array(
-                    'label' => array(
-                        'text' => 'Sigle',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['sigle']
-                ));
-                echo $this->Form->input('declarantsiret', array(
-                    'label' => array(
-                        'text' => 'N° de SIRET <span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['siret']
-                ));
-                echo $this->Form->input('declarantape', array(
-                    'label' => array(
-                        'text' => 'Code APE <span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['ape']
-                ));
-                echo $this->Form->input('declaranttelephone', array(
-                    'label' => array(
-                        'text' => 'Téléphone <span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['telephone']
-                ));
-                echo $this->Form->input('declarantfax', array(
-                    'label' => array(
-                        'text' => 'Fax',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly',
-                    'div' => 'form-group',
-                    'value' => $organisation['Organisation']['fax']
-                ));
+//                echo $this->Form->input('declarantsigle', array(
+//                    'label' => array(
+//                        'text' => 'Sigle',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['sigle']
+//                ));
+//                echo $this->Form->input('declarantsiret', array(
+//                    'label' => array(
+//                        'text' => 'N° de SIRET <span class="obligatoire">*</span>',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['siret']
+//                ));
+//                echo $this->Form->input('declarantape', array(
+//                    'label' => array(
+//                        'text' => 'Code APE <span class="obligatoire">*</span>',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['ape']
+//                ));
+//                echo $this->Form->input('declaranttelephone', array(
+//                    'label' => array(
+//                        'text' => 'Téléphone <span class="obligatoire">*</span>',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['telephone']
+//                ));
+//                echo $this->Form->input('declarantfax', array(
+//                    'label' => array(
+//                        'text' => 'Fax',
+//                        'class' => 'col-md-4 control-label'
+//                    ),
+//                    'between' => '<div class="col-md-8">',
+//                    'after' => '</div>',
+//                    'class' => 'form-control',
+//                    'readonly' => 'readonly',
+//                    'div' => 'form-group',
+//                    'value' => $organisation['Organisation']['fax']
+//                ));
                 ?>
-            </div>
-        </div>
+            <!--</div>-->
+        <!--</div>-->
         <div class="row row35"></div>
         <div class="row">
             <div class="col-md-12">
-                <span class='labelFormulaire'>Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé:</span>
+                <span class='labelFormulaire'><?php echo __d('formulaire','formulaire.textInfo');?></span>
                 <div class="row row35"></div>
             </div>
             <div class="col-md-6">
                 <?php
                 echo $this->Form->input('declarantpersonnenom', array(
                     'label' => array(
-                        'text' => 'Nom <span class="obligatoire">*</span>',
+                        'text' => __d('default','default.champNom').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ),
                     'between' => '<div class="col-md-8">',
@@ -149,7 +147,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'required' => 'required',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique',
+                    'value' => __d('default','default.valueChampRemplissageAuto'),
                     'readonly' => 'readonly'
                 ));
                 ?>
@@ -158,7 +156,7 @@ echo $this->Html->css(array(
                 <?php
                 echo $this->Form->input('declarantpersonneemail', array(
                     'label' => array(
-                        'text' => 'E-mail <span class="obligatoire">*</span>',
+                        'text' => __d('default','default.champE-mail').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ),
                     'between' => '<div class="col-md-8">',
@@ -166,7 +164,7 @@ echo $this->Html->css(array(
                     'class' => 'form-control',
                     'required' => 'required',
                     'div' => 'form-group',
-                    'value' => 'Remplissage automatique',
+                    'value' => __d('default','default.valueChampRemplissageAuto'),
                     'readonly' => 'readonly'
                 ));
                 ?>
@@ -178,7 +176,7 @@ echo $this->Html->css(array(
                 <?php
                 echo $this->Form->input('outilnom', array(
                     'label' => array(
-                        'text' => 'Nom du traitement <span class="obligatoire">*</span>',
+                        'text' => __d('default','default.champNomTraitement').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ),
                     'between' => '<div class="col-md-8">',
@@ -193,7 +191,7 @@ echo $this->Html->css(array(
                 <?php
                 echo $this->Form->input('finaliteprincipale', array(
                     'label' => array(
-                        'text' => 'Finalité <span class="obligatoire">*</span>',
+                        'text' => __d('default','default.champFinalite').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ),
                     'between' => '<div class="col-md-8">',
@@ -215,7 +213,7 @@ echo $this->Html->css(array(
             <div class="col-md-6">
                 <div class="panel panel-default panel-affix">
                     <div class="panel-heading">
-                        <h3 class="panel-title"> Options du champ </h3>
+                        <h3 class="panel-title"><?php echo __d('formulaire','formulaire.textOptionChamp');?></h3>
                     </div>
                     <div class="panel-body" id="field-options">
                     </div>
@@ -224,38 +222,38 @@ echo $this->Html->css(array(
                         <div class="btn-group-vertical col-md-6">
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-small-text"><i
                         class="fa fa-font fa-fw"></i>
-                    Petit champ texte
+                    <?php echo __d ('formulaire','formulaire.btnPetitChamp');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-long-text"><i
                         class="fa fa-text-height fa-fw"></i> 
-                    Grand champ texte
+                    <?php echo __d ('formulaire','formulaire.btnGrandChamp');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-date"><i
                         class="fa fa-calendar fa-fw"></i>
-                    Champ date
+                    <?php echo __d ('formulaire','formulaire.btnChampDate');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-checkbox"><i
                         class="fa fa-check-square-o fa-fw"></i> 
-                    Cases à cocher
+                    <?php echo __d ('formulaire','formulaire.btnCheckbox');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-radio"><i
                         class="fa fa-check-circle-o fa-fw"></i> 
-                    Choix unique
+                    <?php echo __d ('formulaire','formulaire.btnRadio');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-deroulant"><i
                         class="fa  fa-list-alt fa-fw"></i>
-                    Menu déroulant
+                    <?php echo __d ('formulaire','formulaire.btnDeroulant');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-title"><i class="fa fa-tag fa-fw"></i>
-                    Titre de catégorie
+                    <?php echo __d ('formulaire','formulaire.btnTitreCategorie');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-help"><i
                         class="fa fa-info-circle fa-fw"></i>
-                    Champ d'information
+                    <?php echo __d ('formulaire','formulaire.btnChampInfo');?>
                 </button>
                 <button class="btn btn-default-default btn-sm btn-input" id="btn-texte"><i
                         class="fa fa-pencil fa-fw"></i>
-                    Texte
+                    <?php echo __d ('formulaire','formulaire.btnLabel');?>
                 </button>
             </div>
         </div>
@@ -264,18 +262,19 @@ echo $this->Html->css(array(
         <?php
         echo $this->Form->input('file', array(
             'type' => 'file',
-            'label' => 'Fichiers',
+            'label' => __d('formulaire','formulaire.champFichier'),
             'multiple',
             'class' => 'filestyle fichiers draggable',
-            'data-buttonText' => 'Parcourir',
+            'data-buttonText' => __d('default','default.btnParcourir'),
             'data-buttonName' => "btn-primary",
             'data-buttonBefore' => "true"
         ));
         ?>
     </div>
+
     <div class="top30 btn-group col-md-12">
-        <button class="btn btn-default-success" id="successForm"><i class="fa fa-fw fa-check"></i> Enregistrer ce
-                                                                                                   formulaire
+        <button class="btn btn-default-success" id="successForm"><i class="fa fa-fw fa-check"></i>
+            <?php echo __d('formulaire','formulaire.btnEnregistreFormulaire');?>
         </button>
     </div>
 <?php
