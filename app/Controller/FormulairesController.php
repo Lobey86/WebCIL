@@ -37,7 +37,7 @@ class FormulairesController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', 'Liste des formulaires de ' . $this->Session->read('Organisation.raisonsociale'));
+        $this->set('title', __d('formulaire','formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
         $all = $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id')));
         $valid = array();
         foreach ($all as $key => $value) {
@@ -109,7 +109,7 @@ class FormulairesController extends AppController {
 
         $organisation['Organisation']['service'] = ($this->Session->read('User.service') == null) ? '' : $this->Session->read('User.service');
 
-        $this->set('title', 'Créer un formulaire');
+        $this->set('title', __d('formulaire','formulaire.titreCreerFormulaire'));
         $this->set(compact(['id', 'organisation']));
         if ($this->request->is('POST')) {
             if ($id == null) {
@@ -171,7 +171,7 @@ class FormulairesController extends AppController {
     }
 
     public function edit($id = null) {
-        $this->set('title', 'Editer un formulaire');
+        $this->set('title', __d('formulaire','formulaire.titreEditerFormulaire'));
         
         $organisation = $this->Organisation->find('first', array(
             'conditions' => array('Organisation.id' => $this->Session->read('Organisation.id'))

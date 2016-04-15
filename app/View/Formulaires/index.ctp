@@ -1,13 +1,13 @@
-<table class="table  table-bordered">
+<table class="table">
     <thead>
     <th class="thleft col-md-1">
-        Statut
+        <?php echo __d('formulaire', 'formulaire.titreTableauStatut');?>
     </th>
     <th class="thleft col-md-9">
-        Synthèse
+        <?php echo __d('formulaire', 'formulaire.titreTableauSynthese');?>
     </th>
     <th class="thleft col-md-2">
-        Actions
+        <?php echo __d('formulaire', 'formulaire.titreTableauAction');?>
     </th>
     </thead>
     <tbody>
@@ -23,11 +23,11 @@
             $statutClass = 'fa-danger';
 
         }
-        echo '
+    ?>
     <tr>
         <td class="tdleft col-md-1">
             <div class="etatIcone">
-                <i class="' . $iconClass . '"></i>
+                <i class= '<?php echo $iconClass;?>'></i>
             </div>
         </td>
 
@@ -36,24 +36,24 @@
 
                 <div class="col-md-5">
                     <div class="row col-md-12">
-                        <strong>Nom: </strong>' . $data['Formulaire']['libelle'] . '
+                        <strong><?php echo __d('formulaire', 'formulaire.textTableauNom');?></strong><?php echo $data['Formulaire']['libelle'];?>
                     </div>
                     <div class="row col-md-12">
-                        <strong>Statut: </strong><span class="' . $statutClass . '">' . $statut . '</span>
+                        <strong><?php echo __d('formulaire', 'formulaire.textTableauStatut');?></strong><span class= '<?php echo $statutClass;?>'><?php echo $statut;?></span>
                     </div>
                 </div>
                 <div class="col-md-7">
                     <div class="col-md-3">
-                        <strong>Description: </strong>
+                        <strong><?php echo __d('formulaire', 'formulaire.textTableauDescription');?></strong>
                     </div>
-                    <div class="col-md-9">
-                            ' . $data['Formulaire']['description'] . '
+                    <div class="col-md-9"><?php echo $data['Formulaire']['description'];?>
                     </div>
                 </div>
             </div>
         </td>
         <td class="tdleft col-md-2">
-        <div class="btn-group">';
+        <div class="btn-group">
+        <?php
         if($valid[$data['Formulaire']['id']]) {
             echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
                 'controller' => 'formulaires',
@@ -61,7 +61,7 @@
                 $data['Formulaire']['id']
             ), array(
                 'class' => 'btn btn-default-default btn-sm my-tooltip',
-                'title' => 'Modifier le formulaire',
+                'title' => __d('formulaire', 'formulaire.commentaireModifierFormulaire'),
                 'escape' => false
             ));
         }
@@ -73,8 +73,8 @@
                 $data['Formulaire']['active']
             ), array(
                 'class' => 'btn btn-default-default btn-sm my-tooltip',
-                'title' => 'Désactiver le formulaire',
-                'escape' => false
+                'escape' => false,
+                'title' => __d('formulaire', 'formulaire.commentaireDesactiverFormulaire')
             ));
         } else {
             $lien = $this->Html->link('<span class="glyphicon glyphicon-check"></span>', array(
@@ -84,7 +84,7 @@
                 $data['Formulaire']['active']
             ), array(
                 'class' => 'btn btn-default-default btn-sm my-tooltip',
-                'title' => 'Activer le formulaire',
+                'title' => __d('formulaire', 'formulaire.commentaireActiverFormulaire'),
                 'escape' => false
             ));
         }
@@ -96,7 +96,7 @@
                 $data['Formulaire']['id']
             ), array(
                 'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                'title' => 'Supprimer le formulaire',
+                'title' => __d('formulaire', 'formulaire.commentaireSupprimerFormulaire'),
                 'escape' => false
             ));
         }
@@ -113,7 +113,7 @@
     <div class="col-md-12 text-center">
         <button type="button" class="btn btn-default-primary" data-toggle="modal" data-target="#modalAddForm">
             <span class="glyphicon glyphicon-plus"></span>
-            Créer un formulaire
+            <?php echo __d('formulaire', 'formulaire.btnCreerFormulaire');?>
         </button>
     </div>
 </div>
@@ -124,7 +124,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Informations générales du formulaire</h4>
+                <h4 class="modal-title" id="myModalLabel"><?php echo __d('formulaire','formulaire.popupInfoGeneraleFormulaire');?></h4>
             </div>
             <div class="modal-body">
                 <?php
@@ -132,23 +132,23 @@
                 echo '<div class="row form-group">';
                 echo $this->Form->input('libelle', array(
                     'class' => 'form-control',
-                    'placeholder' => 'Nom du formulaire',
+                    'placeholder' => __d('formulaire','formulaire.popupPlaceholderNomFormulaire'),
                     'label' => array(
-                        'text' => 'Nom <span class="requis">*</span>',
+                        'text' => __d('formulaire','formulaire.popupNomFormulaire').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ),
                     'between' => '<div class="col-md-8">',
                     'after' => '</div>',
-                    'required' => false
+                    'required' => true
                 ));
                 echo '</div>';
                 echo '<div class="row form-group">';
                 echo $this->Form->input('description', array(
                     'type' => 'textarea',
                     'class' => 'form-control',
-                    'placeholder' => 'Description du formulaire',
+                    'placeholder' => __d('formulaire','formulaire.popupPlaceholderDescription'),
                     'label' => array(
-                        'text' => 'Description',
+                        'text' => __d('formulaire','formulaire.popupDescription'),
                         'class' => 'col-md-4 control-label'
                     ),
                     'between' => '<div class="col-md-8">',
@@ -161,10 +161,10 @@
             <div class="modal-footer">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
-                            class="fa fa-arrow-left"></i> Annuler
+                            class="fa fa-arrow-left"></i><?php echo __d('default', 'default.btnAnnuler');?>
                     </button>
                     <?php
-                    echo $this->Form->button("<i class='fa fa-check'></i> Enregistrer", array(
+                    echo $this->Form->button("<i class='fa fa-check'></i>".__d('default', 'default.btnEnregistrer'), array(
                         'type' => 'submit',
                         'class' => 'btn btn-default-success',
                         'escape' => false

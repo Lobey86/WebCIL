@@ -79,4 +79,23 @@ msgstr " Envoyer"
 msgid "default.btnEnregistrer"
 msgstr " Enregistrer"
 
+msgid "default.champNom"
+msgstr "Nom "
+
+msgid "default.champE-mail"
+msgstr "E-mail "
+
+msgid "default.champNomTraitement"
+msgstr "Nom du traitement "
+
+msgid "default.champFinalite"
+msgstr "Finalité "
+
+msgid "default.valueChampRemplissageAuto"
+msgstr "Remplissage automatique"
+
+msgid "default.btnParcourir"
+msgstr " Parcourir"
+
+
 ###############################################################################

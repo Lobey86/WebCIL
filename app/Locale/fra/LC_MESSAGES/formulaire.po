@@ -1,0 +1,123 @@
+# Locale fra
+# formulaire.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#####################: Controller/FormulairesController.php####################
+
+msgid "formulaire.titreListeFormulaire"
+msgstr "Liste des formulaires de : "
+
+msgid "formulaire.titreCreerFormulaire"
+msgstr "Création d'un formulaire"
+
+msgid "formulaire.titreEditerFormulaire"
+msgstr "Editer un formulaire"
+
+###############################################################################
+
+
+#########################: View/Formulaires/index.ctp#########################
+
+msgid "formulaire.titreTableauStatut"
+msgstr "Statut"
+
+msgid "formulaire.titreTableauSynthese"
+msgstr "Synthèse"
+
+msgid "formulaire.titreTableauAction"
+msgstr "Actions"
+
+msgid "formulaire.textTableauNom"
+msgstr "Nom : "
+
+msgid "formulaire.textTableauStatut"
+msgstr "Statut : "
+
+msgid "formulaire.textTableauDescription"
+msgstr "Description : "
+
+msgid "formulaire.commentaireDesactiverFormulaire"
+msgstr "Desactiver le formulaire"
+
+msgid "formulaire.commentaireActiverFormulaire"
+msgstr "Activer le formulaire"
+
+msgid "formulaire.commentaireModifierFormulaire"
+msgstr "Modifier le formulaire"
+
+msgid "formulaire.commentaireSupprimerFormulaire"
+msgstr "Supprimer le formulaire"
+
+msgid "formulaire.confirmationSupprimerFormulaire"
+msgstr "Voulez vous supprimer le formulaire : "
+
+msgid "formulaire.btnCreerFormulaire"
+msgstr "Créer un formulaire"
+
+msgid "formulaire.popupInfoGeneraleFormulaire"
+msgstr "Informations générales du formulaire"
+
+msgid "formulaire.popupNomFormulaire"
+msgstr "Nom du formulaire "
+
+msgid "formulaire.popupPlaceholderNomFormulaire"
+msgstr "Nom du formulaire (requis) "
+
+msgid "formulaire.popupDescription"
+msgstr "Description"
+
+msgid "formulaire.popupPlaceholderDescription"
+msgstr "Description du formulaire (facultatif)"
+
+###############################################################################
+
+
+#####################: View/Formulaires/add.ctp + edit.ctp ####################
+
+msgid "formulaire.textInfo"
+msgstr "Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé :"
+
+msgid "formulaire.textOptionChamp"
+msgstr "Options du champ"
+
+msgid "formulaire.btnPetitChamp"
+msgstr "Petit champs texte"
+
+msgid "formulaire.btnGrandChamp"
+msgstr "Grand champs texte"
+
+msgid "formulaire.btnChampDate"
+msgstr "Champ date"
+
+msgid "formulaire.btnCheckbox"
+msgstr "Cases à cocher"
+
+msgid "formulaire.btnRadio"
+msgstr "Choix unique"
+
+msgid "formulaire.btnDeroulant"
+msgstr "Menu déroulant"
+
+msgid "formulaire.btnTitreCategorie"
+msgstr "Titre de catégorie"
+
+msgid "formulaire.btnChampInfo"
+msgstr "Champ d'information"
+
+msgid "formulaire.btnLabel"
+msgstr "Label"
+
+msgid "formulaire.champFichier"
+msgstr "Fichier"
+
+msgid "formulaire.btnEnregistreFormulaire"
+msgstr " Enregistrer ce formulaire"
+
+###############################################################################
