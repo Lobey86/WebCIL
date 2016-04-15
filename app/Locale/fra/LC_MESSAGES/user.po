@@ -149,4 +149,7 @@ msgstr "Vérification du nouveau mot de passe (requis)"
 msgid "user.placeholderChampPassword"
 msgstr "Mot de passe (requis)"
 
+msgid "user.btnConnexion"
+msgstr "Connexion"
+
 ###############################################################################

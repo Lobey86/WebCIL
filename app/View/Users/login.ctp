@@ -19,7 +19,7 @@
         ?>
     </div>
     <?php
-        echo $this->Form->submit('Connexion', ['class' => 'btn btn-lg btn-default-success']);
+        echo $this->Form->submit(__d('user','user.btnConnexion'), ['class' => 'btn btn-lg btn-default-success']);
         echo $this->Form->end();
     ?>
 </div>
