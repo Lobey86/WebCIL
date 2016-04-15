@@ -130,13 +130,6 @@ if (!empty($modeles)) {
                 echo $this->Form->end();
                 ?>
             </div>
-            <!--            <div class="modal-footer">
-                            <button type="button" class="btn btn-default-default" data-dismiss="modal">Annuler</button>
-                            <button type="submit" class="btn btn-default-success">Envoyer ce modèle</button>
-            <?php
-//                echo $this->Form->end();
-            ?>
-                        </div>-->
         </div>
     </div>
 </div>

@@ -35,7 +35,7 @@ class RolesController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', 'Liste des profils');
+        $this->set('title', __d('role','role.titreListeProfil'));
         if ($this->Droits->authorized([
                     '13',
                     '14',
@@ -69,7 +69,7 @@ class RolesController extends AppController {
      * @version V0.9.0
      */
     public function add() {
-        $this->set('title', 'Ajouter un profil');
+        $this->set('title', __d('role','role.titreAjouterProfil'));
         if ($this->Droits->authorized(13) || $this->Droits->isSu()) {
             if ($this->request->is('post')) {
                 $this->Role->create($this->request->data);
@@ -157,7 +157,7 @@ class RolesController extends AppController {
      * @version V0.9.0
      */
     public function edit($id = null) {
-        $this->set('title', 'Editer un profil');
+        $this->set('title', __d('role','role.titreEditerProfil'));
         if (($this->Droits->authorized(14) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
             if (!$id) {
                 throw new NotFoundException('Ce profil n\'existe pas');

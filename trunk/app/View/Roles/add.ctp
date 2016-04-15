@@ -5,26 +5,18 @@
             <div class="form-group">
                 <?php echo $this->Form->input('libelle', array(
                     'class' => 'form-control',
-                    'placeholder' => 'Nom du profil',
+                    'placeholder' => __d('role','role.placeholderChampNomProfil'),
                     'label' => array(
-                        'text' => 'Nom du profil <span class="requis">*</span>',
+                        'text' => __d('role','role.champNomProfil').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ),
                     'between' => '<div class="col-md-8">',
                     'after' => '</div>'
                 )); ?>
-                <?php echo $this->Form->input('organisation_id', array(
-                    'class' => 'form-control',
-                    'placeholder' => 'Nom du profil',
-                    'label' => false,
-                    'type' => 'hidden',
-                    'value' => $this->Session->read('Organisation.id')
-                )); ?>
             </div>
         </div>
 
         <div class="col-md-6 droitsDroits">
-
             <?php
             foreach($listedroit as $value) {
                 echo $this->Form->input('Droits.' . $value['ListeDroit']['value'], array(
@@ -39,11 +31,11 @@
     <div class="row text-center send">
         <div class="btn-group">
             <?php
-            echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, array(
+            echo $this->Html->link('<i class="fa fa-arrow-left"></i>'.__d('default','default.btnAnnuler'), $referer, array(
                 'class' => 'btn btn-default-default',
                 'escape' => false
             ));
-            echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', array(
+            echo $this->Form->button('<i class="fa fa-check"></i>'.__d('default','default.btnEnregistrer'), array(
                 'type' => 'submit',
                 'class' => 'btn btn-default-success'
             ));
