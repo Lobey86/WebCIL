@@ -4,13 +4,13 @@ if (!empty($modeles)) {
     <table class="table ">
         <thead>
         <th class="thleft col-md-2">
-            Formulaire
+            <?php echo __d('modele', 'modele.titreTableauFormulaire'); ?>
         </th>
         <th class="thleft col-md-8">
-            Fichier de modèle
+            <?php echo __d('modele', 'modele.titreTableauFichierModele'); ?>
         </th>
         <th class="thleft col-md-2">
-            Outils
+            <?php echo __d('modele', 'modele.titreTableauOutil'); ?>
         </th>
     </thead>
     <tbody>
@@ -36,7 +36,7 @@ if (!empty($modeles)) {
                         ), array(
                     'escape' => false,
                     'class' => 'btn btn-default-default btn-sm my-tooltip',
-                    'title' => 'Télécharger le modèle'
+                    'title' => __d('modele', 'modele.commentaireTelechargerModel')
                 ));
 
                 echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
@@ -45,12 +45,12 @@ if (!empty($modeles)) {
                     $value['Modele']['fichier']
                         ), array(
                     'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                    'title' => 'Supprimer le model',
+                    'title' => __d('modele', 'modele.commentaireSupprimerModel'),
                     'escape' => false
-                        ), 'Voulez vous supprimer le model ?'
+                        ), __d('modele', 'modele.confirmationSupprimerModel')
                 );
             } else {
-                echo 'Aucun modèle pour ce formulaire';
+                echo __d('modele', 'modele.textTableauAucunModele');
 
                 echo '</td>
                     <td class="tdleft">
@@ -59,7 +59,7 @@ if (!empty($modeles)) {
                 echo $this->Form->button('<i class="fa fa-upload"></i>', array(
                     'escape' => false,
                     'class' => 'btn btn-default-default btn-sm my-tooltip btn-upload-modele',
-                    'title' => 'Importer un modèle',
+                    'title' => __d('modele', 'modele.commentaireImporterModel'),
                     'data-toggle' => 'modal',
                     'data-target' => '#modalUploadModele',
                     'data' => $value['Formulaire']['id']
@@ -85,7 +85,7 @@ if (!empty($modeles)) {
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Envoie d'un modele</h4>
+                <h4 class="modal-title" id="myModalLabel"><?php echo __d('modele', 'modele.popupEnvoieModele'); ?></h4>
             </div>
             <div class="modal-body">
                 <div class="row top17">
@@ -100,7 +100,7 @@ if (!empty($modeles)) {
                         echo $this->Form->input('modele', array(
                             'type' => 'file',
                             'label' => array(
-                                'text' => 'Modèle',
+                                'text' => __d('modele', 'modele.popupChampModele'),
                                 'class' => 'col-md-4 control-label'
                             ),
                             'between' => '<div class="col-md-8">',
@@ -114,12 +114,29 @@ if (!empty($modeles)) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default-default" data-dismiss="modal">Annuler</button>
-                <button type="submit" class="btn btn-default-success">Envoyer ce modèle</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
+                            class="fa fa-arrow-left"></i><?php echo __d('default', 'default.btnAnnuler'); ?>
+                    </button>
+                    <?php
+                    echo $this->Form->button("<i class='fa fa-check'></i>" . __d('modele', 'modele.btnEnregistrerModele'), array(
+                        'type' => 'submit',
+                        'class' => 'btn btn-default-success',
+                        'escape' => false
+                    ));
+                    ?>
+                </div>
                 <?php
                 echo $this->Form->end();
                 ?>
             </div>
+            <!--            <div class="modal-footer">
+                            <button type="button" class="btn btn-default-default" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-default-success">Envoyer ce modèle</button>
+            <?php
+//                echo $this->Form->end();
+            ?>
+                        </div>-->
         </div>
     </div>
 </div>
