@@ -1,0 +1,63 @@
+# Locale fra
+# service.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+######################: Controller/ServicesController.php #####################
+
+msgid "service.titreService"
+msgstr "Les services de : "
+
+msgid "service.titreAjouterService"
+msgstr "Ajouter un service"
+
+###############################################################################
+
+
+###########################: View/Services/index.ctp ##########################
+
+msgid "service.titreTableauNomService"
+msgstr "Nom du service"
+
+msgid "service.titreTableauSynthèse"
+msgstr "Synthèse"
+
+msgid "service.titreTableauAction"
+msgstr "Actions"
+
+msgid "service.textTableauOrganisation"
+msgstr "Organisation : "
+
+msgid "service.textTableauMembre"
+msgstr "Membre"
+
+msgid "service.commentaireModifierService"
+msgstr "Modifier le nom du service"
+
+msgid "service.commentaireSupprimerService"
+msgstr "Supprimer le service"
+
+msgid "service.confirmationSupprimerService"
+msgstr "Voulez vous supprimer le service : "
+
+msgid "service.btnAjouterService"
+msgstr " Ajouter un service"
+
+###############################################################################
+
+
+############################: View/Services/add.ctp ###########################
+
+msgid "service.champNomService"
+msgstr "Nom du service "
+
+msgid "service.placeholderChampNomService"
+msgstr "Nom du service (requis)"
+
+###############################################################################

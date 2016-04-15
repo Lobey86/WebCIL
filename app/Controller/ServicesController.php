@@ -34,7 +34,7 @@ class ServicesController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', 'Les services de ' . $this->Session->read('Organisation.raisonsociale'));
+        $this->set('title', __d('service','service.titreService') . $this->Session->read('Organisation.raisonsociale'));
         $serv = $this->Service->find('all', array('conditions' => array('organisation_id' => $this->Session->read('Organisation.id'))));
         foreach ($serv as $key => $value) {
             $count = $this->OrganisationUserService->find('count', array('conditions' => array('service_id' => $value['Service']['id'])));
@@ -49,7 +49,7 @@ class ServicesController extends AppController {
      * @version V0.9.0
      */
     public function add() {
-        $this->set('title', 'Ajouter un service');
+        $this->set('title', __d('service','service.titreAjouterService'));
         if ($this->request->is('post')) {
             $this->Service->create($this->request->data);
             if ($this->Service->save()) {
