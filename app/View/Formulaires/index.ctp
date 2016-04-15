@@ -98,7 +98,8 @@
                 'class' => 'btn btn-default-danger btn-sm my-tooltip',
                 'title' => __d('formulaire', 'formulaire.commentaireSupprimerFormulaire'),
                 'escape' => false
-            ));
+                ), __d('formulaire','formulaire.confirmationSupprimerFormulaire')
+            );
         }
 
         echo '
