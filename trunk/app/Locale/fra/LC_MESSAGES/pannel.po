@@ -30,7 +30,7 @@ msgid "pannel.aucunTraitementRefusees"
 msgstr "Vous n'avez aucun traitement refusée"
 
 msgid "pannel.btnCreerTraitement"
-msgstr "Créer un traitement"
+msgstr " Créer un traitement"
 
 msgid "pannel.commentaireSupprimerTraitement"
 msgstr "Supprimer le traitement"
