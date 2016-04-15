@@ -4,7 +4,7 @@
         <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
         <?php echo $this->Form->input('username', [
             'class'       => 'form-control',
-            'placeholder' => 'Login',
+            'placeholder' => __d('user','user.placeholderChampLogin'),
             'label'       => false
         ]); ?>
     </div>
@@ -13,7 +13,7 @@
         <?php
             echo $this->Form->input('password', [
                 'class'       => 'form-control',
-                'placeholder' => 'Mot de passe',
+                'placeholder' => __d('user','user.placeholderChampPassword'),
                 'label'       => false
             ]);
         ?>

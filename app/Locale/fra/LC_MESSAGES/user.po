@@ -1,0 +1,152 @@
+# Locale fra
+# user.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#######################: Controller/UsersController.php #######################
+
+msgid "user.titreListeUser"
+msgstr "Liste des utilisateurs"
+
+msgid "user.titreAjouterUser"
+msgstr "Ajouter un utilisateur"
+
+msgid "user.titreEditerUser"
+msgstr "Editer un utilisateur"
+
+msgid "user.titreModificationInfoUser"
+msgstr "Modification de mes informations personnelles"
+
+###############################################################################
+
+
+#############################: View/Users/index.ctp ###########################
+
+msgid "user.titreTableauUtilisateur"
+msgstr "Utilisateur"
+
+msgid "user.titreTableauSynthese"
+msgstr "Synthèse"
+
+msgid "user.titreTableauAction"
+msgstr "Actions"
+
+msgid "user.textTableauEntite"
+msgstr "Entités :"
+
+msgid "user.textTableauLogin"
+msgstr "Login : "
+
+msgid "user.commentaireModifierUser"
+msgstr "Modifier l'utilisateur"
+
+msgid "user.commentaireSupprimerUser"
+msgstr "Supprimer l'utilisateur"
+
+msgid "user.confirmationSupprimerUser"
+msgstr "Voulez vous supprimer l'utilisateur : "
+
+msgid "user.btnAjouterUser"
+msgstr " Ajouter un utilisateur"
+
+###############################################################################
+
+
+#############: View/Users/add.ctp + edit.ctp + changepassword.ct ##############
+
+msgid "user.btnAjouterUser"
+msgstr " Ajouter un utilisateur"
+
+msgid "user.champLogin"
+msgstr "Login "
+
+msgid "user.placeholderChampLogin"
+msgstr "Login (requis)"
+
+msgid "user.champMotDePasse"
+msgstr "Mot de passe "
+
+msgid "user.placeholderChampMotDePasse"
+msgstr "Mininum 5 caractères (requis)"
+
+msgid "user.champVerifMotDePasse"
+msgstr "Vérification du mot de passe "
+
+msgid "user.placeholderChampVerifMotDePasse"
+msgstr "Vérification du mot de passe (requis)"
+
+msgid "user.placeholderChampNom"
+msgstr "Nom (requis)"
+
+msgid "user.champPrenom"
+msgstr "Prénom "
+
+msgid "user.placeholderChampPrenom"
+msgstr "Prénom (requis)"
+
+msgid "user.placeholderChampE-mail"
+msgstr "exemple@exemple.fr (requis)"
+
+msgid "user.champEntite"
+msgstr "Entitée "
+
+msgid "user.champService"
+msgstr "Service "
+
+msgid "user.placeholderChampService"
+msgstr "Choisissez un service (requis)"
+
+msgid "user.champProfilEntite"
+msgstr "Profils au sein de : "
+
+###############################################################################
+
+
+########################: View/Users/changepassword.ctp #######################
+
+msgid "user.textChangerInfoMotDePasse"
+msgstr "Si vous ne voulez pas modifier votre mot de passe laisser les 3 champs vides :"
+
+msgid "user.champMotDePasseActuel"
+msgstr "Votre mot de passe actuel "
+
+msgid "user.placeholderChampMotDePasseActuel"
+msgstr "Votre mot de passe actuel (requis)"
+
+msgid "user.textInfoDeconnection"
+msgstr "Si vous enregistrez vos informations, vous serez déconnecté de la session pour mettre a jour les informations."
+
+###############################################################################
+
+
+##################: View/Users/edit.ctp + changepassword.ctp ##################
+
+msgid "user.textInfoMotDePasse"
+msgstr "Si vous ne voulez pas modifier votre mot de passe laisser les 2 champs vides :"
+
+msgid "user.champNouveauMotDePasse"
+msgstr "Nouveau mot de passe "
+
+msgid "user.placeholderChampNouveauMotDePasse"
+msgstr "Nouveau mot de passe avec minimum 5 caracères"
+
+msgid "user.champVerifNouveauMotDePasse"
+msgstr "Vérification du nouveau mot de passe "
+
+msgid "user.placeholderChampVerifNouveauMotDePasse"
+msgstr "Vérification du nouveau mot de passe (requis)"
+
+###############################################################################
+
+############################: View/Users/login.ctp ############################
+
+msgid "user.placeholderChampPassword"
+msgstr "Mot de passe (requis)"
+
+###############################################################################

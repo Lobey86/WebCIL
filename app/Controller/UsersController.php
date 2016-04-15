@@ -57,7 +57,7 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', 'Liste des utilisateurs');
+        $this->set('title', __d('user','user.titreListeUser'));
         if ($this->Droits->authorized([
                     '8',
                     '9',
@@ -216,7 +216,7 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function add() {
-        $this->set('title', 'Ajouter un utilisateur');
+        $this->set('title', __d('user','user.titreAjouterUser'));
         if ($this->Droits->authorized(8) || $this->Droits->isSu()) {
             $this->set('idUser', $this->Auth->user('id'));
             if ($this->request->is('post')) {
@@ -313,7 +313,7 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function edit($id = null) {
-        $this->set('title', 'Editer un utilisateur');
+        $this->set('title', __d('user','user.titreEditerUser'));
         if ($this->Droits->authorized(9) == true || $id == $this->Auth->user('id')) {
             $this->User->id = $id;
             if (!$this->User->exists()) {
@@ -454,7 +454,7 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function changepassword($id = null) {
-        $this->set('title', 'Modification de mes informations personnelles');
+        $this->set('title', __d('user','user.titreModificationInfoUser'));
         
         if ($id == $this->Auth->user('id')) {
             $this->User->id = $id;
