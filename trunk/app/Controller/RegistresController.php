@@ -40,7 +40,7 @@ class RegistresController extends AppController {
         $this->Session->write('nameController', "registres");
         $this->Session->write('nameView', "index");
         
-        $this->set('title', 'Registre ' . $this->Session->read('Organisation.raisonsociale'));
+        $this->set('title', __d('registre','registre.titreRegistre') . $this->Session->read('Organisation.raisonsociale'));
         
         $condition = [
             'EtatFiche.etat_id' => [

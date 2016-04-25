@@ -9,7 +9,15 @@
 # @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
 #
 
-#########################: View/Registres/index.ctp###############################
+#####################: Controller/RegistresController.php #####################
+
+msgid "registre.titreRegistre"
+msgstr "Registre : "
+
+###############################################################################
+
+
+#######################: View/Registres/index.ctp##############################
 
 msgid "registre.titreTableauNomTraitement"
 msgstr "Nom du traitement"
@@ -43,5 +51,26 @@ msgstr "Vérouiller le traitement"
 
 msgid "registre.confirmationVerouillerTraitement"
 msgstr "Voulez-vous vérouiller ce traitement? Une fois vérouillée, toute modification est impossible."
+
+msgid "registre.btnFiltrerListe"
+msgstr "Filtrer la liste"
+
+msgid "registre.radioFicheVerouillee"
+msgstr "Uniquement les fiches verouillées"
+
+msgid "registre.radioFicheNonVerouillee"
+msgstr "Uniquement les fiches non verouillées"
+
+msgid "registre.btnFiltre"
+msgstr "Filtrer"
+
+msgid "registre.btnSupprimerFiltre"
+msgstr "Supprimer les filtres"
+
+msgid "registre.placeholderNomTraitement"
+msgstr "Nom du traitement"
+
+msgid "registre.placeholderSelectionnerUser"
+msgstr "Selectionnez un utilisateur"
 
 ###############################################################################

@@ -1,7 +1,7 @@
 <?php
 
 echo $this->Html->script('registre.js');
-echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span>Filtrer la liste', $options = array(
+echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span>'. __d('registre','registre.btnFiltrerListe'), $options = array(
     'type' => 'button',
     'class' => 'btn btn-default-primary btn-sm pull-right',
     'id' => 'filtrage'
@@ -24,7 +24,7 @@ unset($_SESSION['idFicheNotification']);
         echo $this->Form->input('user', array(
             'options' => $listeUsers,
             'class' => 'usersDeroulant transformSelect form-control',
-            'empty' => 'Selectionnez un utilisateur',
+            'empty' => __d('registre','registre.placeholderSelectionnerUser'),
             'label' => false
         ));
 
@@ -37,7 +37,7 @@ unset($_SESSION['idFicheNotification']);
         <?php
         echo $this->Form->input('outil', array(
             'class' => 'form-control',
-            'placeholder' => 'Nom du traitement',
+            'placeholder' => __d('registre','registre.placeholderNomTraitement'),
             'label' => false
         ));
 
@@ -48,23 +48,23 @@ unset($_SESSION['idFicheNotification']);
         echo '<div class = "input-group login">';
         echo $this->Form->input('archive', array(
             'type' => 'checkbox',
-            'label' => 'Uniquement les fiches verouillées',
+            'label' => __d('registre','registre.radioFicheVerouillee'),
             'id' => 'checkArch'
         ));
         echo $this->Form->input('nonArchive', array(
             'type' => 'checkbox',
-            'label' => 'Uniquement les fiches non verouillées',
+            'label' => __d('registre','registre.radioFicheNonVerouillee'),
             'id' => 'checkNonArch'
         ));
         echo '</div>';
     }
 
 
-    echo $this->Html->link('Supprimer les filtres', array(
+    echo $this->Html->link(__d('registre','registre.btnSupprimerFiltre'), array(
         'controller' => 'registres',
         'action' => 'index'
         ), array('class' => 'btn btn-default-danger pull-right'));
-    echo $this->Form->submit('Filtrer', array('class' => 'btn btn-default-primary'));
+    echo $this->Form->submit(__d('registre','registre.btnFiltre'), array('class' => 'btn btn-default-primary'));
     echo $this->Form->end();
 
     ?>
