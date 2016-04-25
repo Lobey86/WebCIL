@@ -76,6 +76,12 @@ msgstr "Description"
 msgid "formulaire.popupPlaceholderDescription"
 msgstr "Description du formulaire (facultatif)"
 
+msgid "formulaire.textStatutActif"
+msgstr "Actif"
+
+msgid "formulaire.textStatutInactif"
+msgstr "Inactif"
+
 ###############################################################################
 
 

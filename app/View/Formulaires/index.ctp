@@ -15,10 +15,10 @@
     foreach($formulaires as $data) {
         if($data['Formulaire']['active']) {
             $iconClass = 'fa fa-check-square-o fa-3x fa-success';
-            $statut = 'Actif';
+            $statut = __d('formulaire','formulaire.textStatutActif');
             $statutClass = 'fa-success';
         } else {
-            $statut = 'Inactif';
+            $statut = __d('formulaire','formulaire.textStatutInactif');
             $iconClass = 'fa fa-close fa-3x fa-danger';
             $statutClass = 'fa-danger';
 
