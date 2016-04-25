@@ -9,8 +9,9 @@
 # @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
 #
 
-#: View/Layouts/default.ctp
+##########################: View/Layouts/default.ctp ##########################
 #: Bare du menu
+
 msgid "default.titreTraitement"
 msgstr "Traitements"
 
@@ -64,6 +65,21 @@ msgstr "Modifier mon compte"
 
 msgid "default.sousTitreDeconnexion"
 msgstr "Déconnexion"
+
+msgid "default.popupChoisirFormulaire"
+msgstr "Choisir un formulaire"
+
+msgid "default.popupTitreTableauNom"
+msgstr "Nom"
+
+msgid "default.popupTitreTableauDescription"
+msgstr "Description"
+
+msgid "default.popupTitreTableauAction"
+msgstr "Action"
+
+msgid "default.popupBtnChoisir"
+msgstr "Choisir"
 
 ###############################################################################
 
