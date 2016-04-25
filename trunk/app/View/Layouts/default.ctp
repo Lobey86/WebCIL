@@ -452,28 +452,30 @@ $cakeDescription = 'Web-CIL';
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title" id="myModalLabel">Choisir un formulaire</h4>
+                                <h4 class="modal-title" id="myModalLabel">
+                                    <?php echo __d('default','default.popupChoisirFormulaire');?>
+                                </h4>
                             </div>
                             <div class="modal-body">
                                 <table class="table table-bordered">
                                     <thead>
                                     <th class="col-md-3">
-                                        Nom
+                                        <?php echo __d('default','default.popupTitreTableauNom');?>
                                     </th>
                                     <th class="col-md-7">
-                                        Description
+                                        <?php echo __d('default','default.popupTitreTableauDescription');?>
                                     </th>
                                     <th class="col-md-2">
-                                        Action
+                                        <?php echo __d('default','default.popupTitreTableauAction');?>
                                     </th>
                                     </thead>
                                     <tbody>
                                         <?php
                                         foreach ($formulaires_actifs as $key => $value) {
                                             echo '<tr>
-<td>' . $value['Formulaire']['libelle'] . '</td>
-<td>' . $value['Formulaire']['description'] . '</td>
-<td>' . $this->Html->link('Choisir', [
+                                                <td>' . $value['Formulaire']['libelle'] . '</td>
+                                                <td>' . $value['Formulaire']['description'] . '</td>
+                                                <td>' . $this->Html->link(__d('default','default.popupBtnChoisir'), [
                                                 'controller' => 'fiches',
                                                 'action' => 'add',
                                                 $value['Formulaire']['id']
@@ -486,7 +488,8 @@ $cakeDescription = 'Web-CIL';
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
-                                        class="fa fa-fw fa-arrow-left"></i> Annuler
+                                        class="fa fa-fw fa-arrow-left"></i>
+                                        <?php echo(__d('default','default.btnAnnuler'));?>
                                 </button>
                             </div>
                         </div>
