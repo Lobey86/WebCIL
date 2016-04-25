@@ -39,7 +39,7 @@
                     'class'        => 'form-control',
                     'placeholder'  => __d('user','user.placeholderChampLogin'),
                     'label'        => [
-                        'text'  => 'Login <span class="requis">*</span>',
+                        'text'  => __d('user','user.champLogin').'<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'      => '<div class="col-md-8">',
@@ -151,11 +151,11 @@
         echo '<div class="text-center">';
         echo '<div class="btn-group send">';
     
-        echo $this->Html->link('<i class="fa fa-arrow-left"></i> Annuler', $referer, [
+        echo $this->Html->link('<i class="fa fa-arrow-left"></i>'.__d('default','default.btnAnnuler'), $referer, [
             'class'  => 'btn btn-default-default',
             'escape' => false
         ]);
-        echo $this->Form->button('<i class="fa fa-check"></i> Enregistrer', [
+        echo $this->Form->button('<i class="fa fa-check"></i>'.__d('default','default.btnEnregistrer'), [
             'type'  => 'submit',
             'class' => 'btn btn-default-success'
         ]);
