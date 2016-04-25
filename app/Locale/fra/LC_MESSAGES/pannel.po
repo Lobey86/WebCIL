@@ -91,6 +91,11 @@ msgstr "Valider la fiche et l'insérer dans le registre"
 msgid "pannel.commentaireRepondre"
 msgstr "Répondre"
 
+msgid "pannel.commentaireRefuserTraitement"
+msgstr "Refuser le traitement"
+
+msgid "pannel.textExpliquezRaisonRefus"
+msgstr "Expliquez les raisons de votre refus"
 
 ###############################################################################
 
