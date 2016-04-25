@@ -140,7 +140,7 @@ unset($_SESSION['idFicheNotification']);
                                 </div>
                                 <button type='button'
                                         class='btn btn-default-danger boutonRefuser btn-sm my-tooltip'
-                                        title="Refuser la fiche"
+                                        title='<?php echo __d('pannel','pannel.commentaireRefuserTraitement'); ?>'
                                         value='<?php echo $donnee['Fiche']['id']; ?>'>
                                     <span class='glyphicon glyphicon-remove'></span>
                                 </button>
@@ -241,7 +241,7 @@ unset($_SESSION['idFicheNotification']);
                                 echo $this->Form->input('content', [
                                     'div' => 'input-group inputsForm',
                                     'label' => false,
-                                    'before' => '<span class="labelFormulaire">Expliquez les raisons de votre refus</span><span class="obligatoire"> *</span>',
+                                    'before' => '<span class="labelFormulaire">'.__d('pannel','pannel.textExpliquezRaisonRefus').'</span><span class="obligatoire"> *</span>',
                                     'class' => 'form-control',
                                     'required' => true,
                                     'type' => 'textarea'
