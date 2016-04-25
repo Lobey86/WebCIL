@@ -160,7 +160,7 @@ class FormulairesController extends AppController {
      * @edit 24/12/2015
      * @version V0.9.0
      */
-    public function toggle($id, $state) {
+    public function toggle($id, $state = null) {
         $this->Formulaire->id = $id;
         if ($this->Formulaire->updateAll(array('active' => (int) !$state), array('id' => $id))) {
             $this->redirect(array(
