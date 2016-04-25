@@ -201,7 +201,7 @@ echo $this->Form->input('email', [
                         'empty' => __d('user','user.placeholderChampService'),
                         'class' => 'usersDeroulant transformSelect form-control',
                         'label' => [
-                            'text' => 'Service <span class="requis">*</span>',
+                            'text' => __d('user','user.champService').'<span class="requis">*</span>',
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
