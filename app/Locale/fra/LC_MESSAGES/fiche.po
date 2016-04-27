@@ -1,0 +1,55 @@
+# Locale fra
+# fiche.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#######################: Controller/FichesController.php ######################
+
+msgid "fiche.titreCrationFiche"
+msgstr "Création d'un traitement"
+
+msgid "fiche.titreApercuFiche"
+msgstr "Apercu d'un traitement"
+
+msgid "fiche.titreEditionFiche"
+msgstr "Edition d'un traitement"
+
+###############################################################################
+
+
+#################: View/Fiches/add.ctp + edit.ctp + show.ctp ##################
+
+msgid "fiche.textInfoContact"
+msgstr "Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé :"
+
+msgid "fiche.champNomPrenom"
+msgstr "Nom et prénom "
+
+msgid "fiche.champFichier"
+msgstr "Fichier"
+
+###############################################################################
+
+
+############################: View/Fiches/edit.ctp ############################
+
+msgid "fiche.textInfoAucunePieceJointe"
+msgstr "Aucune pièce jointe"
+
+msgid "fiche.textInfoPieceJointe"
+msgstr "Pièce jointe :"
+
+###############################################################################
+
+############################: View/Fiches/show.ctp ############################
+
+msgid "fiche.btnRevenir"
+msgstr " Revenir"
+
+###############################################################################
