@@ -14,6 +14,9 @@
 msgid "modele.titreListeModele"
 msgstr "Liste des modèles"
 
+msgid "modele.titreInfoVariableModele"
+msgstr "Information sur les variables utilisable dans le modèle"
+
 ###############################################################################
 
 
@@ -30,6 +33,9 @@ msgstr "Outils"
 
 msgid "modele.commentaireImporterModel"
 msgstr "Importer un modèle"
+
+msgid "modele.commentaireVariableModel"
+msgstr "Information sur les variables utilisable dans le modèle"
 
 msgid "modele.commentaireTelechargerModel"
 msgstr "Télécharger le modèle"
@@ -51,6 +57,71 @@ msgstr "Modèle"
 
 msgid "modele.btnEnregistrerModele"
 msgstr " Enregistrer ce modèle"
+
+###############################################################################
+
+
+####################### View/Modeles/info_variabler.ctp #######################
+
+msgid "modele.titreTableauNomChamp"
+msgstr "Nom du champ"
+
+msgid "modele.titreTableauNomVariable"
+msgstr "Nom de variable"
+
+msgid "modele.titreTableauType"
+msgstr "Type du champ"
+
+msgid "modele.titreTableauValeur"
+msgstr "Valeur"
+
+msgid "modele.sousTitreVariableFormulaire"
+msgstr "Variable dans le traitement"
+
+msgid "modele.sousTitreEntité"
+msgstr "L'entité"
+
+msgid "modele.sousTitreCreateurTraitement"
+msgstr "Personne a l'origine du traitement"
+
+msgid "modele.sousTitreNomDescriptionTraitement"
+msgstr "Nom et description du traitement"
+
+msgid "modele.textAucuneEntite"
+msgstr "Aucune donner renseigner pour l'entité"
+
+msgid "modele.textAucuneVariableFormulaire"
+msgstr "Aucune variable dans le formulaire"
+
+msgid "modele.textPetitChamp"
+msgstr "Petit champ texte"
+
+msgid "modele.textGrandChamp"
+msgstr "Grand champ texte"
+
+msgid "modele.textDateChamp"
+msgstr "Champ date"
+
+msgid "modele.textCheckboxChamp"
+msgstr "Cases à cocher"
+
+msgid "modele.textRadioChamp"
+msgstr "Choix unique"
+
+msgid "modele.textDeroulantChamp"
+msgstr "Menu déroulant"
+
+msgid "modele.textTableauNomPrenomUserTraitement"
+msgstr "Nom et prénom"
+
+msgid "modele.textTableauEmailUserTraitement"
+msgstr "Email"
+
+msgid "modele.textTableauNomTraitement"
+msgstr "Nom du traitement"
+
+msgid "modele.textTableauFinaliteTraitement"
+msgstr "Finalité principale du traitement "
 
 
 ###############################################################################

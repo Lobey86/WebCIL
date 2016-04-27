@@ -28,7 +28,11 @@ class ModelesController extends AppController {
 
     public $uses = array(
         'Modele',
-        'Formulaire'
+        'Formulaire',
+        'FormGenerator.Champ',
+        'Fiche',
+        'Valeur',
+        'Organisation'
     );
 
     /**
@@ -37,7 +41,7 @@ class ModelesController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', __d('modele','modele.titreListeModele'));
+        $this->set('title', __d('modele', 'modele.titreListeModele'));
         $modeles = $this->Formulaire->find('all', array(
             'contain' => array('Modele'),
             'conditions' => array('organisations_id' => $this->Session->read('Organisation.id'))
@@ -100,7 +104,44 @@ class ModelesController extends AppController {
         } else {
             $this->Session->setFlash('Ce model n\'existe pas', 'flasherror');
         }
-        
+
         $this->redirect($this->referer());
+    }
+
+    /**
+     * 
+     * @access public
+     * @created 26/04/2016
+     * @version V1.0.2
+     */
+    public function infoVariable($idFormulaire) {
+        $this->set('title', __d('modele', 'modele.titreInfoVariableModele'));
+
+        $variables = $this->Champ->find('all', array(
+            'conditions' => array(
+                'formulaires_id' => $idFormulaire,
+            ),
+                'fields' => array("type", "details")
+        ));
+        $variables = Hash::extract($variables, '{n}.Champ');
+        $this->set(compact('variables'));
+
+        $organisations = $this->Organisation->find('all', array(
+            'conditions' => array(
+                'id' => $this->Session->read('Organisation.id')
+            ),
+            'fields' => array(
+                'raisonsociale',
+                'telephone',
+                'fax',
+                'adresse',
+                'email',
+                'sigle',
+                'siret',
+                'ape',
+            )
+        ));
+        $organisations = Hash::extract($organisations, '{n}.Organisation');
+        $this->set(compact('organisations'));
     }
 }
