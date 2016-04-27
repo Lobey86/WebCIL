@@ -2,6 +2,7 @@
 <?php
     $col = 1;
     $line = 1;
+    
     echo $this->Form->create('Fiche', [
         'action' => 'add',
         'class'  => 'form-horizontal',
@@ -11,7 +12,6 @@
     <div class="row">
         <div class="col-md-6">
             <?php
-
                 echo $this->Form->input('declarantraisonsociale', [
                     'label'    => [
                         'text'  => 'Raison Sociale <span class="obligatoire">*</span>',
@@ -62,7 +62,6 @@
                     'value'    => $this->Session->read('Organisation.email')
                 ]);
             ?>
-
         </div>
         <div class='col-md-6'>
             <?php
@@ -132,14 +131,16 @@
     <div class="row row35"></div>
     <div class="row">
         <div class="col-md-12">
-            <span class='labelFormulaire'>Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé:</span>
+            <span class='labelFormulaire'>
+                <?php echo __d('fiche','fiche.textInfoContact');?>
+            </span>
             <div class="row row35"></div>
         </div>
         <div class="col-md-6">
             <?php
                 echo $this->Form->input('declarantpersonnenom', [
                     'label'    => [
-                        'text'  => 'Nom et prénom <span class="obligatoire">*</span>',
+                        'text'  => __d('fiche','fiche.champNomPrenom').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'  => '<div class="col-md-8">',
@@ -156,7 +157,7 @@
             <?php
                 echo $this->Form->input('declarantpersonneemail', [
                     'label'    => [
-                        'text'  => 'E-mail <span class="obligatoire">*</span>',
+                        'text'  => __d('default','default.champE-mail').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'  => '<div class="col-md-8">',
@@ -176,7 +177,7 @@
             <?php
                 echo $this->Form->input('outilnom', [
                     'label'    => [
-                        'text'  => 'Nom du traitement <span class="obligatoire">*</span>',
+                        'text'  => __d('default','default.champNomTraitement').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between'  => '<div class="col-md-8">',
@@ -192,7 +193,7 @@
             <?php
                 echo $this->Form->input('finaliteprincipale', [
                     'label'   => [
-                        'text'  => 'Finalité <span class="obligatoire">*</span>',
+                        'text'  => __d('default','default.champFinalite').'<span class="obligatoire">*</span>',
                         'class' => 'col-md-4 control-label'
                     ],
                     'between' => '<div class="col-md-8">',
@@ -353,7 +354,7 @@
     echo '<div class="col-md-6 form-horizontal top17">' . $this->Form->input('fichiers.', [
             'type'    => 'file',
             'label'   => [
-                'text'  => 'Fichiers',
+                'text'  => __d('fiche','fiche.champFichier'),
                 'class' => 'col-md-4 control-label'
             ],
             'between' => '<div class="col-md-8">',
@@ -369,7 +370,7 @@
     
     echo '<div class="col-md-12 top17 text-center"><div class="btn-group">';
 
-    echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i> Annuler', [
+    echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>'.__d('default','default.btnAnnuler'), [
         'controller' => 'pannel',
         'action'     => 'index'
     ], [
@@ -377,7 +378,7 @@
         'escape' => false
     ]);
     
-    echo $this->Form->button('<i class="fa fa-fw fa-check"></i> Enregistrer', [
+    echo $this->Form->button('<i class="fa fa-fw fa-check"></i>'.__d('default','default.btnEnregistrer'), [
         'class'  => 'btn btn-default-success',
         'escape' => false,
         'type'   => 'submit'
