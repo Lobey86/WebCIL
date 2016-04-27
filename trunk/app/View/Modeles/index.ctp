@@ -56,7 +56,7 @@ if (!empty($modeles)) {
                     <td class="tdleft">
                     <div class="btn-group">';
 
-                echo $this->Form->button('<i class="fa fa-upload"></i>', array(
+                echo $this->Form->button('<i class="fa fa-upload fa-lg"></i>', array(
                     'escape' => false,
                     'class' => 'btn btn-default-default btn-sm my-tooltip btn-upload-modele',
                     'title' => __d('modele', 'modele.commentaireImporterModel'),
@@ -65,10 +65,18 @@ if (!empty($modeles)) {
                     'data' => $value['Formulaire']['id']
                 ));
 
+                echo $this->Html->link('<span class="fa fa-question-circle fa-lg"></span>', array(
+                    'controller' => 'modeles',
+                    'action' => 'infoVariable',
+                    $value['Formulaire']['id']
+                        ), array(
+                    'class' => 'btn btn-default-default btn-sm my-tooltip',
+                    'title' => __d('modele', 'modele.commentaireVariableModel'),
+                    'escape' => false,
+                ));
+
                 echo '</div>';
             }
-
-
 
             echo '</td></tr>';
         }
@@ -78,6 +86,8 @@ if (!empty($modeles)) {
     <?php
 }
 ?>
+
+<!--Pop-up pour importé un model dans l'application -->
 <div class="modal fade" id="modalUploadModele" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
