@@ -7,8 +7,6 @@ $nameView = $this->Session->read('nameView');
 unset($_SESSION['nameController']);
 unset($_SESSION['nameView']);
 
-//debug($nameView);die;
-
 echo $this->Form->create('Fiche', array(
     'action' => 'edit',
     'class' => 'form-horizontal'
@@ -309,7 +307,6 @@ echo $this->Form->create('Fiche', array(
                     break;
 
                 case 'deroulant':
-                    debug($options);
                     echo '<div class="form-group">
                             <label class="col-md-4 control-label">' . $options['label'] . $afficherObligation . '</label>
                         <div class="col-md-8">';
@@ -439,8 +436,6 @@ echo $this->Form->create('Fiche', array(
             <div class="col-md-12 top17 text-center">
                 <div class="btn-group">
                     <?php
-                    debug($nameController);
-                    debug($nameView);
                     echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>'. __d('fiche','fiche.btnRevenir'), array(
                         'controller' => $nameController,
                         'action' => $nameView
