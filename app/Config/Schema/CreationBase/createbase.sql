@@ -162,6 +162,7 @@ CREATE TABLE etat_fiches (
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     previous_user_id INTEGER NOT NULL REFERENCES users(id),
     previous_etat_id INTEGER DEFAULT NULL,
+    actif BOOLEAN DEFAULT TRUE,
     created DATE,
     modified DATE
 );
