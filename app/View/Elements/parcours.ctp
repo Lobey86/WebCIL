@@ -1,165 +1,418 @@
 <?php
-foreach ( $parcours as $value ) {
-    switch ( $value[ 'EtatFiche' ][ 'etat_id' ] ) {
+foreach ($parcours as $value) {
+    switch ($value['EtatFiche']['etat_id']) {
+        //Rectangle bleu Rédaction
         case 1:
-            echo "
-        <div class='bg-info tuilesStatuts col-md-6 col-md-offset-3'>
-            <div class='text-center'>
-                <h3>Rédaction</h3>
-            </div>
-            <div class='tuilesStatutsNom'>
-                Créée par <b>" . $value[ 'User' ][ 'prenom' ] . " " . $value[ 'User' ][ 'nom' ] . "</b> le <b>" . $this->Time->format($value[ 'Fiche' ][ 'created' ], '%e-%m-%Y') . "</b>
-
-            </div>";
-            if ( !empty($value[ 'Commentaire' ]) ) {
-
-                echo "<div>
-                <br/>
+            ?>
+            <div class='bg-info tuilesStatuts col-md-10 col-md-offset-1'>
                 <div class='text-center'>
-                    <h4>Commentaires</h4>
+                    <h3>
+                        <b>
+                            <?php echo __d('element', 'element.Redaction'); ?>
+                        </b>
+                    </h3>
                 </div>
-                ";
-                foreach ( $value[ 'Commentaire' ] as $val ) {
+                <div class='tuilesStatutsNom'>
+                    <?php echo __d('element', 'element.CreePar'); ?>
+                    <b>
+                        <?php echo $value['User']['prenom'] . " " . $value['User']['nom']; ?>
+                    </b> 
+                    <?php echo __d('element', 'element.Le'); ?> 
+                    <b>
+                        <?php echo $this->Time->format($value['Fiche']['created'], '%e-%m-%Y'); ?>
+                    </b>
 
-                    echo "<blockquote>
-                    <p>" . $val[ 'content' ] . "</p>
-                    <footer><cite>" . $val[ 'User' ][ 'prenom' ] . " " . $val[ 'User' ][ 'nom' ] . "</cite></footer>
-                </blockquote>";
+                </div>
+                <?php
+                if (!empty($value['Commentaire'])) {
+                    ?>
+                    <div>
+                        <br/>
+                        <hr class='hrComms'/>
+                        <div class='text-center'>
+                            <h4>
+                                <?php echo __d('element', 'element.Commentaire'); ?>
+                            </h4>
+                        </div>
+                        <?php
+                        foreach ($value['Commentaire'] as $val) {
+                            ?>
+                            <div>
+                                <p>
+                                    <?php echo $val['content']; ?>
+                                </p>
+                                <footer>
+                                    <?php echo __d('element', 'element.CommenterPar'); ?>
+                                    <b>
+                                        <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                    </b>
+                                </footer>
+                            </div>
+                            <br/>
+                            <hr class='hrComms'/>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
                 }
-
-                echo "
-            </div>";
-            }
-            echo "</div>
-        ";
+                ?>
+            </div>
+            <?php
             break;
 
+        //Rectangle orange En attente de validation
         case 2:
-            echo "
-        <div class='bg-warning tuilesStatuts col-md-6 col-md-offset-3'>
-            <div class='text-center'>
-                <h3>En attente de validation</h3>
-            </div>
-            <div class='tuilesStatutsNom'>
-                Reçue par <b>" . $value[ 'User' ][ 'prenom' ] . " " . $value[ 'User' ][ 'nom' ] . "</b> le <b>" . $this->Time->format($value[ 'EtatFiche' ][ 'created' ], '%e-%m-%Y') . "</b>
-            </div>";
-            if ( !empty($value[ 'Commentaire' ]) ) {
-
-                echo "<div>
-                <br/>
+            ?>
+            <div class='bg-warning tuilesStatuts col-md-10 col-md-offset-1'>
                 <div class='text-center'>
-                    <h4>Commentaires</h4>
+                    <h3>
+                        <b>
+                            <?php echo __d('element', 'element.AttenteValidation'); ?>
+                        </b>
+                    </h3>
                 </div>
-                ";
-                foreach ( $value[ 'Commentaire' ] as $val ) {
-
-                    echo "<blockquote>
-                    <p>" . $val[ 'content' ] . "</p>
-                    <footer><cite>" . $val[ 'User' ][ 'prenom' ] . " " . $val[ 'User' ][ 'nom' ] . "</cite></footer>
-                </blockquote>";
+                <div class='tuilesStatutsNom'>
+                    <?php echo __d('element', 'element.RecuePar'); ?> 
+                    <b>
+                        <?php echo $value['User']['prenom'] . " " . $value['User']['nom']; ?>
+                    </b>
+                    <?php echo __d('element', 'element.Le'); ?> 
+                    <b>
+                        <?php echo $this->Time->format($value['EtatFiche']['created'], '%e-%m-%Y'); ?>
+                    </b>
+                </div>
+                <?php
+                if (!empty($value['Commentaire'])) {
+                    ?>
+                    <div>
+                        <br/>
+                        <hr class='hrComms'/>
+                        <div class='text-center'>
+                            <h4>
+                                <?php echo __d('element', 'element.Commentaire'); ?>
+                            </h4>
+                        </div>
+                        <?php
+                        foreach ($value['Commentaire'] as $val) {
+                            ?>
+                            <div>
+                                <p>
+                                    <?php echo $val['content']; ?>
+                                </p>
+                                <footer>
+                                    <?php echo __d('element', 'element.CommenterPar'); ?>
+                                    <b>
+                                        <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                    </b>
+                                </footer>
+                            </div>
+                            <br/>
+                            <hr class='hrComms'/>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
                 }
-
-                echo "
-            </div>";
-            }
-            echo "</div>
-        ";
+                ?>
+            </div>
+            <?php
             break;
 
+        //Rectangle vert Validée    
         case 3:
-            echo "
-        <div class='bg-success tuilesStatuts col-md-6 col-md-offset-3'>
-            <div class='text-center'>
-                <h3>Validée</h3>
-            </div>
-            <div class='tuilesStatutsNom'>
-                Validée par <b>" . $value[ 'User' ][ 'prenom' ] . " " . $value[ 'User' ][ 'nom' ] . "</b> le <b>" . $this->Time->format($value[ 'EtatFiche' ][ 'modified' ], '%e-%m-%Y') . "</b>
-            </div>";
-            if ( !empty($value[ 'Commentaire' ]) ) {
-
-                echo "<div>
-                <br/>
+            ?>
+            <div class='bg-success tuilesStatuts col-md-10 col-md-offset-1'>
                 <div class='text-center'>
-                    <h4>Commentaires</h4>
+                    <h3>
+                        <b>
+                            <?php echo __d('element', 'element.Validee'); ?>
+                        </b>
+                    </h3>
                 </div>
-                ";
-                foreach ( $value[ 'Commentaire' ] as $val ) {
-
-                    echo "<blockquote>
-                    <p>" . $val[ 'content' ] . "</p>
-                    <footer><cite>" . $val[ 'User' ][ 'prenom' ] . " " . $val[ 'User' ][ 'nom' ] . "</cite></footer>
-                </blockquote>";
+                <div class='tuilesStatutsNom'>
+                    <?php echo __d('element', 'element.ValideePar'); ?>   
+                    <b>
+                        <?php echo $value['User']['prenom'] . " " . $value['User']['nom']; ?>
+                    </b> 
+                    <?php echo __d('element', 'element.Le'); ?>  
+                    <b>
+                        <?php echo $this->Time->format($value['EtatFiche']['modified'], '%e-%m-%Y'); ?>
+                    </b>
+                </div>
+                <?php
+                if (!empty($value['Commentaire'])) {
+                    ?>
+                    <div>
+                        <br/>
+                        <hr class='hrComms'/>
+                        <div class='text-center'>
+                            <h4>
+                                <?php echo __d('element', 'element.Commentaire'); ?>
+                            </h4>
+                        </div>
+                        <?php
+                        foreach ($value['Commentaire'] as $val) {
+                            ?>
+                            <div>
+                                <p><?php echo $val['content']; ?></p>
+                                <footer>
+                                    <?php echo __d('element', 'element.CommenterPar'); ?>
+                                    <b>
+                                        <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                    </b>
+                                </footer>
+                            </div>
+                            <br/>
+                            <hr class='hrComms'/>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
                 }
-
-                echo "
-            </div>";
-            }
-            echo "</div>
-        ";
+                ?>
+            </div>
+            <?php
             break;
 
+        //Rectangle rouge Refusée    
         case 4:
-            echo "
-        <div class='bg-danger tuilesStatuts col-md-6 col-md-offset-3'>
-            <div class='text-center'>
-                <h3>Refusée</h3>
-            </div>
-            <div class='tuilesStatutsNom'>
-                Refusée par <b>" . $value[ 'User' ][ 'prenom' ] . " " . $value[ 'User' ][ 'nom' ] . "</b> le <b>" . $this->Time->format($value[ 'Fiche' ][ 'created' ], '%e-%m-%Y') . "</b>
-            </div>";
-            if ( !empty($value[ 'Commentaire' ]) ) {
-
-                echo "<div>
-                <br/>
+            ?>
+            <div class='bg-danger tuilesStatuts col-md-10 col-md-offset-1'>
                 <div class='text-center'>
-                    <h4>Commentaires</h4>
+                    <h3>
+                        <b>
+                            <?php echo __d('element', 'element.Refusee'); ?>
+                        </b>
+                    </h3>
                 </div>
-                <hr class='hrComms'/>
-                ";
-                foreach ( $value[ 'Commentaire' ] as $val ) {
-
-                    echo "<blockquote>
-                    <p>" . $val[ 'content' ] . "</p>
-                    <footer><cite>" . $val[ 'User' ][ 'prenom' ] . " " . $val[ 'User' ][ 'nom' ] . "</cite></footer>
-                </blockquote>";
+                <div class='tuilesStatutsNom'>
+                    <?php echo __d('element', 'element.RefuseePar'); ?>
+                    <b>
+                        <?php echo $value['User']['prenom'] . " " . $value['User']['nom']; ?>
+                    </b> 
+                    <?php echo __d('element', 'element.Le'); ?>   
+                    <b>
+                        <?php echo $this->Time->format($value['Fiche']['created'], '%e-%m-%Y'); ?>
+                    </b>
+                </div>
+                <?php
+                if (!empty($value['Commentaire'])) {
+                    ?>
+                    <div>
+                        <br/>
+                        <hr class='hrComms'/>
+                        <div class='text-center'>
+                            <h4>
+                                <?php echo __d('element', 'element.Commentaire'); ?>
+                            </h4>
+                        </div>
+                        <?php
+                        foreach ($value['Commentaire'] as $val) {
+                            ?>
+                            <div>
+                                <p>
+                                    <?php echo $val['content']; ?>
+                                </p>
+                                <footer>
+                                    <?php echo __d('element', 'element.CommenterPar'); ?>
+                                    <b>
+                                        <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                    </b>
+                                </footer>
+                            </div>
+                            <br/>
+                            <hr class='hrComms'/>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
                 }
-                echo "
-        </div>";
-            }
-            echo "</div>
-    ";
+                ?>
+            </div>
+            <?php
             break;
+
+        //Rectangle Validéé Inseréé dans le registre    
         case 5:
-            echo "
-        <div class='bg-success tuilesStatuts col-md-6 col-md-offset-3'>
-            <div class='text-center'>
-                <h3>Validée et insérée au registre</h3>
-            </div>
-            <div class='tuilesStatutsNom'>
-                Validée par <b>" . $value[ 'User' ][ 'prenom' ] . " " . $value[ 'User' ][ 'nom' ] . "</b> le <b>" . $this->Time->format($value[ 'EtatFiche' ][ 'modified' ], '%e-%m-%Y') . "</b>
-            </div>";
-            if ( !empty($value[ 'Commentaire' ]) ) {
-
-                echo "<div>
-                <br/>
+            ?>
+            <div class='bg-success tuilesStatuts col-md-10 col-md-offset-1'>
                 <div class='text-center'>
-                    <h4>Commentaires</h4>
+                    <h3>
+                        <b>
+                            <?php echo __d('element', 'element.ValideeInsereeRegistre'); ?>
+                        </b>
+                    </h3>
                 </div>
-                ";
-                foreach ( $value[ 'Commentaire' ] as $val ) {
-
-                    echo "<blockquote>
-                    <p>" . $val[ 'content' ] . "</p>
-                    <footer><cite>" . $val[ 'User' ][ 'prenom' ] . " " . $val[ 'User' ][ 'nom' ] . "</cite></footer>
-                </blockquote>";
+                <div class='tuilesStatutsNom'>
+                    <?php echo __d('element', 'element.ValideePar'); ?>
+                    <b>
+                        <?php echo $value['User']['prenom'] . " " . $value['User']['nom']; ?>
+                    </b> 
+                    <?php echo __d('element', 'element.Le'); ?>   
+                    <b>
+                        <?php echo $this->Time->format($value['EtatFiche']['modified'], '%e-%m-%Y'); ?>
+                    </b>
+                </div>
+                <?php
+                if (!empty($value['Commentaire'])) {
+                    ?>
+                    <div>
+                        <br/>
+                        <hr class='hrComms'/>
+                        <div class='text-center'>
+                            <h4>
+                                <?php echo __d('element', 'element.Commentaire'); ?>
+                            </h4>
+                        </div>
+                        <?php
+                        foreach ($value['Commentaire'] as $val) {
+                            ?>
+                            <div>
+                                <p>
+                                    <?php echo $val['content']; ?>
+                                </p>
+                                <footer>
+                                    <?php echo __d('element', 'element.CommenterPar'); ?>
+                                    <b>
+                                        <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                    </b>
+                                </footer>
+                            </div>
+                            <br/>
+                            <hr class='hrComms'/>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
                 }
-                echo "
-            </div>";
-            }
-            echo "</div>
-        ";
+                ?>
+            </div>
+            <?php
             break;
 
+        //Rectangle orange En attente de consultation
+        case 6:
+            ?>
+            <div class='bg-warning tuilesStatuts col-md-10 col-md-offset-1'>
+                <div class='text-center'>
+                    <h3>
+                        <b>
+                            <?php echo __d('element','element.AttenteConsultation');?>
+                        </b>
+                    </h3>
+                </div>
+                <div class='tuilesStatutsNom'>
+                    <?php echo __d('element', 'element.RecuePar'); ?> 
+                    <b>
+                        <?php echo $value['User']['prenom'] . " " . $value['User']['nom']; ?>
+                    </b>
+                    <?php echo __d('element', 'element.Le'); ?> 
+                    <b>
+                        <?php echo $this->Time->format($value['EtatFiche']['created'], '%e-%m-%Y'); ?>
+                    </b>
+                </div>
+                <?php
+                if (!empty($value['Commentaire'])) {
+                    ?>
+                    <div>
+                        <br/>
+                        <hr class='hrComms'/>
+                        <div class='text-center'>
+                            <h4>
+                                <?php echo __d('element', 'element.Commentaire'); ?>
+                            </h4>
+                        </div>
+                        <?php
+                        foreach ($value['Commentaire'] as $val) {
+                            ?>
+                            <div>
+                                <p>
+                                    <?php echo $val['content']; ?>
+                                </p>
+                                <footer>
+                                    <?php echo __d('element', 'element.CommenterPar'); ?>
+                                    <b>
+                                        <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                    </b>
+                                </footer>
+                            </div>
+                            <br/>
+                            <hr class='hrComms'/>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <?php
+            break;
+
+        //Rectangle bleu Replacer en rédaction
+        case 8:
+            ?>
+            <div class='bg-info tuilesStatuts col-md-10 col-md-offset-1'>
+                <div class='text-center'>
+                    <h3>
+                        <b>
+                            <?php echo __d('element','element.ReplacerRedaction');?>
+                        </b>
+                    </h3>
+                </div>
+                <div class='tuilesStatutsNom'>
+                    <?php echo __d('element','element.ReplacerRedactionPar') ?>
+                    <b>
+                        <?php echo $value['User']['prenom'] . " " . $value['User']['nom']; ?>
+                    </b> 
+                    <?php echo __d('element', 'element.Le'); ?> 
+                    <b>
+                        <?php echo $this->Time->format($value['Fiche']['created'], '%e-%m-%Y'); ?>
+                    </b>
+
+                </div>
+                <?php
+                if (!empty($value['Commentaire'])) {
+                    ?>
+                    <div>
+                        <br/>
+                        <hr class='hrComms'/>
+                        <div class='text-center'>
+                            <h4>
+                                <?php echo __d('element', 'element.Commentaire'); ?>
+                            </h4>
+                        </div>
+                        <?php
+                        foreach ($value['Commentaire'] as $val) {
+                            ?>
+                            <div>
+                                <p>
+                                    <?php echo $val['content']; ?>
+                                </p>
+                                <footer>
+                                    <?php echo __d('element', 'element.CommenterPar'); ?>
+                                    <b>
+                                        <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                    </b>
+                                </footer>
+                            </div>
+                            <br/>
+                            <hr class='hrComms'/>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <?php
+            break;
 
         default:
             break;

@@ -54,7 +54,6 @@ class PannelController extends AppController {
         }
         $this->set('title', __d('pannel', 'pannel.titreTraitement'));
         
-        
         // Requète récupérant les fiches en cours de rédaction
         $db = $this->EtatFiche->getDataSource();
         $subQuery = $db->buildStatement([
@@ -68,11 +67,12 @@ class PannelController extends AppController {
             'order' => null,
             'group' => null
                 ], $this->EtatFiche);
+
         $subQuery = '"Fiche"."user_id" = ' . $this->Auth->user('id') . ' AND "Fiche"."organisation_id" = ' . $this->Session->read('Organisation.id') . ' AND "EtatFiche"."fiche_id" NOT IN (' . $subQuery . ') ';
         $subQueryExpression = $db->expression($subQuery);
 
         $conditions[] = $subQueryExpression;
-        $conditions[] = 'EtatFiche.etat_id = 1';
+        $conditions[] = 'EtatFiche.etat_id = 1 OR EtatFiche.etat_id = 8 AND EtatFiche.actif = true';
         $encours = $this->EtatFiche->find('all', [
             'conditions' => $conditions,
             'contain' => [
@@ -108,6 +108,9 @@ class PannelController extends AppController {
                 ]
             ]
         ]);
+        
+//        debug($encours);die;
+        
         $this->set('encours', $encours);
 
         // Requète récupérant les fiches en cours de validation
@@ -153,10 +156,13 @@ class PannelController extends AppController {
         );
         $this->set('encoursValidation', $requete);
 
+        $conditions = null;
+        $conditions[] = 'EtatFiche.etat_id = 4 AND EtatFiche.actif = true';
+        
         // Requète récupérant les fiches refusées par un validateur
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
-                'EtatFiche.etat_id' => 4,
+                $conditions,
                 'Fiche.user_id' => $this->Auth->user('id'),
                 'Fiche.organisation_id' => $this->Session->read('Organisation.id')
             ],
@@ -472,12 +478,6 @@ class PannelController extends AppController {
                     'prenom'
                 ],
                 'Commentaire' => [
-                    'conditions' => [
-                        'OR' => [
-                            'Commentaire.user_id' => $this->Auth->user('id'),
-                            'Commentaire.destinataire_id' => $this->Auth->user('id')
-                        ]
-                    ],
                     'User' => [
                         'id',
                         'nom',
