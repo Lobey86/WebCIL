@@ -373,7 +373,7 @@ unset($_SESSION['idFicheNotification']);
                                 echo $this->Form->input('commentaireRepondre', [
                                     'div' => 'input-group inputsForm',
                                     'label' => false,
-                                    'before' => '<span class="labelFormulaire">Donnez votre avis</span><span class="obligatoire">*</span>',
+                                    'before' => '<span class="labelFormulaire">'. __d('pannel','pannel.textDonnerAvis').'</span><span class="obligatoire">*</span>',
                                     'required' => true,
                                     'class' => 'form-control',
                                     'type' => 'textarea'
@@ -388,7 +388,7 @@ unset($_SESSION['idFicheNotification']);
                                 ));
                                 echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
                                     'type' => 'submit',
-                                    'class' => 'btn btn-default-success pull-right btnDivSend'
+                                    'class' => 'btn btn-default-success pull-right'
                                 ]);
                                 echo '</div>';
                                 echo $this->Form->end();
@@ -426,11 +426,12 @@ unset($_SESSION['idFicheNotification']);
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12 text-warning">
-                        <div class="col-md-12 text-center"><i class="fa fa-fw fa-exclamation-triangle"></i></div>
-                        <div class="col-md-12">Vous allez insérer une fiche au registre. Merci de préciser le numéro
-                            d'enregistrement CNIL. Laisser vide pour générer un numéro CIL
+                        <div class="col-md-12 text-center">
+                            <i class="fa fa-fw fa-exclamation-triangle"></i>
                         </div>
-
+                        <div class="col-md-12">
+                            <?php echo __d('pannel','pannel.confirmationInsererRegistre');?>
+                        </div>
                     </div>
                 </div>
                 <div class="row top17">

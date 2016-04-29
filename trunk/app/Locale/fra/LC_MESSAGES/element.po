@@ -1,0 +1,62 @@
+# Locale fra
+# element.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+######################### View/Elements/parcours.ctp ##########################
+
+msgid "element.Redaction"
+msgstr "Rédaction"
+
+msgid "element.CreePar"
+msgstr "Créée par"
+
+msgid "element.Le"
+msgstr "le"
+
+msgid "element.Commentaire"
+msgstr "Commentaire"
+
+msgid "element.AttenteValidation"
+msgstr "En attente de validation"
+
+msgid "element.RecuePar"
+msgstr "Reçue par"
+
+msgid "element.Validee"
+msgstr "Validée"
+
+msgid "element.ValideePar"
+msgstr "Validée par"
+
+msgid "element.Refusee"
+msgstr "Refusée"
+
+msgid "element.RefuseePar"
+msgstr "Refusée par"
+
+msgid "element.ValideeInsereeRegistre"
+msgstr "Validée et insérée au registre"
+
+msgid "element.ValideePar"
+msgstr "Validée par"
+
+msgid "element.CommenterPar"
+msgstr "Commenté par"
+
+msgid "element.AttenteConsultation"
+msgstr "En attente de consultation"
+
+msgid "element.ReplacerRedaction"
+msgstr "Replacer en rédaction" 
+
+msgid "element.ReplacerRedactionPar"
+msgstr "Replacer en rédaction par" 
+
+###############################################################################

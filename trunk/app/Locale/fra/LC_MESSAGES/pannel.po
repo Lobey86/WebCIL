@@ -97,6 +97,12 @@ msgstr "Refuser le traitement"
 msgid "pannel.textExpliquezRaisonRefus"
 msgstr "Expliquez les raisons de votre refus"
 
+msgid "pannel.textDonnerAvis"
+msgstr "Donnez votre avis"
+
+msgid "pannel.confirmationInsererRegistre"
+msgstr "Vous allez insérer le traitement au registre. Merci de préciser le numéro d'enregistrement CNIL. Laisser vide pour générer un numéro CIL"
+
 ###############################################################################
 
 
