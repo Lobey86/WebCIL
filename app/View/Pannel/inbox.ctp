@@ -501,20 +501,20 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
         }
 
         switch ($value['Notification']['content']) {
-            case 1:
-                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/inbox/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+             case 1:
+                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/inbox/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-info">'.__d('default','default.notificationAvisDemandeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
                 break;
             case 2:
-                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/inbox/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/inbox/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-info">'.__d('default','default.notificationValidationDemandeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
                 break;
             case 3:
-                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/registres/index/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</a>';
+                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/registres/index/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-success">'.__d('default','default.notificationLeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>'.__d('default','default.notificationTraitementValidee').'</a>';
                 break;
             case 4:
-                echo '<a id="refus" href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/index/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</a>';
+                echo '<a id="refus" href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/index/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-danger">'.__d('default','default.notificationLeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>'.__d('default','default.notificationTraitementRefusee').'</a>';
                 break;
             case 5:
-                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/index/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
+                echo '<a href="/organisations/changenotification/' . $value['Fiche']['organisation_id'] . '/pannel/index/' . $value['Fiche']['id'] . '" class="list-group-item list-group-item-info">'.__d('default','default.notificationCommentaireAjouterTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></a>';
                 break;
         }
 
