@@ -161,4 +161,7 @@ msgstr "Envoyer pour validation"
 msgid "pannel.textSelectUser"
 msgstr "Selectionnez un utilisateur"
 
+msgid "pannel.btnVoirHistoriqueComplet"
+msgstr "Voir l'historique complet"
+
 ###############################################################################
