@@ -10,7 +10,7 @@
 #
 
 ##########################: View/Layouts/default.ctp ##########################
-#: Bare du menu
+#: Barre du menu
 
 msgid "default.titreTraitement"
 msgstr "Traitements"
@@ -81,6 +81,9 @@ msgstr "Action"
 msgid "default.popupBtnChoisir"
 msgstr "Choisir"
 
+msgid "default.btnEffacerNotifications"
+msgstr "Effacer les notifications"
+
 ###############################################################################
 
 
@@ -112,6 +115,28 @@ msgstr "Remplissage automatique"
 
 msgid "default.btnParcourir"
 msgstr " Parcourir"
+
+###################### View/Pannel/index.ctp + indox.ctp ######################
+
+msgid "default.notificationAvisDemandeTraitement"
+msgstr "Votre avis est demandé sur le traitement : "
+
+msgid "default.notificationValidationDemandeTraitement"
+msgstr "Votre validation est demandée sur le traitement : "
+
+msgid "default.notificationLeTraitement"
+msgstr "Le traitement "
+
+msgid "default.notificationTraitementValidee"
+msgstr " a été validée"
+
+msgid "default.notificationTraitementRefusee"
+msgstr " a été refusée"
+
+msgid "default.notificationCommentaireAjouterTraitement"
+msgstr "Un commentaire a été ajouté au traitement"
+
+###############################################################################
 
 
 ###############################################################################

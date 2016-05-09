@@ -334,7 +334,7 @@ $cakeDescription = 'Web-CIL';
                                                         if ($this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']) {
                                                             switch ($value['Notification']['content']) {
                                                                 case 1:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">Votre avis est demandé sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">'.__d('default','default.notificationAvisDemandeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -346,7 +346,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 2:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">Votre validation est demandée sur la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">'.__d('default','default.notificationValidationDemandeTraitement').'<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -358,7 +358,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 3:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-success">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été validée</i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-success">'.__d('default','default.notificationLeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>'.__d('default','default.notificationTraitementValidee').'</i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -370,7 +370,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 4:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-danger">La fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong> a été refusée</i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-danger">'.__d('default','default.notificationLeTraitement').'<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>'.__d('default','default.notificationTraitementRefusee').'</i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -382,7 +382,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 5:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">Un commentaire a été ajouté à la fiche du traitement <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">'.__d('default','default.notificationCommentaireAjouterTraitement').'<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -398,7 +398,7 @@ $cakeDescription = 'Web-CIL';
                                                     }
 
                                                     if (!empty($notificationsStayed) && $this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']) {
-                                                        echo '<li>' . $this->Html->link('<i class="fa fa-fw fa-trash"></i> Effacer les notifications', [
+                                                        echo '<li>' . $this->Html->link('<i class="fa fa-fw fa-trash"></i>'.__d('default','default.btnEffacerNotifications'), [
                                                             'controller' => 'pannel',
                                                             'action' => 'dropNotif'
                                                                 ], [
