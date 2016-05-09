@@ -36,8 +36,12 @@ class PannelController extends AppController {
         'Historique',
         'Organisation'
     ];
-    public $components = ['FormGenerator.FormGen', 'Droits'];
-
+    
+    public $components = [
+        'FormGenerator.FormGen',
+        'Droits',
+    ];
+    
     /**
      * Accueil de la page, listing des fiches et de leurs catégories
      * 
@@ -48,13 +52,13 @@ class PannelController extends AppController {
     public function index() {
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "index");
-        
+
         if (!$this->Droits->authorized(1)) {
             $this->redirect(['controller' => 'pannel', 'action' => 'inbox']);
         }
         $this->set('title', __d('pannel', 'pannel.titreTraitement'));
-        
-        // Requète récupérant les fiches en cours de rédaction
+
+        // Requète récupérant les traitements en cours de rédaction
         $db = $this->EtatFiche->getDataSource();
         $subQuery = $db->buildStatement([
             'fields' => ['"EtatFiche2"."fiche_id"'],
@@ -108,12 +112,10 @@ class PannelController extends AppController {
                 ]
             ]
         ]);
-        
-//        debug($encours);die;
-        
+
         $this->set('encours', $encours);
 
-        // Requète récupérant les fiches en cours de validation
+        // Requète récupérant les traitements en cours de validation
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
                 'EtatFiche.etat_id' => 2,
@@ -158,8 +160,8 @@ class PannelController extends AppController {
 
         $conditions = null;
         $conditions[] = 'EtatFiche.etat_id = 4 AND EtatFiche.actif = true';
-        
-        // Requète récupérant les fiches refusées par un validateur
+
+        // Requète récupérant les traitements refusées par un validateur
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
                 $conditions,
@@ -205,7 +207,6 @@ class PannelController extends AppController {
                 'Notification.user_id' => $this->Auth->user('id'),
                 'Notification.vu' => false,
                 'Notification.afficher' => false
-                
             ),
             'contain' => array(
                 'Fiche' => array(
@@ -247,7 +248,7 @@ class PannelController extends AppController {
     public function inbox() {
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "inbox");
-        
+
         if (!$this->Droits->authorized([2, 3, 5])) {
             $this->redirect($this->referer());
         }
@@ -307,7 +308,6 @@ class PannelController extends AppController {
                 'Notification.user_id' => $this->Auth->user('id'),
                 'Notification.vu' => false,
                 'Notification.afficher' => false
-                
             ),
             'contain' => array(
                 'Fiche' => array(
@@ -324,7 +324,7 @@ class PannelController extends AppController {
             )
         ));
         $this->set('notifications', $notifications);
-        
+
         $nameOrganisation = [];
 
         foreach ($notifications as $key => $value) {
@@ -334,7 +334,7 @@ class PannelController extends AppController {
             ]);
         }
         $this->set('nameOrganisation', $nameOrganisation);
-        
+
         // Requète récupérant les fiches qui demande un avis
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
@@ -397,7 +397,7 @@ class PannelController extends AppController {
     public function archives() {
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "archives");
-        
+
         $this->set('title', __d('pannel', 'pannel.titreTraitementValidee'));
         // Requète récupérant les fiches validées par le CIL
 
@@ -527,7 +527,7 @@ class PannelController extends AppController {
         ]);
         $this->redirect($this->referer());
     }
-    
+
     /**
      * Fonction de suppression d'une notification d'un utilisateur
      * 
@@ -537,7 +537,7 @@ class PannelController extends AppController {
      */
     public function supprimerLaNotif($idFiche) {
         $this->Notification->deleteAll([
-            'Notification.fiche_id' => $idFiche ,
+            'Notification.fiche_id' => $idFiche,
             'Notification.user_id' => $this->Auth->user('id')
         ]);
     }
@@ -558,7 +558,7 @@ class PannelController extends AppController {
         ]);
         $this->redirect($this->referer());
     }
-    
+
     /**
      * Permet de mettre en base les notifs deja afficher
      * 
@@ -573,7 +573,7 @@ class PannelController extends AppController {
             'Notification.afficher' => true
                 ], [
             'Notification.user_id' => $this->Auth->user('id'),
-            'Notification.fiche_id' => $idFicheEnCourAffigage  
+            'Notification.fiche_id' => $idFicheEnCourAffigage
         ]);
     }
 

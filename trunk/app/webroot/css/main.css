@@ -603,6 +603,13 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
 
 .list-historique {
     display: none;
+    max-height: 600px;
+    overflow: scroll;
+}
+
+.list-parcours {
+    max-height: 635px;
+    overflow: scroll;
 }
 
 #filtrageUsers {
