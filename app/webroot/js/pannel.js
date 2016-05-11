@@ -4,6 +4,7 @@ $(document).ready(function () {
         $("#historique-fiche" + id).toggle();
     });
 
+
     $(".boutonList").click(function () {
         $("tr[class^='selectDestTrans']").hide();
         $("tr[class^='selectValidDest']").hide();
@@ -20,6 +21,8 @@ $(document).ready(function () {
             $('#listeValidation' + variable).show();
         }
     });
+    
+    
     $(".boutonListValidee").click(function () {
         var variable = $(this).attr('value');
         if ($('#listeValidee' + variable).is(':visible')) {
@@ -30,6 +33,8 @@ $(document).ready(function () {
             $('#listeValidee' + variable).show();
         }
     });
+    
+    
     $(".boutonListRefusee").click(function () {
         var variable = $(this).attr('value');
         if ($('#listeRefusee' + variable).is(':visible')) {
@@ -60,35 +65,49 @@ $(document).ready(function () {
         $("tr[class^='selectValidDest']").hide();
     });
 
+
     $('.sendCancel').click(function () {
         $("tr[class^='selectConsultDest']").hide();
         $("tr[class^='selectValidDest']").hide();
         $("tr[class^='selectDest']").hide();
     });
+    
+    
     $('.selectDestValidCancel').click(function () {
         $("tr[class^='selectDestValidValider']").hide();
     });
+    
+    
     $('.selectDestConsultCancel').click(function () {
         $("tr[class^='selectDestConsultValider']").hide();
     });
+    
+    
     $('.repondreCancel').click(function () {
         $("tr[class^='commentaireRepondre']").hide();
     });
+    
+    
     $('.refusCancel').click(function () {
         $("tr[class^='commentaireRefus']").hide();
     });
+    
+    
     $(".envoiConsult").click(function () {
         $('.listeValidation').hide();
         var variable = $(this).attr('value');
         $('.selectConsultDest' + variable).show();
         $('.selectValidDest' + variable).hide();
     });
+    
+    
     $(".envoiValid").click(function () {
         $('.listeValidation').hide();
         var variable = $(this).attr('value');
         $('.selectValidDest' + variable).show();
         $('.selectConsultDest' + variable).hide();
     });
+
 
     $(".envoiConsultValider").click(function () {
         var variable = $(this).attr('value');
@@ -120,6 +139,7 @@ $(document).ready(function () {
         }
     });
 
+
     $(".boutonRefuser").click(function () {
         var variable = $(this).attr('value');
         if ($('.commentaireRefus' + variable).is(':visible')) {
@@ -134,6 +154,7 @@ $(document).ready(function () {
         }
     });
 
+
     $(".boutonRepondre").click(function () {
         var variable = $(this).attr('value');
         if ($('.commentaireRepondre' + variable).is(':visible')) {
@@ -145,20 +166,45 @@ $(document).ready(function () {
             $('.commentaireRepondre' + variable).show();
         }
     });
+    
     $("#listEnCoursControle").hide();
+    
+    
     $("#liEnCoursControle").removeClass();
+    
+    
     $("#listEnCoursValidation").hide();
+    
+    
     $("#liEnCoursValidation").removeClass();
+    
+    
     $("#listEnCoursSignature").hide();
+    
+    
     $("#liEnCoursSignature").removeClass();
+    
+    
     $("#listSignees").hide();
+    
+    
     $("#liSignees").removeClass();
+    
+    
     $("#listARevoir").hide();
+    
+    
     $("#liARevoir").removeClass();
+    
+    
     $("#listEnCoursRedaction").show();
+    
+    
     $("#liEnCoursRedaction").addClass("active");
+    
+    
     $("#listDemandeAvis").hide();
-
+    
 
     $('#aEnCoursRedaction').click(function () {
         $("#listEnCoursControle").hide();
@@ -176,6 +222,7 @@ $(document).ready(function () {
         $("#sousTitre").html("en cours de rédaction")
     });
 
+
     $('#aEnCoursValidation').click(function () {
         $("#listEnCoursRedaction").hide();
         $("#liEnCoursRedaction").removeClass();
@@ -191,6 +238,7 @@ $(document).ready(function () {
         $("#liEnCoursValidation").addClass("active");
         $("#sousTitre").html("en cours de validation")
     });
+
 
     $('#aSignees').click(function () {
         $("#listEnCoursRedaction").hide();
@@ -208,6 +256,7 @@ $(document).ready(function () {
         $("#sousTitre").html("validées")
     });
 
+
     $('#aARevoir').click(function () {
         $("#listEnCoursRedaction").hide();
         $("#liEnCoursRedaction").removeClass();
@@ -224,18 +273,22 @@ $(document).ready(function () {
         $("#sousTitre").html("refusées")
     });
 
+
     $('#aDemandeValidation').click(function () {
         $("#listDemandeAvis").hide();
         $('#listDemandeValidation').show();
         $("#liDemandeAvis").removeClass();
         $("#liDemandeValidation").addClass("active");
     });
+    
+    
     $('#aDemandeAvis').click(function () {
         $("#listDemandeValidation").hide();
         $('#listDemandeAvis').show();
         $("#liDemandeValidation").removeClass();
         $("#liDemandeAvis").addClass("active");
     });
+
 
     $('#headerVosFiches').click(function () {
 
@@ -250,6 +303,7 @@ $(document).ready(function () {
             $('#caretVosFiches').addClass("glyphicon-chevron-up");
         }
     });
+    
 
     $('#headerFichesAControler').click(function () {
         if ($('#fichesAControler').is(":visible")) {

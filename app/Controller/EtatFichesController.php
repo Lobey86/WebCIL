@@ -154,10 +154,10 @@ class EtatFichesController extends AppController {
             'action' => 'supprimerLaNotif',
             $this->request->data['EtatFiche']['ficheNum']
         ));
-
+        
         $this->redirect(array(
-            'controller' => 'pannel',
-            'action' => 'index'
+            'controller' => $this->Session->read('nameController'),
+            'action' => $this->Session->read('nameView')
         ));
     }
 

@@ -36,12 +36,11 @@ class PannelController extends AppController {
         'Historique',
         'Organisation'
     ];
-    
     public $components = [
         'FormGenerator.FormGen',
         'Droits',
     ];
-    
+
     /**
      * Accueil de la page, listing des fiches et de leurs catégories
      * 
@@ -76,7 +75,7 @@ class PannelController extends AppController {
         $subQueryExpression = $db->expression($subQuery);
 
         $conditions[] = $subQueryExpression;
-        $conditions[] = 'EtatFiche.etat_id = 1 OR EtatFiche.etat_id = 8 AND EtatFiche.actif = true';
+        $conditions[] = 'EtatFiche.etat_id = 1 OR EtatFiche.etat_id = 8 AND EtatFiche.actif = true AND EtatFiche.user_id ='.$this->Auth->user('id');
         $encours = $this->EtatFiche->find('all', [
             'conditions' => $conditions,
             'contain' => [
@@ -491,6 +490,111 @@ class PannelController extends AppController {
         ]);
 
         return $parcours;
+    }
+
+    /**
+     * Fonction permettant d'afficher tout les traitements passer par le CIL ou le valideur ou l'administrateur
+     * 
+     * @access public
+     * @created 10/05/2016
+     * @version V1.0.2
+     */
+    public function consulte() {
+        $this->Session->write('nameController', "pannel");
+        $this->Session->write('nameView', "consulte");
+
+        if (!$this->Droits->authorized([2, 5])) {
+            $this->redirect($this->referer());
+        }
+
+        $this->set('title', __d('pannel', 'pannel.titreTraitementVu'));
+
+        $sq = array(
+            'alias' => 'etat_fiches',
+            'fields' => array('"etat_fiches"."fiche_id"'),
+            'contain' => false,
+            'conditions' => array(
+                '"etat_fiches"."actif"' => true,
+                '"etat_fiches"."etat_id"' => 5,
+                '"etat_fiches"."fiche_id" = "EtatFiche"."fiche_id"'
+            ),
+            'limit' => 1
+        );
+
+        $requete = $this->EtatFiche->find('all', [
+            'conditions' => [
+                'AND' => [
+                    'EtatFiche.etat_id IN' => [2, 3, 4, 6, 8],
+                    'EtatFiche.user_id' => $this->Auth->user('id'),
+                    'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sq($sq) . ')',
+                ]],
+            'contain' => [
+                'Fiche' => [
+                    'fields' => [
+                        'id',
+                        'created',
+                        'modified'
+                    ],
+                    'User' => [
+                        'fields' => [
+                            'id',
+                            'nom',
+                            'prenom'
+                        ]
+                    ],
+                    'Valeur' => [
+                        'conditions' => [
+                            'champ_name' => 'outilnom'
+                        ],
+                        'fields' => [
+                            'champ_name',
+                            'valeur'
+                        ]
+                    ],
+                ],
+                'User' => [
+                    'fields' => [
+                        'id',
+                        'nom',
+                        'prenom'
+                    ]
+                ]
+            ]
+        ]);
+
+        $return = [];
+        $inArray = [];
+        $validees = [];
+        foreach ($requete as $res) {
+            if (!in_array($res['EtatFiche']['fiche_id'], $inArray)) {
+                array_push($inArray, $res['EtatFiche']['fiche_id']);
+                array_push($return, $res);
+            }
+        }
+
+        $etatFicheActuels = [];
+        foreach ($return as $key => $ret) {
+            //On récupére l'état actuel de la fiche
+            $etatFicheActuels[] = current($this->EtatFiche->find('all', [
+                'conditions' => [
+                    'fiche_id' => $ret['EtatFiche']['fiche_id'],
+                    'actif' => true
+                ]
+            ]));
+            
+            //On met a jour l'état
+            if($ret['EtatFiche']['fiche_id'] == $etatFicheActuels[$key]['EtatFiche']['fiche_id']){
+                $ret['EtatFiche']['etat_id'] = $etatFicheActuels[$key]['EtatFiche']['etat_id'];
+                $ret['EtatFiche']['user_id_actuel'] = $etatFicheActuels[$key]['EtatFiche']['user_id'];
+                $ret['EtatFiche']['id'] = $etatFicheActuels[$key]['EtatFiche']['id'];
+            }
+            
+            $validees[] = $ret;
+        }
+        
+        $this->set('validees', $validees);
+        $listValidante = $this->_listValidants();
+        $this->set('validants', $listValidante['validants']);
     }
 
     /**
