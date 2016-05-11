@@ -119,6 +119,16 @@ $cakeDescription = 'Web-CIL';
                                                                     ], ['escape' => false]) . '</li>';
                                                         }
                                                         if ($this->Autorisation->authorized([
+                                                                    '2',
+                                                                    '5',
+                                                                        ], $this->Session->read('Droit.liste'))
+                                                        ) {
+                                                            echo '<li>' . $this->Html->link('<i class="fa fa-eye fa-fw"></i>'.__d('default','default.sousTitreTraitementVu'), [
+                                                                'controller' => 'pannel',
+                                                                'action' => 'consulte'
+                                                                    ], ['escape' => false]) . '</li>';
+                                                        }
+                                                        if ($this->Autorisation->authorized([
                                                                     '1'
                                                                         ], $this->Session->read('Droit.liste'))
                                                         ) {

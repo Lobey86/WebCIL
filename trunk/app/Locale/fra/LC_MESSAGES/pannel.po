@@ -65,6 +65,9 @@ msgstr "Mes traitements reçues"
 msgid "pannel.titreTraitementValidee"
 msgstr "Mes traitements validées"
 
+msgid "pannel.titreTraitementVu"
+msgstr "Tout les traitments en ma connaissance"
+
 ###############################################################################
 
 
@@ -86,7 +89,7 @@ msgid "pannel.commentaireValiderTraitement"
 msgstr "Valider le traitement"
 
 msgid "pannel.textValiderInsererRegistre"
-msgstr "Valider la fiche et l'insérer dans le registre"
+msgstr "Valider le traitement et l'insérer dans le registre"
 
 msgid "pannel.commentaireRepondre"
 msgstr "Répondre"
@@ -112,7 +115,7 @@ msgid "pannel.traitementValidationInsereeRegistre"
 msgstr "Mes traitement validées et insérées au registre ("
 
 msgid "pannel.aucunTraitementValidationInsereeRegistre"
-msgstr "Vous n'avez aucune fiche validées et insérées au registre"
+msgstr "Vous n'avez aucune traitement validés et insérés au registre"
 
 msgid "pannel.commentaireTelechargeRegistre"
 msgstr "Télécharger l'extrait de registre"
@@ -163,5 +166,25 @@ msgstr "Selectionnez un utilisateur"
 
 msgid "pannel.btnVoirHistoriqueComplet"
 msgstr "Voir l'historique complet"
+
+###############################################################################
+
+
+########################## View/Pannel/consulte.ctp ###########################
+
+msgid "pannel.titreTableauEtatTraitementPasserPossession"
+msgstr "Etat des traitements passer en ma possession"
+
+msgid "pannel.aucunTraitementPasserPossession"
+msgstr "Vous n'avez aucune traitement qui sont passer en votre possession et toujours dans un circuit"
+
+msgid "pannel.commentaireReapproprierTraitement"
+msgstr "Réapproprier le traitement"
+
+msgid "pannel.confirmationReapproprierTraitement"
+msgstr "Voulez vous vous réapproprier ce traitement : ""
+
+msgid "pannel.commentaireReplacerTraitementRedactionDansEspace"
+msgstr "Replacer le traitement en rédaction dans mon espace de travail"
 
 ###############################################################################

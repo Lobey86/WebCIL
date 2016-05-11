@@ -24,6 +24,9 @@ msgstr "Mes traitements reçues"
 msgid "default.sousTitreTraitementValidees"
 msgstr "Mes traitements validées"
 
+msgid "default.sousTitreTraitementVu"
+msgstr "Mes traitements vu"
+
 msgid "default.titreRegistre"
 msgstr "Registre"
 
@@ -116,7 +119,7 @@ msgstr "Remplissage automatique"
 msgid "default.btnParcourir"
 msgstr " Parcourir"
 
-###################### View/Pannel/index.ctp + indox.ctp ######################
+############## View/Pannel/index.ctp + indox.ctp ##############
 
 msgid "default.notificationAvisDemandeTraitement"
 msgstr "Votre avis est demandé sur le traitement : "
@@ -136,7 +139,7 @@ msgstr " a été refusée"
 msgid "default.notificationCommentaireAjouterTraitement"
 msgstr "Un commentaire a été ajouté au traitement"
 
-###############################################################################
+###############################################################
 
 
 ###############################################################################
