@@ -53,13 +53,13 @@ class ServicesController extends AppController {
         if ($this->request->is('post')) {
             $this->Service->create($this->request->data);
             if ($this->Service->save()) {
-                $this->Session->setFlash('Le service a bien été enregistré', 'flashsuccess');
+                $this->Session->setFlash(__d('service','service.flashsuccessServiceEnregistrer'), 'flashsuccess');
                 $this->redirect(array(
                     'controller' => 'services',
                     'action' => 'index'
                 ));
             } else {
-                $this->Session->setFlash('Une erreur s\'est produite durant l\'enregistrement', 'flasherror');
+                $this->Session->setFlash(__d('service','service.flasherrorErreurEnregistrementService'), 'flasherror');
                 $this->redirect(array(
                     'controller' => 'services',
                     'action' => 'index'
@@ -82,20 +82,20 @@ class ServicesController extends AppController {
         if ($this->Service->exists()) {
             if ($this->request->is('post') || $this->request->is('put')) {
                 if ($this->Service->save($this->request->data)) {
-                    $this->Session->setFlash('Le service a été sauvegardé', "flashsuccess");
+                    $this->Session->setFlash(__d('service','service.flashsuccessServiceEnregistrer'), "flashsuccess");
                     $this->redirect(array(
                         'controller' => 'services',
                         'action' => 'index'
                     ));
                 } else {
-                    $this->Session->setFlash('Une erreur s\'est produite durant l\'enregistrement', 'flasherror');
+                    $this->Session->setFlash(__d('service','service.flasherrorErreurEnregistrementService'), 'flasherror');
                 }
             }
             if (!$this->request->data) {
                 $this->request->data = $servi;
             }
         } else {
-            $this->Session->setFlash('Ce service n\'existe pas', "flasherror");
+            $this->Session->setFlash(__d('service','service.flasherrorServiceInexistant'), "flasherror");
             $this->redirect(array(
                 'controller' => 'services',
                 'action' => 'index'
@@ -115,13 +115,13 @@ class ServicesController extends AppController {
         $this->Service->id = $id;
         if ($this->Service->exists()) {
             $this->Service->delete($id, false);
-            $this->Session->setFlash('Le service a bien été supprimé', 'flashsuccess');
+            $this->Session->setFlash(__d('service','service.flashsuccessServiceSupprimer'), 'flashsuccess');
             $this->redirect(array(
                 'controller' => 'services',
                 'action' => 'index'
             ));
         } else {
-            $this->Session->setFlash('Une erreur s\'est produite lors de la suppression', 'flasherror');
+            $this->Session->setFlash(__d('service','service.flasherrorErreurSupprimerService'), 'flasherror');
             $this->redirect(array(
                 'controller' => 'services',
                 'action' => 'index'

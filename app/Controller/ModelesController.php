@@ -56,7 +56,7 @@ class ModelesController extends AppController {
      */
     public function add() {
         if ($this->Modele->saveFile($this->request->data, $this->request->data['Modele']['idUploadModele'])) {
-            $this->Session->setFlash('Modele enregistré', 'flashsuccess');
+            $this->Session->setFlash(__d('modele','modele.flashsuccessModeleEnregistrer'), 'flashsuccess');
             $this->redirect(array(
                 'controller' => 'modeles',
                 'action' => 'index'
@@ -97,12 +97,12 @@ class ModelesController extends AppController {
             ));
 
             if ($isDeleted) {
-                $this->Session->setFlash('Le model a été supprimé', 'flashsuccess');
+                $this->Session->setFlash(__d('modele','modele.flashsuccessModeleSupprimer'), 'flashsuccess');
             } else {
-                $this->Session->setFlash('Impossible de supprimer le model', 'flasherror');
+                $this->Session->setFlash(__d('modele','modele.flasherrorErreurSupprimerModele'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash('Ce model n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('modele','modele.flasherrorModeleInexistant'), 'flasherror');
         }
 
         $this->redirect($this->referer());

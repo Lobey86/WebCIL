@@ -62,7 +62,7 @@ class OrganisationsController extends AppController {
                         ]
             ]));
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -84,7 +84,7 @@ class OrganisationsController extends AppController {
                 $recup = $this->Organisation->saveAddEditForm($this->request->data);
                 if (!is_array($recup)) {
                     $this->_insertRoles($this->Organisation->getInsertID());
-                    $this->Session->setFlash('L\'entité a été enregistrée', 'flashsuccess');
+                    $this->Session->setFlash(__d('organisation','organisation.flashsuccessEntiteEnregistrer'), 'flashsuccess');
                     $compte = $this->Organisation->find('count');
                     if ($compte > 1) {
                         $this->redirect([
@@ -98,12 +98,12 @@ class OrganisationsController extends AppController {
                         ]);
                     }
                 } else {
-                    $this->Session->setFlash('Une erreur s\'est produite lors de l\'enregistrement SEF', 'flasherror');
+                    $this->Session->setFlash(__d('organisation','organisation.flasherrorErreurEnregistrementSEF'), 'flasherror');
                     $this->set('error', $recup);
                 }
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect(['controller' => 'pannel',
                 'action' => 'index']);
         }
@@ -120,13 +120,13 @@ class OrganisationsController extends AppController {
     public function delete($id = null) {
         if ($this->Droits->isSu()) {
             $this->Organisation->delete($id);
-            $this->Session->setFlash('L\'entité a été supprimée', 'flashsuccess');
+            $this->Session->setFlash(__d('organisation','organisation.flashsuccessEntiteSupprimer'), 'flashsuccess');
             $this->redirect([
                 'controller' => 'organisations',
                 'action' => 'index'
             ]);
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -146,7 +146,7 @@ class OrganisationsController extends AppController {
     public function show($id = null) {
         $this->set('title', 'Informations générales - ' . $this->Session->read('Organisation.raisonsociale'));
         if (!$id) {
-            $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
                 'controller' => 'organisations',
                 'action' => 'index'
@@ -182,7 +182,7 @@ class OrganisationsController extends AppController {
                 ]
             ]);
             if (!$organisation) {
-                $this->Session->setFlash('Cette organisation n\'existe pas', 'flasherror');
+                $this->Session->setFlash(__d('organisation','organisation.flasherrorEntiteInexistant'), 'flasherror');
                 $this->redirect([
                     'controller' => 'organisations',
                     'action' => 'index'
@@ -205,14 +205,14 @@ class OrganisationsController extends AppController {
      */
     public function edit($id = null) {
         if ($id == $this->Session->read('Organisation.id')) {
-            $this->set('title', __d('organisation', 'organisation.titreInfoGenerales') . $this->Session->read('Organisation.raisonsociale'));
+            $this->set('title', __d('organisation', 'organisation.²') . $this->Session->read('Organisation.raisonsociale'));
         } else {
             $this->set('title', 'Editer une entité');
         }
 
         if (($this->Droits->authorized(12) && $this->Session->read('Organisation.id') == $id) || $this->Droits->isSu()) {
             if (!$id) {
-                $this->Session->setFlash('Cette entité n\'existe pas', 'flasherror');
+                $this->Session->setFlash(__d('organisation','organisation.flasherrorEntiteInexistant'), 'flasherror');
                 $this->redirect([
                     'controller' => 'organisations',
                     'action' => 'index'
@@ -237,7 +237,7 @@ class OrganisationsController extends AppController {
                 }
                 $this->set('users', $array_users);
                 if (!$organisation) {
-                    $this->Session->setFlash('Cette entité n\'existe pas', 'flasherror');
+                    $this->Session->setFlash(__d('organisation','organisation.flasherrorEntiteInexistant'), 'flasherror');
                     $this->redirect([
                         'controller' => 'organisations',
                         'action' => 'index'
@@ -250,13 +250,13 @@ class OrganisationsController extends AppController {
                     ) {
                         $this->Organisation->id = $id;
                         if ($this->Organisation->saveAddEditForm($this->request->data, $id)) {
-                            $this->Session->setFlash('L\'entité a été modifiée', 'flashsuccess');
+                            $this->Session->setFlash(__d('organisation','organisation.flashsuccessEntiteModifier'), 'flashsuccess');
                             $this->redirect([
                                 'controller' => 'pannel',
                                 'action' => 'index'
                             ]);
                         } else {
-                            $this->Session->setFlash('La modification a échoué.', 'flasherror');
+                            $this->Session->setFlash(__d('organisation','organisation.flasherrorErreurMoficationEntite'), 'flasherror');
                         }
                     }
                 }
@@ -265,7 +265,7 @@ class OrganisationsController extends AppController {
                 $this->request->data = $organisation;
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -336,7 +336,7 @@ class OrganisationsController extends AppController {
                 if ($this->Droits->isSu()) {
                     $compte = $this->Organisation->find('count');
                     if ($compte == 0) {
-                        $this->Session->setFlash('Il n\'existe aucune entité. Vous devez en créer une pour utiliser l\'application', 'flashwarning');
+                        $this->Session->setFlash(__d('organisation','organisation.flashwarningAucuneEntite'), 'flashwarning');
                         $this->redirect([
                             'controller' => 'organisations',
                             'action' => 'add'
@@ -346,7 +346,7 @@ class OrganisationsController extends AppController {
                         $id = $idOrga['Organisation']['id'];
                     }
                 } else {
-                    $this->Session->setFlash('Vous n\'appartenez à aucune entité', 'flasherror');
+                    $this->Session->setFlash(__d('organisation','organisation.flasherrorUserAucuneEntite'), 'flasherror');
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'logout'
@@ -376,7 +376,7 @@ class OrganisationsController extends AppController {
             array_push($result, $value['ListeDroit']['value']);
         }
         if (empty($result) && !$this->Droits->isSu()) {
-            $this->Session->setFlash('Vous n\'avez pas de droit sur cette entité', 'flasherror');
+            $this->Session->setFlash(__d('organisation','organisation.flasherrorAucunDroitEntite'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'

@@ -9,7 +9,7 @@
 # @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
 #
 
-#######################: Controller/UsersController.php #######################
+####################### Controller/UsersController.php ########################
 
 msgid "user.titreListeUser"
 msgstr "Liste des utilisateurs"
@@ -22,6 +22,37 @@ msgstr "Editer un utilisateur"
 
 msgid "user.titreModificationInfoUser"
 msgstr "Modification de mes informations personnelles"
+
+###################### Session->setFlash ######################
+
+msgid "user.flashsuccessUserEnregistrer"
+msgstr "L'utilisateur a été enregistré"
+
+msgid "user.flasherrorErreurEnregistrementUser"
+msgstr "Une erreur s'est produite lors de l'enregistrement de l'utilisateur"
+
+msgid "user.flasherrorErreurNewPassword"
+msgstr "Le nouveau mot de passe ne correspond pas a la vérification du mot de passe. Merci de réessayer."
+
+msgid "user.flasherrorNewPasswordVide"
+msgstr "Le nouveau mot de passe ne peut pas être vide"
+
+msgid "user.flasherrorPasswordInvalide"
+msgstr "Le mot de passe actuelle est invalide. Merci de ressayer"
+
+msgid "user.flashsuccessUserEnregistrerReconnecter"
+msgstr "L'utilisateur a été enregistré. Reconnectez-vous avec vos nouvelles informations"
+
+msgid "user.flashsuccessUserSupprimer"
+msgstr "L'utilisateur a bien été supprimé"
+
+msgid "service.flasherrorErreurSupprimerUser"
+msgstr "Une erreur s'est produite lors de la suppression de l'utilisateur"
+
+msgid "service.flasherrorNameUserPasswordInvalide"
+msgstr "Le nom d'utilisateur ou mot de passe est invalide, réessayer"
+
+###############################################################
 
 ###############################################################################
 

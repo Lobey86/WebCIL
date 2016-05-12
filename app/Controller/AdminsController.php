@@ -34,7 +34,7 @@ class AdminsController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', 'Super administrateurs');
+        $this->set('title', __d('admin','admin.titreSuperAdministrateur'));
         $admins = $this->Admin->find('all', [
             'contain' => [
                 'User'
@@ -66,15 +66,15 @@ class AdminsController extends AppController {
             $count = $this->Admin->find('count', ['conditions' => ['user_id' => $this->request->data['Admin']['user']]]);
             if (!$count) {
                 if ($this->Admin->save()) {
-                    $this->Session->setFlash('L\'utilisateur a reçu les privilèges', 'flashsuccess');
+                    $this->Session->setFlash(__d('admin','admin.flashsuccessUserRecuPrivilege'), 'flashsuccess');
                 } else {
-                    $this->Session->setFlash('Une erreur s\'est produite lors de l\'enregistrement', 'flasherror');
+                    $this->Session->setFlash(__d('admin','admin.flasherrorErreurEnregistrement'), 'flasherror');
                 }
             } else {
-                $this->Session->setFlash('Cet utilisateur possède déjà les privilèges administrateur', 'flasherror');
+                $this->Session->setFlash(__d('amin','admin.flasherrorUserDejaAdmin'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash('Aucun utilisateur n\'a été séléctionné', 'flasherror');
+            $this->Session->setFlash(__d('admin','admin.flasherrorUserNonSelectionne'), 'flasherror');
         }
         $this->redirect([
             'controller' => 'admins',
@@ -90,12 +90,12 @@ class AdminsController extends AppController {
     public function delete($id) {
         if ($this->Admin->exists($id)) {
             if ($this->Admin->delete($id)) {
-                $this->Session->setFlash('Les privilèges ont été retirés', 'flashsuccess');
+                $this->Session->setFlash(__d('admin','admin.flashsuccessPrivilegeRetire'), 'flashsuccess');
             } else {
-                $this->Session->setFlash('Une erreur s\'est produite durant l\'enregistrement', 'flasherror');
+                $this->Session->setFlash(__d('admin','admin.flasherrorErreurEnregistrement'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash('Cet utilisateur n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('admin','admin.flasherrorUserInexistant'), 'flasherror');
         }
         $this->redirect([
             'controller' => 'admins',

@@ -9,6 +9,45 @@
 # @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
 #
 
+################### Controller/OrganisationsController.php ####################
+
+msgid "organisation.titreInfoGenerales"
+msgstr "Informations générales - "
+
+###################### Session->setFlash ######################
+
+msgid "organisation.flashsuccessEntiteEnregistrer"
+msgstr "L'entité a été enregistrée"
+
+msgid "organisation.flasherrorErreurEnregistrementSEF"
+msgstr "Une erreur s'est produite lors de l'enregistrement SEF"
+
+msgid "organisation.flashsuccessEntiteSupprimer"
+msgstr "L'entité a été supprimée"
+
+msgid "organisation.flasherrorEntiteInexistant"
+msgstr "L'entité n'existe pas"
+
+msgid "organisation.flashsuccessEntiteModifier"
+msgstr "L'entité a été modifiée"
+
+msgid "organisation.flasherrorErreurMoficationEntite"
+msgstr "Une erreur s'est produite lors de la modification de l'entité"
+
+msgid "organisation.flashwarningAucuneEntite"
+msgstr "Il n'existe aucune entité. Vous devez en créer une pour utiliser l'application"
+
+msgid "organisation.flasherrorUserAucuneEntite"
+msgstr "Vous n'appartenez à aucune entité"
+
+msgid "organisation.flasherrorAucunDroitEntite"
+msgstr "Vous n'avez pas de droit sur cette entité"
+
+###############################################################
+
+###############################################################################
+
+
 #########################: View/Organisations/edit.ctp#########################
 
 msgid "organisation.textRaisonSociale"
@@ -67,13 +106,5 @@ msgstr "Selectionnez un nouveau CIL"
 
 msgid "organisation.btnLogo"
 msgstr "Changer le logo"
-
-###############################################################################
-
-
-#########################: View/Organisations/Controller.php#########################
-
-msgid "organisation.titreInfoGenerales"
-msgstr "Informations générales - "
 
 ###############################################################################

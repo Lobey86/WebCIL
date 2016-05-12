@@ -9,7 +9,7 @@
 # @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
 #
 
-#####################: Controller/RegistresController.php #####################
+##################### Controller/RegistresController.php ######################
 
 msgid "registre.titreRegistre"
 msgstr "Registre : "

@@ -1,0 +1,51 @@
+# Locale fra
+# etat_fiche.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#####################: Controller/EtatFichesController.php ####################
+
+###################### Session->setFlash ######################
+
+msgid "etat_fiche.flashsuccessTraitementRedirige"
+msgstr "Le traitement a été redirigé"
+
+msgid "etat_fiche.flashsuccessTraitementRefuse"
+msgstr "Le traitement a été refusé"
+
+msgid "etat_fiche.flashwarningTraitementDejaAttenteUser"
+msgstr "Le traitement est déjà en attente d'avis de la part de cet utilisateur"
+
+msgid "etat_fiche.flashsuccessTraitementEnvoyerAvis"
+msgstr "Le traitement a été envoyée pour avis"
+
+msgid "etat_fiche.flashsuccessCommentaireAjouter"
+msgstr "Le commentaire a été ajouté"
+
+msgid "etat_fiche.flashsuccessTraitementReplacerRedaction"
+msgstr "Le traitement a bien été replacée en rédaction"
+
+msgid "etat_fiche.flashsuccessTraitementEnvoyerCIL"
+msgstr "Le traitement a été envoyée au CIL"
+
+msgid "etat_fiche.flasherrorAucunCIL"
+msgstr "Aucun CIL n'a été défini pour cette entité"
+
+msgid "etat_fiche.flashsuccessTraitementEngregistreRegistre"
+msgstr "Le traitement a été enregistré dans le registre"
+
+msgid "etat_fiche.flasherrorTraitementPasEnCourValidation"
+msgstr "Ce traitement n'est pas en cours de validation"
+
+msgid "etat_fiche.flashsuccessTraitementArchiver"
+msgstr "Le traitement a été archivé"
+
+###############################################################
+
+###############################################################################

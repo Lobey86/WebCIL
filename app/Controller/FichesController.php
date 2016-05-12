@@ -107,7 +107,7 @@ class FichesController extends AppController {
                             ]
                         ]);
                         if ($this->EtatFiche->save()) {
-                            $this->Session->setFlash('La fiche a été enregistrée', 'flashsuccess');
+                            $this->Session->setFlash(__d('fiche','fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
                             $this->redirect([
                                 'action' => 'index'
                             ]);
@@ -126,7 +126,7 @@ class FichesController extends AppController {
                 $this->set('formulaireid', $id);
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -146,20 +146,20 @@ class FichesController extends AppController {
     public function delete($id = null) {
         if ($this->Droits->authorized(1) && $this->Droits->isOwner($id)) {
             if (!$this->Droits->isdeletable($id)) {
-                $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
+                $this->Session->setFlash(__d('fiche','fiche.flasherrorPasAccesTraitement'), 'flasherror');
                 $this->redirect([
                     'controller' => 'pannel',
                     'action' => 'index'
                 ]);
             }
             $this->Fiche->delete($id);
-            $this->Session->setFlash('La fiche a bien été supprimée', 'flashsuccess');
+            $this->Session->setFlash(__d('fiche','fiche.flashsuccessTraitementSupprimer'), 'flashsuccess');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('fiche','fiche.flasherrorSupprimerTraitementImpossible'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -179,7 +179,7 @@ class FichesController extends AppController {
     public function edit($id = null) {
         $this->set('title', __d('fiche','fiche.titreEditionFiche'));
         if (!$id && !$this->request->data['Fiche']['id']) {
-            $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -189,7 +189,7 @@ class FichesController extends AppController {
             $id = $this->request->data['Fiche']['id'];
         }
         if (!$this->Droits->isEditable($id)) {
-            $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
+            $this->Session->setFlash(__d('fiche','fiche.flasherrorPasAccesTraitement'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -234,7 +234,7 @@ class FichesController extends AppController {
                     $this->Fichier->deleteFichier($val);
                 }
             }
-            $this->Session->setFlash('La fiche a été modifiée', 'flashsuccess');
+            $this->Session->setFlash(__d('fiche'.'fiche.flashsuccessTraitementModifier'), 'flashsuccess');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -276,7 +276,7 @@ class FichesController extends AppController {
     public function show($id = null) {
         $this->set('title', __d('fiche','fiche.titreApercuFiche'));
         if (!$id) {
-            $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -284,7 +284,7 @@ class FichesController extends AppController {
         }
         
         if (!$this->Droits->isReadable($id)) {
-            $this->Session->setFlash('Vous n\'avez pas accès à cette fiche', 'flasherror');
+            $this->Session->setFlash(__d('fiche','fiche.flasherrorPasAccesTraitement'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'

@@ -20,6 +20,25 @@ msgstr "Apercu d'un traitement"
 msgid "fiche.titreEditionFiche"
 msgstr "Edition d'un traitement"
 
+###################### Session->setFlash ######################
+
+msgid "fiche.flasherrorPasAccesTraitement"
+msgstr "Vous n'avez pas accès à ce traitement"
+
+msgid "fiche.flashsuccessTraitementSupprimer"
+msgstr "Le traitement a bien été supprimé"
+
+msgid "fiche.flasherrorSupprimerTraitementImpossible"
+msgstr "Vous n'avez pas le droit de supprimer ce traitement. Il faut être le créateur du traitement pour avoir les droits"
+
+msgid "fiche.flashsuccessTraitementModifier"
+msgstr "Le traitement a été modifiée"
+
+msgid "fiche.flashsuccessTraitementEnregistrer"
+msgstr "Le traitement a été enregistrée"
+
+###############################################################
+
 ###############################################################################
 
 

@@ -139,7 +139,7 @@ class RegistresController extends AppController {
             
             $this->set('listeUsers', $listeUsers);
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'

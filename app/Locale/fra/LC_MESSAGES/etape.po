@@ -1,0 +1,37 @@
+# Locale fra
+# etape.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+####################### Controller/UsersController.php ########################
+
+msgid "etape.exceptionErreurModificationCompteur"
+msgstr "Erreur lors de la modification du compteur des étapes suivante."
+
+
+###################### Session->setFlash ######################
+
+msgid "etape.flasherrorCircuitIntrouvable"
+msgstr "Circuit introuvable"
+
+msgid "etape.flasherrorInvalideID"
+msgstr "Invalide id pour l'"
+
+msgid "etape.flasherrorAfficherVueImpossible"
+msgstr "affichage de la vue impossible."
+
+msgid "etape.flasherrorErreurEnregistrementCompteur"
+msgstr "Erreur lors de l'enregistrement : le compteur de retard a une valeur supérieure à celui d'une étape précédente"
+
+msgid "etape.flasherrorImpossibleChangerOrdreEtape"
+msgstr "Impossible de changer l'ordre des étapes"
+
+###############################################################
+
+###############################################################################
