@@ -1,0 +1,47 @@
+# Locale fra
+# composition.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#################### Controller/CompositionsController.php ####################
+
+msgid "composition.readCompositionCircuitTraitement"
+msgstr "Composition des circuits de traitement"
+
+msgid "composition.readVueDetailler"
+msgstr "vue détaillée"
+
+msgid "composition.newVueDetaillerCompositionEtape"
+msgstr "Vue détaillée de la composition de l'étape "
+
+msgid "composition.newDuCircuit"
+msgstr "du circuit. "
+
+msgid "composition.newRetourListeComposition"
+msgstr "Retour à la liste des compositions"
+
+
+
+###################### Session->setFlash ######################
+
+msgid "composition.flasherrorInvalideID"
+msgstr "Invalide id pour la"
+
+msgid "composition.flasherrorComposition"
+msgstr "composition"
+
+msgid "composition.flasherrorAffichageVueImpossible"
+msgstr "affichage de la vue impossible"
+
+msgid "composition.flasherrorAjouterCompositionImpossibleEtape"
+msgstr "Impossible d'ajouter une composition à cette étape"
+
+###############################################################
+
+###############################################################################

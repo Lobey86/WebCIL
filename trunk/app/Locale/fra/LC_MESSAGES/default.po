@@ -141,5 +141,33 @@ msgstr "Un commentaire a été ajouté au traitement"
 
 ###############################################################
 
+######### Session->setFlash plusieurs page ##########
+
+msgid "default.flasherrorTraitementInexistant"
+msgstr "Ce traitement n'existe pas"
+
+msgid "default.flasherrorPasDroitPage"
+msgstr "Vous n'avez pas le droit d'acceder à cette page"
+
+msgid "default.flashsuccessEnregistrementEffectuer"
+msgstr "Enregistrement effectué"
+
+msgid "default.flasherrorErreurEnregistrement"
+msgstr "Erreur lors de l'enregistrement"
+
+msgid "default.flasherrorEtapeIntrouvable"
+msgstr "Etape introuvable"
+
+msgid "default.flashsuccessSuppressionEffectuer"
+msgstr "Suppression effectuée"
+
+msgid "default.flasherrorErreurSuppression"
+msgstr "Erreur lors de la suppression"
+
+msgid "default.flasherrorConnexionImpossibleParapheur"
+msgstr "Problème de connexion au parapheur"
+
+###############################################################
+
 
 ###############################################################################

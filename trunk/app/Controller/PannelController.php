@@ -55,6 +55,7 @@ class PannelController extends AppController {
         if (!$this->Droits->authorized(1)) {
             $this->redirect(['controller' => 'pannel', 'action' => 'inbox']);
         }
+        
         $this->set('title', __d('pannel', 'pannel.titreTraitement'));
 
         // Requète récupérant les traitements en cours de rédaction
@@ -690,7 +691,6 @@ class PannelController extends AppController {
      */
     protected function _listValidants() {
         // Requète récupérant les utilisateurs ayant le droit de consultation
-
         $queryConsultants = [
             'fields' => [
                 'User.id',
@@ -723,7 +723,6 @@ class PannelController extends AppController {
         } else {
             $cil = 0;
         }
-
 
         $queryValidants = [
             'fields' => [

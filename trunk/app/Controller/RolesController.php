@@ -55,7 +55,7 @@ class RolesController extends AppController {
             }
             $this->set('roles', $roles);
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -83,13 +83,13 @@ class RolesController extends AppController {
                             $this->RoleDroit->save();
                         }
                     }
-                    $this->Session->setFlash("Le profil a bien été enregistré", 'flashsuccess');
+                    $this->Session->setFlash(__d('profil','profil.flashsuccessProfilEnregistrer'), 'flashsuccess');
                     $this->redirect([
                         'controller' => 'roles',
                         'action' => 'index'
                     ]);
                 } else {
-                    $this->Session->setFlash("Une erreur s'est produite lors de l'enregistrement", 'flasherror');
+                    $this->Session->setFlash(__d('profil','profil.flasherrorErreurEnregistrementProfil'), 'flasherror');
                     $this->redirect([
                         'controller' => 'roles',
                         'action' => 'index'
@@ -99,7 +99,7 @@ class RolesController extends AppController {
                 $this->set('listedroit', $this->ListeDroit->find('all', ['conditions' => ['NOT' => ['ListeDroit.id' => ['11']]], 'order' => 'id']));
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -140,7 +140,7 @@ class RolesController extends AppController {
         if (!$this->request->data) {
             $this->request->data = $role;
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -183,13 +183,13 @@ class RolesController extends AppController {
                             $this->RoleDroit->save();
                         }
                     }
-                    $this->Session->setFlash('Le profil a bien été mis à jour', 'flashsuccess');
+                    $this->Session->setFlash(__d('role','role.flashsuccessProfilModifier'), 'flashsuccess');
                     $this->redirect([
                         'controller' => 'Roles',
                         'action' => 'index'
                     ]);
                 }
-                $this->Session->setFlash("Une erreur s'est produite lors de la mise à jour", 'flasherror');
+                $this->Session->setFlash(__d('role','role.flasherrorErreurModificationProfil'), 'flasherror');
                 $this->redirect([
                     'controller' => 'Roles',
                     'action' => 'index'
@@ -210,7 +210,7 @@ class RolesController extends AppController {
                 $this->request->data = $role;
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -233,18 +233,18 @@ class RolesController extends AppController {
         if (($this->Droits->authorized(15) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
             $this->Role->id = $id;
             if (!$this->Role->exists()) {
-                throw new NotFoundException('Ce profil n\'existe pas');
+                throw new NotFoundException(__d('profil','profil.exceptionProfilInexistant'));
             }
             if ($this->Role->delete()) {
-                $this->Session->setFlash('Le profil a bien été supprimé', 'flashsuccess');
+                $this->Session->setFlash(__d('profil','profil.flashsuccessProfilSupprimer'), 'flashsuccess');
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Session->setFlash('Le profil n\'a pas été supprimé', 'flasherror');
+            $this->Session->setFlash(__d('profil','profil.flasherrorErreurSupprimerProfil'), 'flasherror');
 
             return $this->redirect(['action' => 'index']);
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'

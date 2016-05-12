@@ -110,7 +110,7 @@ class FormulairesController extends AppController {
             $this->Champ->save();
         }
 
-        $this->Session->setFlash('Le formulaire dupliqué a été enregistré', 'flashsuccess');
+        $this->Session->setFlash(__d('formulaire','formulaire.flashsuccessFormulaireDupliquer'), 'flashsuccess');
         $this->redirect(array(
             'controller' => 'Formulaires',
             'action' => 'index'
@@ -127,12 +127,12 @@ class FormulairesController extends AppController {
     public function delete($id) {
         if ($id != null) {
             if ($this->FormGen->del($id)) {
-                $this->Session->setFlash('Le formulaire a été supprimé', 'flashsuccess');
+                $this->Session->setFlash(__d('formulaire','formulaire.flashsuccessFormulaireSupprimer'), 'flashsuccess');
             } else {
-                $this->Session->setFlash('Une erreur s\'est produite lors de la suppression du formulaire', 'flasherror');
+                $this->Session->setFlash(__d('formulaire','formulaire.flasherrorErreurSupprimerFormulaire'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash('Ce formulaire n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('formulaire','formulaire.flasherrorFormulaireInexistant'), 'flasherror');
         }
         $this->redirect($this->referer());
     }
@@ -208,7 +208,7 @@ class FormulairesController extends AppController {
                 ));
                 $this->Champ->save();
             }
-            $this->Session->setFlash('Le formulaire a été enregistré', 'flashsuccess');
+            $this->Session->setFlash(__d('formulaire','formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
             $this->redirect(array(
                 'controller' => 'formulaires',
                 'action' => 'index'
@@ -297,7 +297,7 @@ class FormulairesController extends AppController {
                     $this->Champ->save();
                 }
 
-                $this->Session->setFlash('Le formulaire a été enregistré', 'flashsuccess');
+                $this->Session->setFlash(__d('formulaire','formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
                 $this->redirect(array(
                     'controller' => 'formulaires',
                     'action' => 'index'

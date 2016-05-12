@@ -1,0 +1,59 @@
+# Locale fra
+# circuit.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+##################### Controller/CircuitsController.php #######################
+
+###################### Session->setFlash ######################
+
+msgid "circuit.flashsuccessLeCircuit"
+msgstr "Le circuit"
+
+msgid "circuit.flashsuccessAjouter"
+msgstr "a été ajouté"
+
+msgid "circuit.flashsuccessModifier"
+msgstr "a été modifié"
+
+msgid "circuit.flasherrorErreurEnregistrementCircuit"
+msgstr "Une erreur s'est produite lors de l'enregistrement du circuit"
+
+msgid "circuit.flasherrorErreurFormulaireCircuit"
+msgstr "Veuillez corriger les erreurs du formulaire"
+
+msgid "circuit.flasherrorInvalideID"
+msgstr "Invalide id pour le "
+
+msgid "circuit.flasherrorCircuitTraitement"
+msgstr "circuit de traitement"
+
+msgid "circuit.flasherrorAffichageVueImpossible"
+msgstr "affichage de la vue impossible."
+
+msgid "circuit.flasherrorSupprimerImpossible"
+msgstr "suppression impossible."
+
+msgid "circuit.flasherrorLeCircuitTraitement"
+msgstr "Le circuit de traitement"
+
+msgid "circuit.flasherrorNePeutPasSupprimer"
+msgstr "ne peut pas être supprimé."
+
+msgid "circuit.flasherrorAEteSupprimer"
+msgstr "a été supprimé."
+
+msgid "circuit.flasherrorErreurPendantSuppression"
+msgstr "Une erreur est survenue pendant la suppression"
+
+__d('circuit','circuit.flasherrorErreurPendantSuppression')
+
+###############################################################
+
+###############################################################################

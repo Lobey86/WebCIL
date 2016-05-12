@@ -168,7 +168,7 @@ class UsersController extends AppController {
             }
             $this->set('utilisateurs', $utilisateurs);
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -200,7 +200,7 @@ class UsersController extends AppController {
             }
             $this->set('user', $this->User->read(null, $id));
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -265,7 +265,7 @@ class UsersController extends AppController {
                             }
                         }
                     }
-                    $this->Session->setFlash('L\'utilisateur a été sauvegardé', 'flashsuccess');
+                    $this->Session->setFlash(__d('user','user.flashsuccessUserEnregistrer'), 'flashsuccess');
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'index'
@@ -294,7 +294,7 @@ class UsersController extends AppController {
                 $this->set('listeservices', $listserv);
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -410,20 +410,20 @@ class UsersController extends AppController {
                                 }
                             }
                         }
-                        $this->Session->setFlash('L\'utilisateur a été sauvegardé', "flashsuccess");
+                        $this->Session->setFlash(__d('user','user.flashsuccessUserEnregistrer'), "flashsuccess");
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'index'
                         ]);
                     } else {
-                        $this->Session->setFlash('L\'utilisateur n\'a pas été sauvegardé. Merci de réessayer.', "flasherror");
+                        $this->Session->setFlash(__d('user','user.flasherrorErreurEnregistrementUser'), "flasherror");
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'index'
                         ]);
                     }
                 } else {
-                    $this->Session->setFlash('L\'utilisateur n\'a pas été sauvegardé. Merci de réessayer.', "flasherror");
+                    $this->Session->setFlash(__d('user','user.flasherrorErreurEnregistrementUser'), "flasherror");
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'index'
@@ -435,7 +435,7 @@ class UsersController extends AppController {
                 $this->set('listedroits', $table['listedroits']);
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -476,7 +476,7 @@ class UsersController extends AppController {
                                     $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                                 }
                             } else {
-                                $this->Session->setFlash('Le nouveau mot de passe ne correspond pas a la vérification du mot de passe. Merci de réessayer.', "flasherror");
+                                $this->Session->setFlash(__d('user','user.flasherrorErreurNewPassword'), "flasherror");
                                 $this->redirect([
                                     'controller' => 'users',
                                     'action' => 'changepassword',
@@ -484,7 +484,7 @@ class UsersController extends AppController {
                                 ]);
                             }
                         } else {
-                            $this->Session->setFlash('Le nouveau mot de passe ne peut pas être vide.', "flasherror");
+                            $this->Session->setFlash(__d('user','user.flasherrorNewPasswordVide'), "flasherror");
                             $this->redirect([
                             'controller' => 'users',
                             'action' => 'changepassword',
@@ -492,7 +492,7 @@ class UsersController extends AppController {
                         ]);
                         }
                     } else {
-                        $this->Session->setFlash('Le mot de passe actuelle est invalide. Merci de ressayer', "flasherror");
+                        $this->Session->setFlash(__d('user','user.flasherrorPasswordInvalide'), "flasherror");
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'changepassword',
@@ -502,13 +502,13 @@ class UsersController extends AppController {
                 }
                 
                 if ($this->User->save($this->request->data)) {
-                    $this->Session->setFlash('L\'utilisateur a été sauvegardé. Reconnectez-vous avec vos nouvelles informations.', "flashsuccess");
+                    $this->Session->setFlash(__d('user','user.flashsuccessUserEnregistrerReconnecter'), "flashsuccess");
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'logout'
                     ]);
                 } else {
-                    $this->Session->setFlash('L\'utilisateur n\'a pas été sauvegardé. Merci de réessayer.', "flasherror");
+                    $this->Session->setFlash(__d('user','user.flasherrorErreurEnregistrementUser'), "flasherror");
                     $this->redirect([
                         'controller' => 'pannel',
                         'action' => 'index'
@@ -519,7 +519,7 @@ class UsersController extends AppController {
                 $this->set('tableau', $table['tableau']);
             }
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -552,15 +552,15 @@ class UsersController extends AppController {
                         $this->Organisation->updateAll(['Organisation.cil' => null], ['Organisation.cil' => $id]);
                     }
                     if ($this->User->delete()) {
-                        $this->Session->setFlash('Utilisateur supprimé', 'flashsuccess');
+                        $this->Session->setFlash(__d('user','user.flashsuccessUserSupprimer'), 'flashsuccess');
                         $this->redirect(['action' => 'index']);
                     }
                 }
             }
-            $this->Session->setFlash('L\'utilisateur n\'a pas été supprimé', 'flasherror');
+            $this->Session->setFlash(__d('user','user.flasherrorErreurSupprimerUser'), 'flasherror');
             $this->redirect(['action' => 'index']);
         } else {
-            $this->Session->setFlash('Vous n\'avez pas le droit d\'acceder à cette page', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -597,7 +597,7 @@ class UsersController extends AppController {
                     'action' => 'change'
                 ]);
             } else {
-                $this->Session->setFlash('Nom d\'utilisateur ou mot de passe invalide, réessayer', 'flasherror');
+                $this->Session->setFlash(__d('user','user.flasherrorNameUserPasswordInvalide'), 'flasherror');
             }
         } else {
             if ($this->Session->check('Auth.User.id')) {

@@ -20,6 +20,25 @@ msgstr "Création d'un formulaire"c
 msgid "formulaire.titreEditerFormulaire"
 msgstr "Editer un formulaire"
 
+###################### Session->setFlash ######################
+
+msgid "formulaire.flashsuccessFormulaireDupliquer"
+msgstr "Le formulaire dupliqué a été enregistré"
+
+msgid "formulaire.flashsuccessFormulaireSupprimer"
+msgstr "Le formulaire a été supprimé"
+
+msgid "formulaire.flasherrorErreurSupprimerFormulaire"
+msgstr "Une erreur s'est produite lors de la suppression du formulaire"
+
+msgid "formulaire.flasherrorFormulaireInexistant"
+msgstr "Ce formulaire n'existe pas"
+
+msgid "formulaire.flashsuccessFormulaireEnregistrer"
+msgstr "Le formulaire a été enregistré"
+
+###############################################################
+
 ###############################################################################
 
 

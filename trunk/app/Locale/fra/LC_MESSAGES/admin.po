@@ -1,0 +1,39 @@
+# Locale fra
+# admin.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+#######################: Controller/AdminsController.php ######################
+
+msgid "admin.titreSuperAdministrateur"
+msgstr "Super administrateurs"
+
+###################### Session->setFlash ######################
+
+msgid "admin.flashsuccessUserRecuPrivilege"
+msgstr "L'utilisateur a reçu les privilèges"
+
+msgid "admin.flasherrorErreurEnregistrement"
+msgstr "Une erreur s'est produite lors de l'enregistrement"
+
+msgid "admin.flasherrorUserDejaAdmin"
+msgstr "Cet utilisateur possède déjà les privilèges administrateur"
+
+msgid "admin.flasherrorUserNonSelectionne"
+msgstr "Aucun utilisateur n'a été séléctionné"
+
+msgid "admin.flashsuccessPrivilegeRetire"
+msgstr "Les privilèges ont été retirés"
+
+msgid "admin.flasherrorUserInexistant"
+msgstr "Cet utilisateur n'existe pas"
+
+###############################################################
+
+###############################################################################

@@ -147,7 +147,7 @@ class EtatFichesController extends AppController {
             'Notification.user_id' => $this->request->data['EtatFiche']['destinataire']
         ]);
 
-        $this->Session->setFlash('La fiche a été redirigée', 'flashsuccess');
+        $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementRedirige'), 'flashsuccess');
 
         $this->requestAction(array(
             'controller' => 'pannel',
@@ -212,7 +212,7 @@ class EtatFichesController extends AppController {
             'Notification.user_id' => $idDestinataire,
         ]);
 
-        $this->Session->setFlash('La fiche a été refusée', 'flashsuccess');
+        $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementRefuse'), 'flashsuccess');
 
         $this->requestAction(array(
             'controller' => 'pannel',
@@ -243,7 +243,7 @@ class EtatFichesController extends AppController {
             )
         ));
         if ($count > 0) {
-            $this->Session->setFlash('La fiche est déjà en attente d\'avis de la part de cet utilisateur', 'flashwarning');
+            $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashwarningTraitementDejaAttenteUser'), 'flashwarning');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -280,7 +280,7 @@ class EtatFichesController extends AppController {
                 'Notification.user_id' => $this->request->data['EtatFiche']['destinataire'],
             ]);
 
-            $this->Session->setFlash('La fiche a été envoyée pour avis', 'flashsuccess');
+            $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementEnvoyerAvis'), 'flashsuccess');
 
             $this->requestAction(array(
                 'controller' => 'pannel',
@@ -341,7 +341,7 @@ class EtatFichesController extends AppController {
             'Notification.user_id' => $this->request->data['EtatFiche']['previousUserId'],
         ]);
 
-        $this->Session->setFlash('Le commentaire a été ajouté', 'flashsuccess');
+        $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessCommentaireAjouter'), 'flashsuccess');
 
         $this->requestAction(array(
             'controller' => 'pannel',
@@ -366,7 +366,7 @@ class EtatFichesController extends AppController {
      */
     public function relaunch($id) {
         if (!$id) {
-            $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -402,13 +402,12 @@ class EtatFichesController extends AppController {
                     )
                 ));
                 $this->Historique->save();
-                $this->Session->setFlash('La fiche a bien été replacée en rédaction', 'flashsuccess');
+                $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementReplacerRedaction'), 'flashsuccess');
                 $this->redirect(array(
                     'controller' => 'pannel',
                     'action' => 'index'
                 ));
             }
-            //}
         }
     }
 
@@ -477,7 +476,7 @@ class EtatFichesController extends AppController {
                 'Notification.user_id' => $cil['Organisation']['cil']
             ]);
 
-            $this->Session->setFlash('La fiche a été envoyée au CIL', 'flashsuccess');
+            $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementEnvoyerCIL'), 'flashsuccess');
 
             $this->requestAction(array(
                 'controller' => 'pannel',
@@ -490,7 +489,7 @@ class EtatFichesController extends AppController {
                 'action' => 'index'
             ));
         } else {
-            $this->Session->setFlash('Aucun CIL n\'a été défini pour cette entité', 'flasherror');
+            $this->Session->setFlash(__d('etat_fiche','etat_fiche.flasherrorAucunCIL'), 'flasherror');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -529,7 +528,7 @@ class EtatFichesController extends AppController {
                 'Notification.user_id' => $idEncoursValid['Fiche']['user_id'],
             ]);
 
-            $this->Session->setFlash('La fiche a été enregistrée dans le registre', 'flashsuccess');
+            $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementEngregistreRegistre'), 'flashsuccess');
 
             $this->requestAction(array(
                 'controller' => 'pannel',
@@ -548,7 +547,7 @@ class EtatFichesController extends AppController {
                 )
             ));
         } else {
-            $this->Session->setFlash('Cette fiche n\'est pas en cours de validation', 'flasherror');
+            $this->Session->setFlash(__d('etat_fiche','etat_fiche.flasherrorTraitementPasEnCourValidation'), 'flasherror');
             $this->redirect(array(
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -567,7 +566,7 @@ class EtatFichesController extends AppController {
      */
     public function archive($id) {
         if (!$id) {
-            $this->Session->setFlash('Cette fiche n\'existe pas', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect(array(
                 'controller' => 'registres',
                 'action' => 'index'
@@ -590,7 +589,7 @@ class EtatFichesController extends AppController {
                 )
             ));
 
-            $this->Session->setFlash('La fiche a été archivée', 'flashsuccess');
+            $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementArchiver'), 'flashsuccess');
             $this->redirect(array(
                 'controller' => 'Fiches',
                 'action' => 'genereFusion',

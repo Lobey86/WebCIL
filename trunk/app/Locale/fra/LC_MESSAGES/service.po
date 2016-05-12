@@ -17,6 +17,25 @@ msgstr "Les services de : "
 msgid "service.titreAjouterService"
 msgstr "Ajouter un service"
 
+###################### Session->setFlash ######################
+
+msgid "service.flashsuccessServiceEnregistrer"
+msgstr "Le service a bien été enregistré"
+
+msgid "service.flasherrorErreurEnregistrementService"
+msgstr "Une erreur s'est produite lors de l'enregistrement du service"
+
+msgid "service.flasherrorServiceInexistant"
+msgstr "Ce service n'existe pas"
+
+msgid "service.flashsuccessServiceSupprimer"
+msgstr "Le service a bien été supprimé"
+
+msgid "service.flasherrorErreurSupprimerService"
+msgstr "Une erreur s'est produite lors de la suppression du service"
+
+###############################################################
+
 ###############################################################################
 
 

@@ -1,0 +1,24 @@
+# Locale fra
+# traitement.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Adullact Projet
+# @link http://adullact.org/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+####################### Controller/UsersController.php ########################
+
+###################### Session->setFlash ######################
+
+msgid "traitement.flashsuccessEtatVisaEnregistrer"
+msgstr "L'état du visa a été mis à jour"
+
+msgid "traitement.flasherrorErreurEnregistrementEtatVisa"
+msgstr "L'état du visa n'a pas été mis à jour"
+
+###############################################################
+
+###############################################################################

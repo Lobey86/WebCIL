@@ -9,7 +9,7 @@
 # @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
 #
 
-#######################: Controller/ModelesController.php######################
+####################### Controller/ModelesController.php ######################
 
 msgid "modele.titreListeModele"
 msgstr "Liste des modèles"
@@ -17,10 +17,26 @@ msgstr "Liste des modèles"
 msgid "modele.titreInfoVariableModele"
 msgstr "Information sur les variables utilisable dans le modèle"
 
+###################### Session->setFlash ######################
+
+msgid "modele.flashsuccessModeleEnregistrer"
+msgstr "Le modèle a été enregistré"
+
+msgid "modele.flashsuccessModeleSupprimer"
+msgstr "Le modèle a été supprimé"
+
+msgid "modele.flasherrorErreurSupprimerModele"
+msgstr "Impossible de supprimer le modèle"
+
+msgid "modele.flasherrorModeleInexistant"
+msgstr "Ce modèle n'existe pas"
+
+###############################################################
+
 ###############################################################################
 
 
-#########################: View/Modeles/index.ctp#########################
+########################### View/Modeles/index.ctp ############################
 
 msgid "modele.titreTableauFormulaire"
 msgstr "Formulaire"
@@ -122,6 +138,5 @@ msgstr "Nom du traitement"
 
 msgid "modele.textTableauFinaliteTraitement"
 msgstr "Finalité principale du traitement "
-
 
 ###############################################################################
