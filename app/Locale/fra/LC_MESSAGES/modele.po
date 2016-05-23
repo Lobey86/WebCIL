@@ -139,4 +139,7 @@ msgstr "Nom du traitement"
 msgid "modele.textTableauFinaliteTraitement"
 msgstr "Finalité principale du traitement "
 
+msgid "modele.textNumeroEnregistrementRegistre"
+msgstr "Numéro d'enregistrement du traitement dans le registre"
+
 ###############################################################################
