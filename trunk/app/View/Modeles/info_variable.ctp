@@ -119,6 +119,16 @@ if (!empty($organisations)) {
                     valeur_finaliteprincipale
                 </td>
             </tr>
+            
+            <tr>
+                <td class="tdleft">
+                    <?php echo __d('modele','modele.textNumeroEnregistrementRegistre');?>
+                </td>
+                
+                <td class="tdleft">
+                    valeur_numenregistrement
+                </td>
+            </tr>
         </tbody>
     </table>
 
