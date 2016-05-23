@@ -366,13 +366,14 @@ class FichesController extends AppController {
      * 
      * @param int $id
      * @param type|false $save
+     * @param type $numero
      * @return type
      * 
      * @access public
      * @created 04/01/2016
      * @version V0.9.0
      */
-    public function genereFusion($id, $save = false) {
+    public function genereFusion($id, $numero, $save = false) {
         App::uses('FusionConvBuilder', 'FusionConv.Utility');
 
         $data = $this->Valeur->find('all', [
@@ -462,6 +463,8 @@ class FichesController extends AppController {
         foreach ($donnees['Valeur'] as $key => $value) {
             $correspondances['valeur_' . $key] = 'Valeur.' . $key;
         }
+        
+        $donnees['Valeur']['numenregistrement'] = $numero;
         
         $MainPart = new GDO_PartType();
         
