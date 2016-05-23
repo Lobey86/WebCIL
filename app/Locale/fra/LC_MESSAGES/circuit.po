@@ -52,8 +52,6 @@ msgstr "a été supprimé."
 msgid "circuit.flasherrorErreurPendantSuppression"
 msgstr "Une erreur est survenue pendant la suppression"
 
-__d('circuit','circuit.flasherrorErreurPendantSuppression')
-
 ###############################################################
 
 ###############################################################################
