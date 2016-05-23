@@ -14,6 +14,13 @@
 msgid "registre.titreRegistre"
 msgstr "Registre : "
 
+###################### Session->setFlash ######################
+
+msgid "registre.flasherrorAucunTraitementSelectionner"
+msgstr "Vous avez selectionnez aucun traitement a imprimer"
+
+###############################################################
+
 ###############################################################################
 
 
@@ -53,7 +60,7 @@ msgid "registre.confirmationVerouillerTraitement"
 msgstr "Voulez-vous vérouiller ce traitement? Une fois vérouillée, toute modification est impossible."
 
 msgid "registre.btnFiltrerListe"
-msgstr "Filtrer la liste"
+msgstr " Filtrer la liste"
 
 msgid "registre.radioFicheVerouillee"
 msgstr "Uniquement les fiches verouillées"
@@ -72,5 +79,27 @@ msgstr "Nom du traitement"
 
 msgid "registre.placeholderSelectionnerUser"
 msgstr "Selectionnez un utilisateur"
+
+msgid "registre.popupTitreEditionTraitementRegistre"
+msgstr "Edition d'un traitement du registre"
+
+msgid "registre.popupText"
+msgstr "Vous allez modifier un traitement insérée au registre. Merci de préciser le motif de cette modification"
+
+msgid "registre.popupChampMotif"
+msgstr "Motif"
+
+msgid "registre.popupBtnMofifierTraitement"
+msgstr "Modifier le traitement"
+
+msgid "registre.textAucunTraitementFiltre"
+msgstr "Il n'y a aucune traitement pour ces filtres"
+
+msgid "registre.lienAnnulerFiltres"
+msgstr "Cliquez ici pour annuler les filtres"
+
+msgid "registre.textAnnulerTraitementAfficher"
+msgstr "Il n'y a aucune traitement à afficher"
+
 
 ###############################################################################
