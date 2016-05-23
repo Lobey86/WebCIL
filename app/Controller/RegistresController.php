@@ -28,7 +28,8 @@ class RegistresController extends AppController {
         'Fiche',
         'Valeur',
         'OrganisationUser',
-        'Modification'
+        'Modification',
+        'Extrait'
     ];
 
     /**
@@ -39,9 +40,9 @@ class RegistresController extends AppController {
     public function index() {
         $this->Session->write('nameController', "registres");
         $this->Session->write('nameView', "index");
-        
-        $this->set('title', __d('registre','registre.titreRegistre') . $this->Session->read('Organisation.raisonsociale'));
-        
+
+        $this->set('title', __d('registre', 'registre.titreRegistre') . $this->Session->read('Organisation.raisonsociale'));
+
         $condition = [
             'EtatFiche.etat_id' => [
                 5,
@@ -49,7 +50,7 @@ class RegistresController extends AppController {
             ],
             'Fiche.organisation_id' => $this->Session->read('Organisation.id')
         ];
-        
+
         $search = false;
         if (!empty($this->request->data['Registre']['user'])) {
             $condition['Fiche.user_id'] = $this->request->data['Registre']['user'];
@@ -61,12 +62,12 @@ class RegistresController extends AppController {
             //$condition['Fiche.outilnom'] = $this->request->data['Registre']['outil'];
             $search = true;
         }
-        
+
         if (isset($this->request->data['Registre']['archive']) && $this->request->data['Registre']['archive'] == 1) {
             $condition['EtatFiche.etat_id'] = 7;
             $search = true;
         }
-        
+
         if (isset($this->request->data['Registre']['nonArchive']) && $this->request->data['Registre']['nonArchive'] == 1) {
             $condition['EtatFiche.etat_id'] = 5;
             $search = true;
@@ -89,7 +90,7 @@ class RegistresController extends AppController {
                             'nom',
                             'prenom'
                         ],
-                        'Valeur'  => [
+                        'Valeur' => [
                             'conditions' => [
                                 'champ_name' => [
                                     'outilnom',
@@ -113,7 +114,7 @@ class RegistresController extends AppController {
                     $fichesValid[$key]['Readable'] = false;
                 }
             }
-            
+
             $this->set('search', $search);
             $this->set('fichesValid', $fichesValid);
 
@@ -131,15 +132,15 @@ class RegistresController extends AppController {
                     ]
                 ]
             ]);
-            
+
             $listeUsers = [];
             foreach ($liste as $key => $value) {
                 $listeUsers[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
             }
-            
+
             $this->set('listeUsers', $listeUsers);
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -179,6 +180,75 @@ class RegistresController extends AppController {
             'action' => 'insertRegistre',
             $this->request->data['Registre']['idfiche']
         ]);
+    }
+
+    /**
+     * Permet d'imprimer tout les traitements selectionné et vérouillé au 
+     * registrer en mes mettent l'un a la suite 
+     * 
+     * @param int|null $tabId
+     * 
+     * @access public
+     * @created 13/05/2016
+     * @version V1.0.2
+     */
+    public function imprimer($tabId = null) {
+        $tabId = json_decode($tabId);
+        
+        if($tabId != null){
+            $folder = TMP . "imprimerRegistre";
+            $registre = APP . WEBROOT_DIR . DS . FILES . DS . 'registre';
+            $date = date('d-m-Y_H:i');
+
+            //on verifie si le dossier existe. Si c'est pas le cas on le cree
+            if (!file_exists($folder)) {
+                mkdir($folder, 0777, true);
+            }
+
+            //on verifie si le dossier existe. Si c'est pas le cas on le cree
+            if (!file_exists($registre)) {
+                mkdir($registre, 0777, true);
+            }
+
+            foreach ($tabId as $ficheID) {
+                //On recupere en BDD le flux de donnee qui a ete enregistre 
+                //au verrouillage du traitement en fonction de ID
+                $pdf = $this->Extrait->find('first', [
+                    'conditions' => ['id_fiche' => $ficheID],
+                    'fields' => ['data']
+                ]);
+
+                //On cree un fichier .pdf avec le flux de donnee de la BDD 
+                //qu'on enregistre dans /var/www/webcil/app/tmp/imprimerRegistre
+                $monPDF = fopen($folder . DS . $ficheID . '.pdf', 'a');
+                fputs($monPDF, $pdf['Extrait']['data']);
+                fclose($monPDF);
+
+                //On concatene le chemin du fichier .pdf
+                $files_concat .= $folder . DS . $ficheID . '.pdf ';
+            }
+
+            //On concatene tout les PDFs qu'on a cree et on enregistre 
+            //la concatenation dans /var/www/webcil/app/webroot/files/ragistre
+            shell_exec('pdftk' . ' ' . $files_concat . 'cat output ' . $registre . DS . 'Registre_' . $date . '.pdf');
+
+            //On supprime de dossier imprimerRegistre dans /tmp
+            shell_exec('rm -rf ' . realpath($folder));
+
+            //On propose le telechargement
+            $this->response->file($registre . DS . 'Registre_' . $date . '.pdf', array(
+                'download' => true,
+                'name' => 'Registre_' . $date . '.pdf'
+            ));
+            return $this->response;
+        } else {
+            $this->Session->setFlash(__d('registre','registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
+            
+            $this->redirect(array(
+                'controller' => 'registres',
+                'action' => 'index'
+            ));
+        }
     }
 
 }

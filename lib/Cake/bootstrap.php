@@ -41,6 +41,10 @@ if (!defined('WEBROOT_DIR')) {
 	define('WEBROOT_DIR', 'webroot');
 }
 
+if (!defined('FILES')) {
+	define('FILES', 'files');
+}
+
 /**
  * Path to the cake directory.
  */
