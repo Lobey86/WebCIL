@@ -46,10 +46,10 @@ msgstr "L'utilisateur a été enregistré. Reconnectez-vous avec vos nouvelles i
 msgid "user.flashsuccessUserSupprimer"
 msgstr "L'utilisateur a bien été supprimé"
 
-msgid "service.flasherrorErreurSupprimerUser"
+msgid "user.flasherrorErreurSupprimerUser"
 msgstr "Une erreur s'est produite lors de la suppression de l'utilisateur"
 
-msgid "service.flasherrorNameUserPasswordInvalide"
+msgid "user.flasherrorNameUserPasswordInvalide"
 msgstr "Le nom d'utilisateur ou mot de passe est invalide, réessayer"
 
 ###############################################################
