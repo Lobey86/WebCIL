@@ -9,10 +9,10 @@
 # @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
 #
 
-#######################: Controller/AdminsController.php ######################
+####################### Controller/AdminsController.php #######################
 
 msgid "admin.titreSuperAdministrateur"
-msgstr "Super administrateurs"
+msgstr "Super-administrateurs"
 
 ###################### Session->setFlash ######################
 
@@ -35,5 +35,31 @@ msgid "admin.flasherrorUserInexistant"
 msgstr "Cet utilisateur n'existe pas"
 
 ###############################################################
+
+###############################################################################
+
+
+############################ View/Admins/index.ctp ############################
+
+msgid "admin.commentaireRetirerPrivilege"
+msgstr "Retirer les privilèges"
+
+msgid "admin.btnAjouterPrivilege"
+msgstr "Ajouter un privilège"
+
+msgid "admin.popupTitreAjouterPrivilegeSuperAdmin"
+msgstr "Ajouter un privilège super administrateur"
+
+msgid "admin.btnAjouter"
+msgstr "Ajouter"
+
+msgid "admin.textChampChoisirUser"
+msgstr "Choisir un utilisateur"
+
+msgid "admin.textEmptyChampSelectionnerUser"
+msgstr "Selectionner un utilisateur"
+
+msgid "admin.confirmationSupprimerPrivilegeUser"
+msgstr "Voulez vous supprimer les privilèges de l'utilisateur"
 
 ###############################################################################

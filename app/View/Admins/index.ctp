@@ -20,8 +20,9 @@
                 $value['Admin']['id']
             ), array(
                 'class' => 'btn btn-default-danger btn my-tooltip',
-                'title' => 'Retirer les privilèges',
+                'title' => __d('admin','admin.commentaireRetirerPrivilege'),
                 'escape' => false
+                ), array (__d('admin', 'admin.confirmationSupprimerPrivilegeUser') . ' ' . $value['User']['prenom'] . ' ' . $value['User']['nom'] . ' ?'
             )) . '
         </div>
         </td>
@@ -33,7 +34,7 @@
 </table>
 <div class="row bottom10">
     <div class="col-md-12 text-center">
-        <?php echo $this->Form->button('<span class="glyphicon glyphicon-plus"></span> Ajouter un privilège', array(
+        <?php echo $this->Form->button('<span class="glyphicon glyphicon-plus"></span>'.__d('admin','admin.btnAjouterPrivilege'), array(
             'class' => 'btn btn-default-primary',
             'data-toggle' => 'modal',
             'data-target' => '#modalAddPrivilege'
@@ -49,7 +50,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Ajouter un privilège administrateur</h4>
+                <h4 class="modal-title" id="myModalLabel"><?php echo __d('admin','admin.popupTitreAjouterPrivilegeSuperAdmin');?></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -58,9 +59,9 @@
                         <?php echo $this->Form->input('user', array(
                             'options' => $listeusers,
                             'class' => 'usersDeroulant transformSelect form-control',
-                            'empty' => 'Selectionner un utilisateur',
+                            'empty' => __d('admin','admin.textEmptyChampSelectionnerUser'),
                             'label' => array(
-                                'text' => 'Choisir un utilisateur <span class="requis">*</span>',
+                                'text' => __d('admin','admin.textChampChoisirUser').'<span class="requis">*</span>',
                                 'class' => 'col-md-4 control-label'
                             ),
                             'between' => '<div class="col-md-8">',
@@ -72,11 +73,13 @@
             <div class="modal-footer text-center">
                 <div class="row text-center">
                     <div class="btn-group text-center">
-                        <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
-                                class="fa fa-arrow-left"></i>
-                            Annuler
+                        <button type="button" class="btn btn-default-default" data-dismiss="modal">
+                            <i class="fa fa-arrow-left"></i>
+                                <?php echo __d('default','default.btnAnnuler');?>
                         </button>
-                        <button type="submit" class="btn btn-default-success"><i class="fa fa-check"></i> Ajouter
+                        <button type="submit" class="btn btn-default-success">
+                            <i class="fa fa-check"></i> 
+                                <?php echo __d('admin','admin.btnAjouter');?>
                         </button>
                         <?php echo $this->Form->end() ?>
                     </div>
