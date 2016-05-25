@@ -20,6 +20,9 @@ msgstr "Apercu d'un traitement"
 msgid "fiche.titreEditionFiche"
 msgstr "Edition d'un traitement"
 
+msgid "fiche.textModifierTraitement"
+msgstr "modifie le traitement"
+
 ###################### Session->setFlash ######################
 
 msgid "fiche.flasherrorPasAccesTraitement"
@@ -63,6 +66,12 @@ msgstr "Aucune pièce jointe"
 
 msgid "fiche.textInfoPieceJointe"
 msgstr "Pièce jointe :"
+
+msgid "fiche.textAjouterFichier"
+msgstr "Ajouter des fichiers"
+
+msgid "fiche.textPiecesJointe"
+msgstr "Pièces jointes"
 
 ###############################################################################
 

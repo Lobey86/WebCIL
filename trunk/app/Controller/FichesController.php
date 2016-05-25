@@ -66,7 +66,7 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function add($id = null) {
-        $this->set('title', __d('fiche','fiche.titreCrationFiche'));
+        $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
 
         if ($this->Droits->authorized(1)) {
             if ($this->request->is('POST')) {
@@ -107,7 +107,7 @@ class FichesController extends AppController {
                             ]
                         ]);
                         if ($this->EtatFiche->save()) {
-                            $this->Session->setFlash(__d('fiche','fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
+                            $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
                             $this->redirect([
                                 'action' => 'index'
                             ]);
@@ -126,7 +126,7 @@ class FichesController extends AppController {
                 $this->set('formulaireid', $id);
             }
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -135,7 +135,7 @@ class FichesController extends AppController {
     }
 
     /**
-     * Gère la suppression de fiches
+     * Gère la suppression de traitement
      * 
      * @param int|null $id
      * 
@@ -146,27 +146,27 @@ class FichesController extends AppController {
     public function delete($id = null) {
         if ($this->Droits->authorized(1) && $this->Droits->isOwner($id)) {
             if (!$this->Droits->isdeletable($id)) {
-                $this->Session->setFlash(__d('fiche','fiche.flasherrorPasAccesTraitement'), 'flasherror');
+                $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
                 $this->redirect([
                     'controller' => 'pannel',
                     'action' => 'index'
                 ]);
             }
             $this->Fiche->delete($id);
-            $this->Session->setFlash(__d('fiche','fiche.flashsuccessTraitementSupprimer'), 'flashsuccess');
+            $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementSupprimer'), 'flashsuccess');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         } else {
-            $this->Session->setFlash(__d('fiche','fiche.flasherrorSupprimerTraitementImpossible'), 'flasherror');
+            $this->Session->setFlash(__d('fiche', 'fiche.flasherrorSupprimerTraitementImpossible'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         }
     }
-
+    
     /**
      * Gère l'édition de fiches
      * 
@@ -177,9 +177,9 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function edit($id = null) {
-        $this->set('title', __d('fiche','fiche.titreEditionFiche'));
+        $this->set('title', __d('fiche', 'fiche.titreEditionFiche'));
         if (!$id && !$this->request->data['Fiche']['id']) {
-            $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -189,7 +189,7 @@ class FichesController extends AppController {
             $id = $this->request->data['Fiche']['id'];
         }
         if (!$this->Droits->isEditable($id)) {
-            $this->Session->setFlash(__d('fiche','fiche.flasherrorPasAccesTraitement'), 'flasherror');
+            $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -223,7 +223,7 @@ class FichesController extends AppController {
             if ($this->Fichier->saveFichier($this->request->data, $id)) {
                 $this->Historique->create([
                     'Historique' => [
-                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' modifie la fiche',
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche','fiche.textModifierTraitement'),
                         'fiche_id' => $id
                     ]
                 ]);
@@ -234,7 +234,7 @@ class FichesController extends AppController {
                     $this->Fichier->deleteFichier($val);
                 }
             }
-            $this->Session->setFlash(__d('fiche'.'fiche.flashsuccessTraitementModifier'), 'flashsuccess');
+            $this->Session->setFlash(__d('fiche','fiche.flashsuccessTraitementModifier'), 'flashsuccess');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -274,23 +274,23 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function show($id = null) {
-        $this->set('title', __d('fiche','fiche.titreApercuFiche'));
+        $this->set('title', __d('fiche', 'fiche.titreApercuFiche'));
         if (!$id) {
-            $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         }
-        
+
         if (!$this->Droits->isReadable($id)) {
-            $this->Session->setFlash(__d('fiche','fiche.flasherrorPasAccesTraitement'), 'flasherror');
+            $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         }
-        
+
         $idForm = $this->Fiche->find('first', ['conditions' => ['id' => $id]]);
         $champs = $this->Champ->find('all', [
             'conditions' => ['formulaires_id' => $idForm['Fiche']['form_id']],
@@ -299,9 +299,9 @@ class FichesController extends AppController {
                 'ligne ASC'
             ]
         ]);
-        
+
         $valeurs = $this->Valeur->find('all', ['conditions' => ['fiche_id' => $id]]);
-        
+
         foreach ($valeurs as $key => $value) {
             if ($this->Fiche->isJson($value['Valeur']['valeur'])) {
                 $this->request->data['Fiche'][$value['Valeur']['champ_name']] = json_decode($value['Valeur']['valeur']);
@@ -309,13 +309,13 @@ class FichesController extends AppController {
                 $this->request->data['Fiche'][$value['Valeur']['champ_name']] = $value['Valeur']['valeur'];
             }
         }
-        
-        $this->requestAction(array( 
-            'controller' => 'pannel', 
-            'action' => 'supprimerLaNotif', 
+
+        $this->requestAction(array(
+            'controller' => 'pannel',
+            'action' => 'supprimerLaNotif',
             $id
         ));
-        
+
         $this->set(compact('valeurs'));
         $this->set(compact('champs'));
         $this->set('id', $id);
@@ -332,11 +332,13 @@ class FichesController extends AppController {
      * @created 17/06/2015
      * @version V0.9.0
      */
-    public function download($url = null) {
-        $this->response->file(WWW_ROOT . 'files/' . $url, [
-            'download' => TRUE,
-            'name' => 'file'
+    public function download($url = null, $nomFile = 'file.odt') {
+        $this->response->file(WWW_ROOT . 'files/piece_joint_traitement/' . $url, [
+            'download' => true,
+            'name' => $nomFile
         ]);
+
+        return $this->response;
     }
 
     /**
@@ -349,7 +351,10 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function downloadFile($id_fiche) {
-        $data = $this->Valeur->find('all', ['conditions' => ['fiche_id' => $id_fiche]]);
+        $data = $this->Valeur->find('all', [
+            'conditions' => [
+                'fiche_id' => $id_fiche]
+        ]);
 
         $pdf = $this->Extrait->find('first', [
             'conditions' => ['id_fiche' => $id_fiche],
@@ -387,7 +392,7 @@ class FichesController extends AppController {
                 'id' => $id
             ]
         ]);
-        
+
         $modele = $this->Modele->find('first', [
             'conditions' => [
                 'formulaires_id' => $fiche['Fiche']['form_id']
@@ -405,55 +410,54 @@ class FichesController extends AppController {
         $idForm = $this->Fiche->find('first', [
             'conditions' => ['id' => $id]
         ]);
-        
+
         $champs = $this->Champ->find('all', [
             'conditions' => [
                 'formulaires_id' => $idForm['Fiche']['form_id'],
                 'type' => $typeChamps,
             ],
-            
         ]);
-        
+
         //On decode les infos du champ details pour ensuite faire un tableau avec le name du champs et les valeurs
         $choixChampMultiple = [];
         $checkBoxField = [];
-        foreach($champs as $value) {
+        foreach ($champs as $value) {
             $options = json_decode($value['Champ']['details'], true);
-            
-            if($value['Champ']['type'] != 'checkboxes'){
-               $choixChampMultiple[$options['name']] = $options['options'];
-            }else{
+
+            if ($value['Champ']['type'] != 'checkboxes') {
+                $choixChampMultiple[$options['name']] = $options['options'];
+            } else {
                 $checkBoxField[$options['name']] = $options['options'];
             }
         }
 
-        /*On vérifie que le tableau qu'on a créé juste au dessus existe. 
-        Si il exite on on prend la valeur de l'id choisit dans le tableau,
-        sinon on prend directement la valeur enregistré dans la table Valeur
-        */
+        /* On vérifie que le tableau qu'on a créé juste au dessus existe. 
+          Si il exite on on prend la valeur de l'id choisit dans le tableau,
+          sinon on prend directement la valeur enregistré dans la table Valeur
+         */
         $donnees = [];
         foreach ($data as $key => $value) {
-            if(!empty($choixChampMultiple[$value['Valeur']['champ_name']])){
+            if (!empty($choixChampMultiple[$value['Valeur']['champ_name']])) {
                 $donnees['Valeur'][$value['Valeur']['champ_name']] = $choixChampMultiple[$value['Valeur']['champ_name']][intval($value['Valeur']['valeur'])];
-            }elseif(!empty($checkBoxField[$value['Valeur']['champ_name']])){
+            } elseif (!empty($checkBoxField[$value['Valeur']['champ_name']])) {
                 $choixCheckbox = json_decode($value["Valeur"]["valeur"]);
                 $nombreChoixCheckbox = sizeof($choixCheckbox);
-                
+
                 $tampon = null;
-                for($compteur = 0; $compteur < $nombreChoixCheckbox; $compteur++){
-                    if($compteur === 0){
+                for ($compteur = 0; $compteur < $nombreChoixCheckbox; $compteur++) {
+                    if ($compteur === 0) {
                         $tampon = $checkBoxField[$value['Valeur']['champ_name']][$compteur];
-                    } else if($compteur < $nombreChoixCheckbox && $compteur != 0){
+                    } else if ($compteur < $nombreChoixCheckbox && $compteur != 0) {
                         $tampon = $tampon . ' , ' . $checkBoxField[$value['Valeur']['champ_name']][$compteur];
                     }
                 }
                 $donnees['Valeur'][$value['Valeur']['champ_name']] = $tampon;
-            }else {
+            } else {
                 $donnees['Valeur'][$value['Valeur']['champ_name']] = $value['Valeur']['valeur'];
             }
         }
         unset($donnees['Valeur']['fichiers']);
-        
+
         $types = [];
         foreach ($donnees['Valeur'] as $key => $value) {
             $types['Valeur.' . $key] = 'text';
@@ -463,13 +467,13 @@ class FichesController extends AppController {
         foreach ($donnees['Valeur'] as $key => $value) {
             $correspondances['valeur_' . $key] = 'Valeur.' . $key;
         }
-        
+
         $donnees['Valeur']['numenregistrement'] = $numero;
-        
+
         $MainPart = new GDO_PartType();
-        
+
         $Document = FusionConvBuilder::main($MainPart, $donnees, $types, $correspondances);
-        
+
         $sMimeType = 'application/vnd.oasis.opendocument.text';
 
         $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(WWW_ROOT . 'files/modeles/' . $file));
@@ -484,13 +488,13 @@ class FichesController extends AppController {
             $this->response->body($pdf);
             $this->response->type('application/pdf');
             $this->response->download($data[11]['Valeur']['valeur'] . '_' . 'CIL00' . $id . '.pdf');
-            
-            $this->requestAction(array( 
-                'controller' => 'pannel', 
-                'action' => 'supprimerLaNotif', 
+
+            $this->requestAction(array(
+                'controller' => 'pannel',
+                'action' => 'supprimerLaNotif',
                 $id
             ));
-            
+
             return $this->response;
         } else {
             $this->Extrait->save(['id_fiche' => $id, 'data' => $pdf]);
