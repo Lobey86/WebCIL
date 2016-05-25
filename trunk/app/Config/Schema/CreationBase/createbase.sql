@@ -172,7 +172,7 @@ CREATE TABLE etat_fiches (
 --
 CREATE TABLE fichiers (
     id SERIAL NOT NULL PRIMARY KEY,
-    nom VARCHAR(50),
+    nom VARCHAR(100),
     url VARCHAR(100),
     fiche_id INTEGER NOT NULL REFERENCES fiches(id),
     created DATE,
@@ -271,8 +271,9 @@ CREATE TABLE fg_champs (
 --
 CREATE TABLE modeles (
     id SERIAL  NOT NULL PRIMARY KEY,
+    name_modele VARCHAR(100) NOT NULL,
     formulaires_id  INTEGER NOT NULL REFERENCES fg_formulaires (id) ON DELETE CASCADE,
-    fichier VARCHAR(300) NOT NULL,
+    fichier VARCHAR(100) NOT NULL,
     created  DATE,
     modified DATE
 );

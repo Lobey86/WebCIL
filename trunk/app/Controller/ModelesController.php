@@ -55,13 +55,22 @@ class ModelesController extends AppController {
      * @version V0.9.0
      */
     public function add() {
-        if ($this->Modele->saveFile($this->request->data, $this->request->data['Modele']['idUploadModele'])) {
-            $this->Session->setFlash(__d('modele','modele.flashsuccessModeleEnregistrer'), 'flashsuccess');
-            $this->redirect(array(
-                'controller' => 'modeles',
-                'action' => 'index'
-            ));
+        $saveFile = $this->Modele->saveFile($this->request->data, $this->request->data['Modele']['idUploadModele']);
+
+        if ($saveFile == 0) {
+            $this->Session->setFlash(__d('modele', 'modele.flashsuccessModeleEnregistrer'), 'flashsuccess');
+        } elseif ($saveFile == 1) {
+            $this->Session->setFlash(__d('modele', 'modele.flasherrorFicherTropLourd'), 'flasherror');
+        } elseif ($saveFile == 2) {
+            $this->Session->setFlash(__d('modele', 'modele.flasherrorExtensionNonValide'), 'flasherror');
+        } elseif ($saveFile == 3) {
+            $this->Session->setFlash(__d('modele', 'modele.flashwarningAucunFichier'), 'flashwarning');
         }
+
+        $this->redirect(array(
+            'controller' => 'modeles',
+            'action' => 'index'
+        ));
     }
 
     /**
@@ -72,10 +81,10 @@ class ModelesController extends AppController {
      * @created 18/06/2015
      * @version V0.9.0
      */
-    public function download($file) {
+    public function download($file, $nameFile) {
         $this->response->file('files/modeles/' . $file, array(
             'download' => true,
-            'name' => $file
+            'name' => $nameFile
         ));
         return $this->response;
     }
@@ -97,12 +106,12 @@ class ModelesController extends AppController {
             ));
 
             if ($isDeleted) {
-                $this->Session->setFlash(__d('modele','modele.flashsuccessModeleSupprimer'), 'flashsuccess');
+                $this->Session->setFlash(__d('modele', 'modele.flashsuccessModeleSupprimer'), 'flashsuccess');
             } else {
-                $this->Session->setFlash(__d('modele','modele.flasherrorErreurSupprimerModele'), 'flasherror');
+                $this->Session->setFlash(__d('modele', 'modele.flasherrorErreurSupprimerModele'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash(__d('modele','modele.flasherrorModeleInexistant'), 'flasherror');
+            $this->Session->setFlash(__d('modele', 'modele.flasherrorModeleInexistant'), 'flasherror');
         }
 
         $this->redirect($this->referer());
@@ -121,7 +130,7 @@ class ModelesController extends AppController {
             'conditions' => array(
                 'formulaires_id' => $idFormulaire,
             ),
-                'fields' => array("type", "details")
+            'fields' => array("type", "details")
         ));
         $variables = Hash::extract($variables, '{n}.Champ');
         $this->set(compact('variables'));
@@ -144,4 +153,5 @@ class ModelesController extends AppController {
         $organisations = Hash::extract($organisations, '{n}.Organisation');
         $this->set(compact('organisations'));
     }
+
 }

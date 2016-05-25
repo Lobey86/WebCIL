@@ -31,6 +31,15 @@ msgstr "Impossible de supprimer le modèle"
 msgid "modele.flasherrorModeleInexistant"
 msgstr "Ce modèle n'existe pas"
 
+msgid "modele.flasherrorFicherTropLourd"
+msgstr "Le fichier est trop lourd."
+
+msgid "modele.flasherrorExtensionNonValide"
+msgstr "L'extension de votre fichier n'est pas accepter, il faut un fichier en .odt"
+
+msgid "modele.flashwarningAucunFichier"
+msgstr "Vous avez renseiger aucun fichier"
+
 ###############################################################
 
 ###############################################################################
