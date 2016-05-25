@@ -262,7 +262,7 @@ echo $this->Form->button("Imprimer", array(
                     <?php echo __d('default','default.btnAnnuler');?>
                 </button>
                 <button type="submit" class="btn btn-default-success">
-                    <?php echo __d('default','default.popupBtnMofifierTraitement');?>
+                    <?php echo __d('registre','registre.popupBtnMofifierTraitement');?>
                 </button>
 <?php
 echo $this->Form->end();
