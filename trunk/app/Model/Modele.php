@@ -68,15 +68,11 @@ class Modele extends AppModel {
                         $url = time();
                         $success = $success && move_uploaded_file($file['tmp_name'], $folder . '/' . $url . '.' . $extension);
                         if ($success) {
-                            $adel = $this->find('all', array('conditions' => array('formulaires_id' => $id)));
-                            foreach ($adel as $value) {
-                                //unlink($folder . '/' . $value['Modele']['fichier']);
-                            }
                             $this->deleteAll(array('formulaires_id' => $id));
                             $this->create(array(
                                 'fichier' => $url . '.' . $extension,
                                 'formulaires_id' => $id,
-                                'name_fichier' => $file['name']
+                                'name_modele' => $file['name']
                             ));
                             $success = $success && $this->save();
                         }

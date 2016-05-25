@@ -23,7 +23,7 @@ if (!empty($modeles)) {
                     <td class="tdleft">';
 
             if ($value['Modele']['fichier'] != null) {
-                echo '<i class="fa fa-file-text-o fa-lg fa-fw"></i> ' . $value['Modele']['name_fichier'];
+                echo '<i class="fa fa-file-text-o fa-lg fa-fw"></i> ' . $value['Modele']['name_modele'];
 
                 echo '</td>
                     <td class="tdleft">
