@@ -33,7 +33,7 @@ if (!empty($modeles)) {
                     'controller' => 'modeles',
                     'action' => 'download',
                     $value['Modele']['fichier'],
-                    $value['Modele']['name_fichier']
+                    $value['Modele']['name_modele']
                         ), array(
                     'escape' => false,
                     'class' => 'btn btn-default-default btn-sm my-tooltip',
