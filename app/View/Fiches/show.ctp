@@ -7,6 +7,14 @@ $nameView = $this->Session->read('nameView');
 unset($_SESSION['nameController']);
 unset($_SESSION['nameView']);
 
+if( $nameController == null){
+    $nameController = 'pannel';
+}
+
+if( $nameView == null){
+    $nameView = 'index';
+}
+
 echo $this->Form->create('Fiche', array(
     'action' => 'edit',
     'class' => 'form-horizontal'
@@ -353,7 +361,7 @@ echo $this->Form->create('Fiche', array(
                         <tr>
                             <?php
                             foreach ($files as $val) {
-                                $ext = explode('.', $val['File']['url']);
+                                $ext = explode('.', $val['Fichier']['url']);
                                 $ext = strtolower(end($ext));
                                 switch ($ext) {
                                     case 'pdf':
@@ -407,13 +415,15 @@ echo $this->Form->create('Fiche', array(
                                     <i class="fa fa-fw fa-"<?php echo $icone;?>></i>
                                 </td>
                                 <td class="col-md-9 tdleft">
-                                     <?php echo $val['File']['nom'];?>
+                                     <?php echo $val['Fichier']['nom'];?>
                                 </td>
                                 <td class="col-md-2">
-                                    <?php echo $this->Html->link('<span class="glyphicon glyphicon-download-alt"></span>', array(
-                                            'controller' => 'files',
+                                    <?php 
+                                    echo $this->Html->link('<span class="glyphicon glyphicon-download-alt"></span>', array(
+                                            'controller' => 'fiches',
                                             'action' => 'download',
-                                            $val['File']['id']
+                                            $val['Fichier']['url'],
+                                            $val['Fichier']['nom']
                                                 ), array(
                                             'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                             'title' => 'Télécharger le fichier',

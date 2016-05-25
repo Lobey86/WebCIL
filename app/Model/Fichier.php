@@ -53,14 +53,19 @@ class Fichier extends AppModel {
      * @version V0.9.0
      */
     public function saveFichier($data, $id = null) {
-
         if (isset($data['Fiche']['fichiers']) && !empty($data['Fiche']['fichiers'])) {
-
             foreach ($data['Fiche']['fichiers'] as $key => $file) {
                 $success = true;
+
                 if (!empty($file['name'])) {
                     $this->begin();
-                    $folder = WWW_ROOT . 'files';
+                    $folder = WWW_ROOT . 'files/piece_joint_traitement';
+
+                    //on verifie si le dossier existe. Si c'est pas le cas on le cree
+                    if (!file_exists($folder)) {
+                        mkdir($folder, 0777, true);
+                    }
+
                     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                     $name = $file['name'];
                     if (!empty($file['tmp_name'])) {
@@ -101,9 +106,16 @@ class Fichier extends AppModel {
     public function deleteFichier($id) {
         $success = true;
         $this->begin();
-        $fichier = $this->find('first', array('conditions' => array('id' => $id)));
-        $success = $success && unlink(WWW_ROOT . 'files/' . $fichier['File']['url']);
+        
+        $fichier = $this->find('first', array(
+            'conditions' => array(
+                'id' => $id
+            )
+        ));
+        
+        $success = $success && unlink(WWW_ROOT . 'files/piece_joint_traitement/' . $fichier['Fichier']['url']);
         $success = $success && $this->delete($id);
+        
         if ($success) {
             $this->commit();
             return true;
