@@ -22,24 +22,25 @@ if (!empty($modeles)) {
                     </td>
                     <td class="tdleft">';
 
-            if ($value['Modele']['fichier'] != NULL) {
-                echo '<i class="fa fa-fw fa-file-o"></i> ' . $value['Modele']['fichier'];
+            if ($value['Modele']['fichier'] != null) {
+                echo '<i class="fa fa-file-text-o fa-lg fa-fw"></i> ' . $value['Modele']['name_fichier'];
 
                 echo '</td>
                     <td class="tdleft">
                     <div class="btn-group">';
 
-                echo $this->Html->link('<i class="fa fa-download"></i>', array(
+                echo $this->Html->link('<i class="fa fa-download fa-lg"></i>', array(
                     'controller' => 'modeles',
                     'action' => 'download',
-                    $value['Modele']['fichier']
+                    $value['Modele']['fichier'],
+                    $value['Modele']['name_fichier']
                         ), array(
                     'escape' => false,
                     'class' => 'btn btn-default-default btn-sm my-tooltip',
                     'title' => __d('modele', 'modele.commentaireTelechargerModel')
                 ));
 
-                echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                echo $this->Html->link('<span class="glyphicon glyphicon-trash fa-lg"></span>', array(
                     'controller' => 'modeles',
                     'action' => 'delete',
                     $value['Modele']['fichier']
