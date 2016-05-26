@@ -103,9 +103,9 @@ echo $this->Form->button("Imprimer", array(
         <?php
         foreach ($fichesValid as $key => $value) {
             if ($value['Fiche']['numero'] != null) {
-                $numero = $value['Fiche']['numero'];
+                $numeroRegistre = $value['Fiche']['numero'];
             } else {
-                $numero = 'CIL00' . $value['Fiche']['id'];
+                $numeroRegistre = 'CIL00' . $value['Fiche']['id'];
             }
             
             if ($value['EtatFiche']['etat_id'] != 7){
@@ -126,7 +126,7 @@ echo $this->Form->button("Imprimer", array(
                                     <strong><?php echo __d('registre', 'registre.textTableauDateCreation');?></strong><?php echo $value['EtatFiche']['created'];?>
                                 </div>
                                 <div class="col-md-4">
-                                    <strong><?php echo __d('registre', 'registre.textTableauNumeroEnregistrement');?></strong><?php echo $numero;?>
+                                    <strong><?php echo __d('registre', 'registre.textTableauNumeroEnregistrement');?></strong><?php echo $numeroRegistre;?>
                                 </div>
                             </div>
                             <div class="row">
@@ -140,7 +140,7 @@ echo $this->Form->button("Imprimer", array(
                                 'controller' => 'fiches',
                                 'action' => $DlOrGenerate,
                                 $value['Fiche']['id'],
-                                $numero
+                                $numeroRegistre
                                 ), array(
                                     'escape' => false,
                                     'class' => 'btn btn-default-default btn-sm my-tooltip',
@@ -169,7 +169,8 @@ echo $this->Form->button("Imprimer", array(
                                         echo $this->Html->link('<span class="fa fa-lock fa-lg"></span>', array(
                                             'controller' => 'etatFiches',
                                             'action' => 'archive',
-                                            $value['Fiche']['id']
+                                            $value['Fiche']['id'],
+                                            $numeroRegistre
                                             ), array(
                                             'class' => 'btn btn-default-danger boutonArchive btn-sm my-tooltip',
                                             'title' => __d('registre', 'registre.commentaireVerouillerTraitement'),

@@ -166,7 +166,7 @@ class FichesController extends AppController {
             ]);
         }
     }
-    
+
     /**
      * Gère l'édition de fiches
      * 
@@ -223,7 +223,7 @@ class FichesController extends AppController {
             if ($this->Fichier->saveFichier($this->request->data, $id)) {
                 $this->Historique->create([
                     'Historique' => [
-                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche','fiche.textModifierTraitement'),
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche', 'fiche.textModifierTraitement'),
                         'fiche_id' => $id
                     ]
                 ]);
@@ -234,7 +234,7 @@ class FichesController extends AppController {
                     $this->Fichier->deleteFichier($val);
                 }
             }
-            $this->Session->setFlash(__d('fiche','fiche.flashsuccessTraitementModifier'), 'flashsuccess');
+            $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementModifier'), 'flashsuccess');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -350,7 +350,7 @@ class FichesController extends AppController {
      * @created 04/01/2016
      * @version V0.9.0
      */
-    public function downloadFile($id_fiche) {
+    public function downloadFile($id_fiche, $numeroRegistre) {
         $data = $this->Valeur->find('all', [
             'conditions' => [
                 'fiche_id' => $id_fiche]
@@ -360,9 +360,9 @@ class FichesController extends AppController {
             'conditions' => ['id_fiche' => $id_fiche],
             'fields' => ['data']
         ]);
-
+        
         header("content-type: application/pdf");
-        header('Content-Disposition: attachment; filename="' . $data[11]['Valeur']['valeur'] . '_CIL00' . $id_fiche . '.pdf"');
+        header('Content-Disposition: attachment; filename="' . $data[11]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf"');
         echo($pdf['Extrait']['data']);
     }
 
@@ -378,9 +378,135 @@ class FichesController extends AppController {
      * @created 04/01/2016
      * @version V0.9.0
      */
-    public function genereFusion($id, $numero, $save = false) {
-        App::uses('FusionConvBuilder', 'FusionConv.Utility');
+//    public function genereFusion($id, $save = false) {
+//        App::uses('FusionConvBuilder', 'FusionConv.Utility');
+//
+//        $data = $this->Valeur->find('all', [
+//            'conditions' => [
+//                'fiche_id' => $id
+//            ]
+//        ]);
+//
+//        $fiche = $this->Fiche->find('first', [
+//            'conditions' => [
+//                'id' => $id
+//            ]
+//        ]);
+//
+//        $modele = $this->Modele->find('first', [
+//            'conditions' => [
+//                'formulaires_id' => $fiche['Fiche']['form_id']
+//            ]
+//        ]);
+//
+//        if (!empty($modele)) {
+//            $file = $modele['Modele']['fichier'];
+//        } else {
+//            $file = '1.odt';
+//        }
+//
+//        //On recupere les champs 'deroulant', 'checkboxes', 'radios' qui sont dans le formulaire associer a la fiche
+//        $typeChamps = ['deroulant', 'checkboxes', 'radios'];
+//        $idForm = $this->Fiche->find('first', [
+//            'conditions' => ['id' => $id]
+//        ]);
+//
+//        $champs = $this->Champ->find('all', [
+//            'conditions' => [
+//                'formulaires_id' => $idForm['Fiche']['form_id'],
+//                'type' => $typeChamps,
+//            ],
+//        ]);
+//
+//        //On decode les infos du champ details pour ensuite faire un tableau avec le name du champs et les valeurs
+//        $choixChampMultiple = [];
+//        $checkBoxField = [];
+//        foreach ($champs as $value) {
+//            $options = json_decode($value['Champ']['details'], true);
+//
+//            if ($value['Champ']['type'] != 'checkboxes') {
+//                $choixChampMultiple[$options['name']] = $options['options'];
+//            } else {
+//                $checkBoxField[$options['name']] = $options['options'];
+//            }
+//        }
+//
+//        /* On vérifie que le tableau qu'on a créé juste au dessus existe. 
+//          Si il exite on on prend la valeur de l'id choisit dans le tableau,
+//          sinon on prend directement la valeur enregistré dans la table Valeur
+//         */
+//        $donnees = [];
+//        foreach ($data as $key => $value) {
+//            if (!empty($choixChampMultiple[$value['Valeur']['champ_name']])) {
+//                $donnees['Valeur'][$value['Valeur']['champ_name']] = $choixChampMultiple[$value['Valeur']['champ_name']][intval($value['Valeur']['valeur'])];
+//            } elseif (!empty($checkBoxField[$value['Valeur']['champ_name']])) {
+//                $choixCheckbox = json_decode($value["Valeur"]["valeur"]);
+//                $nombreChoixCheckbox = sizeof($choixCheckbox);
+//
+//                $tampon = null;
+//                for ($compteur = 0; $compteur < $nombreChoixCheckbox; $compteur++) {
+//                    if ($compteur === 0) {
+//                        $tampon = $checkBoxField[$value['Valeur']['champ_name']][$compteur];
+//                    } else if ($compteur < $nombreChoixCheckbox && $compteur != 0) {
+//                        $tampon = $tampon . ' , ' . $checkBoxField[$value['Valeur']['champ_name']][$compteur];
+//                    }
+//                }
+//                $donnees['Valeur'][$value['Valeur']['champ_name']] = $tampon;
+//            } else {
+//                $donnees['Valeur'][$value['Valeur']['champ_name']] = $value['Valeur']['valeur'];
+//            }
+//        }
+//        unset($donnees['Valeur']['fichiers']);
+//
+//        $types = [];
+//        foreach ($donnees['Valeur'] as $key => $value) {
+//            $types['Valeur.' . $key] = 'text';
+//        }
+//
+//        $correspondances = [];
+//        foreach ($donnees['Valeur'] as $key => $value) {
+//            $correspondances['valeur_' . $key] = 'Valeur.' . $key;
+//        }
+//
+//        $MainPart = new GDO_PartType();
+//
+//        $Document = FusionConvBuilder::main($MainPart, $donnees, $types, $correspondances);
+//
+//        $sMimeType = 'application/vnd.oasis.opendocument.text';
+//
+//        $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(WWW_ROOT . 'files/modeles/' . $file));
+//        $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
+//
+//        $Fusion->process();
+//        App::uses('FusionConvConverterCloudooo', 'FusionConv.Utility/Converter');
+//        $pdf = FusionConvConverterCloudooo::convert($Fusion->getContent()->binary);
+//
+//        if ($save == false) {
+//            $this->response->disableCache();
+//            $this->response->body($pdf);
+//            $this->response->type('application/pdf');
+//            $this->response->download($data[11]['Valeur']['valeur'] . '_' . 'CIL00' . $id . '.pdf');
+//
+//            $this->requestAction(array(
+//                'controller' => 'pannel',
+//                'action' => 'supprimerLaNotif',
+//                $id
+//            ));
+//
+//            return $this->response;
+//        } else {
+//            $this->Extrait->save(['id_fiche' => $id, 'data' => $pdf]);
+//
+//            $this->redirect(array(
+//                'controller' => 'registres',
+//                'action' => 'index'
+//            ));
+//        }
+//    }
 
+    public function genereFusion($id, $numeroRegistre, $save = false) {
+        App::uses('FusionConvBuilder', 'FusionConv.Utility');
+        
         $data = $this->Valeur->find('all', [
             'conditions' => [
                 'fiche_id' => $id
@@ -468,7 +594,7 @@ class FichesController extends AppController {
             $correspondances['valeur_' . $key] = 'Valeur.' . $key;
         }
 
-        $donnees['Valeur']['numenregistrement'] = $numero;
+        $donnees['Valeur']['numenregistrement'] = $numeroRegistre;
 
         $MainPart = new GDO_PartType();
 
@@ -487,7 +613,7 @@ class FichesController extends AppController {
             $this->response->disableCache();
             $this->response->body($pdf);
             $this->response->type('application/pdf');
-            $this->response->download($data[11]['Valeur']['valeur'] . '_' . 'CIL00' . $id . '.pdf');
+            $this->response->download($data[11]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf');
 
             $this->requestAction(array(
                 'controller' => 'pannel',
@@ -505,5 +631,4 @@ class FichesController extends AppController {
             ));
         }
     }
-
 }
