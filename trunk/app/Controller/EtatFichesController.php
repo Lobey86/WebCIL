@@ -564,7 +564,7 @@ class EtatFichesController extends AppController {
      * @created 29/04/2015
      * @version V0.9.0
      */
-    public function archive($id) {
+    public function archive($id, $numeroRegistre) {
         if (!$id) {
             $this->Session->setFlash(__d('default','default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect(array(
@@ -594,6 +594,7 @@ class EtatFichesController extends AppController {
                 'controller' => 'Fiches',
                 'action' => 'genereFusion',
                 $id,
+                $numeroRegistre,
                 true
             ));
         }
