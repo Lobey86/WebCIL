@@ -369,39 +369,40 @@ echo $this->Html->css(array(
                 </div>
             </div>
             <div class="btn-group-vertical col-md-6">
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-small-text"><i
-                        class="fa fa-font fa-fw"></i>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-small-text">
+                    <i class="fa fa-font fa-lg fa-fw"></i>
                     <?php echo __d ('formulaire','formulaire.btnPetitChamp');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-long-text"><i
-                        class="fa fa-text-height fa-fw"></i> 
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-long-text">
+                    <i class="fa fa-text-height fa-lg fa-fw"></i> 
                     <?php echo __d ('formulaire','formulaire.btnGrandChamp');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-date"><i
-                        class="fa fa-calendar fa-fw"></i>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-date">
+                    <i class="fa fa-calendar fa-lg fa-fw"></i>
                     <?php echo __d ('formulaire','formulaire.btnChampDate');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-checkbox"><i
-                        class="fa fa-check-square-o fa-fw"></i> 
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-checkbox">
+                    <i class="fa fa-check-square-o fa-lg fa-fw"></i> 
                     <?php echo __d ('formulaire','formulaire.btnCheckbox');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-radio"><i
-                        class="fa fa-check-circle-o fa-fw"></i> 
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-radio">
+                    <i class="fa fa-check-circle-o fa-lg fa-fw"></i> 
                     <?php echo __d ('formulaire','formulaire.btnRadio');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-deroulant"><i
-                        class="fa  fa-list-alt fa-fw"></i>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-deroulant">
+                    <i class="fa  fa-list-alt fa-lg fa-fw"></i>
                     <?php echo __d ('formulaire','formulaire.btnDeroulant');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-title"><i class="fa fa-tag fa-fw"></i>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-title">
+                    <i class="fa fa-tag fa-lg fa-fw"></i>
                     <?php echo __d ('formulaire','formulaire.btnTitreCategorie');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-help"><i
-                        class="fa fa-info-circle fa-fw"></i>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-help">
+                    <i class="fa fa-info-circle fa-lg fa-fw"></i>
                     <?php echo __d ('formulaire','formulaire.btnChampInfo');?>
                 </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-texte"><i
-                        class="fa fa-pencil fa-fw"></i>
+                <button class="btn btn-default-default btn-sm btn-input" id="btn-texte">
+                    <i class="fa fa-pencil fa-lg fa-fw"></i>
                     <?php echo __d ('formulaire','formulaire.btnLabel');?>
                 </button>
             </div>
