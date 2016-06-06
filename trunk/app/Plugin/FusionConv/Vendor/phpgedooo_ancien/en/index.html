@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Document generation with GED'OOo</title>
+
+
+</head>
+<body>
+
+<h1>GED'OOo</h1>
+
+<p><font size="-1">GED stands for <i>Gestion Electronique de Documents</i> in french, i.e. Electronic Document Managment </font>
+<br>
+
+<h2>Welcome on the GED'OOo's demonstration page</h2>
+
+<br>
+To use this demonstrator, you need on your workstation:
+<br>
+
+<ul>
+
+  <li>A template in .ott format (Open
+Template Text), designed according to the GED'OOo documentation</li>
+  <li>an XML file containing the data to be inserted into the document.</li>
+
+</ul>
+
+<p><i>If you don't have such a template, nor an XML file, you can download <a href="demo.html">here</a> an archive containing some examples.</i></p>
+
+<form enctype="multipart/form-data"  method="post" action="generator.php" name="Request for a document">
+Your template: <input name="model" type="file"></span><br>
+
+  <br>
+
+Your XML file: <input name="data" type="file"><br>
+  <br>
+The format you want the document to be generated: 
+ <input value="odt" name="Format" type="radio"> ODT 
+ <input value="pdf" name="Format" type="radio" checked> PDF. 
+
+  <br><br><br>
+  <div style="text-align: left;"><input value="Download" name="Download" type="submit">
+  </div>
+</form>
+
+</body>
+</html>
