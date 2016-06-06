@@ -1,0 +1,53 @@
+<?php
+
+// +----------------------------------------------------------------------+
+// | PHP Version 5.3                                                      |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 2004 Lille Metropole Communaute Urbaine (LMCU)         |
+// +----------------------------------------------------------------------+
+// | This file is part of GED'OOo.                                        |
+// |                                                                      |
+// | GED'OOo is free software; you can redistribute it and/or modify      |
+// | it under the terms of the GNU General Public License as published by |
+// | the Free Software Foundation; either version 2 of the License, or    |
+// | (at your option) any later version.                                  |
+// |                                                                      |
+// | Tiny is distributed in the hope that it will be useful,              |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
+// | GNU General Public License for more details.                         |
+// |                                                                      |
+// | You should have received a copy of the GNU General Public License    |
+// | along with GED'OOo; if not, write to the Free Software Foundation,   |
+// | Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA        |
+// +----------------------------------------------------------------------+
+// | Authors:Philippe Allart                                              |
+// +----------------------------------------------------------------------+
+//
+
+/*
+ * Classe GDO_MatrixTitleType
+ * ---------------
+ * Un objet de type GDO_MatrixTitleType contient
+ * optionnellement un titre qui sera affecté à l'un des axes
+ * et une série de description textuelles qui seront
+ * affichée pour chaque ligne ou chaque colonne
+ * de cet axe.
+ *
+ * Version 1.0
+ */
+ 
+class GDO_AxisTitleType {
+
+
+function setTitle($sTitle) {
+	$this->title = $sTitle;
+	}
+	
+function setDescription ($aDescription) {
+	$this->description = $aDescription;
+
+}
+
+}
+?>
