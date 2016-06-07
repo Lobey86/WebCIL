@@ -36,7 +36,7 @@ msgid "pannel.commentaireSupprimerTraitement"
 msgstr "Supprimer le traitement"
 
 msgid "pannel.confirmationSupprimerTraitement"
-msgstr "Voulez vous supprimer le traitement de"
+msgstr "Voulez vous supprimer le traitement : " "
 
 msgid "pannel.commentaireReorienterTraitement"
 msgstr "Réorienter le traitement"
