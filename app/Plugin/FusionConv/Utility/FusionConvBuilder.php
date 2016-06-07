@@ -16,8 +16,7 @@
  * @package FusionConv
  * @subpackage Utility
  */
-abstract class FusionConvBuilder 
-{
+abstract class FusionConvBuilder {
 
     /**
      *
@@ -44,10 +43,10 @@ abstract class FusionConvBuilder
                 $type = ( isset($types[$newKey]) ? $types[$newKey] : 'text' );
 
                 if ($type == 'file') {
-                    $GDOPartType->addElement(new GDO_ContentType($alias, $alias . '.odt', 'application/vnd.oasis.opendocument.text', 'binary', $value));
+                    $GDOPartType->addElement(new GDO_ContentType($newKey, $newKey . '.odt', 'application/vnd.oasis.opendocument.text', 'binary', $value));
                 } else {
                     $value = mb_convert_encoding($value, "UTF-8", mb_detect_encoding($value));
-                    $GDOPartType->addElement(new GDO_FieldType($alias, $value, $type));
+                    $GDOPartType->addElement(new GDO_FieldType($newKey, $value, $type));
                 }
             }
         }
