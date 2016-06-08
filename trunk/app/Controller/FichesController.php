@@ -499,7 +499,7 @@ class FichesController extends AppController {
         if ($annexe == true){
             foreach ($fileAnnexes as $fileAnnexe){
                 $donnees['Valeur']['annexe'] = file_get_contents(
-                        WWW_ROOT . 'files'. DS .'piece_joint_traitement'. DS . $fileAnnexe['Fichier']['url']
+                        CHEMIN_PIECE_JOINT . $fileAnnexe['Fichier']['url']
                 );
                 $types['valeur_annexe'] = "file";
                 $correspondances['valeur_annexe'] = 'Valeur.annexe';
@@ -513,7 +513,7 @@ class FichesController extends AppController {
         
         $sMimeType = 'application/vnd.oasis.opendocument.text';
 
-        $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(WWW_ROOT . 'files/modeles/' . $file));
+        $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(CHEMIN_MODELES . $file));
         $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
         
         $Fusion->process();
