@@ -56,6 +56,12 @@ msgstr "Nom et prénom "
 msgid "fiche.champFichier"
 msgstr "Fichier"
 
+msgid "fiche.textTypeFichierAccepter"
+msgstr "Seuls les fichiers au format ".odt" sont acceptés"
+
+msgid "fiche.textAjouterPieceJointe"
+msgstr "Ajouter une pièce jointe"
+
 ###############################################################################
 
 
@@ -65,7 +71,7 @@ msgid "fiche.textInfoAucunePieceJointe"
 msgstr "Aucune pièce jointe"
 
 msgid "fiche.textInfoPieceJointe"
-msgstr "Pièce jointe :"
+msgstr "Pièce jointe associée :"
 
 msgid "fiche.textAjouterFichier"
 msgstr "Ajouter des fichiers"

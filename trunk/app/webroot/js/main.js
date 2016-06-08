@@ -58,3 +58,39 @@ function openTarget(idFicheNotification) {
         scrollToTarget(idFicheNotification);
     }
 }
+
+function verificationExtension() {
+    $('#fileAnnexe').change(function () {
+        var tmpName = $(this).val();
+        if (tmpName !== '' /*&& $('#newProjet').val() == ''*/) {
+
+            //suppression du fakepath ajouter par webkit
+            tmpName = tmpName.replace("C:\\fakepath\\", "");
+
+            //verification de l'extension odt
+            var ctrlName = tmpName.split('.');
+            if (ctrlName[ctrlName.length - 1] !== 'odt') {
+                $(this).val("");
+                $('#errorExtentionAnnexe').modal('show');
+            } 
+//            else {
+//                alert(tmpName);
+//                
+//                tmpName = tmpName.replace(/ /g, '_');
+//                
+//                alert(tmpName);
+//                
+//                $(this).val(tmpName);
+//                
+//            }
+//                } else {
+//                    var newName = "";
+//                    for (var i = 0, ln = ctrlName.length - 1; i < ln; i++) {
+//                        newName += (i === 0 ? '' : ' ') + ctrlName[i];
+//                    }
+//                    var newName = newName.replace(/_/g, ' ');
+//                    $('#newProjet').val((newName[0].toUpperCase() + newName.substring(1)).trim());
+//                }
+        }
+    });
+}
