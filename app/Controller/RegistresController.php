@@ -194,20 +194,26 @@ class RegistresController extends AppController {
      */
     public function imprimer($tabId = null) {
         $tabId = json_decode($tabId);
-        
-        if($tabId != null){
+
+        if ($tabId != null) {
+            // On verifie si le dossier file existe. Si c'est pas le cas on le cree
+            if (!file_exists(APP . FICHIER)) {
+                mkdir(APP . FICHIER, 0777, true);
+                mkdir(APP . FICHIER . PIECE_JOINT, 0777, true);
+                mkdir(APP . FICHIER . MODELES, 0777, true);
+                mkdir(APP . FICHIER . REGISTRE, 0777, true);
+            } else {
+                if (!file_exists(APP . FICHIER . REGISTRE)) {
+                    mkdir(APP . FICHIER . REGISTRE, 0777, true);
+                }
+            }
+
             $folder = TMP . "imprimerRegistre";
-            $registre = APP . WEBROOT_DIR . DS . FILES . DS . 'registre';
             $date = date('d-m-Y_H:i');
 
             //on verifie si le dossier existe. Si c'est pas le cas on le cree
             if (!file_exists($folder)) {
                 mkdir($folder, 0777, true);
-            }
-
-            //on verifie si le dossier existe. Si c'est pas le cas on le cree
-            if (!file_exists($registre)) {
-                mkdir($registre, 0777, true);
             }
 
             foreach ($tabId as $ficheID) {
@@ -230,20 +236,20 @@ class RegistresController extends AppController {
 
             //On concatene tout les PDFs qu'on a cree et on enregistre 
             //la concatenation dans /var/www/webcil/app/webroot/files/ragistre
-            shell_exec('pdftk' . ' ' . $files_concat . 'cat output ' . $registre . DS . 'Registre_' . $date . '.pdf');
+            shell_exec('pdftk' . ' ' . $files_concat . 'cat output ' . CHEMIN_REGISTRE . 'Registre_' . $date . '.pdf');
 
             //On supprime de dossier imprimerRegistre dans /tmp
             shell_exec('rm -rf ' . realpath($folder));
 
             //On propose le telechargement
-            $this->response->file($registre . DS . 'Registre_' . $date . '.pdf', array(
+            $this->response->file(CHEMIN_REGISTRE . 'Registre_' . $date . '.pdf', array(
                 'download' => true,
                 'name' => 'Registre_' . $date . '.pdf'
             ));
             return $this->response;
         } else {
-            $this->Session->setFlash(__d('registre','registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
-            
+            $this->Session->setFlash(__d('registre', 'registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
+
             $this->redirect(array(
                 'controller' => 'registres',
                 'action' => 'index'
