@@ -62,11 +62,22 @@ class Modele extends AppModel {
             if ($extension == 'odt') {
                 if (!empty($file['name'])) {
                     $this->begin();
-                    $folder = WWW_ROOT . 'files/modeles';
+
+                    // On verifie si le dossier file existe. Si c'est pas le cas on le cree
+                    if (!file_exists(APP . FICHIER)) {
+                        mkdir(APP . FICHIER, 0777, true);
+                        mkdir(APP . FICHIER . PIECE_JOINT, 0777, true);
+                        mkdir(APP . FICHIER . MODELES, 0777, true);
+                        mkdir(APP . FICHIER . REGISTRE, 0777, true);
+                    } else {
+                        if (!file_exists(APP . FICHIER . PIECE_JOINT)) {
+                            mkdir(APP . FICHIER . MODELES, 0777, true);
+                        }
+                    }
 
                     if (!empty($file['tmp_name'])) {
                         $url = time();
-                        $success = $success && move_uploaded_file($file['tmp_name'], $folder . '/' . $url . '.' . $extension);
+                        $success = $success && move_uploaded_file($file['tmp_name'], CHEMIN_MODELES . $url . '.' . $extension);
                         if ($success) {
                             $this->deleteAll(array('formulaires_id' => $id));
                             $this->create(array(
