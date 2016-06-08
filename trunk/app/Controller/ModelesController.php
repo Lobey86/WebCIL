@@ -82,7 +82,7 @@ class ModelesController extends AppController {
      * @version V0.9.0
      */
     public function download($file, $nameFile) {
-        $this->response->file('files/modeles/' . $file, array(
+        $this->response->file(CHEMIN_MODELES . $file, array(
             'download' => true,
             'name' => $nameFile
         ));
