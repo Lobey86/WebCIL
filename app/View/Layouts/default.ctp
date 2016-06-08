@@ -516,6 +516,29 @@ $cakeDescription = 'Web-CIL';
     </body>
 </html>
 
+<!--Pop-up pour informé que ce n'est pas un fichier .odt -->
+<div class="modal fade" id="errorExtentionAnnexe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row top17">
+                    <div class="col-md-12">
+                        <h3> Ce n'est pas un fichier .odt </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default-default" data-dismiss="modal">
+                        <i class="fa fa-arrow-left fa-fw"></i>
+                            <?php echo 'OK'; ?>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {

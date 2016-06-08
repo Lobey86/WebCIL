@@ -55,40 +55,57 @@ class Fichier extends AppModel {
     public function saveFichier($data, $id = null) {
         if (isset($data['Fiche']['fichiers']) && !empty($data['Fiche']['fichiers'])) {
             foreach ($data['Fiche']['fichiers'] as $key => $file) {
-                $success = true;
-
                 if (!empty($file['name'])) {
-                    $this->begin();
-                    $folder = WWW_ROOT . 'files/piece_joint_traitement';
+                    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+                    debug($extension);
 
-                    //on verifie si le dossier existe. Si c'est pas le cas on le cree
-                    if (!file_exists($folder)) {
-                        mkdir($folder, 0777, true);
-                    }
+                    if ($extension == 'odt') {
+                        $success = true;
 
-                    $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-                    $name = $file['name'];
-                    if (!empty($file['tmp_name'])) {
-                        $url = time();
-                        $success = $success && move_uploaded_file($file['tmp_name'], $folder . '/' . $url . $key . '.' . $extension);
-                        if ($success) {
-                            $this->create(array(
-                                'nom' => $name,
-                                'url' => $url . $key . '.' . $extension,
-                                'fiche_id' => $id
-                            ));
-                            $success = $success && $this->save();
+                        if (!empty($file['name'])) {
+                            $this->begin();
+
+                            // On verifie si le dossier file existe. Si c'est pas le cas on le cree
+                            if (!file_exists(APP . FICHIER)) {
+                                mkdir(APP . FICHIER, 0777, true);
+                                mkdir(APP . FICHIER . PIECE_JOINT, 0777, true);
+                                mkdir(APP . FICHIER . MODELES, 0777, true);
+                                mkdir(APP . FICHIER . REGISTRE, 0777, true);
+                            } else {
+                                if (!file_exists(APP . FICHIER . PIECE_JOINT)) {
+                                    mkdir(APP . FICHIER . PIECE_JOINT, 0777, true);
+                                }
+                            }
+
+                            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                            $name = $file['name'];
+                            if (!empty($file['tmp_name'])) {
+                                $url = time();
+                                $success = $success && move_uploaded_file($file['tmp_name'], CHEMIN_PIECE_JOINT . $url . $key . '.' . $extension);
+                                if ($success) {
+                                    $this->create(array(
+                                        'nom' => $name,
+                                        'url' => $url . $key . '.' . $extension,
+                                        'fiche_id' => $id
+                                    ));
+                                    $success = $success && $this->save();
+                                }
+                            } else {
+                                $success = false;
+                            }
                         }
                     } else {
                         $success = false;
                     }
-                }
 
-                if ($success) {
-                    $this->commit();
+                    if ($success) {
+                        $this->commit();
+                    } else {
+                        $this->rollback();
+                        return false;
+                    }
                 } else {
-                    $this->rollback();
-                    return false;
+                    return true;
                 }
             }
         }
@@ -106,16 +123,16 @@ class Fichier extends AppModel {
     public function deleteFichier($id) {
         $success = true;
         $this->begin();
-        
+
         $fichier = $this->find('first', array(
             'conditions' => array(
                 'id' => $id
             )
         ));
-        
-        $success = $success && unlink(WWW_ROOT . 'files/piece_joint_traitement/' . $fichier['Fichier']['url']);
+
+        $success = $success && unlink(CHEMIN_PIECE_JOINT . $fichier['Fichier']['url']);
         $success = $success && $this->delete($id);
-        
+
         if ($success) {
             $this->commit();
             return true;

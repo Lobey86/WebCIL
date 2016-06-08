@@ -333,7 +333,7 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function download($url = null, $nomFile = 'file.odt') {
-        $this->response->file(WWW_ROOT . 'files/piece_joint_traitement/' . $url, [
+        $this->response->file(CHEMIN_PIECE_JOINT . $url, [
             'download' => true,
             'name' => $nomFile
         ]);
@@ -379,7 +379,22 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function genereFusion($id, $numeroRegistre, $save = false) {
+        $annexe = false;
+        
         App::uses('FusionConvBuilder', 'FusionConv.Utility');
+        
+        //On chercher si le traitement comporte des annexe(s)
+        $fileAnnexes = $this->Fichier->find('all',[
+           'conditions' => [
+               'fiche_id' => $id
+           ] 
+        ]);
+        
+        if(!empty($fileAnnexes)){
+            $annexe = true;
+        }
+        
+//        debug($fileAnnexes);
         
         $data = $this->Valeur->find('all', [
             'conditions' => [
@@ -405,7 +420,10 @@ class FichesController extends AppController {
             $file = '1.odt';
         }
 
-        //On recupere les champs 'deroulant', 'checkboxes', 'radios' qui sont dans le formulaire associer a la fiche
+        /**
+         * On recupere les champs 'deroulant', 'checkboxes', 'radios' qui 
+         * sont dans le formulaire associer a la fiche
+         */
         $typeChamps = ['deroulant', 'checkboxes', 'radios'];
         $idForm = $this->Fiche->find('first', [
             'conditions' => ['id' => $id]
@@ -418,7 +436,10 @@ class FichesController extends AppController {
             ],
         ]);
 
-        //On decode les infos du champ details pour ensuite faire un tableau avec le name du champs et les valeurs
+        /**
+         * On decode les infos du champ details pour ensuite faire 
+         * un tableau avec le name du champs et les valeurs
+         */
         $choixChampMultiple = [];
         $checkBoxField = [];
         foreach ($champs as $value) {
@@ -431,9 +452,10 @@ class FichesController extends AppController {
             }
         }
 
-        /* On vérifie que le tableau qu'on a créé juste au dessus existe. 
-          Si il exite on on prend la valeur de l'id choisit dans le tableau,
-          sinon on prend directement la valeur enregistré dans la table Valeur
+        /**
+         * On vérifie que le tableau qu'on a créé juste au dessus existe. 
+         * Si il exite on on prend la valeur de l'id choisit dans le tableau,
+         * sinon on prend directement la valeur enregistré dans la table Valeur.
          */
         $donnees = [];
         foreach ($data as $key => $value) {
@@ -460,7 +482,7 @@ class FichesController extends AppController {
 
         $types = [];
         foreach ($donnees['Valeur'] as $key => $value) {
-            $types['Valeur.' . $key] = 'text';
+            $types['valeur_' . $key] = 'text';
         }
 
         $correspondances = [];
@@ -468,20 +490,32 @@ class FichesController extends AppController {
             $correspondances['valeur_' . $key] = 'Valeur.' . $key;
         }
 
-        //On donne le numéro d'enregistrement au registre du traitement
+        // On donne le numéro d'enregistrement au registre du traitement
         $donnees['Valeur']['numenregistrement'] = $numeroRegistre;
-        $types['Valeur.numenregistrement'] = 'text';
+        $types['valeur_numenregistrement'] = 'text';
         $correspondances['valeur_numenregistrement'] = 'Valeur.numenregistrement';
+        
+        // Si il y a une annexe on ajoute les données au fichier au info envoyer a GEDOOO
+        if ($annexe == true){
+            foreach ($fileAnnexes as $fileAnnexe){
+                $donnees['Valeur']['annexe'] = file_get_contents(
+                        WWW_ROOT . 'files'. DS .'piece_joint_traitement'. DS . $fileAnnexe['Fichier']['url']
+                );
+                $types['valeur_annexe'] = "file";
+                $correspondances['valeur_annexe'] = 'Valeur.annexe';
+                break;
+            } 
+        }
         
         $MainPart = new GDO_PartType();
         
         $Document = FusionConvBuilder::main($MainPart, $donnees, $types, $correspondances);
-
+        
         $sMimeType = 'application/vnd.oasis.opendocument.text';
 
         $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(WWW_ROOT . 'files/modeles/' . $file));
         $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
-
+        
         $Fusion->process();
         App::uses('FusionConvConverterCloudooo', 'FusionConv.Utility/Converter');
         $pdf = FusionConvConverterCloudooo::convert($Fusion->getContent()->binary);

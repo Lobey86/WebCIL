@@ -200,213 +200,218 @@ echo $this->Form->create('Fiche', [
     </div>
 </div>
 <div class="row">
-    <div class="row row35"></div>
-    <?php
-    $incrementation_id = 0;
+    <div class="row row35"></div> 
 
-    echo '<div class="col-md-6">';
+    <hr/>
 
-    foreach ($champs as $value) {
-        if ($value['Champ']['colonne'] > $col) {
-            echo '</div>';
-            echo '<div class="col-md-6">';
-            $line = 1;
-            $col++;
-        }
-
-        if ($value['Champ']['ligne'] > $line) {
-            for ($i = $line; $i < $value['Champ']['ligne']; $i++) {
-                echo '<div class="row row35"></div>';
+    <div class="col-md-6">
+        <?php
+        $incrementation_id = 0;
+        foreach ($champs as $value) {
+            if ($value['Champ']['colonne'] > $col) {
+                ?>
+            </div>
+            <div class="col-md-6">
+                <?php
+                $line = 1;
+                $col++;
             }
-            $line = $value['Champ']['ligne'];
+
+            if ($value['Champ']['ligne'] > $line) {
+                for ($i = $line; $i < $value['Champ']['ligne']; $i++) {
+                    ?>
+                    <div class="row row35"></div>
+                    <?php
+                }
+                $line = $value['Champ']['ligne'];
+            }
+
+            $options = json_decode($value['Champ']['details'], true);
+
+            $afficherObligation = "";
+
+            if ($options['obligatoire'] == true) {
+                $afficherObligation = '<span class="obligatoire"> *</span>';
+            }
+            ?>
+            <div class="row row35">
+                <div class="col-md-12">
+                    <?php
+                    switch ($value['Champ']['type']) {
+                        case 'input':
+                            echo $this->Form->input($options['name'], [
+                                'label' => [
+                                    'text' => $options['label'] . $afficherObligation,
+                                    'class' => 'col-md-4 control-label'
+                                ],
+                                'between' => '<div class="col-md-8">',
+                                'after' => '</div>',
+                                'class' => 'form-control',
+                                'div' => 'form-group',
+                                'placeholder' => $options['placeholder'],
+                                'required' => $options['obligatoire']
+                            ]);
+                            break;
+
+                        case 'textarea':
+                            echo $this->Form->input($options['name'], [
+                                'label' => [
+                                    'text' => $options['label'] . $afficherObligation,
+                                    'class' => 'col-md-4 control-label'
+                                ],
+                                'between' => '<div class="col-md-8">',
+                                'after' => '</div>',
+                                'class' => 'form-control',
+                                'div' => 'form-group',
+                                'placeholder' => $options['placeholder'],
+                                'required' => $options['obligatoire'],
+                                'type' => 'textarea'
+                            ]);
+                            break;
+
+                        case 'date':
+                            echo $this->Form->input($options['name'], [
+                                'label' => [
+                                    'text' => $options['label'] . $afficherObligation,
+                                    'class' => 'col-md-4 control-label'
+                                ],
+                                'id' => 'datetimepicker' . $incrementation_id,
+                                'between' => '<div class="col-md-8">',
+                                'after' => '</div>',
+                                'class' => 'form-control',
+                                'div' => 'form-group',
+                                'placeholder' => $options['placeholder'],
+                                'required' => $options['obligatoire'],
+                            ]);
+                            $incrementation_id ++;
+                            break;
+
+                        case 'title':
+                            ?>
+                            <div class="col-md-12 text-center">
+                                <h1>
+                                    <?php echo $options['content']; ?>
+                                </h1>
+                            </div>
+                            <?php
+                            break;
+
+                        case 'texte':
+                            ?>
+                            <div class="form-group">
+                                <div class="container">
+                                    <h5 class="col-md-4 control-label">
+                                        <?php echo $options['content']; ?>
+                                    </h5>
+                                </div>
+                            </div>
+                            <?php
+                            break;
+
+                        case 'help':
+                            ?>
+                            <div class="col-md-12 alert alert-info text-center">
+                                <div class="col-md-12">
+                                    <i class="fa fa-fw fa-info-circle fa-2x"></i>
+                                </div>
+                                <div class="col-md-12">
+                                    <?php echo $options['content']; ?>
+                                </div>
+                            </div>
+                            <?php
+                            break;
+
+                        case 'checkboxes':
+                            ?>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <?php echo $options['label']; ?>
+                                </label>
+                                <div class="col-md-8">';
+                                    <?php
+                                    echo $this->Form->input($options['name'], [
+                                        'label' => false,
+                                        'type' => 'select',
+                                        'multiple' => 'checkbox',
+                                        'options' => $options['options']
+                                    ]);
+                                    ?>
+                                </div>
+                            </div>
+                            <?php
+                            break;
+
+                        case 'deroulant':
+                            ?>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <?php echo $options['label'] . $afficherObligation; ?>
+                                </label>
+                                <div class="col-md-8">';
+                                    <?php
+                                    echo $this->Form->select($options['label'], $options['options'], [
+                                        'required' => $options['obligatoire'],
+                                        'empty' => true,
+                                    ]);
+                                    ?>
+                                </div>
+                            </div>
+                            <?php
+                            break;
+
+                        case 'radios':
+                            ?>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">
+                                    <?php echo $options['label']; ?>
+                                </label>
+                                <div class="col-md-8">';
+                                    <?php
+                                    echo $this->Form->radio($options['name'], $options['options'], [
+                                        'label' => false,
+                                        'legend' => false,
+                                        'separator' => '<br/>'
+                                    ]);
+                                    ?>
+                                </div>
+                            </div>
+                            <?php
+                            break;
+                    }
+                    $line++;
+                    ?>
+                </div>
+            </div>
+            <?php
         }
+        ?>
+    </div>
+</div>
 
-        $options = json_decode($value['Champ']['details'], true);
+<hr/>
 
-        $afficherObligation = "";
-
-        if ($options['obligatoire'] == true) {
-            $afficherObligation = '<span class="obligatoire"> *</span>';
-        }
-
-        echo '<div class="row row35"><div class="col-md-12">';
-
-        switch ($value['Champ']['type']) {
-            case 'input':
-                echo $this->Form->input($options['name'], [
-                    'label' => [
-                        'text' => $options['label'] . $afficherObligation,
-                        'class' => 'col-md-4 control-label'
-                    ],
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'div' => 'form-group',
-                    'placeholder' => $options['placeholder'],
-                    'required' => $options['obligatoire']
-                ]);
-                break;
-
-            case 'textarea':
-                echo $this->Form->input($options['name'], [
-                    'label' => [
-                        'text' => $options['label'] . $afficherObligation,
-                        'class' => 'col-md-4 control-label'
-                    ],
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'div' => 'form-group',
-                    'placeholder' => $options['placeholder'],
-                    'required' => $options['obligatoire'],
-                    'type' => 'textarea'
-                ]);
-                break;
-
-            case 'date':
-                echo $this->Form->input($options['name'], [
-                    'label' => [
-                        'text' => $options['label'] . $afficherObligation,
-                        'class' => 'col-md-4 control-label'
-                    ],
-                    'id' => 'datetimepicker' . $incrementation_id,
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'div' => 'form-group',
-                    'placeholder' => $options['placeholder'],
-                    'required' => $options['obligatoire'],
-                ]);
-                $incrementation_id ++;
-                break;
-
-            case 'title':
-                echo '<div class="col-md-12 text-center"><h1>' . $options['content'] . '</h1></div>';
-
-            case 'texte':
-                echo '<div class="form-group"><div class="container"><h5 class="col-md-4 control-label">' . $options['content'] . '</h5></div></div>';
-                break;
-
-            case 'help':
-                echo '<div class="col-md-12 alert alert-info text-center">
-                        <div class="col-md-12">
-                            <i class="fa fa-fw fa-info-circle fa-2x"></i>
-                        </div>
-                        <div class="col-md-12">' . $options['content'] . '</div>
-                    </div>';
-                break;
-
-            case 'checkboxes':
-                echo '<div class="form-group">
-                        <label class="col-md-4 control-label">' . $options['label'] . '</label>
-                    <div class="col-md-8">';
-
-                echo $this->Form->input($options['name'], [
-                    'label' => false,
-                    'type' => 'select',
-                    'multiple' => 'checkbox',
-                    'options' => $options['options']
-                ]);
-                echo '</div></div>';
-                break;
-
-            case 'deroulant':
-                echo '<div class="form-group">
-                        <label class="col-md-4 control-label">' . $options['label'] . $afficherObligation . '</label>
-                    <div class="col-md-8">';
-
-                echo $this->Form->select($options['label'], $options['options'], [
-                    'required' => $options['obligatoire'],
-                    'empty' => true,
-                ]);
-
-                echo '</div></div>';
-                break;
-
-            case 'radios':
-                echo '<div class="form-group">
-                        <label class="col-md-4 control-label">' . $options['label'] . '</label>
-                    <div class="col-md-8">';
-
-                echo $this->Form->radio($options['name'], $options['options'], [
-                    'label' => false,
-                    'legend' => false,
-                    'separator' => '<br/>'
-                ]);
-
-                echo '</div></div>';
-                break;
-        }
-        $line++;
-        echo '</div></div>';
-    }
-    echo '</div></div>';
+<?php
+if (!empty($files)) {
     ?>
     <div class="col-md-12 top30">
-        <h4><?php echo __d('fiche', 'fiche.textPiecesJointe'); ?></h4>
+        <h4>
+            <?php echo __d('fiche', 'fiche.textInfoPieceJointe'); ?>
+        </h4>
         <table>
             <tbody>
                 <?php
                 foreach ($files as $val) {
-                    $ext = explode('.', $val['Fichier']['url']);
-                    $ext = strtolower(end($ext));
-                    switch ($ext) {
-                        case 'pdf':
-                            $icone = 'file-pdf-o';
-                            break;
-                        case 'xls':
-                        case 'xlsx':
-                            $icone = 'file-excel-o';
-                            break;
-                        case 'doc':
-                        case 'docx':
-                            $icone = 'file-word-o';
-                            break;
-                        case 'zip':
-                        case 'rar':
-                        case 'tar':
-                        case'gz':
-                            $icone = 'file-archive-o';
-                            break;
-                        case 'avi':
-                        case 'mpg':
-                        case 'mpeg':
-                        case 'mkv':
-                        case 'mp4':
-                        case 'mov':
-                            $icone = 'file-video-o';
-                            break;
-                        case 'jpg':
-                        case 'jpeg':
-                        case 'gif':
-                        case 'png':
-                        case 'bmp':
-                            $icone = 'file-image-o';
-                            break;
-                        case 'ppt':
-                        case 'pptx':
-                            $icone = 'file-powerpoint-o';
-                            break;
-                        case 'odt':
-                        case 'ods':
-                        case 'txt':
-                            $icone = 'file-text-o';
-                            break;
-                        default:
-                            $icone = 'file-o';
-                            break;
-                    }
                     ?>
                     <tr class="tr-file-"<?php echo $val['Fichier']['id']; ?>>
                         <td class="col-md-1">
-                            <i class="fa fa-fw fa-"<?php echo $icone; ?>></i>
+                            <i class="fa fa-file-text-o fa-lg"></i>
                         </td>
                         <td class="col-md-9 tdleft">
                             <?php echo $val['Fichier']['nom']; ?>
                         </td>
                         <td class="col-md-2 boutonsFile boutonsFile"<?php echo $val['Fichier']['id']; ?>>
                             <?php
-                            echo $this->Html->link('<span class="glyphicon glyphicon-download-alt"></span>', [
+                            echo $this->Html->link('<span class="fa fa-download fa-lg"></span>', [
                                 'controller' => 'fiches',
                                 'action' => 'download',
                                 $val['Fichier']['url'],
@@ -417,7 +422,7 @@ echo $this->Form->create('Fiche', [
                                 'escapeTitle' => false
                             ]);
 
-                            echo $this->Form->button('<span class="glyphicon glyphicon-trash"></span>', [
+                            echo $this->Form->button('<span class="fa fa-trash fa-lg"></span>', [
                                 'type' => 'button',
                                 'class' => 'btn btn-default-danger btn-sm my-tooltip left5 btn-del-file',
                                 'title' => 'Supprimer ce fichier',
@@ -426,8 +431,8 @@ echo $this->Form->create('Fiche', [
                             ]);
                             ?>
                         </td>
-<!--                        <td class="boutonsFileHide boutonsFileHide"<?php echo $val['Fichier']['id']; ?>>
-                            <?php
+        <!--                        <td class="boutonsFileHide boutonsFileHide"<?php //echo $val['Fichier']['id'];     ?>>
+                        <?php
 //                            echo $this->Form->button('<span class="glyphicon glyphicon-arrow-left"></span> Annuler la suppression', [
 //                                'type' => 'button',
 //                                'class' => 'btn btn-default-default btn-sm my-tooltip left5 btn-cancel-file',
@@ -435,7 +440,7 @@ echo $this->Form->create('Fiche', [
 //                                'escapeTitle' => false,
 //                                'data' => $val['Fichier']['id']
 //                            ]);
-                            ?>
+                        ?>
                         </td>-->
                     </tr>
                     <?php
@@ -444,63 +449,80 @@ echo $this->Form->create('Fiche', [
             </tbody>
         </table>
     </div>
-    <div class="col-md-12 form-horizontal top17">
-        <?php
-        echo $this->Form->input('fichiers.', [
-            'type' => 'file',
-            'label' => [
-                'text' => __d('fiche', 'fiche.textAjouterFichier'),
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'filestyle fichiers draggable',
-            'div' => 'form-group',
-            'multiple'
-        ]);
-        ?>
-    </div>
-    <div class="row hiddenfields">
-        <?php
-        echo $this->Form->hidden('id', ['value' => $id]);
-        ?>
-        <div class="col-md-12 top17 text-center">
-            <div class="btn-group">
-                <?php
-                echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), [
-                    'controller' => $nameController,
-                    'action' => $nameView
-                        ], [
-                    'class' => 'btn btn-default-default',
-                    'escape' => false
-                ]);
+    <hr/>
+    <?php
+}
+?>
 
-                echo $this->Form->button('<i class="fa fa-fw fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
-                    'class' => 'btn btn-default-success',
-                    'escape' => false,
-                    'type' => 'submit'
-                ]);
+<h4>
+    <?php echo __d('fiche', 'fiche.textAjouterPieceJointe'); ?>
+</h4>
 
-                echo $this->Form->end();
-                ?>
-            </div>
+<div class="alert alert-warning" role="alert">
+    <?php echo __d('fiche', 'fiche.textTypeFichierAccepter'); ?>
+</div>  
+
+<div class="col-md-6 form-horizontal top17">
+    <?php
+    echo $this->Form->input('fichiers.', [
+        'type' => 'file',
+        'id' => 'fileAnnexe',
+        'label' => [
+            'text' => __d('fiche', 'fiche.textAjouterFichier'),
+            'class' => 'col-md-4 control-label'
+        ],
+        'between' => '<div class="col-md-8">',
+        'after' => '</div>',
+        'class' => 'filestyle fichiers draggable',
+        'div' => 'form-group',
+        'accept' => ".odt",
+        'multiple'
+    ]);
+    ?>
+</div>
+<div class="row hiddenfields">
+    <?php
+    echo $this->Form->hidden('id', ['value' => $id]);
+    ?>
+    <div class="col-md-12 top17 text-center">
+        <div class="btn-group">
+            <?php
+            echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), [
+                'controller' => $nameController,
+                'action' => $nameView
+                    ], [
+                'class' => 'btn btn-default-default',
+                'escape' => false
+            ]);
+
+            echo $this->Form->button('<i class="fa fa-fw fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
+                'class' => 'btn btn-default-success',
+                'escape' => false,
+                'type' => 'submit'
+            ]);
+
+            echo $this->Form->end();
+            ?>
         </div>
     </div>
+</div>
+    
+<script type="text/javascript">
 
-    <script type="text/javascript">
+    $(document).ready(function () {
+        var incrementation_id = <?php echo $incrementation_id ?>;
 
-        $(document).ready(function () {
-            var incrementation_id = <?php echo $incrementation_id ?>;
+        for (var i = 0; i < incrementation_id; i++) {
+            $('#datetimepicker' + i).datetimepicker({
+                viewMode: 'year',
+                startView: "decade", format: 'dd/mm/yyyy',
+                minView: 2,
+                language: 'fr'
+            });
+        }
 
-            for (var i = 0; i < incrementation_id; i++) {
-                $('#datetimepicker' + i).datetimepicker({
-                    viewMode: 'year',
-                    startView: "decade",
-                    format: 'dd/mm/yyyy',
-                    minView: 2,
-                    language: 'fr'
-                });
-            }
-        });
+        verificationExtension();
+        
+    });
 
-    </script>
+</script>
