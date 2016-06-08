@@ -70,7 +70,7 @@ class Modele extends AppModel {
                         mkdir(APP . FICHIER . MODELES, 0777, true);
                         mkdir(APP . FICHIER . REGISTRE, 0777, true);
                     } else {
-                        if (!file_exists(APP . FICHIER . PIECE_JOINT)) {
+                        if (!file_exists(APP . FICHIER . MODELES)) {
                             mkdir(APP . FICHIER . MODELES, 0777, true);
                         }
                     }
