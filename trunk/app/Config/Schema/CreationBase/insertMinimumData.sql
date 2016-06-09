@@ -7,7 +7,7 @@ INSERT INTO users(nom, prenom, username, password, email, createdby, created, mo
 'Admin',
 'Super',
 'superadmin',
-'84dedcb691046009c3ff23464fa6366b41ce6e34',
+'b89e933ad5926b14346d323e4cd17237385007ce',
 '',
 '1',
 NOW(),
