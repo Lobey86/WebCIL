@@ -18,12 +18,12 @@ define('FICHIER', "files");
 
 //Dossier qui va contenir toutes les pièces jointes a un traitement
 define('PIECE_JOINT', DS . "piece_joint_traitement");
-define('CHEMIN_PIECE_JOINT', APP . FILES . PIECE_JOINT . DS);
+define('CHEMIN_PIECE_JOINT', APP . FICHIER . PIECE_JOINT . DS);
 
 //Dossier qui va contenir tous les modèles liés à un formulaire
 define('MODELES', DS . "modeles");
-define('CHEMIN_MODELES', APP . FILES . MODELES . DS);
+define('CHEMIN_MODELES', APP . FICHIER . MODELES . DS);
 
 //Dossier qui va contenir tous les registres imprimer
 define('REGISTRE', DS . "registre");
-define('CHEMIN_REGISTRE', APP . FILES . REGISTRE . DS);
+define('CHEMIN_REGISTRE', APP . FICHIER . REGISTRE . DS);
