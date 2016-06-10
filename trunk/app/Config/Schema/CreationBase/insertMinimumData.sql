@@ -45,6 +45,7 @@ INSERT INTO etats (libelle, value) VALUES
 ('Validée par le CIL', 5),
 ('Demande d avis', 6),
 ('Archivée', 7);
+('Replacer en rédaction', 8);
 
 --
 -- Insertion de valeur dans la table admins
