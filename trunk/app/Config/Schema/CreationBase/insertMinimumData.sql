@@ -44,7 +44,7 @@ INSERT INTO etats (libelle, value) VALUES
 ('Refusée', 4),
 ('Validée par le CIL', 5),
 ('Demande d avis', 6),
-('Archivée', 7);
+('Archivée', 7),
 ('Replacer en rédaction', 8);
 
 --
