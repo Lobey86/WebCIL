@@ -212,8 +212,8 @@ class RegistresController extends AppController {
             }
 
             $folder = TMP . "imprimerRegistre";
-            $date = date('d-m-Y_H:i');
-
+            $date = date('d-m-Y_H-i');
+            
             //on verifie si le dossier existe. Si c'est pas le cas on le cree
             if (!file_exists($folder)) {
                 mkdir($folder, 0777, true);
