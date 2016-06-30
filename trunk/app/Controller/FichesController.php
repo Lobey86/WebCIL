@@ -371,7 +371,7 @@ class FichesController extends AppController {
      * 
      * @param int $id
      * @param type|false $save
-     * @param type $numero
+     * @param type $numeroRegistre
      * @return type
      * 
      * @access public
