@@ -110,17 +110,19 @@ echo $this->Html->script('pannel.js');
                                             <span class='glyphicon glyphicon-transfer'></span>
                                         </button>
                                         <?php
-                                    } elseif ($donnee['EtatFiche']['etat_id'] == 4) {
-                                        echo $this->Html->link('<span class="fa fa-repeat"></span>', [
-                                            'controller' => 'EtatFiches',
-                                            'action' => 'relaunch',
-                                            $donnee['Fiche']['id']
-                                                ], [
-                                            'escapeTitle' => false,
-                                            'class' => 'btn btn-default-default boutonRelancer btn-sm my-tooltip',
-                                            'title' => __d('pannel', 'pannel.commentaireReplacerTraitementRedactionDansEspace'),
-                                            ], __d('pannel', 'pannel.confirmationReapproprierTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . '" ?'
-                                        );
+                                    } elseif ($this->Autorisation->authorized(['5'], $this->Session->read('Droit.liste'))) {
+                                        if ($donnee['EtatFiche']['etat_id'] == 4) {
+                                            echo $this->Html->link('<span class="fa fa-repeat"></span>', [
+                                                'controller' => 'EtatFiches',
+                                                'action' => 'relaunch',
+                                                $donnee['Fiche']['id']
+                                                    ], [
+                                                'escapeTitle' => false,
+                                                'class' => 'btn btn-default-default boutonRelancer btn-sm my-tooltip',
+                                                'title' => __d('pannel', 'pannel.commentaireReplacerTraitementRedactionDansEspace'),
+                                                    ], __d('pannel', 'pannel.confirmationReapproprierTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . '" ?'
+                                            );
+                                        }
                                     }
                                     ?>
                                 </div>
@@ -194,7 +196,7 @@ echo $this->Html->script('pannel.js');
                                     'action' => 'parcours',
                                     $donnee['Fiche']['id']
                                 ]);
-                                
+
                                 echo $this->element('parcours', [
                                     "parcours" => $parcours
                                 ]);
