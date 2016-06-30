@@ -21,6 +21,9 @@
  * @version     v0.9.0
  * @package     App.Controller
  */
+App::uses('Folder', 'Utility');
+App::uses('File', 'Utility');
+
 class RegistresController extends AppController {
 
     public $uses = [
@@ -198,13 +201,13 @@ class RegistresController extends AppController {
         if ($tabId != null) {
             // On verifie si le dossier file existe. Si c'est pas le cas on le cree
             if (!file_exists(APP . FICHIER)) {
-                mkdir(APP . FICHIER, 0777, true);
-                mkdir(APP . FICHIER . PIECE_JOINT, 0777, true);
-                mkdir(APP . FICHIER . MODELES, 0777, true);
-                mkdir(APP . FICHIER . REGISTRE, 0777, true);
+                $dir = new Folder(APP . FICHIER, true, 0755);
+                $dir = new Folder(APP . FICHIER . PIECE_JOINT, true, 0755);
+                $dir = new Folder(APP . FICHIER . MODELES, true, 0755);
+                $dir = new Folder(APP . FICHIER . REGISTRE, true, 0755);
             } else {
                 if (!file_exists(APP . FICHIER . REGISTRE)) {
-                    mkdir(APP . FICHIER . REGISTRE, 0777, true);
+                    $dir = new Folder(APP . FICHIER . REGISTRE, true, 0755);
                 }
             }
 
@@ -216,6 +219,7 @@ class RegistresController extends AppController {
                 mkdir($folder, 0777, true);
             }
 
+            $files_concat = '';
             foreach ($tabId as $ficheID) {
                 //On recupere en BDD le flux de donnee qui a ete enregistre 
                 //au verrouillage du traitement en fonction de ID
