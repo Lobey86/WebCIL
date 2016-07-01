@@ -303,7 +303,7 @@ echo $this->Form->create('Fiche', array(
                                     <h1>
                                         <?php echo $options['content']; ?>
                                     </h1>
-                                </div>';
+                                </div>
                                 <?php
                                 break;
 
