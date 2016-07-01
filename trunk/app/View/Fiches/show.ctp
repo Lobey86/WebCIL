@@ -338,7 +338,7 @@ echo $this->Form->create('Fiche', array(
                                     <label class="col-md-4 control-label">
                                         <?php echo $options['label']; ?>
                                     </label>
-                                    <div class="col-md-8">';
+                                    <div class="col-md-8">
                                         <?php
                                         echo $this->Form->input($options['name'], [
                                             'label' => false,
