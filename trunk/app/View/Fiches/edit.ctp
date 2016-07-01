@@ -327,7 +327,7 @@ echo $this->Form->create('Fiche', [
                                 <label class="col-md-4 control-label">
                                     <?php echo $options['label']; ?>
                                 </label>
-                                <div class="col-md-8">';
+                                <div class="col-md-8">
                                     <?php
                                     echo $this->Form->input($options['name'], [
                                         'label' => false,
@@ -347,7 +347,7 @@ echo $this->Form->create('Fiche', [
                                 <label class="col-md-4 control-label">
                                     <?php echo $options['label'] . $afficherObligation; ?>
                                 </label>
-                                <div class="col-md-8">';
+                                <div class="col-md-8">
                                     <?php
                                     echo $this->Form->select($options['label'], $options['options'], [
                                         'required' => $options['obligatoire'],
@@ -365,7 +365,7 @@ echo $this->Form->create('Fiche', [
                                 <label class="col-md-4 control-label">
                                     <?php echo $options['label']; ?>
                                 </label>
-                                <div class="col-md-8">';
+                                <div class="col-md-8">
                                     <?php
                                     echo $this->Form->radio($options['name'], $options['options'], [
                                         'label' => false,
