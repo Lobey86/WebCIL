@@ -408,6 +408,7 @@ $(document).ready(function () {
         
         /*On applique les modifications du champ en question au clic sur le boutton "Appliquer" */
         $('#applicable').click(function () {
+             alert("applicable");
             $('#applicable').parent().parent().find('input').each(function () {
                 /*On vérifie que le nom de la variable du champ n'est pas vide ou existe déjà*/
                 if ($(this).hasClass('nameForm')) {
@@ -416,6 +417,7 @@ $(document).ready(function () {
             });
             
             if(nomVariable === false){
+                alert("nomVarialbe false")
                 /*Concerne les champs "Petit champ texte, Grand champ texte, Champ date"*/
                 $('#applicable').parent().parent().find('input').each(function () {
                     if ($(this).hasClass('labelForm')) {
@@ -450,6 +452,7 @@ $(document).ready(function () {
                 
                 /*Concerne les champs "Cases à cocher, Choix unique, Menu déroulant"*/
                 $('#applicable').parent().parent().find('textarea').each(function () {
+                
                     if ($(this).hasClass('checkboxForm')) {
                         var options = $(this).val().split('\n');
                         var objet = '';
@@ -522,9 +525,14 @@ $(document).ready(function () {
                         }
                     }
                 });
+                
+                nomVariable = true;
+                
             }else{
                 $('#applicable').parent().parent().find('input').each(function () {
+                    alert("input");
                     if ($(this).hasClass('titleForm')) {
+                        alert("in if");
                         $('.ui-selected').find('h1').html($(this).val());
                     }
 
