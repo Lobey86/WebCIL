@@ -15,7 +15,7 @@ msgid "formulaire.titreListeFormulaire"
 msgstr "Liste des formulaires de : "
 
 msgid "formulaire.titreCreerFormulaire"
-msgstr "Création d'un formulaire"c
+msgstr "Création d'un formulaire"
 
 msgid "formulaire.titreEditerFormulaire"
 msgstr "Editer un formulaire"
