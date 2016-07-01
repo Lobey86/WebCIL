@@ -1,5 +1,10 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
+
+
+
+
+
 <?php
 echo $this->Html->script('registre.js');
 echo $this->Form->button('<span class="fa fa-filter fa-lg"></span>' . __d('registre', 'registre.btnFiltrerListe'), $options = array(
@@ -166,7 +171,8 @@ if (!empty($fichesValid)) {
                             }
                             if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] != 7) {
                                 echo $this->Form->button('<span class="fa fa-pencil fa-lg"></span>', array(
-                                    'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip btn-edit-registre',
+                                    'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip btn-edit-registre modif_traitement',
+                                    'id' => $value['Fiche']['id'],
                                     'escapeTitle' => false,
                                     'data-toggle' => 'modal',
                                     'data-target' => '#modalEditRegistre',
@@ -276,7 +282,7 @@ if (!empty($fichesValid)) {
                             'div' => 'form-group',
                             'required' => 'required'
                         ));
-                        echo $this->Form->hidden('idEditRegistre', array('id' => 'idEditRegistre'));
+                        echo $this->Form->hidden('idEditRegistre', array('value' => '', 'id' => "toModif"));
                         ?>
                     </div>
                 </div>
@@ -285,7 +291,7 @@ if (!empty($fichesValid)) {
                 <button type="button" class="btn btn-default-default" data-dismiss="modal">
                     <?php echo __d('default', 'default.btnAnnuler'); ?>
                 </button>
-                <button type="submit" class="btn btn-default-success">
+                <button type="submit" class="btn btn-default-success" id="modif_valid">
                     <?php echo __d('registre', 'registre.popupBtnMofifierTraitement'); ?>
                 </button>
                 <?php
@@ -297,6 +303,8 @@ if (!empty($fichesValid)) {
 </div>
 
 <script type="text/javascript">
+
+    var currentTraitementId = 0;
 
     $(document).ready(function () {
 
@@ -310,6 +318,15 @@ if (!empty($fichesValid)) {
         //Checkbox -> masterCheckbox
         $('input[type="checkbox"]').not("#masterCheckbox").change(function () {
             $('#masterCheckbox').prop('checked', $('input[type="checkbox"]').not('#masterCheckbox').not(':disabled').not(':checked').length === 0);
+        });
+
+        $('.modif_traitement').click(function () {
+            currentTraitementId = $(this).attr('id');
+        });
+
+        $('#RegistreEditForm').submit(function (el) {
+            $("#toModif").val(currentTraitementId);
+            return true;
         });
 
     });

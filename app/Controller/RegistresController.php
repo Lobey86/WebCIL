@@ -155,6 +155,10 @@ class RegistresController extends AppController {
      * @access public
      * @created 21/09/2015
      * @version V0.9.0
+     * 
+     * @param type $idFiche
+     * 
+     * @modified 01/07/2016
      */
     public function edit() {
         $this->Modification->create([
