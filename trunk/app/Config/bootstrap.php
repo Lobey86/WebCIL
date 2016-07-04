@@ -125,6 +125,15 @@ CakeLog::config('error', array(
     'file' => 'error',
 ));
 
+// Load composer autoload
+require ROOT . DS . 'vendors'. DS .'autoload.php';
+
+// Remove and re-prepend CakePHP's autoloader as composer thinks it is the most important.
+// See https://github.com/composer/composer/commit/c80cb76b9b5082ecc3e5b53b1050f76bb27b127b
+// See http://goo.gl/kKVJO7
+spl_autoload_unregister(array('App', 'load'));
+spl_autoload_register(array('App', 'load'), true, true);
+
 include_once(APP . DS . "Plugin" . DS . "Cakeflow" . DS . "Config" . DS . "cakeflow.conf.php");
 
 $versionFile = file(APP . 'VERSION.txt');
