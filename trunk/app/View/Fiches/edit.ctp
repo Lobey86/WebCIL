@@ -349,7 +349,7 @@ echo $this->Form->create('Fiche', [
                                 </label>
                                 <div class="col-md-8">
                                     <?php
-                                    echo $this->Form->select($options['label'], $options['options'], [
+                                    echo $this->Form->select($options['name'], $options['options'], [
                                         'required' => $options['obligatoire'],
                                         'empty' => true,
                                     ]);
