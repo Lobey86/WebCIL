@@ -1,10 +1,5 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
-
-
-
-
-
 <?php
 echo $this->Html->script('registre.js');
 echo $this->Form->button('<span class="fa fa-filter fa-lg"></span>' . __d('registre', 'registre.btnFiltrerListe'), $options = array(
@@ -81,26 +76,46 @@ if (!empty($fichesValid)) {
     <br/>
     <br/>
     <?php
-    echo $this->Form->button("Imprimer", array(
-        'onclick' => "sendData()",
-        'class' => 'btn btn-default-primary pull-right'
-    ));
+    if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
+        echo $this->Form->button("Imprimer", array(
+            'onclick' => "sendData()",
+            'class' => 'btn btn-default-primary pull-right'
+        ));
+    }
     ?>
     <table class="table">
         <thead>
-        <th class="thleft col-md-2">
-            <?php echo __d('registre', 'registre.titreTableauNomTraitement'); ?>
-        </th>
-        <th class="thleft col-md-6">
-            <?php echo __d('registre', 'registre.titreTableauSynthese'); ?>
-        </th>
-        <th class="thleft col-md-2">
-            <?php echo __d('registre', 'registre.titreTableauOutil'); ?>
-        </th>
-        <th class="thleft col-md-1">
-            <input id="masterCheckbox" type="checkbox" class = "masterCheckbox_checkbox" />
-        </th>
-    </thead>
+            <?php
+            if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
+                ?>
+                <th class="thleft col-md-2">
+                    <?php echo __d('registre', 'registre.titreTableauNomTraitement'); ?>
+                </th>
+                <th class="thleft col-md-6">
+                    <?php echo __d('registre', 'registre.titreTableauSynthese'); ?>
+                </th>
+                <th class="thleft col-md-2">
+                    <?php echo __d('registre', 'registre.titreTableauOutil'); ?>
+                </th>
+                <th class="thleft col-md-1">
+                    <input id="masterCheckbox" type="checkbox" class = "masterCheckbox_checkbox" />
+                </th>
+                <?php
+            } else {
+                ?>
+                <th class="thleft col-md-4">
+                    <?php echo __d('registre', 'registre.titreTableauNomTraitement'); ?>
+                </th>
+                <th class="thleft col-md-6">
+                    <?php echo __d('registre', 'registre.titreTableauSynthese'); ?>
+                </th>
+                <th class="thleft col-md-4">
+                    <?php echo __d('registre', 'registre.titreTableauOutil'); ?>
+                </th>
+                <?php
+            }
+            ?>
+        </thead>
     <tbody>
         <?php
         foreach ($fichesValid as $key => $value) {
@@ -195,16 +210,21 @@ if (!empty($fichesValid)) {
                         </div>
                     </td>
 
-                    <td class="tdleft">
-                        <?php
-                        if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] == 7) {
-                            ?>
-                            <input type="checkbox" class="masterCheckbox" id="<?php echo $value['Fiche']['id']; ?>" >
-                            <?php
-                        }
+                    <?php
+                   if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
                         ?>
-                    </td>
-
+                        <td class="tdleft">
+                            <?php
+                            if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] == 7) {
+                                ?>
+                                <input type="checkbox" class="masterCheckbox" id="<?php echo $value['Fiche']['id']; ?>" >
+                                <?php
+                            }
+                            ?>
+                        </td>
+                        <?php
+                    }
+                    ?>
                 </tr>
                 <?php
             }

@@ -30,6 +30,7 @@ class RegistresController extends AppController {
         'EtatFiche',
         'Fiche',
         'Valeur',
+        'Organisation',
         'OrganisationUser',
         'Modification',
         'Extrait'
@@ -45,6 +46,16 @@ class RegistresController extends AppController {
         $this->Session->write('nameView', "index");
 
         $this->set('title', __d('registre', 'registre.titreRegistre') . $this->Session->read('Organisation.raisonsociale'));
+
+        $idCil = $this->Organisation->find('first', [
+            'conditions' => [
+                'id' => $this->Session->read('Organisation.id')
+            ],
+            'fields' => [
+                'cil'
+            ]
+        ]);
+        $this->set('idCil', $idCil);
 
         $condition = [
             'EtatFiche.etat_id' => [
@@ -217,7 +228,7 @@ class RegistresController extends AppController {
 
             $folder = TMP . "imprimerRegistre";
             $date = date('d-m-Y_H-i');
-            
+
             //on verifie si le dossier existe. Si c'est pas le cas on le cree
             if (!file_exists($folder)) {
                 mkdir($folder, 0777, true);
