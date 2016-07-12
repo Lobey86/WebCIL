@@ -151,4 +151,16 @@ msgstr "Finalité principale du traitement "
 msgid "modele.textNumeroEnregistrementRegistre"
 msgstr "Numéro d'enregistrement du traitement dans le registre"
 
+msgid "modele.sousTitreAnnexe"
+msgstr "Variable pour l'utilisation des annexes"
+
+msgid "modele.textAjouterAnnexeModele"
+msgstr "Il faut rajouter en variable "valeur_annexe + numéro de l'annexe""
+
+msgid "modele.textExempleVariableAnnexeModele"
+msgstr "Exemple : Si il y a 3 annexes, il faut mettre a la fin du modèle :"
+
+
+
+
 ###############################################################################
