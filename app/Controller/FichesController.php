@@ -394,8 +394,6 @@ class FichesController extends AppController {
             $annexe = true;
         }
         
-//        debug($fileAnnexes);
-        
         $data = $this->Valeur->find('all', [
             'conditions' => [
                 'fiche_id' => $id
@@ -497,13 +495,14 @@ class FichesController extends AppController {
         
         // Si il y a une annexe on ajoute les données au fichier au info envoyer a GEDOOO
         if ($annexe == true){
+            $compteur = 1;
             foreach ($fileAnnexes as $fileAnnexe){
-                $donnees['Valeur']['annexe'] = file_get_contents(
+                $donnees['Valeur']['annexe'.$compteur] = file_get_contents(
                         CHEMIN_PIECE_JOINT . $fileAnnexe['Fichier']['url']
                 );
-                $types['valeur_annexe'] = "file";
-                $correspondances['valeur_annexe'] = 'Valeur.annexe';
-                break;
+                $types['valeur_annexe'.$compteur] = "file";
+                $correspondances['valeur_annexe'.$compteur] = 'Valeur.annexe'.$compteur;
+                $compteur ++;
             } 
         }
         

@@ -135,7 +135,7 @@ class ModelesController extends AppController {
         $variables = Hash::extract($variables, '{n}.Champ');
         $this->set(compact('variables'));
 
-        $organisations = $this->Organisation->find('all', array(
+        $valeurOrganisations = $this->Organisation->find('all', array(
             'conditions' => array(
                 'id' => $this->Session->read('Organisation.id')
             ),
@@ -150,8 +150,8 @@ class ModelesController extends AppController {
                 'ape',
             )
         ));
-        $organisations = Hash::extract($organisations, '{n}.Organisation');
-        $this->set(compact('organisations'));
+        $valeurOrganisations = Hash::extract($valeurOrganisations, '{n}.Organisation');
+        $this->set(compact('valeurOrganisations'));
     }
 
 }
