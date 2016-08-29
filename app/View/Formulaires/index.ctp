@@ -111,8 +111,8 @@
                         );
                     } else {
                         ?> 
-                        <button type="button" class="btn btn-default-default btn-sm my-tooltip" 
-                                data-toggle="modal" data-target="#modalDupliquer"
+                        <button type="button" class="btn btn-default-default btn-sm my-tooltip btn_duplicate" 
+                                data-toggle="modal" data-target="#modalDupliquer" value="<?php echo $data['Formulaire']['id'];?>"
                                 title="<?php echo __d('formulaire', 'formulaire.commentaireDupliquerFormulaire'); ?>">
                             <span class="fa fa-files-o fa-lg" ></span>
                         </button>
@@ -134,7 +134,8 @@
                                             <?php
                                             echo $this->Form->create('Formulaire', array('action' => 'dupliquer'));
 
-                                            echo $this->Form->input('id', array("value" => $data['Formulaire']['id']));
+                                            echo $this->Form->input('id', array("value" => 0));
+                                            //echo $this->Form->input('id', array("value" => $data['Formulaire']['id']));
                                             echo $this->Form->input('libelle', array(
                                                 'class' => 'form-control',
                                                 'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderNomFormulaire'),
@@ -266,3 +267,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(".btn_duplicate").click(function(){
+       var valueId = $(this).val();
+       $('#FormulaireId').val(valueId);
+    });
+    
+</script>    
