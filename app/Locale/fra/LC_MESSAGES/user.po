@@ -151,7 +151,7 @@ msgid "user.placeholderChampMotDePasseActuel"
 msgstr "Votre mot de passe actuel (requis)"
 
 msgid "user.textInfoDeconnection"
-msgstr "Si vous enregistrez vos informations, vous serez déconnecté de la session pour mettre a jour les informations."
+msgstr "Si vous enregistrez vos informations, vous serez déconnecté de la session pour mettre à jour les informations."
 
 ###############################################################################
 

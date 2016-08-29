@@ -19,13 +19,13 @@ msgid "default.sousTitreMesTraitement"
 msgstr "Mes traitements"
 
 msgid "default.sousTitreTraitementRecues"
-msgstr "Mes traitements reçues"
+msgstr "Mes traitements reçus"
 
 msgid "default.sousTitreTraitementValidees"
-msgstr "Mes traitements validées"
+msgstr "Mes traitements validés"
 
 msgid "default.sousTitreTraitementVu"
-msgstr "Mes traitements vu"
+msgstr "Mes traitements vus"
 
 msgid "default.titreRegistre"
 msgstr "Registre"
