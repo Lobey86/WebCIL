@@ -18,7 +18,7 @@ msgid "pannel.traitementEnAttente"
 msgstr "Mes traitements en attente ("
 
 msgid "pannel.traitementRefusees"
-msgstr "Mes traiments refusées ("
+msgstr "Mes traiments refusés ("
 
 msgid "pannel.aucunTraitementEnCours"
 msgstr "Vous n'avez aucun traitement en cours"
@@ -27,7 +27,7 @@ msgid "pannel.aucunTraitementEnAttente"
 msgstr "Vous n'avez aucun traitement en attente"
 
 msgid "pannel.aucunTraitementRefusees"
-msgstr "Vous n'avez aucun traitement refusée"
+msgstr "Vous n'avez aucun traitement refusé"
 
 msgid "pannel.btnCreerTraitement"
 msgstr " Créer un traitement"

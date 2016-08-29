@@ -93,7 +93,7 @@ msgid "registre.popupBtnMofifierTraitement"
 msgstr "Modifier le traitement"
 
 msgid "registre.textAucunTraitementFiltre"
-msgstr "Il n'y a aucune traitement pour ces filtres"
+msgstr "Il n'y a aucun traitement pour ces filtres"
 
 msgid "registre.lienAnnulerFiltres"
 msgstr "Cliquez ici pour annuler les filtres"

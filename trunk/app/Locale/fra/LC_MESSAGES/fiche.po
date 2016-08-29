@@ -38,7 +38,7 @@ msgid "fiche.flashsuccessTraitementModifier"
 msgstr "Le traitement a été modifiée"
 
 msgid "fiche.flashsuccessTraitementEnregistrer"
-msgstr "Le traitement a été enregistrée"
+msgstr "Le traitement a été enregistré"
 
 ###############################################################
 
