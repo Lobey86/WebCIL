@@ -79,11 +79,11 @@ class User extends AppModel {
             )
         ),
         'nom' => array(
-            'rule' => '/^[a-z]{1,}$/i',
+            'rule' => '/^[a-zA-Z-]{1,}$/i',
             'message' => 'Seulement des lettres sont accepté'
         ),
         'prenom'=> array(
-            'rule' => '/^[a-z]{1,}$/i',
+            'rule' => '/^[a-zA-Z-]{1,}$/i',
             'message' => 'Seulement des lettres sont accepté'
         ),
     );
