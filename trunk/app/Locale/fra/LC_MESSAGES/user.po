@@ -165,7 +165,7 @@ msgid "user.champNouveauMotDePasse"
 msgstr "Nouveau mot de passe "
 
 msgid "user.placeholderChampNouveauMotDePasse"
-msgstr "Nouveau mot de passe avec minimum 5 caracères"
+msgstr "Nouveau mot de passe avec minimum 5 caractères"
 
 msgid "user.champVerifNouveauMotDePasse"
 msgstr "Vérification du nouveau mot de passe "
