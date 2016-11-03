@@ -29,7 +29,7 @@ msgid "etat_fiche.flashsuccessCommentaireAjouter"
 msgstr "Le commentaire a été ajouté"
 
 msgid "etat_fiche.flashsuccessTraitementReplacerRedaction"
-msgstr "Le traitement a bien été replacée en rédaction"
+msgstr "Le traitement a bien été replacé en rédaction"
 
 msgid "etat_fiche.flashsuccessTraitementEnvoyerCIL"
 msgstr "Le traitement a été envoyé au CIL"

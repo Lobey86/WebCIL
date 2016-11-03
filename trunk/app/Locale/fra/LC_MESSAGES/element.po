@@ -39,7 +39,7 @@ msgid "element.Refusee"
 msgstr "Refusé"
 
 msgid "element.RefuseePar"
-msgstr "Refusé par : "
+msgstr "Refusé par"
 
 msgid "element.ValideeInsereeRegistre"
 msgstr "Validée et insérée au registre"
@@ -48,7 +48,7 @@ msgid "element.ValideePar"
 msgstr "Validée par"
 
 msgid "element.CommenterPar"
-msgstr "Commenté par : "
+msgstr "Commenté par"
 
 msgid "element.AttenteConsultation"
 msgstr "En attente de consultation"
