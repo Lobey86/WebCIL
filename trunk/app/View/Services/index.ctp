@@ -26,16 +26,20 @@
             <td class="tdleft col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        <strong><?php echo __d('service','service.textTableauOrganisation');?></strong>
+                        <strong>
+                            <?php echo __d('service','service.textTableauOrganisation');?>
+                        </strong>
                             <?php echo $this->Session->read('Organisation.raisonsociale');?>
                     </div>
                     <div class="col-md-6">
-                        <strong><?php echo __d('service','service.textTableauMembre').$plurielle;?></strong>
+                        <strong>
+                            <?php echo __d('service','service.textTableauMembre').$plurielle;?>
+                        </strong>
                             <?php echo $value[ 'count' ];?>
                     </div>
                 </div>
             </td>
-        
+
             <td class="tdleft col-md-2">
                 <div class="btn-group">
                     <?php
@@ -50,7 +54,7 @@
                             'title' => __d('service', 'service.commentaireModifierService')
                         ));
                     }
-                    if ($this->Autorisation->authorized(15, $droits)) {
+                    if ($this->Autorisation->authorized(15, $droits) && $value['count'] == 0) {
                         echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
                             'controller' => 'services',
                             'action' => 'delete',
