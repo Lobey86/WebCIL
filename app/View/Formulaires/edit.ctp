@@ -8,11 +8,11 @@ echo $this->Html->css(array(
     'jquery-ui.structure.min'
 ));
 ?>
-    <div class="col-md-8 form-oblig form-horizontal">
-<!--        <div class="row35"></div>
-        <div class="row">
-            <div class="col-md-6">
-                <?php
+<div class="col-md-8 form-oblig form-horizontal">
+    <!--        <div class="row35"></div>
+            <div class="row">
+                <div class="col-md-6">
+    <?php
 //                echo $this->Form->input('declarantraisonsociale', array(
 //                    'label' => array(
 //                        'text' => 'Raison Sociale <span class="obligatoire">*</span>',
@@ -65,10 +65,11 @@ echo $this->Html->css(array(
 //                    'div' => 'form-group',
 //                    'value' => $organisation['Organisation']['email']
 //                ));
-//                ?>
-            </div>
-            <div class='col-md-6'>
-                <?php
+//                
+    ?>
+                </div>
+                <div class='col-md-6'>
+    <?php
 //                echo $this->Form->input('declarantsigle', array(
 //                    'label' => array(
 //                        'text' => 'Sigle',
@@ -133,301 +134,301 @@ echo $this->Html->css(array(
 //                    'div' => 'form-group',
 //                    'value' => $organisation['Organisation']['fax']
 //                ));
-//                ?>
-            </div>
-        </div>-->
-        <div class="row row35"></div>
-        <div class="row">
-            <div class="col-md-12">
-                <span class='labelFormulaire'><?php echo __d('formulaire','formulaire.textInfo');?></span>
-                <div class="row row35"></div>
-            </div>
-            <div class="col-md-6">
-                <?php
-                echo $this->Form->input('declarantpersonnenom', array(
-                    'label' => array(
-                        'text' => __d('default','default.champNom').'<span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'required' => 'required',
-                    'div' => 'form-group',
-                    'value' => __d('default','default.valueChampRemplissageAuto'),
-                    'readonly' => 'readonly'
-                ));
-                ?>
-            </div>
-            <div class="col-md-6">
-                <?php
-                echo $this->Form->input('declarantpersonneemail', array(
-                    'label' => array(
-                        'text' => __d('default','default.champE-mail').'<span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'required' => 'required',
-                    'div' => 'form-group',
-                    'value' => __d('default','default.valueChampRemplissageAuto'),
-                    'readonly' => 'readonly'
-                ));
-                ?>
-            </div>
+//                
+    ?>
+                </div>
+            </div>-->
+    <!--<div class="row row35"></div>-->
+    <div class="row">
+        <div class="col-md-12">
+            <span class='labelFormulaire'><?php echo __d('formulaire', 'formulaire.textInfo'); ?></span>
+            <div class="row row35"></div>
         </div>
+        <div class="col-md-6">
+            <?php
+            echo $this->Form->input('declarantpersonnenom', array(
+                'label' => array(
+                    'text' => __d('default', 'default.champNom') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ),
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'required' => 'required',
+                'div' => 'form-group',
+                'value' => __d('default', 'default.valueChampRemplissageAuto'),
+                'readonly' => 'readonly'
+            ));
+            ?>
+        </div>
+        <div class="col-md-6">
+            <?php
+            echo $this->Form->input('declarantpersonneemail', array(
+                'label' => array(
+                    'text' => __d('default', 'default.champE-mail') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ),
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'required' => 'required',
+                'div' => 'form-group',
+                'value' => __d('default', 'default.valueChampRemplissageAuto'),
+                'readonly' => 'readonly'
+            ));
+            ?>
+        </div>
+    </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <?php
-                echo $this->Form->input('outilnom', array(
-                    'label' => array(
-                        'text' => __d('default','default.champNomTraitement').'<span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'div' => 'form-group',
-                    'readonly' => 'readonly'
-                ));
-                ?>
-            </div>
-            <div class="col-md-6">
-                <?php
-                echo $this->Form->input('finalitepricipale', array(
-                    'label' => array(
-                        'text' => __d('default','default.champFinalite').'<span class="obligatoire">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'class' => 'form-control',
-                    'div' => 'form-group',
-                    'readonly' => 'readonly',
-                    'type' => 'textarea'
-                ));
-                ?>
-            </div>
+    <div class="row">
+        <div class="col-md-6">
+            <?php
+            echo $this->Form->input('outilnom', array(
+                'label' => array(
+                    'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ),
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'div' => 'form-group',
+                'readonly' => 'readonly'
+            ));
+            ?>
+        </div>
+        <div class="col-md-6">
+            <?php
+            echo $this->Form->input('finalitepricipale', array(
+                'label' => array(
+                    'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ),
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'div' => 'form-group',
+                'readonly' => 'readonly',
+                'type' => 'textarea'
+            ));
+            ?>
         </div>
     </div>
-    <div id="form-container" class="col-md-8">
-        <?php
-        $calendrier = array();
-        foreach($champs as $key => $value) {
-            $details = json_decode($value['Champ']['details'], true);
-            $line = 35 * ($value['Champ']['ligne'] - 1);
-            
-            if($value['Champ']['colonne'] == 1) {
-                $colonne = 'left: 0px;';
-            } else {
-                $colonne = 'right: 0px;';
-            }
-            
-            if($details['obligatoire'] == true){
-                $champObligatoire = "checked";
-            } else {
-                $champObligatoire = "unchecked";
-            }
-            
-            switch($value['Champ']['type']) {
-                case 'input':
-                        echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; '.$colonne.'" data="'.$champObligatoire.'">'
-                                . '<div class="col-md-4">'
-                                    . '<label>'
-                                        . '<span class="labeler">' . $details['label'] . '</span>'
-                                        .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
-                                    . '</label>'
-                                . '</div>'
-                                . '<div class="col-md-8">'
-                                    . '<input type="text" name="'.$details['name'].'" checked="'.$details['obligatoire'].'" placeholder="' . $details['placeholder'] . '" class="form-control"/>'
-                                . '</div>'
-                            . '</div>';
-                    break;
-                    
-                case 'textarea':
-                    echo '<div class="draggable form-group col-md-6 long-text" style="top:' . $line . 'px; ' . $colonne . '" data="'.$champObligatoire.'">'
-                            . '<div class="col-md-4">'
-                                . '<label>'
-                                    . '<span class="labeler">' . $details['label'] . '</span>'
-                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
-                                . '</label>'
-                            . '</div>'
-                            . '<div class="col-md-8">'
-                                . '<textarea type="textarea" name="' . $details['name'] . '" checked="'.$details['obligatoire'].'" placeholder="' . $details['placeholder'] . '"class="form-control"></textarea>'
-                            . '</div>'
-                        . '</div>';
-                    break;
-                    
-                case 'date':
-                    echo '<div class="draggable form-group col-md-6 date" style="top:' . $line . 'px; ' . $colonne . '" data="'.$champObligatoire.'">'
-                            . '<div class="col-md-4">'
-                                . '<label>'
-                                    . '<span class="labeler">' . $details['label'] . '</span>'
-                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
-                                . '</label>'
-                            . '</div>'
-                            . '<div class="container">'
-                                .'<div class="row">'
-                                    .'<div class="col-sm-2">'
-                                        .'<input type="date" class="form-control" id="'.$details['name'].'" name="'.$details['name'].'" required="'.$details['obligatoire'].'" placeholder="'.$details['placeholder'].'"></input>
-'                                   .'</div>'
-                                .'</div>'
-                            .'</div>'
-                        .'</div>';
-                    
-                    $calendrier[] = $details['name'];
-                    break;
-                    
-                case 'title':
-                    echo '<div class="draggable form-group col-md-6 title text-center" style="top:' . $line . 'px; ' . $colonne . '">'
-                            . '<h1>' . $details['content'] . '</h1>'
-                        . '</div>';
-                    break;
-                
-                case 'help':
-                    echo '<div class="draggable form-group col-md-6 help text-center" style="top:' . $line . 'px; ' . $colonne . '">'
-                            . '<div class="col-md-12 alert alert-info">'
-                                . '<div class="col-md-12">'
-                                    . '<i class="fa fa-fw fa-info-circle fa-2x"></i>'
-                                . '</div>'
-                                . '<div class="col-md-12 messager">' . $details['content'] . '</div>'
-                            . '</div>'
-                        . '</div>';
-                    break;
-                
-                case 'checkboxes':
-                    echo '<div class="draggable form-group col-md-6 checkboxes" style="top:' . $line . 'px; ' . $colonne .'" data="'.$champObligatoire.'">'
-                            . '<div class="col-md-4">'
-                                . '<label>'
-                                    . '<span class="labeler">' . $details['label'] . '</span>'
-                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
-                                . '</label>'
-                            . '</div>'
-                            . '<div class="col-md-8 contentCheckbox">';
-                    
-                    foreach($details['options'] as $val) {
-                        echo '<div class="checkbox">'
-                                . '<input type="checkbox" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
-                    }
-                    
-                    echo '</div></div>';
-                    break;
-                    
-                case 'radios':
-                    echo '<div class="draggable form-group col-md-6 radios" style="top:' . $line . 'px; ' . $colonne .'" data="'.$champObligatoire.'">'
-                            . '<div class="col-md-4">'
-                                . '<label>'
-                                    . '<span class="labeler">' . $details['label'] . '</span>'
-                                . '</label>'
-                            . '</div>'
-                            . '<div class="col-md-8 contentRadio">';
-                                foreach($details['options'] as $val) {
-                                    echo '<div class="radio"><input type="radio" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
-                                }
-                        echo '</div></div>';
-                    break;
-                    
-                case 'deroulant':
-                    echo '<div class="draggable form-group col-md-6 deroulant" style="top:' . $line . 'px; ' . $colonne .'" data="'.$champObligatoire.'">'
-                            .'<div class="col-md-4">'
-                                .'<label>'
-                                    .'<span class="labeler">' . $details['label'] . '</span>'
-                                    .($details['obligatoire']?'<span class="obligatoire"> *</span>':'')
-                                .'</label>'
-                            .'</div>'
-                            .'<select class="form-control" name ="'.$details['name'].'">';
-                            foreach($details['options'] as $val) {
-                                echo '<option type="deroulant" name ="'.$details['name'].'" value="' . $val . '"> '. $val . '</option></div>';
-                            }
-                            echo '</select>'
-                        .'</div>';
-                    break;
-                    
-                case 'texte':
-                    echo '<div class="draggable form-group col-md-6 texte" style="top:' . $line . 'px;' . $colonne . '">'
-                            . '<h5>' . $details['content'] . '</h5>'
-                        . '</div>';
-                    break;    
-                    
-                default :
-                    break;
-            }
+</div>
+<div id="form-container" class="col-md-8">
+    <?php
+    $calendrier = array();
+    foreach ($champs as $key => $value) {
+        $details = json_decode($value['Champ']['details'], true);
+        $line = 35 * ($value['Champ']['ligne'] - 1);
+
+        if ($value['Champ']['colonne'] == 1) {
+            $colonne = 'left: 0px;';
+        } else {
+            $colonne = 'right: 0px;';
         }
-        ?>
-    </div>
-    <div class="col-md-offset-4" id="field-affix">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default panel-affix">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><?php echo __d('formulaire','formulaire.textOptionChamp');?></h3>
-                    </div>
-                    <div class="panel-body" id="field-options">
-                    </div>
+
+        if ($details['obligatoire'] == true) {
+            $champObligatoire = "checked";
+        } else {
+            $champObligatoire = "unchecked";
+        }
+
+        switch ($value['Champ']['type']) {
+            case 'input':
+                echo '<div class="draggable form-group col-md-6 small-text" style="top:' . $line . 'px; ' . $colonne . '" data="' . $champObligatoire . '">'
+                . '<div class="col-md-4">'
+                . '<label>'
+                . '<span class="labeler">' . $details['label'] . '</span>'
+                . ($details['obligatoire'] ? '<span class="obligatoire"> *</span>' : '')
+                . '</label>'
+                . '</div>'
+                . '<div class="col-md-8">'
+                . '<input type="text" name="' . $details['name'] . '" checked="' . $details['obligatoire'] . '" placeholder="' . $details['placeholder'] . '" class="form-control"/>'
+                . '</div>'
+                . '</div>';
+                break;
+
+            case 'textarea':
+                echo '<div class="draggable form-group col-md-6 long-text" style="top:' . $line . 'px; ' . $colonne . '" data="' . $champObligatoire . '">'
+                . '<div class="col-md-4">'
+                . '<label>'
+                . '<span class="labeler">' . $details['label'] . '</span>'
+                . ($details['obligatoire'] ? '<span class="obligatoire"> *</span>' : '')
+                . '</label>'
+                . '</div>'
+                . '<div class="col-md-8">'
+                . '<textarea type="textarea" name="' . $details['name'] . '" checked="' . $details['obligatoire'] . '" placeholder="' . $details['placeholder'] . '"class="form-control"></textarea>'
+                . '</div>'
+                . '</div>';
+                break;
+
+            case 'date':
+                echo '<div class="draggable form-group col-md-6 date" style="top:' . $line . 'px; ' . $colonne . '" data="' . $champObligatoire . '">'
+                . '<div class="col-md-4">'
+                . '<label>'
+                . '<span class="labeler">' . $details['label'] . '</span>'
+                . ($details['obligatoire'] ? '<span class="obligatoire"> *</span>' : '')
+                . '</label>'
+                . '</div>'
+                . '<div class="container">'
+                . '<div class="row">'
+                . '<div class="col-sm-2">'
+                . '<input type="date" class="form-control" id="' . $details['name'] . '" name="' . $details['name'] . '" required="' . $details['obligatoire'] . '" placeholder="' . $details['placeholder'] . '"></input>
+' . '</div>'
+                . '</div>'
+                . '</div>'
+                . '</div>';
+
+                $calendrier[] = $details['name'];
+                break;
+
+            case 'title':
+                echo '<div class="draggable form-group col-md-6 title text-center" style="top:' . $line . 'px; ' . $colonne . '">'
+                . '<h1>' . $details['content'] . '</h1>'
+                . '</div>';
+                break;
+
+            case 'help':
+                echo '<div class="draggable form-group col-md-6 help text-center" style="top:' . $line . 'px; ' . $colonne . '">'
+                . '<div class="col-md-12 alert alert-info">'
+                . '<div class="col-md-12">'
+                . '<i class="fa fa-fw fa-info-circle fa-2x"></i>'
+                . '</div>'
+                . '<div class="col-md-12 messager">' . $details['content'] . '</div>'
+                . '</div>'
+                . '</div>';
+                break;
+
+            case 'checkboxes':
+                echo '<div class="draggable form-group col-md-6 checkboxes" style="top:' . $line . 'px; ' . $colonne . '" data="' . $champObligatoire . '">'
+                . '<div class="col-md-4">'
+                . '<label>'
+                . '<span class="labeler">' . $details['label'] . '</span>'
+                . ($details['obligatoire'] ? '<span class="obligatoire"> *</span>' : '')
+                . '</label>'
+                . '</div>'
+                . '<div class="col-md-8 contentCheckbox">';
+
+                foreach ($details['options'] as $val) {
+                    echo '<div class="checkbox">'
+                    . '<input type="checkbox" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
+                }
+
+                echo '</div></div>';
+                break;
+
+            case 'radios':
+                echo '<div class="draggable form-group col-md-6 radios" style="top:' . $line . 'px; ' . $colonne . '" data="' . $champObligatoire . '">'
+                . '<div class="col-md-4">'
+                . '<label>'
+                . '<span class="labeler">' . $details['label'] . '</span>'
+                . '</label>'
+                . '</div>'
+                . '<div class="col-md-8 contentRadio">';
+                foreach ($details['options'] as $val) {
+                    echo '<div class="radio"><input type="radio" name="' . $details['name'] . '" value="' . $val . '">' . $val . '</div>';
+                }
+                echo '</div></div>';
+                break;
+
+            case 'deroulant':
+                echo '<div class="draggable form-group col-md-6 deroulant" style="top:' . $line . 'px; ' . $colonne . '" data="' . $champObligatoire . '">'
+                . '<div class="col-md-4">'
+                . '<label>'
+                . '<span class="labeler">' . $details['label'] . '</span>'
+                . ($details['obligatoire'] ? '<span class="obligatoire"> *</span>' : '')
+                . '</label>'
+                . '</div>'
+                . '<select class="form-control" name ="' . $details['name'] . '">';
+                foreach ($details['options'] as $val) {
+                    echo '<option type="deroulant" name ="' . $details['name'] . '" value="' . $val . '"> ' . $val . '</option></div>';
+                }
+                echo '</select>'
+                . '</div>';
+                break;
+
+            case 'texte':
+                echo '<div class="draggable form-group col-md-6 texte" style="top:' . $line . 'px;' . $colonne . '">'
+                . '<h5>' . $details['content'] . '</h5>'
+                . '</div>';
+                break;
+
+            default :
+                break;
+        }
+    }
+    ?>
+</div>
+<div class="col-md-offset-4" id="field-affix">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default panel-affix">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><?php echo __d('formulaire', 'formulaire.textOptionChamp'); ?></h3>
+                </div>
+                <div class="panel-body" id="field-options">
                 </div>
             </div>
-            <div class="btn-group-vertical col-md-6">
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-small-text">
-                    <i class="fa fa-font fa-lg fa-fw"></i>
-                    <?php echo __d ('formulaire','formulaire.btnPetitChamp');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-long-text">
-                    <i class="fa fa-text-height fa-lg fa-fw"></i> 
-                    <?php echo __d ('formulaire','formulaire.btnGrandChamp');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-date">
-                    <i class="fa fa-calendar fa-lg fa-fw"></i>
-                    <?php echo __d ('formulaire','formulaire.btnChampDate');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-checkbox">
-                    <i class="fa fa-check-square-o fa-lg fa-fw"></i> 
-                    <?php echo __d ('formulaire','formulaire.btnCheckbox');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-radio">
-                    <i class="fa fa-check-circle-o fa-lg fa-fw"></i> 
-                    <?php echo __d ('formulaire','formulaire.btnRadio');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-deroulant">
-                    <i class="fa  fa-list-alt fa-lg fa-fw"></i>
-                    <?php echo __d ('formulaire','formulaire.btnDeroulant');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-title">
-                    <i class="fa fa-tag fa-lg fa-fw"></i>
-                    <?php echo __d ('formulaire','formulaire.btnTitreCategorie');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-help">
-                    <i class="fa fa-info-circle fa-lg fa-fw"></i>
-                    <?php echo __d ('formulaire','formulaire.btnChampInfo');?>
-                </button>
-                <button class="btn btn-default-default btn-sm btn-input" id="btn-texte">
-                    <i class="fa fa-pencil fa-lg fa-fw"></i>
-                    <?php echo __d ('formulaire','formulaire.btnLabel');?>
-                </button>
-            </div>
+        </div>
+        <div class="btn-group-vertical col-md-6">
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-small-text">
+                <i class="fa fa-font fa-lg fa-fw"></i>
+<?php echo __d('formulaire', 'formulaire.btnPetitChamp'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-long-text">
+                <i class="fa fa-text-height fa-lg fa-fw"></i> 
+<?php echo __d('formulaire', 'formulaire.btnGrandChamp'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-date">
+                <i class="fa fa-calendar fa-lg fa-fw"></i>
+<?php echo __d('formulaire', 'formulaire.btnChampDate'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-checkbox">
+                <i class="fa fa-check-square-o fa-lg fa-fw"></i> 
+<?php echo __d('formulaire', 'formulaire.btnCheckbox'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-radio">
+                <i class="fa fa-check-circle-o fa-lg fa-fw"></i> 
+<?php echo __d('formulaire', 'formulaire.btnRadio'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-deroulant">
+                <i class="fa  fa-list-alt fa-lg fa-fw"></i>
+<?php echo __d('formulaire', 'formulaire.btnDeroulant'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-title">
+                <i class="fa fa-tag fa-lg fa-fw"></i>
+<?php echo __d('formulaire', 'formulaire.btnTitreCategorie'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-help">
+                <i class="fa fa-info-circle fa-lg fa-fw"></i>
+<?php echo __d('formulaire', 'formulaire.btnChampInfo'); ?>
+            </button>
+            <button class="btn btn-default-default btn-sm btn-input" id="btn-texte">
+                <i class="fa fa-pencil fa-lg fa-fw"></i>
+<?php echo __d('formulaire', 'formulaire.btnLabel'); ?>
+            </button>
         </div>
     </div>
-    <div class="col-md-8 form-oblig form-horizontal">
-        <?php
-        echo $this->Form->input('file', array(
-            'type' => 'file',
-            'label' => __d('formulaire','formulaire.champFichier'),
-            'multiple',
-            'class' => 'filestyle fichiers draggable',
-            'data-buttonText' => __d('default','default.btnParcourir'),
-            'data-buttonName' => "btn-primary",
-            'data-buttonBefore' => "true"
-        ));
-        ?>
-    </div>
-    <div class="top30 btn-group col-md-12">
-        <button class="btn btn-default-success" id="successForm"><i class="fa fa-fw fa-check"></i> 
-            <?php echo __d('formulaire','formulaire.btnEnregistreFormulaire');?>
-        </button>
-    </div>
+</div>
+<div class="col-md-8 form-oblig form-horizontal">
+    <?php
+    echo $this->Form->input('file', array(
+        'type' => 'file',
+        'label' => __d('formulaire', 'formulaire.champFichier'),
+        'multiple',
+        'class' => 'filestyle fichiers draggable',
+        'data-buttonText' => __d('default', 'default.btnParcourir'),
+        'data-buttonName' => "btn-primary",
+        'data-buttonBefore' => "true"
+    ));
+    ?>
+</div>
+<div class="top30 btn-group col-md-12">
+    <button class="btn btn-default-success" id="successForm"><i class="fa fa-fw fa-check"></i> 
+<?php echo __d('formulaire', 'formulaire.btnEnregistreFormulaire'); ?>
+    </button>
+</div>
 <?php
-
 echo $this->Form->create('Formulaire', array(
     'action' => 'edit',
     'id' => 'addForm'
@@ -443,9 +444,9 @@ echo $this->Form->end();
 
         var afficherCalendrier = <?php echo json_encode($calendrier); ?>;
         var nb = afficherCalendrier.length;
-        
+
         for (var i = 0; i < nb; i++) {
-          
+
             $('#' + afficherCalendrier[i]).datetimepicker({
                 viewMode: 'year',
                 startView: "decade",

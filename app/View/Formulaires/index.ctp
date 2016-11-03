@@ -62,7 +62,19 @@
             <td class="tdleft col-md-2">
                 <div class="btn-group">
                     <?php
+                    //Bouton voir le formulaire
+                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
+                        'controller' => 'formulaires',
+                        'action' => 'show',
+                        $data['Formulaire']['id']
+                            ), array(
+                        'class' => 'btn btn-default-default btn-sm my-tooltip',
+                        'title' => __d('formulaire', 'formulaire.commentaireVoirFormulaire'),
+                        'escape' => false
+                    ));
+
                     if ($valid[$data['Formulaire']['id']]) {
+                        //Bouton édité le formulaire
                         echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
                             'controller' => 'formulaires',
                             'action' => 'edit',
@@ -73,7 +85,9 @@
                             'escape' => false
                         ));
                     }
+
                     if ($data['Formulaire']['active']) {
+                        //Bouton désactivé le formulaire
                         $lien = $this->Html->link('<span class="glyphicon glyphicon-remove"></span>', array(
                             'controller' => 'formulaires',
                             'action' => 'toggle',
@@ -85,6 +99,7 @@
                             'title' => __d('formulaire', 'formulaire.commentaireDesactiverFormulaire')
                         ));
                     } else {
+                        //Bouton activé le formulaire
                         $lien = $this->Html->link('<span class="glyphicon glyphicon-check"></span>', array(
                             'controller' => 'formulaires',
                             'action' => 'toggle',
@@ -99,6 +114,7 @@
 
                     echo $lien;
                     if ($valid[$data['Formulaire']['id']]) {
+                        //Bouton supprimé le formulaire
                         echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
                             'controller' => 'formulaires',
                             'action' => 'delete',
@@ -110,9 +126,10 @@
                                 ), __d('formulaire', 'formulaire.confirmationSupprimerFormulaire')
                         );
                     } else {
+                        //Bouton dupliqué le formulaire
                         ?> 
                         <button type="button" class="btn btn-default-default btn-sm my-tooltip btn_duplicate" 
-                                data-toggle="modal" data-target="#modalDupliquer" value="<?php echo $data['Formulaire']['id'];?>"
+                                data-toggle="modal" data-target="#modalDupliquer" value="<?php echo $data['Formulaire']['id']; ?>"
                                 title="<?php echo __d('formulaire', 'formulaire.commentaireDupliquerFormulaire'); ?>">
                             <span class="fa fa-files-o fa-lg" ></span>
                         </button>
@@ -269,9 +286,9 @@
 </div>
 
 <script>
-    $(".btn_duplicate").click(function(){
-       var valueId = $(this).val();
-       $('#FormulaireId').val(valueId);
+    $(".btn_duplicate").click(function () {
+        var valueId = $(this).val();
+        $('#FormulaireId').val(valueId);
     });
-    
+
 </script>    
