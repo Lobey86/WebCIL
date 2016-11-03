@@ -15,10 +15,13 @@ msgid "formulaire.titreListeFormulaire"
 msgstr "Liste des formulaires de : "
 
 msgid "formulaire.titreCreerFormulaire"
-msgstr "Création d'un formulaire"
+msgstr "Création du formulaire : "
 
 msgid "formulaire.titreEditerFormulaire"
-msgstr "Editer un formulaire"
+msgstr "Edition du formulaire : "
+
+msgid "formulaire.titreShowFormulaire"
+msgstr "Visualisation du formulaire : "
 
 ###################### Session->setFlash ######################
 
@@ -61,6 +64,9 @@ msgstr "Statut : "
 
 msgid "formulaire.textTableauDescription"
 msgstr "Description : "
+
+msgid "formulaire.commentaireVoirFormulaire"
+msgstr "Voir le formulaire"
 
 msgid "formulaire.commentaireDesactiverFormulaire"
 msgstr "Desactiver le formulaire"
@@ -106,6 +112,13 @@ msgstr "Dupliquer le formulaire"
 
 msgid "formulaire.popupInfoGeneraleFormulaireDuplication"
 msgstr "Informations générales du formulaire pour la duplication"
+
+###############################################################################
+
+#########################: View/Formulaires/show.ctp ##########################
+
+msgid "formulaire.textInfo"
+msgstr " :"
 
 ###############################################################################
 

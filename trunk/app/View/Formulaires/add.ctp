@@ -129,7 +129,7 @@ echo $this->Html->css(array(
                 ?>
             <!--</div>-->
         <!--</div>-->
-        <div class="row row35"></div>
+        <!--<div class="row row35"></div>-->
         <div class="row">
             <div class="col-md-12">
                 <span class='labelFormulaire'><?php echo __d('formulaire','formulaire.textInfo');?></span>
