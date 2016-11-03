@@ -119,10 +119,10 @@ msgid "formulaire.textOptionChamp"
 msgstr "Options du champ"
 
 msgid "formulaire.btnPetitChamp"
-msgstr "Petit champs texte"
+msgstr "Petit champ texte"
 
 msgid "formulaire.btnGrandChamp"
-msgstr "Grand champs texte"
+msgstr "Grand champ texte"
 
 msgid "formulaire.btnChampDate"
 msgstr "Champ date"
