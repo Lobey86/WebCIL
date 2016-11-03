@@ -15,10 +15,10 @@ msgid "fiche.titreCrationFiche"
 msgstr "Création d'un traitement"
 
 msgid "fiche.titreApercuFiche"
-msgstr "Apercu d'un traitement"
+msgstr "Aperçu du traitement : "
 
 msgid "fiche.titreEditionFiche"
-msgstr "Edition d'un traitement"
+msgstr "Edition du traitement : "
 
 msgid "fiche.textModifierTraitement"
 msgstr "modifie le traitement"
@@ -35,7 +35,7 @@ msgid "fiche.flasherrorSupprimerTraitementImpossible"
 msgstr "Vous n'avez pas le droit de supprimer ce traitement. Il faut être le créateur du traitement pour avoir les droits"
 
 msgid "fiche.flashsuccessTraitementModifier"
-msgstr "Le traitement a été modifiée"
+msgstr "Le traitement a été modifié"
 
 msgid "fiche.flashsuccessTraitementEnregistrer"
 msgstr "Le traitement a été enregistré"

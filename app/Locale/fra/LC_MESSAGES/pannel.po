@@ -60,13 +60,13 @@ msgid "pannel.titreTraitement"
 msgstr "Mes traitements"
 
 msgid "pannel.titreTraitementRecue"
-msgstr "Mes traitements reçues"
+msgstr "Mes traitements reçus"
 
 msgid "pannel.titreTraitementValidee"
-msgstr "Mes traitements validées"
+msgstr "Mes traitements validés"
 
 msgid "pannel.titreTraitementVu"
-msgstr "Tout les traitments en ma connaissance"
+msgstr "Touts les traitements en ma connaissance"
 
 ###############################################################################
 
@@ -74,10 +74,10 @@ msgstr "Tout les traitments en ma connaissance"
 #########################: View/Pannel/inbox.ctp###############################
 
 msgid "pannel.traitementValidation"
-msgstr "Traitements reçues en validation ("
+msgstr "Traitements reçus en validation ("
 
 msgid "pannel.traitementConsultation"
-msgstr "Traitements reçues en consultation ("
+msgstr "Traitements reçus en consultation ("
 
 msgid "pannel.aucunTraitementValidation"
 msgstr "Vous n'avez aucun traitement en validation"
@@ -112,10 +112,10 @@ msgstr "Vous allez insérer le traitement au registre. Merci de préciser le num
 #########################: View/Pannel/archive.ctp#############################
 
 msgid "pannel.traitementValidationInsereeRegistre"
-msgstr "Mes traitement validées et insérées au registre ("
+msgstr "Mes traitements validés et insérés au registre ("
 
 msgid "pannel.aucunTraitementValidationInsereeRegistre"
-msgstr "Vous n'avez aucune traitement validés et insérés au registre"
+msgstr "Vous n'avez aucun traitement validé et inséré au registre"
 
 msgid "pannel.commentaireTelechargeRegistre"
 msgstr "Télécharger l'extrait de registre"
@@ -141,7 +141,7 @@ msgid "pannel.motNomTraitement"
 msgstr "Nom du traitement : "
 
 msgid "pannel.motCreee"
-msgstr "Créée par : "
+msgstr "Créé par : "
 
 msgid "pannel.motDerniereModification"
 msgstr "Dernière modification le : "
@@ -173,10 +173,10 @@ msgstr "Voir l'historique complet"
 ########################## View/Pannel/consulte.ctp ###########################
 
 msgid "pannel.titreTableauEtatTraitementPasserPossession"
-msgstr "Etat des traitements passer en ma possession"
+msgstr "Etat des traitements passés en ma possession"
 
 msgid "pannel.aucunTraitementPasserPossession"
-msgstr "Vous n'avez aucune traitement qui sont passer en votre possession et toujours dans un circuit"
+msgstr "Vous n'avez aucun traitement qui est passé en votre possession et toujours dans un circuit"
 
 msgid "pannel.commentaireReapproprierTraitement"
 msgstr "Réapproprier le traitement"
