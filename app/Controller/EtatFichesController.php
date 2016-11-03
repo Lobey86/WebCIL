@@ -93,7 +93,7 @@ class EtatFichesController extends AppController {
         ));
 
         $this->Historique->save();
-        $this->Session->setFlash('La fiche a été envoyée en validation', 'flashsuccess');
+        $this->Session->setFlash(__d('etat_fiche','etat_fiche.flashsuccessTraitementEnvoyerValidation'), 'flashsuccess');
 
         $this->requestAction(array(
             'controller' => 'pannel',
