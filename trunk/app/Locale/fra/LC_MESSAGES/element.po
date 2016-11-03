@@ -15,7 +15,7 @@ msgid "element.Redaction"
 msgstr "Rédaction"
 
 msgid "element.CreePar"
-msgstr "Créé par"
+msgstr "Créé par : "
 
 msgid "element.Le"
 msgstr "le"
@@ -36,10 +36,10 @@ msgid "element.ValideePar"
 msgstr "Validée par"
 
 msgid "element.Refusee"
-msgstr "Refusée"
+msgstr "Refusé"
 
 msgid "element.RefuseePar"
-msgstr "Refusée par"
+msgstr "Refusé par : "
 
 msgid "element.ValideeInsereeRegistre"
 msgstr "Validée et insérée au registre"
@@ -48,7 +48,7 @@ msgid "element.ValideePar"
 msgstr "Validée par"
 
 msgid "element.CommenterPar"
-msgstr "Commenté par"
+msgstr "Commenté par : "
 
 msgid "element.AttenteConsultation"
 msgstr "En attente de consultation"

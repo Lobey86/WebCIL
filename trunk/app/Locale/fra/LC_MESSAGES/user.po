@@ -125,13 +125,13 @@ msgid "user.placeholderChampE-mail"
 msgstr "exemple@exemple.fr (requis)"
 
 msgid "user.champEntite"
-msgstr "Entitée "
+msgstr "Entité "
 
 msgid "user.champService"
-msgstr "Service "
+msgstr "Service : "
 
-msgid "user.placeholderChampService"
-msgstr "Choisissez un service (requis)"
+msgid "user.champProfil"
+msgstr "Profil : "
 
 msgid "user.champProfilEntite"
 msgstr "Profils au sein de : "
@@ -142,7 +142,7 @@ msgstr "Profils au sein de : "
 ########################: View/Users/changepassword.ctp #######################
 
 msgid "user.textChangerInfoMotDePasse"
-msgstr "Si vous ne voulez pas modifier votre mot de passe laisser les 3 champs vides :"
+msgstr "Si vous ne voulez pas modifier votre mot de passe laissez les 3 champs vides :"
 
 msgid "user.champMotDePasseActuel"
 msgstr "Votre mot de passe actuel "
@@ -159,7 +159,7 @@ msgstr "Si vous enregistrez vos informations, vous serez déconnecté de la sess
 ##################: View/Users/edit.ctp + changepassword.ctp ##################
 
 msgid "user.textInfoMotDePasse"
-msgstr "Si vous ne voulez pas modifier votre mot de passe laisser les 2 champs vides :"
+msgstr "Si vous ne voulez pas modifier votre mot de passe laissez les 2 champs vides :"
 
 msgid "user.champNouveauMotDePasse"
 msgstr "Nouveau mot de passe "

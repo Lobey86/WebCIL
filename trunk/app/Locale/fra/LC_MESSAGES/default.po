@@ -131,10 +131,10 @@ msgid "default.notificationLeTraitement"
 msgstr "Le traitement "
 
 msgid "default.notificationTraitementValidee"
-msgstr " a été validée"
+msgstr " a été validé"
 
 msgid "default.notificationTraitementRefusee"
-msgstr " a été refusée"
+msgstr " a été refusé"
 
 msgid "default.notificationCommentaireAjouterTraitement"
 msgstr "Un commentaire a été ajouté au traitement"
