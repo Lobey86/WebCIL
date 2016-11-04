@@ -95,6 +95,12 @@ msgstr "Nom du formulaire "
 msgid "formulaire.popupPlaceholderNomFormulaire"
 msgstr "Nom du formulaire (requis) "
 
+msgid "formulaire.champService"
+msgstr "Service "
+
+msgid "formulaire.placeholderChampService"
+msgstr "Sélectionnez un service (requis) "
+
 msgid "formulaire.popupDescription"
 msgstr "Description"
 

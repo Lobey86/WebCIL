@@ -34,6 +34,7 @@ class Service extends AppModel {
      * 
      * @access public
      * @created 18/06/2015
+     * @modified 04/11/2016
      * @version V0.9.0
      */
     public $hasMany = array(
@@ -49,7 +50,12 @@ class Service extends AppModel {
         //'exclusive'    => '',
         //'finderQuery'  => '',
         //'counterQuery' => ''
+        ),
+        'Formulaire' => array(
+            'className' => 'Formulaire',
+            'foreignKey' => 'service_id',
+            'dependent' => false,
         )
     );
-
+    
 }

@@ -245,6 +245,7 @@ CREATE TABLE notifications (
 CREATE TABLE fg_formulaires (
     id SERIAL  NOT NULL PRIMARY KEY,
     organisations_id  INTEGER NOT NULL REFERENCES organisations (id) ON DELETE CASCADE,
+    service_id INTEGER REFERENCES services (id) ON DELETE SET NULL,
     libelle VARCHAR(50) NOT NULL,
     active BOOL NOT NULL,
     created  DATE,

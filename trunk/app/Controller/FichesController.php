@@ -177,7 +177,14 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function edit($id = null) {
-        $this->set('title', __d('fiche', 'fiche.titreEditionFiche'));
+        $nameTraiment = $this->Valeur->find('first', [
+            'conditions' => [
+                'fiche_id' => $id,
+                'champ_name' => 'outilnom']
+        ]);
+
+        $this->set('title', __d('fiche', 'fiche.titreEditionFiche') . $nameTraiment['Valeur']['valeur']);
+
         if (!$id && !$this->request->data['Fiche']['id']) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
@@ -185,9 +192,11 @@ class FichesController extends AppController {
                 'action' => 'index'
             ]);
         }
+
         if (!$id) {
             $id = $this->request->data['Fiche']['id'];
         }
+
         if (!$this->Droits->isEditable($id)) {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
             $this->redirect([
@@ -195,6 +204,7 @@ class FichesController extends AppController {
                 'action' => 'index'
             ]);
         }
+
         if ($this->request->is([
                     'post',
                     'put'
@@ -274,7 +284,13 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function show($id = null) {
-        $this->set('title', __d('fiche', 'fiche.titreApercuFiche'));
+        $nameTraiment = $this->Valeur->find('first', [
+            'conditions' => [
+                'fiche_id' => $id,
+                'champ_name' => 'outilnom']
+        ]);
+        $this->set('title', __d('fiche', 'fiche.titreApercuFiche') . $nameTraiment['Valeur']['valeur']);
+
         if (!$id) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
@@ -360,7 +376,7 @@ class FichesController extends AppController {
             'conditions' => ['id_fiche' => $id_fiche],
             'fields' => ['data']
         ]);
-        
+
         header("content-type: application/pdf");
         header('Content-Disposition: attachment; filename="' . $data[11]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf"');
         echo($pdf['Extrait']['data']);
@@ -380,20 +396,20 @@ class FichesController extends AppController {
      */
     public function genereFusion($id, $numeroRegistre, $save = false) {
         $annexe = false;
-        
+
         App::uses('FusionConvBuilder', 'FusionConv.Utility');
-        
+
         //On chercher si le traitement comporte des annexe(s)
-        $fileAnnexes = $this->Fichier->find('all',[
-           'conditions' => [
-               'fiche_id' => $id
-           ] 
+        $fileAnnexes = $this->Fichier->find('all', [
+            'conditions' => [
+                'fiche_id' => $id
+            ]
         ]);
-        
-        if(!empty($fileAnnexes)){
+
+        if (!empty($fileAnnexes)) {
             $annexe = true;
         }
-        
+
         $data = $this->Valeur->find('all', [
             'conditions' => [
                 'fiche_id' => $id
@@ -492,29 +508,29 @@ class FichesController extends AppController {
         $donnees['Valeur']['numenregistrement'] = $numeroRegistre;
         $types['valeur_numenregistrement'] = 'text';
         $correspondances['valeur_numenregistrement'] = 'Valeur.numenregistrement';
-        
+
         // Si il y a une annexe on ajoute les données au fichier au info envoyer a GEDOOO
-        if ($annexe == true){
+        if ($annexe == true) {
             $compteur = 1;
-            foreach ($fileAnnexes as $fileAnnexe){
-                $donnees['Valeur']['annexe'.$compteur] = file_get_contents(
+            foreach ($fileAnnexes as $fileAnnexe) {
+                $donnees['Valeur']['annexe' . $compteur] = file_get_contents(
                         CHEMIN_PIECE_JOINT . $fileAnnexe['Fichier']['url']
                 );
-                $types['valeur_annexe'.$compteur] = "file";
-                $correspondances['valeur_annexe'.$compteur] = 'Valeur.annexe'.$compteur;
+                $types['valeur_annexe' . $compteur] = "file";
+                $correspondances['valeur_annexe' . $compteur] = 'Valeur.annexe' . $compteur;
                 $compteur ++;
-            } 
+            }
         }
-        
+
         $MainPart = new GDO_PartType();
-        
+
         $Document = FusionConvBuilder::main($MainPart, $donnees, $types, $correspondances);
-        
+
         $sMimeType = 'application/vnd.oasis.opendocument.text';
 
         $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(CHEMIN_MODELES . $file));
         $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
-        
+
         $Fusion->process();
         App::uses('FusionConvConverterCloudooo', 'FusionConv.Utility/Converter');
         $pdf = FusionConvConverterCloudooo::convert($Fusion->getContent()->binary);
@@ -541,4 +557,5 @@ class FichesController extends AppController {
             ));
         }
     }
+
 }

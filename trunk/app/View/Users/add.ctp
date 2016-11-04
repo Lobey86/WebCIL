@@ -37,13 +37,12 @@
             } else {
                 echo '<div class="form-group has-error">';
             }
-            ?>
-            <?php
+
             echo $this->Form->input('username', [
                 'class' => 'form-control',
-                'placeholder' => __d('user','user.placeholderChampLogin'),
+                'placeholder' => __d('user', 'user.placeholderChampLogin'),
                 'label' => [
-                    'text' => __d('user','user.champLogin').'<span class="requis">*</span>',
+                    'text' => __d('user', 'user.champLogin') . '<span class="requis">*</span>',
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -62,9 +61,9 @@
 
         echo $this->Form->input('password', [
             'class' => 'form-control',
-            'placeholder' => __d('user','user.placeholderChampMotDePasse'),
+            'placeholder' => __d('user', 'user.placeholderChampMotDePasse'),
             'label' => [
-                'text' => __d('user','user.champMotDePasse').'<span class="requis">*</span>',
+                'text' => __d('user', 'user.champMotDePasse') . '<span class="requis">*</span>',
                 'class' => 'col-md-4 control-label'
             ],
             'between' => '<div class="col-md-8">',
@@ -73,20 +72,19 @@
         ]);
         ?>
     </div>
+
     <?php
     if (empty($this->validationErrors['User']['passwd'])) {
         echo '<div class="form-group">';
     } else {
         echo '<div class="form-group has-error">';
     }
-    ?>
 
-    <?php
     echo $this->Form->input('passwd', [
         'class' => 'form-control',
-        'placeholder' => __d('user','user.placeholderChampVerifMotDePasse'),
+        'placeholder' => __d('user', 'user.placeholderChampVerifMotDePasse'),
         'label' => [
-            'text' => __d('user','user.champVerifMotDePasse').'<span class="requis">*</span>',
+            'text' => __d('user', 'user.champVerifMotDePasse') . '<span class="requis">*</span>',
             'class' => 'col-md-4 control-label'
         ],
         'between' => '<div class="col-md-8">',
@@ -100,9 +98,9 @@
     <?php
     echo $this->Form->input('nom', [
         'class' => 'form-control',
-        'placeholder' => __d('user','user.placeholderChampNom'),
+        'placeholder' => __d('user', 'user.placeholderChampNom'),
         'label' => [
-            'text' => __d('default','default.champNom').'<span class="requis">*</span>',
+            'text' => __d('default', 'default.champNom') . '<span class="requis">*</span>',
             'class' => 'col-md-4 control-label'
         ],
         'between' => '<div class="col-md-8">',
@@ -111,13 +109,14 @@
     ]);
     ?>
 </div>
+
 <div class="form-group">
     <?php
     echo $this->Form->input('prenom', [
         'class' => 'form-control',
-        'placeholder' => __d('user','user.placeholderChampPrenom'),
+        'placeholder' => __d('user', 'user.placeholderChampPrenom'),
         'label' => [
-            'text' => __d('user','user.champPrenom').'<span class="requis">*</span>',
+            'text' => __d('user', 'user.champPrenom') . '<span class="requis">*</span>',
             'class' => 'col-md-4 control-label'
         ],
         'between' => '<div class="col-md-8">',
@@ -136,9 +135,9 @@ if (empty($this->validationErrors['User']['email'])) {
 
 echo $this->Form->input('email', [
     'class' => 'form-control',
-    'placeholder' => __d('user','user.placeholderChampE-mail'),
+    'placeholder' => __d('user', 'user.placeholderChampE-mail'),
     'label' => [
-        'text' => __d('default','default.champE-mail').'<span class="requis">*</span>',
+        'text' => __d('default', 'default.champE-mail') . '<span class="requis">*</span>',
         'class' => 'col-md-4 control-label'
     ],
     'between' => '<div class="col-md-8">',
@@ -146,8 +145,10 @@ echo $this->Form->input('email', [
     'required' => true
 ]);
 ?>
+
 </div>
 </div>
+
 <div class="col-md-6">
     <div class="form-group">
         <?php
@@ -155,24 +156,23 @@ echo $this->Form->input('email', [
         foreach ($tableau['Organisation'] as $key => $datas) {
             $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
         }
-        
-            echo $this->Form->input('Organisation.Organisation_id', [
-                'options' => $listeOrganisations,
-                'selected' => $this->Session->read('Organisation.id'),
-                'class' => 'form-control',
-                'id' => 'deroulant',
-                'label' => [
-                    'text' => __d('user','user.champEntite').'<span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'multiple' => 'multiple',
-                'required' => false
-            ]);
+
+        echo $this->Form->input('Organisation.Organisation_id', [
+            'options' => $listeOrganisations,
+            'selected' => $this->Session->read('Organisation.id'),
+            'class' => 'form-control',
+            'id' => 'deroulant',
+            'label' => [
+                'text' => __d('user', 'user.champEntite') . '<span class="requis">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'multiple' => 'multiple',
+            'required' => false
+        ]);
         ?>
     </div>
-
 
     <?php
     foreach ($tableau['Organisation'] as $key => $datas) {
@@ -193,34 +193,41 @@ echo $this->Form->input('email', [
             <div class="titreDiv text-center">
                 <h4><?php echo $datas['infos']['raisonsociale']; ?></h4>
             </div>
+
             <div class="form-group">
                 <?php
                 if (!empty($listeservices[$datas['infos']['id']])) {
                     echo $this->Form->input('Service.' . $datas['infos']['id'], [
                         'options' => $listeservices[$datas['infos']['id']],
-                        'empty' => __d('user','user.placeholderChampService'),
-                        'class' => 'usersDeroulant transformSelect form-control',
+                        'class' => 'form-control',
+                        'id' => 'deroulantService',
                         'label' => [
-                            'text' => __d('user','user.champService').'<span class="requis">*</span>',
+                            'text' => __d('user', 'user.champService') . '<span class="requis">*</span>',
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
+                        'multiple' => 'multiple'
                     ]);
                 }
-                echo '</div><div class="form-group">';
+                ?>
+            </div>
+
+            <div class="form-group">
+                <?php
                 if (!empty($listeroles)) {
                     echo $this->Form->input('Role.' . $datas['infos']['id'], [
                         'options' => $listeroles,
                         'class' => 'form-control deroulantRoles' . $key,
                         'id' => $key,
                         'label' => [
-                            'text' => __d('user','user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
+                            'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'multiple' => 'multiple'
+                        'multiple' => 'multiple',
+                        'required' => true
                     ]);
                 } else {
                     echo "Aucun profil n'a été créé pour cette entité";
@@ -231,27 +238,30 @@ echo $this->Form->input('email', [
 
         <?php
     }
-    echo '</div></div>';
-
-    echo '<div class="text-center">';
-
-
-    echo '<div class="btn-group send">';
-    echo $this->Html->link('<i class="fa fa-arrow-left"></i>'. __d('default','default.btnAnnuler'), $referer, [
-        'class' => 'btn btn-default-default',
-        'escape' => false
-    ]);
-    echo $this->Form->button('<i class="fa fa-check"></i>'.__d('default','default.btnEnregistrer'), [
-        'type' => 'submit',
-        'class' => 'btn btn-default-success'
-    ]);
-    echo '</div>';
     ?>
+</div>
+</div>
 
+<div class="text-center">
+    <div class="btn-group send">
+        <?php
+        echo $this->Html->link('<i class="fa fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), $referer, [
+            'class' => 'btn btn-default-default',
+            'escape' => false
+        ]);
+
+        echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
+            'type' => 'submit',
+            'class' => 'btn btn-default-success'
+        ]);
+
+        echo '</div>';
+        ?>
+
+    </div>
 </div>
-</div>
-</div>
-</div>
+<!--</div>
+</div>-->
 <?php
 echo $this->Html->script('users.js');
 ?>
@@ -261,6 +271,11 @@ echo $this->Html->script('users.js');
     $(document).ready(function () {
         $("#deroulant").select2({
             placeholder: "Selectionnez une ou plusieurs entitées",
+            allowClear: true
+        });
+
+        $("#deroulantService").select2({
+            placeholder: "Selectionnez un ou plusieurs service",
             allowClear: true
         });
     });
