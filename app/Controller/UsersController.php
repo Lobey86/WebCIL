@@ -34,9 +34,12 @@ class UsersController extends AppController {
         'OrganisationUserRole',
         'Service',
         'OrganisationUserService',
-        'Admin'
+        'Admin',
+        'AuthComponent'
     ];
-    public $helpers = ['Controls'];
+    public $helpers = [
+        'Controls'
+    ];
 
     /**
      * Récupère le beforefilter de AppController (login)
@@ -57,90 +60,93 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', __d('user','user.titreListeUser'));
+        $this->set('title', __d('user', 'user.titreListeUser'));
         if ($this->Droits->authorized([
                     '8',
                     '9',
                     '10'
                 ])
         ) {
+            $query = [
+                'conditions' => [],
+                'contain' => [
+                    'User' => [
+                        'id',
+                        'username',
+                        'nom',
+                        'prenom',
+                        'created'
+                    ],
+//                    'OrganisationUserService' => [
+//                        'Service' => ['libelle']
+//                    ],
+                    'OrganisationUserRole' => [
+                        'Role' => ['libelle']
+                    ]
+                ]
+            ];
+
             if ($this->Droits->isSu()) {
-                $conditions = [];
                 if ($this->request->is('post')) {
                     if ($this->request->data['users']['organisation'] != '') {
-                        $conditions['OrganisationUser.organisation_id'] = $this->request->data['users']['organisation'];
+                        $query['conditions']['OrganisationUser.organisation_id'] = $this->request->data['users']['organisation'];
                     }
+
                     if ($this->request->data['users']['nom'] != '') {
-                        $conditions['OrganisationUser.user_id'] = $this->request->data['users']['nom'];
-                        $users = $this->OrganisationUser->find('all', [
-                            'conditions' => $conditions,
-                            'contain' => [
-                                'User' => [
-                                    'id',
-                                    'username',
-                                    'nom',
-                                    'prenom',
-                                    'created'
-                                ]
-                            ],
-                            'limit' => 1
-                        ]);
-                    } else {
-                        $users = $this->OrganisationUser->find('all', [
-                            'conditions' => $conditions,
-                            'contain' => [
-                                'User' => [
-                                    'id',
-                                    'username',
-                                    'nom',
-                                    'prenom',
-                                    'created'
-                                ]
-                            ]
-                        ]);
+                        $query['conditions']['OrganisationUser.user_id'] = $this->request->data['users']['nom'];
+                        $query['limit'] = 1;
                     }
                 } else {
-                    $users = $this->OrganisationUser->find('all', [
-                        'conditions' => [
-                            'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
-                        ],
-                        'contain' => [
-                            'User' => [
-                                'id',
-                                'username',
-                                'nom',
-                                'prenom',
-                                'created'
-                            ]
-                        ]
-                    ]);
+                    $query['conditions'] = [
+                        'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
+                    ];
                 }
             } else {
-                $users = $this->OrganisationUser->find('all', [
+                $query['conditions'] = [
+                    'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
+                    'OrganisationUser.user_id !=' => 1
+                ];
+            }
+
+            $users = $this->OrganisationUser->find('all', $query);
+            foreach ($users as $key => $value) {
+                $orgausers = $this->OrganisationUser->find('all', [
                     'conditions' => [
-                        'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
-                        'OrganisationUser.user_id !=' => 1
-                    ],
-                    'contain' => [
-                        'User' => [
-                            'id',
-                            'username',
-                            'nom',
-                            'prenom',
-                            'created'
-                        ]
+                        'OrganisationUser.user_id' => $value['OrganisationUser']['user_id']
                     ]
                 ]);
-            }
-            foreach ($users as $key => $value) {
-                $orgausers = $this->OrganisationUser->find('all', ['conditions' => ['OrganisationUser.user_id' => $value['OrganisationUser']['user_id']]]);
+
                 foreach ($orgausers as $clef => $valeur) {
                     $orga = $this->Organisation->find('first', [
-                        'conditions' => ['Organisation.id' => $valeur['OrganisationUser']['organisation_id']],
-                        'fields' => ['raisonsociale']
+                        'conditions' => [
+                            'Organisation.id' => $valeur['OrganisationUser']['organisation_id']
+                        ],
+                        'fields' => [
+                            'raisonsociale'
+                        ]
                     ]);
                     $users[$key]['Organisations'][] = $orga;
                 }
+
+
+                ///////////////////////   
+                $orgaUserService = $this->OrganisationUserService->find('all', [
+                    'conditions' => [
+                        'organisation_user_id' => $users[$key]['OrganisationUser']['id']
+                    ]
+                ]);
+                foreach ($orgaUserService as $valeur) {
+                    $orgaService = $this->Service->find('first', [
+                        'conditions' => [
+                            'id' => $valeur['OrganisationUserService']['service_id']
+                        ],
+                        'fields' => [
+                            'libelle'
+                        ]
+                    ]);
+                    $users[$key]['OrganisationUserService'][] = $orgaService;
+                }
+                ///////////////////////
             }
             $this->set('users', $users);
             $orgas = $this->Organisation->find('all', [
@@ -149,6 +155,7 @@ class UsersController extends AppController {
                     'id'
                 ]
             ]);
+
             $organisations = [];
             foreach ($orgas as $value) {
                 $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
@@ -162,13 +169,12 @@ class UsersController extends AppController {
                     'User.id'
                 ]
             ]);
-            $utilisateurs = [];
-            foreach ($utils as $value) {
-                $utilisateurs[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
-            }
-            $this->set('utilisateurs', $utilisateurs);
+
+            $this->set(
+                    'utilisateurs', Hash::combine($utils, '{n}.User.id', array('%s %s', '{n}.User.prenom', '{n}.User.nom'))
+            );
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -188,6 +194,7 @@ class UsersController extends AppController {
      */
     public function view($id = null) {
         $this->set('title', 'Voir l\'utilisateur');
+
         if ($this->Droits->authorized([
                     '8',
                     '9',
@@ -195,12 +202,15 @@ class UsersController extends AppController {
                 ])
         ) {
             $this->User->id = $id;
+
             if (!$this->User->exists()) {
                 throw new NotFoundException('User invalide');
             }
+
             $this->set('user', $this->User->read(null, $id));
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -216,27 +226,35 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function add() {
-        $this->set('title', __d('user','user.titreAjouterUser'));
+        $this->set('title', __d('user', 'user.titreAjouterUser'));
+
         if ($this->Droits->authorized(8) || $this->Droits->isSu()) {
             $this->set('idUser', $this->Auth->user('id'));
+
             if ($this->request->is('post')) {
                 $this->User->create($this->request->data);
+
                 if ($this->User->save()) {
                     $userId = $this->User->getInsertID();
+
                     foreach ($this->request->data['Organisation']['Organisation_id'] as $value) {
                         $this->OrganisationUser->create([
                             'user_id' => $userId,
                             'organisation_id' => $value
                         ]);
+
                         $this->OrganisationUser->save();
                         $organisationUserId = $this->OrganisationUser->getInsertID();
-                        if (isset($this->request->data['Service'][$value]) && $this->request->data['Service'][$value] != NULL) {
+
+                        if (isset($this->request->data['Service'][$value]) && $this->request->data['Service'][$value] != null) {
                             $this->OrganisationUserService->create([
                                 'organisation_user_id' => $organisationUserId,
                                 'service_id' => $this->request->data['Service'][$value]
                             ]);
+
                             $this->OrganisationUserService->save();
                         }
+
                         if (!empty($this->request->data['Role'][$value])) {
                             foreach ($this->request->data['Role'][$value] as $key => $donnee) {
                                 if ($donnee) {
@@ -244,8 +262,10 @@ class UsersController extends AppController {
                                         'organisation_user_id' => $organisationUserId,
                                         'role_id' => $donnee
                                     ]);
+
                                     $this->OrganisationUserRole->save();
                                     $droits = $this->RoleDroit->find('all', ['conditions' => ['role_id' => $donnee]]);
+
                                     foreach ($droits as $val) {
                                         if (empty($this->Droit->find('first', [
                                                             'conditions' => [
@@ -265,7 +285,8 @@ class UsersController extends AppController {
                             }
                         }
                     }
-                    $this->Session->setFlash(__d('user','user.flashsuccessUserEnregistrer'), 'flashsuccess');
+
+                    $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), 'flashsuccess');
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'index'
@@ -286,6 +307,7 @@ class UsersController extends AppController {
                         'organisation_id'
                     ]
                 ]);
+
                 $listserv = [];
                 foreach ($listeServices as $key => $value) {
                     $listserv[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
@@ -294,7 +316,7 @@ class UsersController extends AppController {
                 $this->set('listeservices', $listserv);
             }
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -313,37 +335,72 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function edit($id = null) {
-        $this->set('title', __d('user','user.titreEditerUser'));
         if ($this->Droits->authorized(9) == true || $id == $this->Auth->user('id')) {
+            $this->set('title', __d('user', 'user.titreEditerUser'));
+            
             $this->User->id = $id;
+
             if (!$this->User->exists()) {
                 throw new NotFoundException('User Invalide');
             }
-            if ($this->request->is('post') || $this->request->is('put')) {
+
+            $listeServices = $this->Service->find('all', [
+                'conditions' => [
+                    'organisation_id' => $this->Session->read('Organisation.id')
+                ],
+                'fields' => [
+                    'id',
+                    'libelle',
+                    'organisation_id'
+                ]
+            ]);
+            $listserv = [];
+            foreach ($listeServices as $key => $value) {
+                $listserv[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
+            }
+            $this->set('listeservices', $listserv);
+            
+            if ($this->request->is('post') || $this->request->is('put')) { 
+                //si le nouveau passwd = verif passwd
                 if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
                     if ($this->request->data['User']['new_password'] != '') {
                         $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                     }
+
                     if ($this->User->save($this->request->data)) {
                         if ($this->Droits->isSu()) {
                             $orgas = $this->Organisation->find('all');
                         } else {
-                            $orgas = $this->Organisation->find('all', ['conditions' => ['id' => $this->Session->read('Organisation.id')]]);
+                            $orgas = $this->Organisation->find('all', [
+                                'conditions' => [
+                                    'id' => $this->Session->read('Organisation.id')
+                                ]
+                            ]);
                         }
 
                         foreach ($orgas as $value) {
-
                             if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {
-                                $id_user = $this->OrganisationUser->find('first', ['conditions' => ['user_id' => $id,
-                                        'organisation_id' => $value['Organisation']['id']]]);
+                                $id_user = $this->OrganisationUser->find('first', [
+                                    'conditions' => [
+                                        'user_id' => $id,
+                                        'organisation_id' => $value['Organisation']['id']
+                                    ]
+                                ]);
+
                                 $this->OrganisationUser->deleteAll([
                                     'user_id' => $id,
                                     'organisation_id' => $value['Organisation']['id']
                                 ]);
+
                                 $this->OrganisationUserRole->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
+
                                 $this->Droit->deleteAll([
+                                    'organisation_user_id' => $id_user
+                                ]);
+
+                                $this->OrganisationUserService->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
                             } else {
@@ -359,6 +416,7 @@ class UsersController extends AppController {
                                         'user_id' => $id,
                                         'organisation_id' => $value['Organisation']['id']
                                     ]);
+
                                     $this->OrganisationUser->save();
                                     $organisationUserId = $this->OrganisationUser->getInsertID();
                                 } else {
@@ -372,7 +430,7 @@ class UsersController extends AppController {
                                     $organisationUserId = $id_orga['OrganisationUser']['id'];
                                 }
 
-
+                                //Enregistrement du role
                                 if (!empty($this->request->data['Role']['role_ida'][$value['Organisation']['id']])) {
                                     $this->OrganisationUserRole->deleteAll(['organisation_user_id' => $organisationUserId]);
 
@@ -388,8 +446,10 @@ class UsersController extends AppController {
                                                 'organisation_user_id' => $organisationUserId,
                                                 'role_id' => $donnee
                                             ]);
+
                                             $this->OrganisationUserRole->save();
                                             $droits = $this->RoleDroit->find('all', ['conditions' => ['role_id' => $donnee]]);
+
                                             foreach ($droits as $val) {
                                                 if (empty($this->Droit->find('first', [
                                                                     'conditions' => [
@@ -402,28 +462,42 @@ class UsersController extends AppController {
                                                         'organisation_user_id' => $organisationUserId,
                                                         'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
                                                     ]);
+
                                                     $this->Droit->save();
                                                 }
                                             }
                                         }
                                     }
                                 }
+
+                                //Enregistrement du ou des service(s)
+                                if (!empty($this->request->data['Service'][$value['Organisation']['id']])) {
+                                    foreach ($this->request->data['Service'][$value['Organisation']['id']] as $value) {
+                                        $this->OrganisationUserService->create([
+                                            'organisation_user_id' => $organisationUserId,
+                                            'service_id' => $value
+                                        ]);
+
+                                        $this->OrganisationUserService->save();
+                                    }
+                                }
                             }
                         }
-                        $this->Session->setFlash(__d('user','user.flashsuccessUserEnregistrer'), "flashsuccess");
+
+                        $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), "flashsuccess");
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'index'
                         ]);
                     } else {
-                        $this->Session->setFlash(__d('user','user.flasherrorErreurEnregistrementUser'), "flasherror");
+                        $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'index'
                         ]);
                     }
                 } else {
-                    $this->Session->setFlash(__d('user','user.flasherrorErreurEnregistrementUser'), "flasherror");
+                    $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'index'
@@ -435,14 +509,14 @@ class UsersController extends AppController {
                 $this->set('listedroits', $table['listedroits']);
             }
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         }
     }
-    
+
     /**
      * Modification du mot de passe par un utilisateur connecté
      * 
@@ -454,29 +528,30 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function changepassword($id = null) {
-        $this->set('title', __d('user','user.titreModificationInfoUser'));
-        
+        $this->set('title', __d('user', 'user.titreModificationInfoUser'));
+
         if ($id == $this->Auth->user('id')) {
             $this->User->id = $id;
+
             if (!$this->User->exists()) {
                 throw new NotFoundException('User Invalide');
             }
-            
+
             $infoUser = $this->User->find('first', array(
-            'conditions' => array('id' => $id)
-            ));     
-            
+                'conditions' => array('id' => $id)
+            ));
+
             if ($this->request->is('post') || $this->request->is('put')) {
 
-                if($this->request->data['User']['old_password'] != "" && $this->request->data['User']['new_passwd'] != "" && $this->request->data['User']['new_password'] != ""){
+                if ($this->request->data['User']['old_password'] != "" && $this->request->data['User']['new_passwd'] != "" && $this->request->data['User']['new_password'] != "") {
                     if (AuthComponent::password($this->request->data['User']['old_password']) == $infoUser['User']['password']) {
-                        if ($this->request->data['User']['new_password'] != "") {    
+                        if ($this->request->data['User']['new_password'] != "") {
                             if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
                                 if ($this->request->data['User']['new_password'] != '') {
                                     $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                                 }
                             } else {
-                                $this->Session->setFlash(__d('user','user.flasherrorErreurNewPassword'), "flasherror");
+                                $this->Session->setFlash(__d('user', 'user.flasherrorErreurNewPassword'), "flasherror");
                                 $this->redirect([
                                     'controller' => 'users',
                                     'action' => 'changepassword',
@@ -484,15 +559,15 @@ class UsersController extends AppController {
                                 ]);
                             }
                         } else {
-                            $this->Session->setFlash(__d('user','user.flasherrorNewPasswordVide'), "flasherror");
+                            $this->Session->setFlash(__d('user', 'user.flasherrorNewPasswordVide'), "flasherror");
                             $this->redirect([
-                            'controller' => 'users',
-                            'action' => 'changepassword',
-                            $id
-                        ]);
+                                'controller' => 'users',
+                                'action' => 'changepassword',
+                                $id
+                            ]);
                         }
                     } else {
-                        $this->Session->setFlash(__d('user','user.flasherrorPasswordInvalide'), "flasherror");
+                        $this->Session->setFlash(__d('user', 'user.flasherrorPasswordInvalide'), "flasherror");
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'changepassword',
@@ -500,15 +575,15 @@ class UsersController extends AppController {
                         ]);
                     }
                 }
-                
+
                 if ($this->User->save($this->request->data)) {
-                    $this->Session->setFlash(__d('user','user.flashsuccessUserEnregistrerReconnecter'), "flashsuccess");
+                    $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrerReconnecter'), "flashsuccess");
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'logout'
                     ]);
                 } else {
-                    $this->Session->setFlash(__d('user','user.flasherrorErreurEnregistrementUser'), "flasherror");
+                    $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
                     $this->redirect([
                         'controller' => 'pannel',
                         'action' => 'index'
@@ -519,7 +594,7 @@ class UsersController extends AppController {
                 $this->set('tableau', $table['tableau']);
             }
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -540,9 +615,11 @@ class UsersController extends AppController {
     public function delete($id = null) {
         if ($this->Droits->authorized(10)) {
             $this->User->id = $id;
+
             if (!$this->User->exists()) {
                 throw new NotFoundException('User invalide');
             }
+
             if ($id != 1) {
                 if ($this->OrganisationUser->deleteAll([
                             'user_id' => $id
@@ -552,15 +629,15 @@ class UsersController extends AppController {
                         $this->Organisation->updateAll(['Organisation.cil' => null], ['Organisation.cil' => $id]);
                     }
                     if ($this->User->delete()) {
-                        $this->Session->setFlash(__d('user','user.flashsuccessUserSupprimer'), 'flashsuccess');
+                        $this->Session->setFlash(__d('user', 'user.flashsuccessUserSupprimer'), 'flashsuccess');
                         $this->redirect(['action' => 'index']);
                     }
                 }
             }
-            $this->Session->setFlash(__d('user','user.flasherrorErreurSupprimerUser'), 'flasherror');
+            $this->Session->setFlash(__d('user', 'user.flasherrorErreurSupprimerUser'), 'flasherror');
             $this->redirect(['action' => 'index']);
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -576,19 +653,34 @@ class UsersController extends AppController {
      * @version V0.9.0
      */
     public function login() {
+//        $hashpass = AuthComponent::password("theog");
+//        debug($hashpass);
+//        die;
+
         $this->layout = 'login';
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
                 $this->_cleanSession();
-                $su = $this->Admin->find('count', ['conditions' => ['user_id' => $this->Auth->user('id')]]);
+
+                $su = $this->Admin->find('count', [
+                    'conditions' => [
+                        'user_id' => $this->Auth->user('id')
+                    ]
+                ]);
+
                 if ($su) {
                     $this->Session->write('Su', true);
                 } else {
                     $this->Session->write('Su', false);
                 }
+
                 $service = $this->OrganisationUser->find('first', [
-                    'conditions' => ['user_id' => $this->Auth->user('id')],
-                    'contain' => ['OrganisationUserService' => ['Service']]
+                    'conditions' => [
+                        'user_id' => $this->Auth->user('id')
+                    ],
+                    'contain' => [
+                        'OrganisationUserService' => ['Service']
+                    ]
                 ]);
                 $this->Session->write('User.service', $service['OrganisationUserService']['Service']['libelle']);
 
@@ -597,7 +689,7 @@ class UsersController extends AppController {
                     'action' => 'change'
                 ]);
             } else {
-                $this->Session->setFlash(__d('user','user.flasherrorNameUserPasswordInvalide'), 'flasherror');
+                $this->Session->setFlash(__d('user', 'user.flasherrorNameUserPasswordInvalide'), 'flasherror');
             }
         } else {
             if ($this->Session->check('Auth.User.id')) {
@@ -644,21 +736,30 @@ class UsersController extends AppController {
      */
     protected function _createTable($id = null) {
         $tableau = ['Organisation' => []];
+
         if ($this->Droits->isSu()) {
             $organisations = $this->Organisation->find('all');
         } else {
-            $organisations = $this->Organisation->find('all', ['conditions' => ['id' => $this->Session->read('Organisation.id')]]);
+            $organisations = $this->Organisation->find('all', [
+                'conditions' => [
+                    'id' => $this->Session->read('Organisation.id')
+                ]
+            ]);
         }
+
         foreach ($organisations as $key => $value) {
             $tableau['Organisation'][$value['Organisation']['id']]['infos'] = [
                 'raisonsociale' => $value['Organisation']['raisonsociale'],
                 'id' => $value['Organisation']['id']
             ];
+
             $roles = $this->Role->find('all', [
                 'recursive' => -1,
                 'conditions' => ['organisation_id' => $value['Organisation']['id']]
             ]);
+
             $tableau['Organisation'][$value['Organisation']['id']]['roles'] = [];
+
             foreach ($roles as $clef => $valeur) {
                 $tableau['Organisation'][$value['Organisation']['id']]['roles'][$valeur['Role']['id']] = [
                     'infos' => [
@@ -667,42 +768,74 @@ class UsersController extends AppController {
                         'organisation_id' => $valeur['Role']['organisation_id']
                     ]
                 ];
+
                 $droitsRole = $this->RoleDroit->find('all', [
                     'recursive' => -1,
                     'conditions' => ['role_id' => $valeur['Role']['id']]
                 ]);
+
                 foreach ($droitsRole as $k => $val) {
                     $tableau['Organisation'][$value['Organisation']['id']]['roles'][$valeur['Role']['id']]['droits'][$val['RoleDroit']['id']] = $val['RoleDroit'];
                 }
             }
         }
+
         if ($id != null) {
             $this->set("userid", $id);
 
             $organisationUser = $this->OrganisationUser->find('all', [
-                'conditions' => ['user_id' => $id],
-                'contain' => ['Droit']
+                'conditions' => [
+                    'user_id' => $id
+                ],
+                'contain' => [
+                    'Droit'
+                ]
             ]);
 
             foreach ($organisationUser as $key => $value) {
                 $tableau['Orgas'][] = $value['OrganisationUser']['organisation_id'];
 
-                $userroles = $this->OrganisationUserRole->find('all', ['conditions' => ['OrganisationUserRole.organisation_user_id' => $value['OrganisationUser']['id']]]);
+                $userroles = $this->OrganisationUserRole->find('all', [
+                    'conditions' => [
+                        'OrganisationUserRole.organisation_user_id' => $value['OrganisationUser']['id']
+                    ]
+                ]);
+
                 foreach ($userroles as $cle => $val) {
                     $tableau['UserRoles'][] = $val['OrganisationUserRole']['role_id'];
                 }
+
                 foreach ($value['Droit'] as $clef => $valeur) {
                     $tableau['User'][$value['OrganisationUser']['organisation_id']][] = $valeur['liste_droit_id'];
                 }
+
+                $servicesUsers = $this->OrganisationUserService->find('all', [
+                    'conditions' => [
+                        'OrganisationUserService.organisation_user_id' => $value['OrganisationUser']['id']
+                    ]
+                ]);
+
+                if (!empty($servicesUsers)) {
+                    foreach ($servicesUsers as $serviceUser) {
+                        $tableau['UserService'][] = $serviceUser['OrganisationUserService']['service_id'];
+                    }
+                }
             }
+
             $this->request->data = $this->User->read(null, $id);
             unset($this->request->data['User']['password']);
         }
-        $listedroits = $this->ListeDroit->find('all', ['recursive' => -1]);
+
+        $listedroits = $this->ListeDroit->find('all', [
+            'recursive' => -1
+        ]);
+
         $ld = [];
+
         foreach ($listedroits as $c => $v) {
             $ld[$v['ListeDroit']['value']] = $v['ListeDroit']['libelle'];
         }
+
         $retour = [
             'tableau' => $tableau,
             'listedroits' => $ld

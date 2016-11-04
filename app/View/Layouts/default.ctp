@@ -123,7 +123,7 @@ $cakeDescription = 'Web-CIL';
                                                                     '5',
                                                                         ], $this->Session->read('Droit.liste'))
                                                         ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-eye fa-fw"></i>'.__d('default','default.sousTitreTraitementVu'), [
+                                                            echo '<li>' . $this->Html->link('<i class="fa fa-eye fa-fw"></i>' . __d('default', 'default.sousTitreTraitementVu'), [
                                                                 'controller' => 'pannel',
                                                                 'action' => 'consulte'
                                                                     ], ['escape' => false]) . '</li>';
@@ -218,7 +218,7 @@ $cakeDescription = 'Web-CIL';
                                                 ?>
                                                 <li class="dropdown">
                                                     <a href="#" class="dropdown-toggle"
-                                                       data-toggle="dropdown"><?php echo __d('default', 'default.titreAdministrationUser');?>
+                                                       data-toggle="dropdown"><?php echo __d('default', 'default.titreAdministrationUser'); ?>
                                                         <span class="caret"></span>
                                                     </a>
                                                     <ul class="dropdown-menu" role="menu">
@@ -299,7 +299,7 @@ $cakeDescription = 'Web-CIL';
                                                     <span class="caret"></span>
                                                 </a>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreEntite');?></li>
+                                                    <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreEntite'); ?></li>
                                                     <?php
                                                     foreach ($organisations as $datas) {
                                                         ?>
@@ -314,7 +314,7 @@ $cakeDescription = 'Web-CIL';
                                                     }
                                                     ?>
                                                     <li class="divider"></li>
-                                                    <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreCompte');?></li>
+                                                    <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreCompte'); ?></li>
                                                     <li><?php
                                                         echo $this->Html->link('<i class="fa fa-cog fa-fw"></i>' . __d('default', 'default.sousTitreModifCompte'), [
                                                             'controller' => 'users',
@@ -344,7 +344,7 @@ $cakeDescription = 'Web-CIL';
                                                         if ($this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']) {
                                                             switch ($value['Notification']['content']) {
                                                                 case 1:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">'.__d('default','default.notificationAvisDemandeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">' . __d('default', 'default.notificationAvisDemandeTraitement') . ' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -356,7 +356,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 2:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">'.__d('default','default.notificationValidationDemandeTraitement').'<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">' . __d('default', 'default.notificationValidationDemandeTraitement') . '<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -368,7 +368,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 3:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-success">'.__d('default','default.notificationLeTraitement').' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>'.__d('default','default.notificationTraitementValidee').'</i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-success">' . __d('default', 'default.notificationLeTraitement') . ' <strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>' . __d('default', 'default.notificationTraitementValidee') . '</i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -380,7 +380,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 4:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-danger">'.__d('default','default.notificationLeTraitement').'<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>'.__d('default','default.notificationTraitementRefusee').'</i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-danger">' . __d('default', 'default.notificationLeTraitement') . '<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong>' . __d('default', 'default.notificationTraitementRefusee') . '</i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -392,7 +392,7 @@ $cakeDescription = 'Web-CIL';
                                                                     ]) . '</a>';
                                                                     break;
                                                                 case 5:
-                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">'.__d('default','default.notificationCommentaireAjouterTraitement').'<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
+                                                                    echo '<a>' . $this->Html->link('<i class="list-group-item list-group-item-info">' . __d('default', 'default.notificationCommentaireAjouterTraitement') . '<strong>"' . $value['Fiche']['Valeur'][0]['valeur'] . '"</strong></i>', [
                                                                         'controller' => 'organisations',
                                                                         'action' => 'changenotification',
                                                                         $value['Fiche']['organisation_id'],
@@ -408,7 +408,7 @@ $cakeDescription = 'Web-CIL';
                                                     }
 
                                                     if (!empty($notificationsStayed) && $this->Session->read('Organisation.id') == $value['Fiche']['organisation_id']) {
-                                                        echo '<li>' . $this->Html->link('<i class="fa fa-fw fa-trash"></i>'.__d('default','default.btnEffacerNotifications'), [
+                                                        echo '<li>' . $this->Html->link('<i class="fa fa-fw fa-trash"></i>' . __d('default', 'default.btnEffacerNotifications'), [
                                                             'controller' => 'pannel',
                                                             'action' => 'dropNotif'
                                                                 ], [
@@ -463,34 +463,60 @@ $cakeDescription = 'Web-CIL';
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <h4 class="modal-title" id="myModalLabel">
-                                    <?php echo __d('default','default.popupChoisirFormulaire');?>
+                                    <?php echo __d('default', 'default.popupChoisirFormulaire'); ?>
                                 </h4>
                             </div>
                             <div class="modal-body">
                                 <table class="table table-bordered">
                                     <thead>
                                     <th class="col-md-3">
-                                        <?php echo __d('default','default.popupTitreTableauNom');?>
+                                        <?php echo __d('default', 'default.popupTitreTableauNom'); ?>
                                     </th>
+                                    <?php 
+                                    if (!empty($serviceEntitee)) {
+                                    ?>
+                                        <th class="col-md-3">
+                                            <?php echo __d('default', 'default.popupTitreTableauService'); ?>
+                                        </th>
+                                    <?php
+                                    }
+                                    ?>
                                     <th class="col-md-7">
-                                        <?php echo __d('default','default.popupTitreTableauDescription');?>
+                                        <?php echo __d('default', 'default.popupTitreTableauDescription'); ?>
                                     </th>
                                     <th class="col-md-2">
-                                        <?php echo __d('default','default.popupTitreTableauAction');?>
+                                        <?php echo __d('default', 'default.popupTitreTableauAction'); ?>
                                     </th>
                                     </thead>
                                     <tbody>
                                         <?php
                                         foreach ($formulaires_actifs as $key => $value) {
-                                            echo '<tr>
-                                                <td>' . $value['Formulaire']['libelle'] . '</td>
-                                                <td>' . $value['Formulaire']['description'] . '</td>
-                                                <td>' . $this->Html->link(__d('default','default.popupBtnChoisir'), [
-                                                'controller' => 'fiches',
-                                                'action' => 'add',
-                                                $value['Formulaire']['id']
-                                                    ], ['class' => 'btn btn-default-default']) . '</td>
-</tr>';
+                                            if (!empty($serviceEntitee)) {
+                                                foreach ($userServices as $userService) {
+                                                    if ($value['Formulaire']['service_id'] == $userService['id']) {
+                                                        echo '<tr>
+                                                            <td>' . $value['Formulaire']['libelle'] . '</td>
+                                                                <td>' . $userService['libelle'] . '</td>
+                                                            <td>' . $value['Formulaire']['description'] . '</td>
+                                                            <td>' . $this->Html->link(__d('default', 'default.popupBtnChoisir'), [
+                                                            'controller' => 'fiches',
+                                                            'action' => 'add',
+                                                            $value['Formulaire']['id']
+                                                                ], ['class' => 'btn btn-default-default']) . '</td>
+                                                        </tr>';
+                                                    }
+                                                }
+                                            } else {
+                                                echo '<tr>
+                                                    <td>' . $value['Formulaire']['libelle'] . '</td>
+                                                    <td>' . $value['Formulaire']['description'] . '</td>
+                                                    <td>' . $this->Html->link(__d('default', 'default.popupBtnChoisir'), [
+                                                    'controller' => 'fiches',
+                                                    'action' => 'add',
+                                                    $value['Formulaire']['id']
+                                                        ], ['class' => 'btn btn-default-default']) . '</td>
+                                                </tr>';
+                                            }
                                         }
                                         ?>
                                     </tbody>
@@ -499,7 +525,7 @@ $cakeDescription = 'Web-CIL';
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
                                         class="fa fa-fw fa-arrow-left"></i>
-                                        <?php echo(__d('default','default.btnAnnuler'));?>
+                                        <?php echo(__d('default', 'default.btnAnnuler')); ?>
                                 </button>
                             </div>
                         </div>
@@ -531,7 +557,7 @@ $cakeDescription = 'Web-CIL';
                 <div class="btn-group">
                     <button type="button" class="btn btn-default-default" data-dismiss="modal">
                         <i class="fa fa-arrow-left fa-fw"></i>
-                            <?php echo 'OK'; ?>
+                        <?php echo 'OK'; ?>
                     </button>
                 </div>
             </div>

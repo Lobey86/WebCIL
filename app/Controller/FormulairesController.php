@@ -28,7 +28,8 @@ class FormulairesController extends AppController {
         'FormGenerator.Champ',
         'FormGeneric',
         'Fiche',
-        'Organisation'
+        'Organisation',
+        'Service'
     );
 
     /**
@@ -50,6 +51,13 @@ class FormulairesController extends AppController {
         }
         $this->set(compact('valid'));
         $this->set('formulaires', $all);
+        
+        $services = $this->Service->find('all',[
+            'conditions' => [
+                'organisation_id' => $this->Session->read('Organisation.id')
+            ]
+        ]);
+        $this->set('services', $services);
     }
 
     /**
@@ -143,14 +151,20 @@ class FormulairesController extends AppController {
      * @version V0.9.0
      */
     public function addFirst() {
+        if(empty($this->request->data['Formulaire']['service'])){
+            $this->request->data['Formulaire']['service'] = null;
+        }
+
         if ($this->request->is('POST')) {
             $this->Formulaire->create(array(
                 'organisations_id' => $this->Session->read('Organisation.id'),
                 'libelle' => $this->request->data['Formulaire']['libelle'],
                 'description' => $this->request->data['Formulaire']['description'],
+                'service_id' => $this->request->data['Formulaire']['service'],
                 'active' => 0
             ));
             $this->Formulaire->save();
+            
             $this->redirect(array(
                 'controller' => 'formulaires',
                 'action' => 'add',

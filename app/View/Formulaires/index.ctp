@@ -24,22 +24,26 @@
         }
         ?>
         <tr>
+            <!--Status-->
             <td class="tdleft col-md-1">
                 <div class="etatIcone">
                     <i class= '<?php echo $iconClass; ?>'></i>
                 </div>
             </td>
 
+            <!--Synthèse-->
             <td class="tdleft col-md-9">
                 <div class="row">
-
-                    <div class="col-md-5">
+                    <div class="col-md-4">
+                        <!--Nom : -->
                         <div class="row col-md-12">
                             <strong>
                                 <?php echo __d('formulaire', 'formulaire.textTableauNom'); ?>
                             </strong>
                             <?php echo $data['Formulaire']['libelle']; ?>
                         </div>
+
+                        <!--Statut :--> 
                         <div class="row col-md-12">
                             <strong>
                                 <?php echo __d('formulaire', 'formulaire.textTableauStatut'); ?>
@@ -47,18 +51,41 @@
                             <span class='<?php echo $statutClass; ?>'><?php echo $statut; ?></span>
                         </div>
                     </div>
-                    <div class="col-md-7">
-                        <div class="col-md-3">
-                            <strong>
-                                <?php echo __d('formulaire', 'formulaire.textTableauDescription'); ?>
-                            </strong>
-                        </div>
-                        <div class="col-md-9">
-                            <?php echo $data['Formulaire']['description']; ?>
-                        </div>
+
+                    <!--Service :--> 
+                    <div class="col-md-3">
+                        <strong>
+                            <?php echo __d('user', 'user.champService'); ?>
+                        </strong>
+                        <ul>
+                            <?php
+                            if ($data['Formulaire']['service_id'] != null) {
+                                $nameService = Hash::combine($services, '{n}.Service.id', array('%s', '{n}.Service.libelle'));
+                                echo '<li>' . $nameService[$data['Formulaire']['service_id']] . '</li>';
+                            } else {
+                                echo '<li> Aucun service</li>';
+                            }
+                            ?>
+                        </ul>
                     </div>
+
+
+                    <!--<div class="col-md-7">-->
+                    <!--Description :-->
+                    <div class="col-md-3">
+                        <strong>
+                            <?php echo __d('formulaire', 'formulaire.textTableauDescription'); ?>
+                        </strong>
+                        <?php echo $data['Formulaire']['description']; ?>
+                    </div>
+                    <!--                        <div class="col-md-9">
+                    <?php // echo $data['Formulaire']['description']; ?>
+                                            </div>-->
+                    <!--</div>-->
                 </div>
             </td>
+
+            <!--Actions-->
             <td class="tdleft col-md-2">
                 <div class="btn-group">
                     <?php
@@ -153,6 +180,8 @@
 
                                             echo $this->Form->input('id', array("value" => 0));
                                             //echo $this->Form->input('id', array("value" => $data['Formulaire']['id']));
+
+                                            //champ nom du formulaire *
                                             echo $this->Form->input('libelle', array(
                                                 'class' => 'form-control',
                                                 'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderNomFormulaire'),
@@ -165,6 +194,28 @@
                                                 'required' => true
                                             ));
                                             echo '</div>';
+
+                                            if (!empty($services)) {
+                                                $nameService = Hash::combine($services, '{n}.Service.id', array('%s', '{n}.Service.libelle'));
+
+                                                echo '<div class="row form-group">';
+                                                //Champ Service *
+                                                echo $this->Form->input('service', [
+                                                    'options' => $nameService,
+                                                    'empty' => __d('formulaire', 'formulaire.placeholderChampService'),
+                                                    'class' => 'usersDeroulant transformSelect form-control',
+                                                    'label' => [
+                                                        'text' => __d('formulaire', 'formulaire.champService') . '<span class="requis">*</span>',
+                                                        'class' => 'col-md-4 control-label'
+                                                    ],
+                                                    'between' => '<div class="col-md-8">',
+                                                    'after' => '</div>',
+                                                    'required' => true
+                                                ]);
+                                                echo '</div>';
+                                            }
+
+                                            //Champ Description
                                             echo '<div class="row form-group">';
                                             echo $this->Form->input('description', array(
                                                 'type' => 'textarea',
@@ -234,8 +285,10 @@
             </div>
             <div class="modal-body">
                 <?php
+                //pop-up de création de formulaire
                 echo $this->Form->create('Formulaire', array('action' => 'addFirst'));
                 echo '<div class="row form-group">';
+                //champ nom du formulaire *
                 echo $this->Form->input('libelle', array(
                     'class' => 'form-control',
                     'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderNomFormulaire'),
@@ -248,7 +301,29 @@
                     'required' => true
                 ));
                 echo '</div>';
+
+                if (!empty($services)) {
+                    $nameService = Hash::combine($services, '{n}.Service.id', array('%s', '{n}.Service.libelle'));
+
+                    echo '<div class="row form-group">';
+                    //Champ Service *
+                    echo $this->Form->input('service', [
+                        'options' => $nameService,
+                        'empty' => __d('formulaire', 'formulaire.placeholderChampService'),
+                        'class' => 'usersDeroulant transformSelect form-control',
+                        'label' => [
+                            'text' => __d('formulaire', 'formulaire.champService') . '<span class="requis">*</span>',
+                            'class' => 'col-md-4 control-label'
+                        ],
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>',
+                        'required' => true
+                    ]);
+                    echo '</div>';
+                }
+
                 echo '<div class="row form-group">';
+                //Champ Description
                 echo $this->Form->input('description', array(
                     'type' => 'textarea',
                     'class' => 'form-control',

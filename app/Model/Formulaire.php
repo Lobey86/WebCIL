@@ -43,5 +43,22 @@ class Formulaire extends AppModel {
             'dependent' => true
         )
     );
+    
+    /**
+     * belongsTo associations
+     *
+     * @var array
+     * 
+     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     * @access public
+     * @created 04/11/2016
+     * @version V1.0.0
+     */
+    public $belongsTo = array(
+        'Service' => array(
+            'className' => 'Service',
+            'foreignKey' => 'service_id',
+        )
+    );
 
 }

@@ -75,6 +75,9 @@ msgstr "Choisir un formulaire"
 msgid "default.popupTitreTableauNom"
 msgstr "Nom"
 
+msgid "default.popupTitreTableauService"
+msgstr "Service"
+
 msgid "default.popupTitreTableauDescription"
 msgstr "Description"
 

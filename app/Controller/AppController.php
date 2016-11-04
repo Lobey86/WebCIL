@@ -32,7 +32,8 @@ class AppController extends Controller {
         'Droit',
         'OrganisationUser',
         'Notification',
-        'Pannel'
+        'Pannel',
+        'Service'
     );
     public $components = array(
         'Session',
@@ -51,7 +52,7 @@ class AppController extends Controller {
             )
         )
     );
-    
+
     /**
      * @access public
      * @created 29/04/2015
@@ -59,11 +60,11 @@ class AppController extends Controller {
      */
     public function beforeFilter() {
         $locale = Configure::read('Config.language');
-        
+
         if ($locale && file_exists(APP . 'View' . DS . $locale . DS . $this->viewPath)) {
             $this->viewPath = $locale . DS . $this->viewPath;
         }
-        
+
         $this->set('referer', $this->referer());
         $this->set('nom', $this->Auth->user('nom'));
         $this->set('prenom', $this->Auth->user('prenom'));
@@ -113,6 +114,27 @@ class AppController extends Controller {
     public function beforeRender() {
         parent::beforeRender();
         $this->set('formulaires_actifs', $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id'), 'active' => true)));
+        
+        $serviceUser = $this->OrganisationUser->find('all', [
+            'conditions' => [
+                'user_id' => $this->Auth->user('id'),
+                'organisation_id' => $this->Session->read('Organisation.id')
+            ],
+            'contain' => [
+                'OrganisationUserService' => [
+                    'Service'
+                ]
+            ]
+        ]);
+        $userServices = Hash::extract($serviceUser, '{n}.OrganisationUserService.Service');
+        $this->set('userServices', $userServices);
+        
+        $serviceEntitee = $this->Service->find('all', [
+            'conditions' => [
+                'organisation_id' => $this->Session->read('Organisation.id')
+            ]
+        ]);
+        $this->set('$serviceEntitee', $serviceEntitee);
     }
 
 }
