@@ -134,7 +134,7 @@ class AppController extends Controller {
                 'organisation_id' => $this->Session->read('Organisation.id')
             ]
         ]);
-        $this->set('$serviceEntitee', $serviceEntitee);
+        $this->set('serviceEntitee', $serviceEntitee);
     }
 
 }
