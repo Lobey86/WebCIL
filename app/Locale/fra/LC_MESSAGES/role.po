@@ -43,6 +43,15 @@ msgstr "Le profil a bien été supprimé"
 msgid "role.flasherrorErreurSupprimerProfil"
 msgstr "Une erreur s'est produite lors de la suppression du profil"
 
+msgid "role.flashsuccessProfilReattribuer"
+msgstr "Le profil a bien été réattribué à tous les utilisateurs"
+
+msgid "role.flashwarningAucunUtilisateurUtiliseProfil"
+msgstr "Aucun utilisateur n'utilise ce profil"
+
+msgid "role.flasherrorErreurReattributionRole"
+msgstr "Une erreur s'est produite lors de la réattribution de droit sur tous les utilisateurs"
+
 ###############################################################
 
 ###############################################################################

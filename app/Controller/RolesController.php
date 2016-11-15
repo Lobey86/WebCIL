@@ -26,7 +26,8 @@ class RolesController extends AppController {
     public $uses = [
         'Role',
         'ListeDroit',
-        'RoleDroit'
+        'RoleDroit',
+        'OrganisationUserRole',
     ];
 
     /**
@@ -35,7 +36,7 @@ class RolesController extends AppController {
      * @version V0.9.0
      */
     public function index() {
-        $this->set('title', __d('role','role.titreListeProfil'));
+        $this->set('title', __d('role', 'role.titreListeProfil'));
         if ($this->Droits->authorized([
                     '13',
                     '14',
@@ -55,7 +56,7 @@ class RolesController extends AppController {
             }
             $this->set('roles', $roles);
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -69,7 +70,7 @@ class RolesController extends AppController {
      * @version V0.9.0
      */
     public function add() {
-        $this->set('title', __d('role','role.titreAjouterProfil'));
+        $this->set('title', __d('role', 'role.titreAjouterProfil'));
         if ($this->Droits->authorized(13) || $this->Droits->isSu()) {
             if ($this->request->is('post')) {
                 $this->Role->create($this->request->data);
@@ -83,13 +84,13 @@ class RolesController extends AppController {
                             $this->RoleDroit->save();
                         }
                     }
-                    $this->Session->setFlash(__d('profil','profil.flashsuccessProfilEnregistrer'), 'flashsuccess');
+                    $this->Session->setFlash(__d('profil', 'profil.flashsuccessProfilEnregistrer'), 'flashsuccess');
                     $this->redirect([
                         'controller' => 'roles',
                         'action' => 'index'
                     ]);
                 } else {
-                    $this->Session->setFlash(__d('profil','profil.flasherrorErreurEnregistrementProfil'), 'flasherror');
+                    $this->Session->setFlash(__d('profil', 'profil.flasherrorErreurEnregistrementProfil'), 'flasherror');
                     $this->redirect([
                         'controller' => 'roles',
                         'action' => 'index'
@@ -99,7 +100,7 @@ class RolesController extends AppController {
                 $this->set('listedroit', $this->ListeDroit->find('all', ['conditions' => ['NOT' => ['ListeDroit.id' => ['11']]], 'order' => 'id']));
             }
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -140,7 +141,7 @@ class RolesController extends AppController {
         if (!$this->request->data) {
             $this->request->data = $role;
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -157,7 +158,7 @@ class RolesController extends AppController {
      * @version V0.9.0
      */
     public function edit($id = null) {
-        $this->set('title', __d('role','role.titreEditerProfil'));
+        $this->set('title', __d('role', 'role.titreEditerProfil'));
         if (($this->Droits->authorized(14) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
             if (!$id) {
                 throw new NotFoundException('Ce profil n\'existe pas');
@@ -173,7 +174,7 @@ class RolesController extends AppController {
             ) {
                 $this->Role->id = $id;
                 if ($this->Role->save($this->request->data)) {
-                    $this->RoleDroit->deleteAll(['role_id' => $id], FALSE);
+                    $this->RoleDroit->deleteAll(['role_id' => $id], false);
                     foreach ($this->request->data['Droits'] as $key => $donnee) {
                         if ($donnee) {
                             $this->RoleDroit->create([
@@ -183,13 +184,13 @@ class RolesController extends AppController {
                             $this->RoleDroit->save();
                         }
                     }
-                    $this->Session->setFlash(__d('role','role.flashsuccessProfilModifier'), 'flashsuccess');
+                    $this->Session->setFlash(__d('role', 'role.flashsuccessProfilModifier'), 'flashsuccess');
                     $this->redirect([
                         'controller' => 'Roles',
                         'action' => 'index'
                     ]);
                 }
-                $this->Session->setFlash(__d('role','role.flasherrorErreurModificationProfil'), 'flasherror');
+                $this->Session->setFlash(__d('role', 'role.flasherrorErreurModificationProfil'), 'flasherror');
                 $this->redirect([
                     'controller' => 'Roles',
                     'action' => 'index'
@@ -210,7 +211,7 @@ class RolesController extends AppController {
                 $this->request->data = $role;
             }
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -233,23 +234,100 @@ class RolesController extends AppController {
         if (($this->Droits->authorized(15) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
             $this->Role->id = $id;
             if (!$this->Role->exists()) {
-                throw new NotFoundException(__d('profil','profil.exceptionProfilInexistant'));
+                throw new NotFoundException(__d('profil', 'profil.exceptionProfilInexistant'));
             }
             if ($this->Role->delete()) {
-                $this->Session->setFlash(__d('profil','profil.flashsuccessProfilSupprimer'), 'flashsuccess');
+                $this->Session->setFlash(__d('profil', 'profil.flashsuccessProfilSupprimer'), 'flashsuccess');
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Session->setFlash(__d('profil','profil.flasherrorErreurSupprimerProfil'), 'flasherror');
+            $this->Session->setFlash(__d('profil', 'profil.flasherrorErreurSupprimerProfil'), 'flasherror');
 
             return $this->redirect(['action' => 'index']);
         } else {
-            $this->Session->setFlash(__d('default','default.flasherrorPasDroitPage'), 'flasherror');
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         }
+    }
+
+    /**
+     * Réattribuer des roles aux utilisateurs après modification d'un profil
+     * FIXME ne devrait pas avoir besoin de reforcer les droits
+     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     * @access public
+     * @created 14/11/2016
+     * @version V1.0.0
+     */
+    public function reattributionRoles($idRole = null) {
+        if ($idRole != null) {
+            // Récupération des droit en fonction de l'id du profil
+            $rolesDroit = $this->RoleDroit->find('all', [
+                'conditions' => [
+                    'role_id' => $idRole
+                ]
+            ]);
+
+            // Récupération des utilisateurs qui utilise le profil e, fonction de l'id du profil
+            $usersRole = $this->OrganisationUserRole->find('all', [
+                'conditions' => [
+                    'role_id' => $idRole
+                ]
+            ]);
+
+            // Si des utilisateur utilise le profil en question
+            if (!empty($usersRole)) {
+                // Pour chaque utilisateur utilisant le profil en question
+                foreach ($usersRole as $userRole) {
+                    $this->Droit->begin();
+                    // Suppression de tout les droits de l'utilisateur
+                    $this->Droit->deleteAll(
+                        ['organisation_user_id' => $userRole['OrganisationUserRole']['organisation_user_id']], 
+                        false
+                    );
+
+                    // Pour chaque droit du profil
+                    foreach ($rolesDroit as $roleDroit) {
+                        $this->Droit->clear();
+
+                        // Création dans la table Droit chaque droit du profil en fonction de l'id de l'organisation de l'utilisateur
+                        $this->Droit->create([
+                            'organisation_user_id' => $userRole['OrganisationUserRole']['organisation_user_id'],
+                            'liste_droit_id' => $roleDroit['RoleDroit']['liste_droit_id']
+                        ]);
+
+                        //Sauvegarde en base de données des droits
+                        $result = $this->Droit->save();
+                        if (!$result) {
+                            $this->Session->setFlash(__d('role', 'role.flasherrorErreurReattributionRole'), 'flasherror');
+                            $this->Droit->rollback();
+                            $this->redirect([
+                                'controller' => 'roles',
+                                'action' => 'index'
+                            ]);
+                        }
+                    }
+                }
+
+                //L'opération c'est bien passé
+                $this->Session->setFlash(__d('role', 'role.flashsuccessProfilReattribuer'), 'flashsuccess');
+                $this->Droit->commit();
+            } else {
+                //Aucun utilisateur n'utilise le profil en question
+                $this->Session->setFlash(__d('role', 'role.flashwarningAucunUtilisateurUtiliseProfil'), 'flashwarning');
+            }
+        } else {
+            //L'id du role n'est pas présent
+            $this->Session->setFlash(__d('role', 'role.flasherrorErreurReattributionRole'), 'flasherror');
+        }
+
+        //Redirection sur la page d'accueil : roles/index
+        $this->redirect([
+            'controller' => 'roles',
+            'action' => 'index'
+        ]);
     }
 
 }
