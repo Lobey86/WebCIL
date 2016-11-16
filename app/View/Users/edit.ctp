@@ -28,7 +28,9 @@
         'class' => 'form-horizontal'
     ]);
     ?>
+    
     <div class="row">
+        <!-- Champs Login * -->
         <div class="col-md-6">
             <?php
             if (empty($this->validationErrors['User']['username'])) {
@@ -51,8 +53,12 @@
             ]);
             ?>
         </div>
+        
+        <!-- Encadré bleu -->
         <div class="alert alert-info">
             <?php echo __d('user', 'user.textInfoMotDePasse'); ?>
+            
+            <!-- Champs Nouveau mot de passe * -->
             <div class="form-group">
                 <?php
                 echo $this->Form->input('new_password', [
@@ -69,6 +75,8 @@
                 ]);
                 ?>
             </div>
+            
+            <!-- Champs Vérification du nouveau mot de passe * -->
             <div class="form-group">
                 <?php
                 echo $this->Form->input('new_passwd', [
@@ -86,6 +94,8 @@
                 ?>
             </div>
         </div>
+        
+        <!-- Champs Nom * -->
         <div class="form-group">
             <?php
             echo $this->Form->input('nom', [
@@ -101,6 +111,8 @@
             ]);
             ?>
         </div>
+        
+        <!-- Champs Prénom * -->
         <div class="form-group">
             <?php
             echo $this->Form->input('prenom', [
@@ -116,6 +128,8 @@
             ]);
             ?>
         </div>
+        
+        <!-- Champs E-mail * -->
         <div class="form-group">
             <?php
             echo $this->Form->input('email', [
@@ -137,13 +151,14 @@
         <?php
         //if ($this->request->data['User']['id'] != $this->Session->read('Auth.User.id')) {
         ?>
+        <!-- Champs Entité * -->
         <div class="form-group">
             <?php
             $listeOrganisations = [];
             foreach ($tableau['Organisation'] as $key => $datas) {
                 $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
             }
-
+            
             echo $this->Form->input('Organisation.Organisation_id', [
                 'options' => $listeOrganisations,
                 'selected' => $tableau['Orgas'],
@@ -176,6 +191,7 @@
             echo "</script>";
             ?>
 
+            <!-- Champs Service * -->
             <div class="form-group droitsVille" id="droitsVille<?php echo $key; ?>">
                 <div class="titreDiv text-center">
                     <h4><?php echo $datas['infos']['raisonsociale']; ?></h4>
@@ -187,6 +203,7 @@
                     if (!empty($listeservices[$datas['infos']['id']])) {
                         //Si l'utilisateur est présent dans un service on le pré-selectionne sinon on affiche juste le champs avec tout les services
                         if (!empty($tableau['UserService'])) {
+                            // On pré-selectionne
                             echo $this->Form->input('Service.' . $datas['infos']['id'], [
                                 'options' => $listeservices[$datas['infos']['id']],
                                 'class' => 'form-control',
@@ -198,7 +215,8 @@
                                 ],
                                 'between' => '<div class="col-md-8">',
                                 'after' => '</div>',
-                                'multiple' => 'multiple'
+                                'multiple' => 'multiple',
+                                'required' => true
                             ]);
                         } else {
                             echo $this->Form->input('Service.' . $datas['infos']['id'], [
@@ -211,13 +229,15 @@
                                 ],
                                 'between' => '<div class="col-md-8">',
                                 'after' => '</div>',
-                                'multiple' => 'multiple'
+                                'multiple' => 'multiple',
+                                'required' => true
                             ]);
                         }
                     }
                     ?>
                 </div>
 
+                <!-- Champs Profils au sein de * -->
                 <div class="form-group">
                     <?php
                     //Si il existe des profils de droit on les affiches
@@ -263,14 +283,17 @@
     </div>
 </div>
 
+<!-- Groupe de bouton -->
 <div class="text-center">
     <div class="btn-group send">
         <?php
+        //Bouton Annuler
         echo $this->Html->link('<i class="fa fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), $referer, [
             'class' => 'btn btn-default-default',
             'escape' => false
         ]);
 
+        //Bouton Enregistrer
         echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
             'type' => 'submit',
             'class' => 'btn btn-default-success'

@@ -30,7 +30,6 @@
     ?>
     <div class="row">
         <div class="col-md-6">
-
             <?php
             if (empty($this->validationErrors['User']['username'])) {
                 echo '<div class="form-group">';
@@ -38,6 +37,7 @@
                 echo '<div class="form-group has-error">';
             }
 
+            //Champs Login *
             echo $this->Form->input('username', [
                 'class' => 'form-control',
                 'placeholder' => __d('user', 'user.placeholderChampLogin'),
@@ -59,6 +59,7 @@
             echo '<div class="form-group has-error">';
         }
 
+        //Champs Mot de passe *
         echo $this->Form->input('password', [
             'class' => 'form-control',
             'placeholder' => __d('user', 'user.placeholderChampMotDePasse'),
@@ -80,6 +81,7 @@
         echo '<div class="form-group has-error">';
     }
 
+    //Champs Vérification du mot de passe *
     echo $this->Form->input('passwd', [
         'class' => 'form-control',
         'placeholder' => __d('user', 'user.placeholderChampVerifMotDePasse'),
@@ -96,6 +98,7 @@
 
 <div class="form-group">
     <?php
+    //Champ Nom *
     echo $this->Form->input('nom', [
         'class' => 'form-control',
         'placeholder' => __d('user', 'user.placeholderChampNom'),
@@ -112,6 +115,7 @@
 
 <div class="form-group">
     <?php
+    //Champ Prénom *
     echo $this->Form->input('prenom', [
         'class' => 'form-control',
         'placeholder' => __d('user', 'user.placeholderChampPrenom'),
@@ -133,6 +137,7 @@ if (empty($this->validationErrors['User']['email'])) {
     echo '<div class="form-group has-error">';
 }
 
+//Champ E-mail *
 echo $this->Form->input('email', [
     'class' => 'form-control',
     'placeholder' => __d('user', 'user.placeholderChampE-mail'),
@@ -157,6 +162,7 @@ echo $this->Form->input('email', [
             $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
         }
 
+        //Champ Entité *
         echo $this->Form->input('Organisation.Organisation_id', [
             'options' => $listeOrganisations,
             'selected' => $this->Session->read('Organisation.id'),
@@ -197,6 +203,7 @@ echo $this->Form->input('email', [
             <div class="form-group">
                 <?php
                 if (!empty($listeservices[$datas['infos']['id']])) {
+                    //Champ Service *
                     echo $this->Form->input('Service.' . $datas['infos']['id'], [
                         'options' => $listeservices[$datas['infos']['id']],
                         'class' => 'form-control',
@@ -207,7 +214,8 @@ echo $this->Form->input('email', [
                         ],
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'multiple' => 'multiple'
+                        'multiple' => 'multiple',
+                        'required' => true
                     ]);
                 }
                 ?>
@@ -216,6 +224,7 @@ echo $this->Form->input('email', [
             <div class="form-group">
                 <?php
                 if (!empty($listeroles)) {
+                    //Champ Profils au sein de  *
                     echo $this->Form->input('Role.' . $datas['infos']['id'], [
                         'options' => $listeroles,
                         'class' => 'form-control deroulantRoles' . $key,
@@ -242,14 +251,17 @@ echo $this->Form->input('email', [
 </div>
 </div>
 
+<!-- Groupe de bouton -->
 <div class="text-center">
     <div class="btn-group send">
         <?php
+        //Bouton Annuler
         echo $this->Html->link('<i class="fa fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), $referer, [
             'class' => 'btn btn-default-default',
             'escape' => false
         ]);
 
+        //Bouton Entregistrer
         echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
             'type' => 'submit',
             'class' => 'btn btn-default-success'
@@ -260,8 +272,7 @@ echo $this->Form->input('email', [
 
     </div>
 </div>
-<!--</div>
-</div>-->
+
 <?php
 echo $this->Html->script('users.js');
 ?>
