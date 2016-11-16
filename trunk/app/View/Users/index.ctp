@@ -61,137 +61,167 @@ if ($this->Autorisation->isSu()) {
     <?php
 }
 ?>
+    
 <table class="table">
+    <!-- Titre tableau -->
     <thead>
-    <th class="col-md-2">
-        <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
-    </th>
-    <th class="col-md-8">
-        <?php echo __d('user', 'user.titreTableauSynthese'); ?>
-    </th>
-    <th class="col-md-1">
-        <?php echo __d('user', 'user.titreTableauAction'); ?>
-    </th>
-</thead>
+        <!-- Utilisateur -->
+        <th class="col-md-2">
+            <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
+        </th>
+        
+        <!-- Synthèse -->
+        <th class="col-md-8">
+            <?php echo __d('user', 'user.titreTableauSynthese'); ?>
+        </th>
+        
+        <!-- Actions -->
+        <th class="col-md-1">
+            <?php echo __d('user', 'user.titreTableauAction'); ?>
+        </th>
+        
+    </thead>
 
-<tbody>
-    <?php
-//    debug($users);die;
-    foreach ($users as $donnees) {
-        ?>
-        <tr>
-            <td class="tdleft">
-                <?php echo $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']; ?>
-            </td>
+    <!-- Info tableau -->
+    <tbody>
+        <?php
+        foreach ($users as $donnees) {
+            ?>
+            <tr>
+                <!-- Nom + prénom utilisateur -->
+                <td class="tdleft">
+                    <?php echo $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']; ?>
+                </td>
 
-            <td class="tdleft">
-                <div class="col-md-3">
-                    <strong>
-                        <?php echo __d('user', 'user.textTableauEntite'); ?>
-                    </strong>
-                    <ul>
-                        <?php
-                        if ($donnees['User']['id'] != 1) {
+                <!-- Entitée(s) de l'utilisateur -->
+                <td class="tdleft">
+                    <div class="col-md-3">
+                        <strong>
+                            <?php 
+                            //Entités :
+                            echo __d('user', 'user.textTableauEntite'); 
+                            ?>
+                        </strong>
+                        <ul>
+                            <?php
+                            //Nom de la ou des entitée(s) de l'utilisateur
                             foreach ($donnees['Organisations'] as $key => $value) {
                                 echo '<li>' . $value['Organisation']['raisonsociale'] . '</li>';
                             }
-                        } else {
-                            echo '<li> Toutes </li>';
-                        }
+                            ?>
+                        </ul>
+                    </div>
+
+                    <!-- Login de l'utilisateur -->
+                    <div class="col-md-3">
+                        <strong>
+                            <?php 
+                            //Login :
+                            echo __d('user', 'user.textTableauLogin'); 
+                            ?>
+                        </strong>
+                        <?php 
+                        //Libelle du login de l'utilisateur
+                        echo $donnees['User']['username']; 
                         ?>
-                    </ul>
-                </div>
-
-                <div class="col-md-3">
-                    <strong>
-                        <?php echo __d('user', 'user.textTableauLogin'); ?>
-                    </strong>
-                    <?php echo $donnees['User']['username']; ?>
-                </div>
-
-                <div class="col-md-3">
-                    <strong>
-                        <?php echo __d('user', 'user.champService'); ?>
-                    </strong>
-                    <ul>
+                    </div>
+                    
+                    <!-- Profil de l'utilisateur -->
+                    <div class="col-md-3">
+                        <strong>
+                            <?php echo __d('user', 'user.champProfil'); ?>
+                        </strong>
                         <?php
-                        if (!empty($donnees['OrganisationUserService'])){
-                            foreach ($donnees['OrganisationUserService'] as $value) {
-                                $libelleService = Hash::get($value, 'Service.libelle');
-                                echo '<li>' . $libelleService . '</li>';
+                        $libelleRole = Hash::get($donnees, 'OrganisationUserRole.0.Role.libelle');
+                        echo $libelleRole;
+                        ?>
+                    </div>
+
+                    <!-- Service(s) de l'utilisateur -->
+                    <?php 
+                    if (!empty($services)){
+                    ?>
+                        <div class="col-md-3">
+                            <strong>
+                                <?php echo __d('user', 'user.champService'); ?>
+                            </strong>
+                            <ul>
+                                <?php
+                                if (!empty($donnees['OrganisationUserService'])){
+                                    foreach ($donnees['OrganisationUserService'] as $value) {
+                                        $libelleService = Hash::get($value, 'Service.libelle');
+                                        echo '<li>' . $libelleService . '</li>';
+                                    }
+                                } else {
+                                    echo '<li> Aucun service</li>';
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                </td>
+
+                <!-- Action possible d'effectuer en fonction des droits de l'utilisateur -->
+                <td class="tdleft">
+                    <div class="btn-group">
+                        <?php
+                        if ($this->Autorisation->authorized(9, $droits)) {
+                            //Bouton de modification 
+                            echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
+                                'controller' => 'users',
+                                'action' => 'edit',
+                                $donnees['User']['id']
+                                    ], [
+                                'class' => 'btn btn-default-default btn-sm my-tooltip',
+                                'title' => __d('user', 'user.commentaireModifierUser'),
+                                'escapeTitle' => false
+                            ]);
+                        }
+
+                        if ($this->Autorisation->authorized(10, $droits)) {
+                            if ($donnees['User']['id'] != 1) {
+                                //Bouton de suppression
+                                echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                                    'controller' => 'users',
+                                    'action' => 'delete',
+                                    $donnees['User']['id']
+                                        ], [
+                                    'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                                    'title' => __d('user', 'user.commentaireSupprimerUser'),
+                                    'escapeTitle' => false
+                                        ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
+                            } else {
+                                echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                                    'controller' => 'users',
+                                    'action' => 'delete',
+                                    $donnees['User']['id']
+                                        ], [
+                                    'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                                    'escapeTitle' => false,
+                                    'title' => __d('user', 'user.commentaireSupprimerUser'),
+                                    "disabled" => "disabled"
+                                        ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
                             }
-                        } else {
-                            echo '<li> Aucun service</li>';
                         }
                         ?>
-                    </ul>
-                </div>
-
-                <div class="col-md-3">
-                    <strong>
-                        <?php echo __d('user', 'user.champProfil'); ?>
-                    </strong>
-                    <?php
-                    $libelleRole = Hash::get($donnees, 'OrganisationUserRole.0.Role.libelle');
-                    echo $libelleRole;
-                    ?>
-                </div>
-            </td>
-
-            <td class="tdleft">
-                <div class="btn-group">
-                    <?php
-                    if ($this->Autorisation->authorized(9, $droits)) {
-                        echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
-                            'controller' => 'users',
-                            'action' => 'edit',
-                            $donnees['User']['id']
-                                ], [
-                            'class' => 'btn btn-default-default btn-sm my-tooltip',
-                            'title' => __d('user', 'user.commentaireModifierUser'),
-                            'escapeTitle' => false
-                        ]);
-                    }
-
-                    if ($this->Autorisation->authorized(10, $droits)) {
-                        if ($donnees['User']['id'] != 1) {
-                            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
-                                'controller' => 'users',
-                                'action' => 'delete',
-                                $donnees['User']['id']
-                                    ], [
-                                'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                                'title' => __d('user', 'user.commentaireSupprimerUser'),
-                                'escapeTitle' => false
-                                    ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
-                        } else {
-                            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
-                                'controller' => 'users',
-                                'action' => 'delete',
-                                $donnees['User']['id']
-                                    ], [
-                                'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                                'escapeTitle' => false,
-                                'title' => __d('user', 'user.commentaireSupprimerUser'),
-                                "disabled" => "disabled"
-                                    ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
-                        }
-                    }
-                    ?>
-                </div>
-            </td>
-        </tr>
-        <?php
-    }
-    ?>
-</tbody>
+                    </div>
+                </td>
+            </tr>
+            <?php
+        }
+        ?>
+    </tbody>
 </table>
 
 <?php
+//Ajout d'un nouveau utilisateur en fonction des droits de l'utilisateur connecté pour la création
 if ($this->Autorisation->authorized(8, $droits)) {
     ?>
     <div class="row text-center">
         <?php
+        //Bouton " + Ajouter un utilisateur
         echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('user', 'user.btnAjouterUser'), [
             'controller' => 'users',
             'action' => 'add'
@@ -203,4 +233,3 @@ if ($this->Autorisation->authorized(8, $droits)) {
     </div>
     <?php
 }
-?>

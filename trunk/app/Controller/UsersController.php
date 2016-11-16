@@ -128,8 +128,6 @@ class UsersController extends AppController {
                     $users[$key]['Organisations'][] = $orga;
                 }
 
-
-                ///////////////////////   
                 $orgaUserService = $this->OrganisationUserService->find('all', [
                     'conditions' => [
                         'organisation_user_id' => $users[$key]['OrganisationUser']['id']
@@ -146,16 +144,23 @@ class UsersController extends AppController {
                     ]);
                     $users[$key]['OrganisationUserService'][] = $orgaService;
                 }
-                ///////////////////////
             }
             $this->set('users', $users);
+
+            //On récupére tout les services de l'entitée utilisé à l'instant T
+            $services = $this->Service->find('all', [
+                'conditions' => [
+                    'organisation_id' => $this->Session->read('Organisation.id')
+                ]
+            ]);
+            $this->set('services', $services);
+
             $orgas = $this->Organisation->find('all', [
                 'fields' => [
                     'Organisation.raisonsociale',
                     'id'
                 ]
             ]);
-
             $organisations = [];
             foreach ($orgas as $value) {
                 $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
@@ -232,12 +237,13 @@ class UsersController extends AppController {
             $this->set('idUser', $this->Auth->user('id'));
 
             if ($this->request->is('post')) {
+                $this->log(var_export($this->request->data, true));
                 $this->User->create($this->request->data);
 
                 if ($this->User->save()) {
                     $userId = $this->User->getInsertID();
 
-                    foreach ($this->request->data['Organisation']['Organisation_id'] as $value) {
+                    foreach ($this->request->data['Organisation']['Organisation_id'] as $key => $value) {
                         $this->OrganisationUser->create([
                             'user_id' => $userId,
                             'organisation_id' => $value
@@ -247,12 +253,14 @@ class UsersController extends AppController {
                         $organisationUserId = $this->OrganisationUser->getInsertID();
 
                         if (isset($this->request->data['Service'][$value]) && $this->request->data['Service'][$value] != null) {
-                            $this->OrganisationUserService->create([
-                                'organisation_user_id' => $organisationUserId,
-                                'service_id' => $this->request->data['Service'][$value]
-                            ]);
+                            foreach ($this->request->data['Service'][$value] as $service) {
+                                $this->OrganisationUserService->create([
+                                    'organisation_user_id' => $organisationUserId,
+                                    'service_id' => $service
+                                ]);
 
-                            $this->OrganisationUserService->save();
+                                $this->OrganisationUserService->save();
+                            }
                         }
 
                         if (!empty($this->request->data['Role'][$value])) {
@@ -264,7 +272,11 @@ class UsersController extends AppController {
                                     ]);
 
                                     $this->OrganisationUserRole->save();
-                                    $droits = $this->RoleDroit->find('all', ['conditions' => ['role_id' => $donnee]]);
+                                    $droits = $this->RoleDroit->find('all', [
+                                        'conditions' => [
+                                            'role_id' => $donnee
+                                        ]
+                                    ]);
 
                                     foreach ($droits as $val) {
                                         if (empty($this->Droit->find('first', [
@@ -337,13 +349,14 @@ class UsersController extends AppController {
     public function edit($id = null) {
         if ($this->Droits->authorized(9) == true || $id == $this->Auth->user('id')) {
             $this->set('title', __d('user', 'user.titreEditerUser'));
-            
+
             $this->User->id = $id;
 
             if (!$this->User->exists()) {
                 throw new NotFoundException('User Invalide');
             }
 
+            // Récupération de la liste des services de l'utilisateur en question sur l'entité en cours
             $listeServices = $this->Service->find('all', [
                 'conditions' => [
                     'organisation_id' => $this->Session->read('Organisation.id')
@@ -359,10 +372,13 @@ class UsersController extends AppController {
                 $listserv[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
             }
             $this->set('listeservices', $listserv);
-            
-            if ($this->request->is('post') || $this->request->is('put')) { 
-                //si le nouveau passwd = verif passwd
+
+            if ($this->request->is('post') || $this->request->is('put')) {
+//debug($this->request->data);
+//die;
+                // Si le nouveau mot de passe = verification du nouveau mot de passe
                 if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
+                    // Si le nouveau mot de passe est différent d'une chaine de caractère vide
                     if ($this->request->data['User']['new_password'] != '') {
                         $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                     }
@@ -371,6 +387,7 @@ class UsersController extends AppController {
                         if ($this->Droits->isSu()) {
                             $orgas = $this->Organisation->find('all');
                         } else {
+                            // Récupération des informations de l'organisation en cours
                             $orgas = $this->Organisation->find('all', [
                                 'conditions' => [
                                     'id' => $this->Session->read('Organisation.id')
@@ -379,6 +396,7 @@ class UsersController extends AppController {
                         }
 
                         foreach ($orgas as $value) {
+                            debug($value);
                             if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {
                                 $id_user = $this->OrganisationUser->find('first', [
                                     'conditions' => [
@@ -387,19 +405,43 @@ class UsersController extends AppController {
                                     ]
                                 ]);
 
+                                debug("ICI");
+                                debug($id_user);
+
+                                /* On supprime dans la table "organisations_users" 
+                                 * en base de données l'utilisateur en question 
+                                 * et de l'organisation en cours.
+                                 */
+                                debug("DELETE ALL ORGANISATION USER");
                                 $this->OrganisationUser->deleteAll([
                                     'user_id' => $id,
                                     'organisation_id' => $value['Organisation']['id']
                                 ]);
 
+                                debug("DELETE ALL ORGANISATION USER ROLE");
+                                /* On supprime dans la table 
+                                 * "organisation_user_roles" en base de données
+                                 *  le role de l'utilisateur en question.
+                                 */
                                 $this->OrganisationUserRole->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
 
+                                debug("DELETE ALL DROIT");
+                                /* On supprime dans la table "droits" en base 
+                                 * de données les droits de l'utilisateur en
+                                 * question en fonction de son id de l'organisation
+                                 */
                                 $this->Droit->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
 
+                                debug("DELETE ALL ORGANISATION USER SERVICE");
+                                /* On supprime dans la table 
+                                 * "organisation_user_services" en base de données
+                                 * les services de l'utilisateur en question 
+                                 * en fonction de son id de l'organisation
+                                 */
                                 $this->OrganisationUserService->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
@@ -411,7 +453,13 @@ class UsersController extends AppController {
                                     ]
                                 ]);
 
+                                debug("LALA");
+                                debug($value['Organisation']['id']);
+                                debug($id);
+                                debug($count);
+
                                 if ($count == 0) {
+                                    debug("COUCOU");
                                     $this->OrganisationUser->create([
                                         'user_id' => $id,
                                         'organisation_id' => $value['Organisation']['id']
@@ -427,12 +475,21 @@ class UsersController extends AppController {
                                         ]
                                     ]);
 
+                                    debug("OUF");
+                                    debug($id_orga);
+
                                     $organisationUserId = $id_orga['OrganisationUser']['id'];
                                 }
-
+//die;
                                 //Enregistrement du role
                                 if (!empty($this->request->data['Role']['role_ida'][$value['Organisation']['id']])) {
-                                    $this->OrganisationUserRole->deleteAll(['organisation_user_id' => $organisationUserId]);
+                                    $this->OrganisationUserRole->deleteAll(
+                                            ['organisation_user_id' => $organisationUserId]
+                                    );
+//                                    $this->OrganisationUserRole->deleteAll(
+//                                        ['and'['organisation_user_id' => $organisationUserId],[ ]]
+//                                        
+//                                    );
 
                                     foreach ($this->request->data['Role']['role_ida'][$value['Organisation']['id']] as $key => $donnee) {
                                         if ($this->Role->find('count', [
@@ -725,7 +782,7 @@ class UsersController extends AppController {
     }
 
     /**
-     * Fonction de création du tableau de droits pour le add and edit user
+     * Fonction de création du tableau de droits pour le add et edit user
      * 
      * @param int|null $id
      * @return type
