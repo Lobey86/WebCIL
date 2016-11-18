@@ -38,15 +38,15 @@
                             <?php
                             foreach ($value['Commentaire'] as $val) {
                                 ?>
-                                <div>
+                                <div  style="margin-left: 60px; ">
                                     <p>
                                         <?php echo $val['content']; ?>
                                     </p>
                                     <footer>
-                                        <?php echo __d('element', 'element.CommenterPar'); ?>
-                                        <b>
-                                            <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
-                                        </b>
+                                            <?php echo __d('element', 'element.CommenterPar'); ?>
+                                            <b>
+                                                <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                            </b>
                                     </footer>
                                 </div>
                                 <br/>
