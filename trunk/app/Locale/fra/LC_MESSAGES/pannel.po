@@ -12,13 +12,13 @@
 #########################: View/Pannel/index.ctp###############################
 
 msgid "pannel.traitementEnCours"
-msgstr "Mes traitements en cours de rédaction ("
+msgstr "Mes déclarations en cours de rédaction ("
 
 msgid "pannel.traitementEnAttente"
-msgstr "Mes traitements en attente ("
+msgstr "Mes déclarations en attente ("
 
 msgid "pannel.traitementRefusees"
-msgstr "Mes traiments refusés ("
+msgstr "Mes déclarations refusés ("
 
 msgid "pannel.aucunTraitementEnCours"
 msgstr "Vous n'avez aucun traitement en cours"
@@ -57,13 +57,13 @@ msgstr "Envoyer au CIL"
 #########################: Controller/PannelController.php#####################
 
 msgid "pannel.titreTraitement"
-msgstr "Mes traitements"
+msgstr "Mes déclarations"
 
 msgid "pannel.titreTraitementRecue"
-msgstr "Mes traitements reçus"
+msgstr "Mes déclarations reçus"
 
 msgid "pannel.titreTraitementValidee"
-msgstr "Mes traitements validés"
+msgstr "Mes déclarations validés"
 
 msgid "pannel.titreTraitementVu"
 msgstr "Touts les traitements en ma connaissance"
@@ -89,7 +89,7 @@ msgid "pannel.commentaireValiderTraitement"
 msgstr "Valider le traitement"
 
 msgid "pannel.textValiderInsererRegistre"
-msgstr "Valider le traitement et l'insérer dans le registre"
+msgstr "Insérer le traitement au registre"
 
 msgid "pannel.commentaireRepondre"
 msgstr "Répondre"
