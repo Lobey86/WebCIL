@@ -99,7 +99,8 @@ if ($this->Autorisation->isSu()) {
             <!-- Nom + prénom utilisateur -->
             <td class="tdleft">
                 <?php 
-                if ($donnees['User']['id'] == $this->Session->read('Organisation.cil')){
+                // Si l'utilisateur est CIL on affiche le logo du CIL
+                if ($donnees['User']['id'] == $cil){
                     if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                         echo $this->Html->image('logos' . DS . 'logo_cil.jpg', [
                             'class' => 'logo-well',

@@ -61,6 +61,20 @@ class UsersController extends AppController {
      */
     public function index() {
         $this->set('title', __d('user', 'user.titreListeUser'));
+
+        // Récupération du CIL de l'entité en cour
+        $cil = $this->Organisation->find('first', [
+            'conditions' => [
+                'id' => $this->Session->read('Organisation.id')
+            ],
+            'fields' => [
+                'cil'
+            ]
+        ]);
+        // On récupére l'id du cil
+        $cil = Hash::get($cil, 'Organisation.cil');
+        $this->set('cil', $cil);
+
         if ($this->Droits->authorized([
                     '8',
                     '9',
@@ -374,8 +388,6 @@ class UsersController extends AppController {
             $this->set('listeservices', $listserv);
 
             if ($this->request->is('post') || $this->request->is('put')) {
-//debug($this->request->data);
-//die;
                 // Si le nouveau mot de passe = verification du nouveau mot de passe
                 if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
                     // Si le nouveau mot de passe est différent d'une chaine de caractère vide
@@ -383,20 +395,57 @@ class UsersController extends AppController {
                         $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                     }
 
-                    if ($this->User->save($this->request->data)) {
-                        if ($this->Droits->isSu()) {
-                            $orgas = $this->Organisation->find('all');
+                    if ($this->Droits->isSu()) {
+                        // SuperAdmin --> Récupération de toutes les informations des entités
+                        $orgas = $this->Organisation->find('all');
+                    } else {
+                        $countUserOrganistations = $this->OrganisationUser->find('count', [
+                            'conditions' => [
+                                'user_id' => $id
+                            ]
+                        ]);
+
+                        if ($countUserOrganistations >= 2) {
+                            // L'utilisateur est présent dans plusieurs entité
+                            // Récupération des l'id des entités ou l'utilisateur appartient
+                            $userEntites = $this->OrganisationUser->find('all', [
+                                'conditions' => [
+                                    'user_id' => $id
+                                ],
+                                'fields' => [
+                                    'id',
+                                    'user_id',
+                                    'organisation_id'
+                                ]
+                            ]);
+
+                            // On extrait les id des entités
+                            $tableauUserEntites = [];
+                            $tableauUserEntites = Hash::extract($userEntites, '{n}.OrganisationUser.organisation_id');
+
+                            // Récupération des infos des entités
+                            $orgas = $this->Organisation->find('all', [
+                                'conditions' => [
+                                    'id' => $tableauUserEntites
+                                ]
+                            ]);
+
+                            // On supprime l'id de l'organisation dans "$this->request->data" et on le remplace par les id des entités de l'utilisateur
+                            $this->request->data = Hash::remove($this->request->data, 'Organisation.Organisation_id');
+                            $this->request->data = Hash::insert($this->request->data, 'Organisation.Organisation_id', $tableauUserEntites);
                         } else {
-                            // Récupération des informations de l'organisation en cours
+                            // L'utilisateur est présent que dans une seul entité
+                            // Récupération des informations de l'entité en cours
                             $orgas = $this->Organisation->find('all', [
                                 'conditions' => [
                                     'id' => $this->Session->read('Organisation.id')
                                 ]
                             ]);
                         }
+                    }
 
+                    if ($this->User->save($this->request->data)) {
                         foreach ($orgas as $value) {
-                            debug($value);
                             if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {
                                 $id_user = $this->OrganisationUser->find('first', [
                                     'conditions' => [
@@ -405,20 +454,15 @@ class UsersController extends AppController {
                                     ]
                                 ]);
 
-                                debug("ICI");
-                                debug($id_user);
-
                                 /* On supprime dans la table "organisations_users" 
                                  * en base de données l'utilisateur en question 
                                  * et de l'organisation en cours.
                                  */
-                                debug("DELETE ALL ORGANISATION USER");
                                 $this->OrganisationUser->deleteAll([
                                     'user_id' => $id,
                                     'organisation_id' => $value['Organisation']['id']
                                 ]);
 
-                                debug("DELETE ALL ORGANISATION USER ROLE");
                                 /* On supprime dans la table 
                                  * "organisation_user_roles" en base de données
                                  *  le role de l'utilisateur en question.
@@ -427,7 +471,6 @@ class UsersController extends AppController {
                                     'organisation_user_id' => $id_user
                                 ]);
 
-                                debug("DELETE ALL DROIT");
                                 /* On supprime dans la table "droits" en base 
                                  * de données les droits de l'utilisateur en
                                  * question en fonction de son id de l'organisation
@@ -436,7 +479,6 @@ class UsersController extends AppController {
                                     'organisation_user_id' => $id_user
                                 ]);
 
-                                debug("DELETE ALL ORGANISATION USER SERVICE");
                                 /* On supprime dans la table 
                                  * "organisation_user_services" en base de données
                                  * les services de l'utilisateur en question 
@@ -453,13 +495,7 @@ class UsersController extends AppController {
                                     ]
                                 ]);
 
-                                debug("LALA");
-                                debug($value['Organisation']['id']);
-                                debug($id);
-                                debug($count);
-
                                 if ($count == 0) {
-                                    debug("COUCOU");
                                     $this->OrganisationUser->create([
                                         'user_id' => $id,
                                         'organisation_id' => $value['Organisation']['id']
@@ -475,21 +511,13 @@ class UsersController extends AppController {
                                         ]
                                     ]);
 
-                                    debug("OUF");
-                                    debug($id_orga);
-
                                     $organisationUserId = $id_orga['OrganisationUser']['id'];
                                 }
-//die;
-                                //Enregistrement du role
+
                                 if (!empty($this->request->data['Role']['role_ida'][$value['Organisation']['id']])) {
                                     $this->OrganisationUserRole->deleteAll(
                                             ['organisation_user_id' => $organisationUserId]
                                     );
-//                                    $this->OrganisationUserRole->deleteAll(
-//                                        ['and'['organisation_user_id' => $organisationUserId],[ ]]
-//                                        
-//                                    );
 
                                     foreach ($this->request->data['Role']['role_ida'][$value['Organisation']['id']] as $key => $donnee) {
                                         if ($this->Role->find('count', [
