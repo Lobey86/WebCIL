@@ -34,6 +34,11 @@ CREATE TABLE organisations (
     siret VARCHAR(14) NOT NULL,
     ape VARCHAR(5) NOT NULL,
     logo TEXT,
+    nomresponsable VARCHAR(50) NOT NULL,
+    prenomresponsable VARCHAR(50) NOT NULL,
+    emailresponsable VARCHAR(75) NOT NULL,
+    telephoneresponsable VARCHAR(15) NOT NULL,
+    fonctionresponsable VARCHAR(75) NOT NULL,
     cil INT DEFAULT NULL REFERENCES users(id),
     created DATE,
     modified DATE
@@ -245,7 +250,6 @@ CREATE TABLE notifications (
 CREATE TABLE fg_formulaires (
     id SERIAL  NOT NULL PRIMARY KEY,
     organisations_id  INTEGER NOT NULL REFERENCES organisations (id) ON DELETE CASCADE,
-    service_id INTEGER REFERENCES services (id) ON DELETE SET NULL,
     libelle VARCHAR(50) NOT NULL,
     active BOOL NOT NULL,
     created  DATE,
