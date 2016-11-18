@@ -731,15 +731,21 @@ class UsersController extends AppController {
                     $this->Session->write('Su', false);
                 }
 
-                $service = $this->OrganisationUser->find('first', [
+                $service = $this->OrganisationUser->find('all', [
                     'conditions' => [
                         'user_id' => $this->Auth->user('id')
                     ],
                     'contain' => [
-                        'OrganisationUserService' => ['Service']
+                        'OrganisationUserService' => [
+                            'Service'
+                        ]
                     ]
                 ]);
-                $this->Session->write('User.service', $service['OrganisationUserService']['Service']['libelle']);
+
+                $serviceUser = Hash::extract($service, '{n}.OrganisationUserService.Service');
+                $serviceUser = Hash::combine($serviceUser, '{n}.id', '{n}.libelle');
+
+                $this->Session->write('User.service', $serviceUser);
 
                 $this->redirect([
                     'controller' => 'organisations',
