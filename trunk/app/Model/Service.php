@@ -55,6 +55,11 @@ class Service extends AppModel {
             'className' => 'Formulaire',
             'foreignKey' => 'service_id',
             'dependent' => false,
+        ),
+        'OrganisationUserService' => array(
+            'className' => 'OrganisationUserService',
+            'foreignKey' => 'service_id',
+            'dependent' => false,
         )
     );
     
