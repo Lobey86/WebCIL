@@ -327,8 +327,8 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
     </br>
     <!-- Affichage du logo du CIL -->
     <?php
-    if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.JPG')) {
-        echo $this->Html->image('logos' . DS . 'logo_cil.JPG', [
+    if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
+        echo $this->Html->image('logos' . DS . 'logo_cil.jpg', [
             'class' => 'logo-well',
         ]);
     }
