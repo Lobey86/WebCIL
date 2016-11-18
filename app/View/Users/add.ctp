@@ -175,7 +175,7 @@ echo $this->Form->input('email', [
             'between' => '<div class="col-md-8">',
             'after' => '</div>',
             'multiple' => 'multiple',
-            'required' => false
+            'required' => true
         ]);
         ?>
     </div>
@@ -209,13 +209,12 @@ echo $this->Form->input('email', [
                         'class' => 'form-control',
                         'id' => 'deroulantService',
                         'label' => [
-                            'text' => __d('user', 'user.champService') . '<span class="requis">*</span>',
+                            'text' => __d('user', 'user.champService'),
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'multiple' => 'multiple',
-                        'required' => true
+                        'multiple' => 'multiple'
                     ]);
                 }
                 ?>
