@@ -463,60 +463,39 @@ $cakeDescription = 'Web-CIL';
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <h4 class="modal-title" id="myModalLabel">
-                                    <?php echo __d('default', 'default.popupChoisirFormulaire'); ?>
+                                    <?php 
+                                    echo __d('default', 'default.popupChoisirFormulaire'); ?>
                                 </h4>
                             </div>
+                            
                             <div class="modal-body">
                                 <table class="table table-bordered">
                                     <thead>
-                                    <th class="col-md-3">
-                                        <?php echo __d('default', 'default.popupTitreTableauNom'); ?>
-                                    </th>
-                                    <?php 
-                                    if (!empty($serviceEntitee)) {
-                                    ?>
                                         <th class="col-md-3">
-                                            <?php echo __d('default', 'default.popupTitreTableauService'); ?>
+                                            <?php echo __d('default', 'default.popupTitreTableauNom'); ?>
                                         </th>
-                                    <?php
-                                    }
-                                    ?>
-                                    <th class="col-md-7">
-                                        <?php echo __d('default', 'default.popupTitreTableauDescription'); ?>
-                                    </th>
-                                    <th class="col-md-2">
-                                        <?php echo __d('default', 'default.popupTitreTableauAction'); ?>
-                                    </th>
+
+                                        <th class="col-md-7">
+                                            <?php echo __d('default', 'default.popupTitreTableauDescription'); ?>
+                                        </th>
+                                        
+                                        <th class="col-md-2">
+                                            <?php echo __d('default', 'default.popupTitreTableauAction'); ?>
+                                        </th>
                                     </thead>
+                                    
                                     <tbody>
                                         <?php
                                         foreach ($formulaires_actifs as $key => $value) {
-                                            if (!empty($serviceEntitee)) {
-                                                foreach ($userServices as $userService) {
-                                                    if ($value['Formulaire']['service_id'] == $userService['id']) {
-                                                        echo '<tr>
-                                                            <td>' . $value['Formulaire']['libelle'] . '</td>
-                                                                <td>' . $userService['libelle'] . '</td>
-                                                            <td>' . $value['Formulaire']['description'] . '</td>
-                                                            <td>' . $this->Html->link(__d('default', 'default.popupBtnChoisir'), [
-                                                            'controller' => 'fiches',
-                                                            'action' => 'add',
-                                                            $value['Formulaire']['id']
-                                                                ], ['class' => 'btn btn-default-default']) . '</td>
-                                                        </tr>';
-                                                    }
-                                                }
-                                            } else {
-                                                echo '<tr>
-                                                    <td>' . $value['Formulaire']['libelle'] . '</td>
-                                                    <td>' . $value['Formulaire']['description'] . '</td>
-                                                    <td>' . $this->Html->link(__d('default', 'default.popupBtnChoisir'), [
-                                                    'controller' => 'fiches',
-                                                    'action' => 'add',
-                                                    $value['Formulaire']['id']
-                                                        ], ['class' => 'btn btn-default-default']) . '</td>
+                                            echo '<tr>
+                                                <td>' . $value['Formulaire']['libelle'] . '</td>
+                                                <td>' . $value['Formulaire']['description'] . '</td>
+                                                <td>' . $this->Html->link(__d('default', 'default.popupBtnChoisir'), [
+                                                'controller' => 'fiches',
+                                                'action' => 'add',
+                                                $value['Formulaire']['id']
+                                                ], ['class' => 'btn btn-default-default']) . '</td>
                                                 </tr>';
-                                            }
                                         }
                                         ?>
                                     </tbody>
