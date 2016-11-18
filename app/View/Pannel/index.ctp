@@ -12,12 +12,11 @@ if ($this->Autorisation->authorized(1, $droits)) {
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="panel-title"> <?php
-                        echo __d('pannel', 'pannel.traitementEnCours') . count($encours) . __d('pannel', 'pannel.motTraitement');
-                        if (count($encours) > 1) {
-                            echo 's';
-                        }
-                        ?>)</h3>
+                    <h3 class="panel-title">
+                        <?php
+                        echo __d('pannel', 'pannel.traitementEnCours') . count($encours) . ")";
+                        ?>
+                    </h3>
                 </div>
             </div>
         </div>
@@ -269,12 +268,11 @@ if ($this->Autorisation->authorized(1, $droits)) {
         <div class="panel-heading">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="panel-title"> <?php
-                        echo __d('pannel', 'pannel.traitementEnAttente') . count($encoursValidation) . __d('pannel', 'pannel.motTraitement');
-                        if (count($encoursValidation) > 1) {
-                            echo 's';
-                        }
-                        ?>)</h3>
+                    <h3 class="panel-title"> 
+                        <?php
+                        echo __d('pannel', 'pannel.traitementEnAttente') . count($encoursValidation) . ')';
+                        ?>
+                    </h3>
                 </div>
             </div>
         </div>
@@ -424,7 +422,11 @@ if ($this->Autorisation->authorized(1, $droits)) {
             } else {
                 ?>
                 <div class='text-center'>
-                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementEnAttente'); ?></h3>
+                    <h3>
+                        <?php 
+                        echo __d('pannel', 'pannel.aucunTraitementEnAttente'); 
+                        ?>
+                    </h3>
                 </div>
                 <?php
             }
@@ -438,11 +440,9 @@ if ($this->Autorisation->authorized(1, $droits)) {
             <div class="row">
                 <div class="col-md-12">
                     <h3 id="FichesRefusees" class="panel-title"><?php
-                        echo __d('pannel', 'pannel.traitementRefusees') . count($refusees) . __d('pannel', 'pannel.motTraitement');
-                        if (count($refusees) > 1) {
-                            echo 's';
-                        }
-                        ?>)</h3>
+                        echo __d('pannel', 'pannel.traitementRefusees') . count($refusees) . ')';
+                        ?>
+                    </h3>
                 </div>
             </div>
         </div>

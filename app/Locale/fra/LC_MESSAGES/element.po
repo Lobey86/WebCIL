@@ -21,7 +21,7 @@ msgid "element.Le"
 msgstr "le"
 
 msgid "element.Commentaire"
-msgstr "Commentaire"
+msgstr "Commentaire(s)"
 
 msgid "element.AttenteValidation"
 msgstr "En attente de validation"

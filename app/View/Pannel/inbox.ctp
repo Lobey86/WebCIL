@@ -10,11 +10,9 @@ unset($_SESSION['idFicheNotification']);
         <div class="row">
             <div class="col-md-12">
                 <h3 class="panel-title"><?php
-                    echo __d('pannel', 'pannel.traitementValidation') . count($dmdValid) . __d('pannel', 'pannel.motTraitement');
-                    if (count($dmdValid) > 1) {
-                        echo 's';
-                    }
-                    ?>)</h3>
+                    echo __d('pannel', 'pannel.traitementValidation') . count($dmdValid) . ')';
+                    ?>
+                </h3>
             </div>
         </div>
     </div>
@@ -116,7 +114,7 @@ unset($_SESSION['idFicheNotification']);
                                         </li>
                                         <?php
                                         if (!$this->Autorisation->isCil()) {
-                                            echo "<li role='presentation'>" . $this->Html->link('Envoyer au CIL pour clôture', [
+                                            echo "<li role='presentation'>" . $this->Html->link(__d('pannel', 'pannel.textEnvoyerCIL'), [
                                                 'controller' => 'etatFiches',
                                                 'action' => 'cilValid',
                                                 $donnee['Fiche']['id']
@@ -287,11 +285,9 @@ unset($_SESSION['idFicheNotification']);
         <div class="row">
             <div class="col-md-12">
                 <h3 class="panel-title"><?php
-                    echo __d('pannel', 'pannel.traitementConsultation') . count($dmdAvis) . __d('pannel', 'pannel.motTraitement');
-                    if (count($dmdAvis) > 1) {
-                        echo 's';
-                    }
-                    ?>)</h3>
+                    echo __d('pannel', 'pannel.traitementConsultation') . count($dmdAvis) . ')';
+                    ?>
+                </h3>
             </div>
         </div>
     </div>

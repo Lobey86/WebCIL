@@ -5,12 +5,11 @@ echo $this->Html->script('pannel.js');
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-12">
-                <h3 class="panel-title"><?php
-                    echo __d('pannel', 'pannel.traitementValidationInsereeRegistre') . count($validees) . __d('pannel', 'pannel.motTraitement');
-                    if (count($validees) > 1) {
-                        echo 's';
-                    }
-                    ?>)</h3>
+                <h3 class="panel-title">
+                    <?php
+                    echo __d('pannel', 'pannel.traitementValidationInsereeRegistre') . count($validees) . ')';
+                    ?>
+                </h3>
             </div>
         </div>
     </div>
