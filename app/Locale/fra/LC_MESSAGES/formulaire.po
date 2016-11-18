@@ -132,7 +132,7 @@ msgstr " :"
 #####################: View/Formulaires/add.ctp + edit.ctp ####################
 
 msgid "formulaire.textInfo"
-msgstr "Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé :"
+msgstr "Information sur le rédacteur :"
 
 msgid "formulaire.textOptionChamp"
 msgstr "Options du champ"
