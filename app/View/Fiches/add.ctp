@@ -8,9 +8,24 @@ echo $this->Form->create('Fiche', [
     'type' => 'file'
 ]);
 ?>
+
+<!-- Champs des informations de l'organisme (remplissage automatique) -->
 <div class="row">
+
+    <div class="col-md-12">
+        <span class='labelFormulaire'>
+            <?php
+            // Texte
+            echo('Information sur l\'entitée :');
+            ?>
+        </span>
+        <div class="row row35"></div>
+    </div>
+
+    <!-- Colonne de gauche -->
     <div class="col-md-6">
         <?php
+        // Champ Raison Sociale * de l'organisme
         echo $this->Form->input('declarantraisonsociale', [
             'label' => [
                 'text' => 'Raison Sociale <span class="obligatoire">*</span>',
@@ -23,18 +38,8 @@ echo $this->Form->create('Fiche', [
             'div' => 'form-group',
             'value' => $this->Session->read('Organisation.raisonsociale'),
         ]);
-        echo $this->Form->input('declarantservice', [
-            'label' => [
-                'text' => 'Service',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'readonly' => 'readonly',
-            'div' => 'form-group',
-            'value' => $this->Session->read('User.service')
-        ]);
+
+        // Champ Adresse * de l'organisme
         echo $this->Form->input('declarantadresse', [
             'label' => [
                 'text' => 'Adresse <span class="obligatoire">*</span>',
@@ -48,6 +53,8 @@ echo $this->Form->create('Fiche', [
             'div' => 'form-group',
             'value' => $this->Session->read('Organisation.adresse')
         ]);
+
+        // Champ E-mail* de l'organisme
         echo $this->Form->input('declarantemail', [
             'label' => [
                 'text' => 'E-mail <span class="obligatoire">*</span>',
@@ -62,8 +69,11 @@ echo $this->Form->create('Fiche', [
         ]);
         ?>
     </div>
+
+    <!-- Colonne de droite -->
     <div class='col-md-6'>
         <?php
+        // Champ Sigle de l'organisme
         echo $this->Form->input('declarantsigle', [
             'label' => [
                 'text' => 'Sigle',
@@ -76,6 +86,8 @@ echo $this->Form->create('Fiche', [
             'div' => 'form-group',
             'value' => $this->Session->read('Organisation.sigle')
         ]);
+
+        // Champ N° de SIRET * de l'organisme
         echo $this->Form->input('declarantsiret', [
             'label' => [
                 'text' => 'N° de SIRET <span class="obligatoire">*</span>',
@@ -88,6 +100,8 @@ echo $this->Form->create('Fiche', [
             'div' => 'form-group',
             'value' => $this->Session->read('Organisation.siret')
         ]);
+
+        // Champ Code APE * de l'organisme
         echo $this->Form->input('declarantape', [
             'label' => [
                 'text' => 'Code APE <span class="obligatoire">*</span>',
@@ -100,6 +114,8 @@ echo $this->Form->create('Fiche', [
             'div' => 'form-group',
             'value' => $this->Session->read('Organisation.ape')
         ]);
+
+        // Champ Téléphone * de l'organisme
         echo $this->Form->input('declaranttelephone', [
             'label' => [
                 'text' => 'Téléphone <span class="obligatoire">*</span>',
@@ -112,6 +128,8 @@ echo $this->Form->create('Fiche', [
             'div' => 'form-group',
             'value' => $this->Session->read('Organisation.telephone')
         ]);
+
+        // Champ Fax de l'organisme
         echo $this->Form->input('declarantfax', [
             'label' => [
                 'text' => 'Fax',
@@ -128,17 +146,157 @@ echo $this->Form->create('Fiche', [
     </div>
 </div>
 
-<div class="row row35"></div>
-
+<!-- Champs des informations du responsable de l'organisme (remplissage automatique) -->
 <div class="row">
     <div class="col-md-12">
         <span class='labelFormulaire'>
-            <?php echo __d('fiche', 'fiche.textInfoContact'); ?>
+            <?php
+            // Texte
+            echo('Information sur le responsable de l\'entitée :');
+            ?>
         </span>
         <div class="row row35"></div>
     </div>
+
+    <!-- Colonne de gauche -->
     <div class="col-md-6">
         <?php
+        // Champ Nom et prénom * , du responsable de l'entitée (remplissage automatique) 
+        echo $this->Form->input('personneresponsable', [
+            'label' => [
+                'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'class' => 'form-control',
+            'required' => 'required',
+            'readonly' => 'readonly',
+            'div' => 'form-group',
+            'value' => $this->Session->read('Organisation.prenomresponsable') . ' ' . $this->Session->read('Organisation.nomresponsable')
+        ]);
+
+        // Champ Fonction du responsable * de l'entitée (remplissage automatique) 
+        echo $this->Form->input('fonctionresponsable', [
+            'label' => [
+                'text' => __d('organisation', 'organisation.textFonctionResponsable') . '<span class="obligatoire">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'class' => 'form-control',
+            'required' => 'required',
+            'readonly' => 'readonly',
+            'div' => 'form-group',
+            'value' => $this->Session->read('Organisation.fonctionresponsable')
+        ]);
+        ?>
+    </div>
+
+    <!-- Colonne de droite -->
+    <div class='col-md-6'>
+        <?php
+        // Champ E-mail du responsable * (remplissage automatique) 
+        echo $this->Form->input('emailresponsable', [
+            'label' => [
+                'text' => __d('organisation', 'organisation.textE-mailResponsable') . '<span class="obligatoire">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'class' => 'form-control',
+            'readonly' => 'readonly',
+            'div' => 'form-group',
+            'value' => $this->Session->read('Organisation.emailresponsable')
+        ]);
+
+        // Champ Téléphone du responsable * (remplissage automatique) 
+        echo $this->Form->input('telephoneresponsable', [
+            'label' => [
+                'text' => __d('organisation', 'organisation.textTelephoneResponsable') . '<span class="obligatoire">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'class' => 'form-control',
+            'readonly' => 'readonly',
+            'div' => 'form-group',
+            'value' => $this->Session->read('Organisation.telephoneresponsable')
+        ]);
+        ?>
+    </div>
+</div>
+
+<div class="row row35"></div>
+
+<!-- Affichage du logo CIL -->
+<?php
+if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.JPG')) {
+    echo $this->Html->image('logos' . DS . 'logo_cil.JPG', [
+        'class' => 'logo-well',
+    ]);
+}
+?>
+
+<!-- Champs des informations du CIL (remplissage automatique) -->
+<div class="row">
+    <!-- Colonne de gauche -->
+    <div class="col-md-6">
+        <?php
+        // Champ Nom et prénom * , du CIL (remplissage automatique) 
+        echo $this->Form->input('personnecil', [
+            'label' => [
+                'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'class' => 'form-control',
+            'required' => 'required',
+            'readonly' => 'readonly',
+            'div' => 'form-group',
+            'value' => $userCil['User']['prenom'] . ' '. $userCil['User']['nom']
+        ]);
+        ?>
+    </div>
+
+    <!-- Colonne de droite -->
+    <div class='col-md-6'>
+        <?php
+        // Champ E-mail du CIL  * (remplissage automatique) 
+        echo $this->Form->input('emailcil', [
+            'label' => [
+                'text' => __d('organisation', 'organisation.textEmailCIL') . '<span class="obligatoire">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'class' => 'form-control',
+            'readonly' => 'readonly',
+            'div' => 'form-group',
+            'value' => $userCil['User']['email']
+        ]);
+        ?>
+    </div>
+</div>
+
+<div class="row row35"></div>
+
+<!-- Champs concernant le rédacteur -->
+<div class="row">
+    <div class="col-md-12">
+        <span class='labelFormulaire'>
+            <?php
+            // Texte
+            echo __d('fiche', 'fiche.textInfoContact');
+            ?>
+        </span>
+        <div class="row row35"></div>
+    </div>
+
+    <div class="col-md-6">
+        <?php
+        // Champ Nom et prénom * , du créateur du traitement (remplissage automatique) 
         echo $this->Form->input('declarantpersonnenom', [
             'label' => [
                 'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
@@ -154,8 +312,10 @@ echo $this->Form->create('Fiche', [
         ]);
         ?>
     </div>
+
     <div class="col-md-6">
         <?php
+        // Champ E-mail * , du créateur du traitement (remplissage automatique) 
         echo $this->Form->input('declarantpersonneemail', [
             'label' => [
                 'text' => __d('default', 'default.champE-mail') . '<span class="obligatoire">*</span>',
@@ -171,11 +331,30 @@ echo $this->Form->create('Fiche', [
         ]);
         ?>
     </div>
+
+    <div class="col-md-6">
+        <?php
+        // Champ Service
+        echo $this->Form->input('declarantservice', [
+            'label' => [
+                'text' => 'Service',
+                'class' => 'col-md-4 control-label'
+            ],
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'class' => 'form-control',
+            'readonly' => 'readonly',
+            'div' => 'form-group',
+            'value' => $this->Session->read('User.service')
+        ]);
+        ?>
+    </div>
 </div>
 
 <div class="row">
     <div class="col-md-6">
         <?php
+        // Champ Nom du traitement * , à remplire par le créateur du traitement
         echo $this->Form->input('outilnom', [
             'label' => [
                 'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
@@ -188,10 +367,11 @@ echo $this->Form->create('Fiche', [
             'required' => 'required'
         ]);
         ?>
-
     </div>
+
     <div class="col-md-6">
         <?php
+        // Champ Finalité * , à remplire par le créateur du traitement
         echo $this->Form->input('finaliteprincipale', [
             'label' => [
                 'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
@@ -208,6 +388,7 @@ echo $this->Form->create('Fiche', [
     </div>
 </div>
 
+<!-- Champs du formulaire -->
 <div class="row">
     <div class="row row35"></div>
 
@@ -247,6 +428,7 @@ echo $this->Form->create('Fiche', [
                 <div class="col-md-12">
                     <?php
                     switch ($value['Champ']['type']) {
+                        // Petit champ texte
                         case 'input':
                             echo $this->Form->input($options['name'], [
                                 'label' => [
@@ -262,6 +444,7 @@ echo $this->Form->create('Fiche', [
                             ]);
                             break;
 
+                        // Grand champ texte
                         case 'textarea':
                             echo $this->Form->input($options['name'], [
                                 'label' => [
@@ -278,6 +461,7 @@ echo $this->Form->create('Fiche', [
                             ]);
                             break;
 
+                        // Champ date
                         case 'date':
                             echo $this->Form->input($options['name'], [
                                 'label' => [
@@ -295,6 +479,7 @@ echo $this->Form->create('Fiche', [
                             $incrementation_id ++;
                             break;
 
+                        // Titre de catégorie
                         case 'title':
                             ?>
                             <div class="col-md-12 text-center">
@@ -305,6 +490,7 @@ echo $this->Form->create('Fiche', [
                             <?php
                             break;
 
+                        // Label
                         case 'texte':
                             ?>
                             <div class="form-group">
@@ -317,6 +503,7 @@ echo $this->Form->create('Fiche', [
                             <?php
                             break;
 
+                        // Champ d'information
                         case 'help':
                             ?>
                             <div class="col-md-12 alert alert-info text-center">
@@ -330,6 +517,7 @@ echo $this->Form->create('Fiche', [
                             <?php
                             break;
 
+                        // Cases à cocher
                         case 'checkboxes':
                             ?>
                             <div class="form-group">
@@ -350,6 +538,7 @@ echo $this->Form->create('Fiche', [
                             <?php
                             break;
 
+                        // Menu déroulant
                         case 'deroulant':
                             ?>
                             <div class="form-group">
@@ -368,6 +557,7 @@ echo $this->Form->create('Fiche', [
                             <?php
                             break;
 
+                        // Choix unique
                         case 'radios':
                             ?>
                             <div class="form-group">
@@ -399,16 +589,19 @@ echo $this->Form->create('Fiche', [
 
 <hr/>
 
+<!-- Texte Ajouter une pièce jointe -->
 <h4> 
     <?php echo __d('fiche', 'fiche.textAjouterPieceJointe'); ?>
 </h4>
 
+<!-- Texte format fichier accepté -->
 <div class="alert alert-warning" role="alert">
     <?php echo __d('fiche', 'fiche.textTypeFichierAccepter'); ?>
 </div>    
 
 <div class="col-md-6 form-horizontal top17">
     <?php
+    // Gestion fichier
     echo $this->Form->input('fichiers.', [
         'type' => 'file',
         'id' => 'fileAnnexe',
@@ -430,9 +623,12 @@ echo $this->Form->create('Fiche', [
     <?php
     echo $this->Form->hidden('formulaire_id', ['value' => $formulaireid]);
     ?>
+
+    <!-- Groupe bouton -->
     <div class="col-md-12 top17 text-center">
         <div class="btn-group">
             <?php
+            // Bouton Annuler
             echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), [
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -441,6 +637,7 @@ echo $this->Form->create('Fiche', [
                 'escape' => false
             ]);
 
+            // Bouton Enregistrer
             echo $this->Form->button('<i class="fa fa-fw fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
                 'class' => 'btn btn-default-success',
                 'escape' => false,
@@ -468,7 +665,7 @@ echo $this->Form->create('Fiche', [
                 language: 'fr'
             });
         }
-        
+
         verificationExtension();
     });
 
