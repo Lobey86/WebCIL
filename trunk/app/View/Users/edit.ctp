@@ -170,7 +170,8 @@
                 ],
                 'between' => '<div class="col-md-8">',
                 'after' => '</div>',
-                'multiple' => 'multiple'
+                'multiple' => 'multiple',
+                'required' => true
             ]);
             ?>
         </div>
@@ -210,13 +211,12 @@
                                 'selected' => $tableau['UserService'],
                                 'id' => 'deroulantService',
                                 'label' => [
-                                    'text' => __d('user', 'user.champService') . '<span class="requis">*</span>',
+                                    'text' => __d('user', 'user.champService'),
                                     'class' => 'col-md-4 control-label'
                                 ],
                                 'between' => '<div class="col-md-8">',
                                 'after' => '</div>',
-                                'multiple' => 'multiple',
-                                'required' => true
+                                'multiple' => 'multiple'
                             ]);
                         } else {
                             echo $this->Form->input('Service.' . $datas['infos']['id'], [
@@ -224,13 +224,12 @@
                                 'class' => 'form-control',
                                 'id' => 'deroulantService',
                                 'label' => [
-                                    'text' => __d('user', 'user.champService') . '<span class="requis">*</span>',
+                                    'text' => __d('user', 'user.champService'),
                                     'class' => 'col-md-4 control-label'
                                 ],
                                 'between' => '<div class="col-md-8">',
                                 'after' => '</div>',
                                 'multiple' => 'multiple',
-                                'required' => true
                             ]);
                         }
                     }
