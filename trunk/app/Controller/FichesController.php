@@ -39,7 +39,9 @@ class FichesController extends AppController {
         'FormGenerator.Champ',
         'Valeur',
         'Modele',
-        'Extrait'
+        'Extrait',
+        'Service',
+        'User'
     ];
 
     /**
@@ -66,31 +68,48 @@ class FichesController extends AppController {
      * @version V0.9.0
      */
     public function add($id = null) {
-        $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
-
         if ($this->Droits->authorized(1)) {
+            $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
+
+            $userCil = $this->User->find('first', [
+                'conditions' => [
+                    'id' => $this->Session->read('Organisation.cil')
+                ],
+                'fields' => [
+                    'nom',
+                    'prenom',
+                    'email'
+                ]
+            ]);
+            $this->set('userCil', $userCil);
+           
             if ($this->request->is('POST')) {
                 $this->Fiche->create([
                     'user_id' => $this->Auth->user('id'),
                     'form_id' => $this->request->data['Fiche']['formulaire_id'],
                     'organisation_id' => $this->Session->read('Organisation.id')
                 ]);
+
                 if ($this->Fiche->save()) {
                     $last = $this->Fiche->getLastInsertID();
+
                     if ($this->Fichier->saveFichier($this->request->data, $last)) {
                         foreach ($this->request->data['Fiche'] as $key => $value) {
                             if ($key != 'formulaire_id') {
                                 if (is_array($value)) {
                                     $value = json_encode($value);
                                 }
+
                                 $this->Valeur->create([
                                     'champ_name' => $key,
                                     'fiche_id' => $last,
                                     'valeur' => $value
                                 ]);
+
                                 $this->Valeur->save();
                             }
                         }
+
                         $this->Historique->create([
                             'Historique' => [
                                 'content' => 'Création de la fiche par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
@@ -98,6 +117,7 @@ class FichesController extends AppController {
                             ]
                         ]);
                         $this->Historique->save();
+
                         $this->EtatFiche->create([
                             'EtatFiche' => [
                                 'fiche_id' => $last,
@@ -106,6 +126,7 @@ class FichesController extends AppController {
                                 'user_id' => $this->Auth->user('id')
                             ]
                         ]);
+
                         if ($this->EtatFiche->save()) {
                             $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
                             $this->redirect([
@@ -116,17 +137,21 @@ class FichesController extends AppController {
                 }
             } else {
                 $champs = $this->Champ->find('all', [
-                    'conditions' => ['formulaires_id' => $id],
+                    'conditions' => [
+                        'formulaires_id' => $id
+                    ],
                     'order' => [
                         'colonne ASC',
                         'ligne ASC'
                     ]
                 ]);
+
                 $this->set(compact('champs'));
                 $this->set('formulaireid', $id);
             }
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'

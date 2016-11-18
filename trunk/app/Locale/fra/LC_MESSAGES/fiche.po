@@ -48,7 +48,7 @@ msgstr "Le traitement a été enregistré"
 #################: View/Fiches/add.ctp + edit.ctp + show.ctp ##################
 
 msgid "fiche.textInfoContact"
-msgstr "Personne à contacter au sein de l'organisme déclarant si un complément doit être demandé et destinataire du récipissé :"
+msgstr "Information sur le rédacteur :"
 
 msgid "fiche.champNomPrenom"
 msgstr "Nom et prénom "
