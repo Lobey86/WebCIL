@@ -48,7 +48,10 @@ msgstr "Vous n'avez pas de droit sur cette entité"
 ###############################################################################
 
 
-#########################: View/Organisations/edit.ctp#########################
+####################: View/Organisations/edit.ctp + add.ctp ####################
+
+msgid "organisation.textEntite"
+msgstr "L'entité :"
 
 msgid "organisation.textRaisonSociale"
 msgstr "Raison sociale "
@@ -98,11 +101,47 @@ msgstr "Code APE "
 msgid "organisation.placeholderAPE"
 msgstr "Code APE (requis)"
 
+msgid "organisation.titreResponsableEntitee"
+msgstr "Responsable de l'entité : "
+
+msgid "organisation.textNomResponsable"
+msgstr "Nom du responsable "
+
+msgid "organisation.placeholderNomResponsable"
+msgstr "Nom du responsable de l'entité (requis)"
+
+msgid "organisation.textPrenomResponsable"
+msgstr "Prénom du responsable "
+
+msgid "organisation.placeholderPrenomResponsable"
+msgstr "Prénom du responsable de l'entité (requis)"
+
+msgid "organisation.textFonctionResponsable"
+msgstr "Fonction du responsable "
+
+msgid "organisation.placeholderFonctionResponsable"
+msgstr "Fonction du responsable au sein de l'entité (requis)"
+
+msgid "organisation.textE-mailResponsable"
+msgstr "E-mail du responsable "
+
+msgid "organisation.placeholderE-mailResponsable"
+msgstr "E-mail du responsable de l'entité (requis)"
+
+msgid "organisation.textTelephoneResponsable"
+msgstr "Téléphone du responsable "
+
+msgid "organisation.placeholderTelephoneResponsable"
+msgstr "Téléphone du responsable de l'entité (requis)"
+
 msgid "organisation.textCIL"
-msgstr "CIL"
+msgstr "CIL "
 
 msgid "organisation.placeholderCIL"
 msgstr "Selectionnez un nouveau CIL"
+
+msgid "organisation.textEmailCIL"
+msgstr "E-mail du CIL "
 
 msgid "organisation.btnLogo"
 msgstr "Changer le logo"
