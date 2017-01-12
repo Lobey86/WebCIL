@@ -33,7 +33,7 @@ class RegistresController extends AppController {
         'Organisation',
         'OrganisationUser',
         'Modification',
-        'Extrait'
+        'TraitementRegistre'
     ];
 
     /**
@@ -60,8 +60,10 @@ class RegistresController extends AppController {
         $condition = [
             'EtatFiche.etat_id' => [
                 5,
-                7
+                7,
+                9
             ],
+            'EtatFiche.actif' => true,
             'Fiche.organisation_id' => $this->Session->read('Organisation.id')
         ];
 
@@ -70,6 +72,7 @@ class RegistresController extends AppController {
             $condition['Fiche.user_id'] = $this->request->data['Registre']['user'];
             $search = true;
         }
+
         $condition2 = null;
         if (!empty($this->request->data['Registre']['outil'])) {
             $condition2['valeur'] = [$this->request->data['Registre']['outil']];
@@ -122,7 +125,7 @@ class RegistresController extends AppController {
             ]);
 
             foreach ($fichesValid as $key => $value) {
-                if ($this->Droits->isReadable($value['Fiche']['id'])) {
+                if ($value['EtatFiche']['etat_id'] == 7) {
                     $fichesValid[$key]['Readable'] = true;
                 } else {
                     $fichesValid[$key]['Readable'] = false;
@@ -163,25 +166,70 @@ class RegistresController extends AppController {
     }
 
     /**
-     * @access public
-     * @created 21/09/2015
-     * @version V0.9.0
+     * Permet la modification d'un traitement inséré dan sle registre
      * 
      * @param type $idFiche
-     * 
-     * @modified 01/07/2016
+     *
+     * @access public
+     * @created 21/09/2015
+     * @version V1.0.0 
      */
     public function edit() {
+        $success = true;
+        $this->Modification->begin();
+
+        $success = $success && $this->EtatFiche->updateAll([
+            'actif' => false
+            ], [
+                'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
+                'etat_id' => [5, 9],
+                'actif' => true
+            ]
+        ) !== false;
+
+        $this->EtatFiche->create([
+            'EtatFiche' => [
+                'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
+                'etat_id' => 9,
+                'previous_user_id' => $this->Auth->user('id'),
+                'user_id' => $this->Auth->user('id')
+            ]
+        ]);
+        
+        $success = $success && false !== $this->EtatFiche->save();
+
+        $idEtatFiche = $this->EtatFiche->find('first', [
+            'conditions' => [
+                'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
+                'actif' => true
+            ]
+        ]);
+
         $this->Modification->create([
-            'fiches_id' => $this->request->data['Registre']['idEditRegistre'],
+            'etat_fiches_id' => $idEtatFiche['EtatFiche']['id'],
             'modif' => $this->request->data['Registre']['motif']
         ]);
-        $this->Modification->save();
-        $this->redirect([
-            'controller' => 'fiches',
-            'action' => 'edit',
-            $this->request->data['Registre']['idEditRegistre']
-        ]);
+
+        $success = $success && false !== $this->Modification->save();
+
+        if ($success == true) {
+            $this->Modification->commit();
+
+            $this->redirect([
+                'controller' => 'fiches',
+                'action' => 'edit',
+                $this->request->data['Registre']['idEditRegistre']
+            ]);
+        } else {
+            $this->Modification->rollback();
+            $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+
+            $this->redirect([
+                'controller' => 'registres',
+                'action' => 'index',
+                $this->request->data['Registre']['idEditRegistre']
+            ]);
+        }
     }
 
     /**
@@ -190,13 +238,11 @@ class RegistresController extends AppController {
      * @version V0.9.0
      */
     public function add() {
-        if (isset($this->request->data['Registre']['numero']) && !empty($this->request->data['Registre']['numero'])) {
-            $this->Fiche->updateAll(['numero' => $this->request->data['Registre']['numero']], ['id' => $this->request->data['Registre']['idfiche']]);
-        }
         $this->redirect([
             'controller' => 'etat_fiches',
             'action' => 'insertRegistre',
-            $this->request->data['Registre']['idfiche']
+            $this->request->data['Registre']['idfiche'],
+            Hash::get($this->request->data, 'Registre.numero')
         ]);
     }
 
@@ -238,7 +284,7 @@ class RegistresController extends AppController {
             foreach ($tabId as $ficheID) {
                 //On recupere en BDD le flux de donnee qui a ete enregistre 
                 //au verrouillage du traitement en fonction de ID
-                $pdf = $this->Extrait->find('first', [
+                $pdf = $this->TraitementRegistre->find('first', [
                     'conditions' => ['id_fiche' => $ficheID],
                     'fields' => ['data']
                 ]);
@@ -246,7 +292,7 @@ class RegistresController extends AppController {
                 //On cree un fichier .pdf avec le flux de donnee de la BDD 
                 //qu'on enregistre dans /var/www/webcil/app/tmp/imprimerRegistre
                 $monPDF = fopen($folder . DS . $ficheID . '.pdf', 'a');
-                fputs($monPDF, $pdf['Extrait']['data']);
+                fputs($monPDF, $pdf['TraitementRegistre']['data']);
                 fclose($monPDF);
 
                 //On concatene le chemin du fichier .pdf
@@ -254,7 +300,7 @@ class RegistresController extends AppController {
             }
 
             //On concatene tout les PDFs qu'on a cree et on enregistre 
-            //la concatenation dans /var/www/webcil/app/webroot/files/ragistre
+            //la concatenation dans /var/www/webcil/app/files/registre
             shell_exec('pdftk' . ' ' . $files_concat . 'cat output ' . CHEMIN_REGISTRE . 'Registre_' . $date . '.pdf');
 
             //On supprime de dossier imprimerRegistre dans /tmp

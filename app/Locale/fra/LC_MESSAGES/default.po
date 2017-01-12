@@ -39,8 +39,11 @@ msgstr "Informations générales"
 msgid "default.sousTitreFormulaire"
 msgstr "Mes formulaires"
 
-msgid "default.sousTitreModele"
-msgstr "Mes modèles"
+msgid "default.sousTitreModeleFormulaire"
+msgstr "Mes modèles pour les formulaires"
+
+msgid "default.sousTitreModeleExtraitRegistre"
+msgstr "Mes modèles pour l'extrait de registre"
 
 msgid "default.titreAdministrationUser"
 msgstr "Administration des utilisateurs"
@@ -169,6 +172,9 @@ msgstr "Erreur lors de la suppression"
 
 msgid "default.flasherrorConnexionImpossibleParapheur"
 msgstr "Problème de connexion au parapheur"
+
+msgid "default.flasherrorEnregistrementErreur"
+msgstr "Une erreur d'enregistrement est survenu"
 
 ###############################################################
 

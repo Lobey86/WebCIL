@@ -23,9 +23,9 @@
  */
 App::uses('AppModel', 'Model');
 
-class Extrait extends AppModel {
+class TraitementRegistre extends AppModel {
 
-    public $name = 'Extrait';
+    public $name = 'TraitementRegistre';
 
     /**
      * belongsTo associations

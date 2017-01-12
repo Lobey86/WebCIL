@@ -46,13 +46,15 @@ class Fichier extends AppModel {
     /**
      * @param type $data
      * @param int|null $id
+     * @param boolean $transaction La méthode doit-elle gérer elle-même une
+     *  transaction (par défaut: true) ?
      * @return boolean
      * 
      * @access public
      * @created 29/04/2015
      * @version V0.9.0
      */
-    public function saveFichier($data, $id = null) {
+    public function saveFichier($data, $id = null, $transaction = true) {
         if (isset($data['Fiche']['fichiers']) && !empty($data['Fiche']['fichiers'])) {
             foreach ($data['Fiche']['fichiers'] as $key => $file) {
                 if (!empty($file['name'])) {
@@ -63,7 +65,9 @@ class Fichier extends AppModel {
                         $success = true;
 
                         if (!empty($file['name'])) {
-                            $this->begin();
+                            if($transaction == true) {
+                                $this->begin();
+                            }
 
                             // On verifie si le dossier file existe. Si c'est pas le cas on le cree
                             if (!file_exists(APP . FICHIER)) {
@@ -99,9 +103,13 @@ class Fichier extends AppModel {
                     }
 
                     if ($success) {
-                        $this->commit();
+                        if($transaction == true) {
+                            $this->commit();
+                        }
                     } else {
-                        $this->rollback();
+                        if($transaction == true) {
+                            $this->rollback();
+                        }
                         return false;
                     }
                 } else {
@@ -114,15 +122,19 @@ class Fichier extends AppModel {
 
     /**
      * @param int $id
+     * @param boolean $transaction La méthode doit-elle gérer elle-même une
+     *  transaction (par défaut: true) ?
      * @return boolean
      * 
      * @access public
      * @created 26/06/2015
      * @version V0.9.0
      */
-    public function deleteFichier($id) {
+    public function deleteFichier($id, $transaction = true) {
         $success = true;
-        $this->begin();
+        if($transaction == true) {
+            $this->begin();
+        }
 
         $fichier = $this->find('first', array(
             'conditions' => array(
@@ -134,10 +146,14 @@ class Fichier extends AppModel {
         $success = $success && $this->delete($id);
 
         if ($success) {
-            $this->commit();
+            if($transaction == true) {
+                $this->commit();
+            }
             return true;
         } else {
-            $this->rollback();
+            if($transaction == true) {
+                $this->rollback();
+            }
             return false;
         }
     }

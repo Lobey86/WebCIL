@@ -32,6 +32,7 @@ class PannelController extends AppController {
         'Droit',
         'EtatFiche',
         'Commentaire',
+        'Modification',
         'Notification',
         'Historique',
         'Organisation'
@@ -55,7 +56,7 @@ class PannelController extends AppController {
         if (!$this->Droits->authorized(1)) {
             $this->redirect(['controller' => 'pannel', 'action' => 'inbox']);
         }
-        
+
         $this->set('title', __d('pannel', 'pannel.titreTraitement'));
 
         // Requète récupérant les traitements en cours de rédaction
@@ -76,7 +77,7 @@ class PannelController extends AppController {
         $subQueryExpression = $db->expression($subQuery);
 
         $conditions[] = $subQueryExpression;
-        $conditions[] = 'EtatFiche.etat_id = 1 OR EtatFiche.etat_id = 8 AND EtatFiche.actif = true AND EtatFiche.user_id ='.$this->Auth->user('id');
+        $conditions[] = 'EtatFiche.etat_id = 1 OR EtatFiche.etat_id = 8 AND EtatFiche.actif = true AND EtatFiche.user_id =' . $this->Auth->user('id');
         $encours = $this->EtatFiche->find('all', [
             'conditions' => $conditions,
             'contain' => [
@@ -457,9 +458,14 @@ class PannelController extends AppController {
     public function parcours($id) {
         $parcours = $this->EtatFiche->find('all', [
             'conditions' => [
-                'EtatFiche.fiche_id' => $id
+                'EtatFiche.fiche_id' => $id,
             ],
             'contain' => [
+                'Modification' => [
+                    'id',
+                    'modif',
+                    'created'
+                ],
                 'Fiche' => [
                     'id',
                     'organisation_id',
@@ -470,7 +476,7 @@ class PannelController extends AppController {
                         'id',
                         'nom',
                         'prenom'
-                    ]
+                    ],
                 ],
                 'User' => [
                     'id',
@@ -483,7 +489,7 @@ class PannelController extends AppController {
                         'nom',
                         'prenom'
                     ]
-                ]
+                ],
             ],
             'order' => [
                 'EtatFiche.id DESC'
@@ -577,22 +583,22 @@ class PannelController extends AppController {
         foreach ($return as $key => $ret) {
             //On récupére l'état actuel de la fiche
             $etatFicheActuels[] = current($this->EtatFiche->find('all', [
-                'conditions' => [
-                    'fiche_id' => $ret['EtatFiche']['fiche_id'],
-                    'actif' => true
-                ]
+                        'conditions' => [
+                            'fiche_id' => $ret['EtatFiche']['fiche_id'],
+                            'actif' => true
+                        ]
             ]));
-            
+
             //On met a jour l'état
-            if($ret['EtatFiche']['fiche_id'] == $etatFicheActuels[$key]['EtatFiche']['fiche_id']){
+            if ($ret['EtatFiche']['fiche_id'] == $etatFicheActuels[$key]['EtatFiche']['fiche_id']) {
                 $ret['EtatFiche']['etat_id'] = $etatFicheActuels[$key]['EtatFiche']['etat_id'];
                 $ret['EtatFiche']['user_id_actuel'] = $etatFicheActuels[$key]['EtatFiche']['user_id'];
                 $ret['EtatFiche']['id'] = $etatFicheActuels[$key]['EtatFiche']['id'];
             }
-            
+
             $validees[] = $ret;
         }
-        
+
         $this->set('validees', $validees);
         $listValidante = $this->_listValidants();
         $this->set('validants', $listValidante['validants']);

@@ -21,7 +21,7 @@ msgid "fiche.titreEditionFiche"
 msgstr "Edition du traitement : "
 
 msgid "fiche.textModifierTraitement"
-msgstr "modifie le traitement"
+msgstr "modifie le traitement enregistré au registre"
 
 ###################### Session->setFlash ######################
 
@@ -39,6 +39,9 @@ msgstr "Le traitement a été modifié"
 
 msgid "fiche.flashsuccessTraitementEnregistrer"
 msgstr "Le traitement a été enregistré"
+
+msgid "fiche.flasherrorErreurContacterAdministrateur"
+msgstr "Une erreur est survenue lors de l'enregistrement. Merci de contacter votre administrateur"
 
 ###############################################################
 

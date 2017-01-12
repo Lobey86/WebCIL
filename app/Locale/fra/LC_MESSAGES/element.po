@@ -20,6 +20,9 @@ msgstr "Créé par : "
 msgid "element.Le"
 msgstr "le"
 
+msgid "element.MotifModification"
+msgstr "Modif de la modification"
+
 msgid "element.Commentaire"
 msgstr "Commentaire(s)"
 
@@ -28,6 +31,18 @@ msgstr "En attente de validation"
 
 msgid "element.RecuePar"
 msgstr "Reçu par"
+
+msgid "element.Archivee"
+msgstr "Archivée"
+
+msgid "element.ArchiveePar"
+msgstr "Archivée par"
+
+msgid "element.ModificationTraitementRegistre"
+msgstr "Modification du traitement inséré dans le registre"
+
+msgid "element.ModificationTraitementRegistrePar"
+msgstr "Modification du traitement inséré dans le registre par"
 
 msgid "element.Validee"
 msgstr "Validée"

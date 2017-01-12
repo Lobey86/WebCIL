@@ -34,14 +34,17 @@ class FichesController extends AppController {
         'Organisation',
         'Fichier',
         'EtatFiche',
+        'ExtraitRegistre',
         'Historique',
         'FormGeneric',
         'FormGenerator.Champ',
         'Valeur',
         'Modele',
+        'ModeleExtraitRegistre',
         'Extrait',
         'Service',
-        'User'
+        'User',
+        'TraitementRegistre'
     ];
 
     /**
@@ -69,8 +72,10 @@ class FichesController extends AppController {
      */
     public function add($id = null) {
         if ($this->Droits->authorized(1)) {
+
             $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
 
+            //On récupére le CIL de la collectivité
             $userCil = $this->User->find('first', [
                 'conditions' => [
                     'id' => $this->Session->read('Organisation.cil')
@@ -82,18 +87,24 @@ class FichesController extends AppController {
                 ]
             ]);
             $this->set('userCil', $userCil);
-           
+
             if ($this->request->is('POST')) {
+                $success = true;
+                $this->Fiche->begin();
+
                 $this->Fiche->create([
                     'user_id' => $this->Auth->user('id'),
                     'form_id' => $this->request->data['Fiche']['formulaire_id'],
                     'organisation_id' => $this->Session->read('Organisation.id')
                 ]);
 
-                if ($this->Fiche->save()) {
-                    $last = $this->Fiche->getLastInsertID();
+                $success = $success && false !== $this->Fiche->save();
 
-                    if ($this->Fichier->saveFichier($this->request->data, $last)) {
+                if ($success == true) {
+                    $last = $this->Fiche->getLastInsertID();
+                    $success = $success && false !== $this->Fichier->saveFichier($this->request->data, $last);
+
+                    if ($success == true) {
                         foreach ($this->request->data['Fiche'] as $key => $value) {
                             if ($key != 'formulaire_id') {
                                 if (is_array($value)) {
@@ -106,7 +117,7 @@ class FichesController extends AppController {
                                     'valeur' => $value
                                 ]);
 
-                                $this->Valeur->save();
+                                $success = $success && false !== $this->Valeur->save();
                             }
                         }
 
@@ -116,7 +127,7 @@ class FichesController extends AppController {
                                 'fiche_id' => $last
                             ]
                         ]);
-                        $this->Historique->save();
+                        $success = $success && false !== $this->Historique->save();
 
                         $this->EtatFiche->create([
                             'EtatFiche' => [
@@ -126,14 +137,27 @@ class FichesController extends AppController {
                                 'user_id' => $this->Auth->user('id')
                             ]
                         ]);
+                        $success = $success && false !== $this->EtatFiche->save();
 
-                        if ($this->EtatFiche->save()) {
+                        if ($success == true) {
+                            $this->Fiche->commit();
                             $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
+
                             $this->redirect([
+                                'controller' => 'pannel',
                                 'action' => 'index'
                             ]);
+                        } else {
+                            $this->Fiche->rollback();
+                            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                         }
+                    } else {
+                        $this->Fiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                     }
+                } else {
+                    $this->Fiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
             } else {
                 $champs = $this->Champ->find('all', [
@@ -177,19 +201,27 @@ class FichesController extends AppController {
                     'action' => 'index'
                 ]);
             }
-            $this->Fiche->delete($id);
-            $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementSupprimer'), 'flashsuccess');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+
+            $success = true;
+            $this->Fiche->begin();
+
+            $success = $success && false !== $this->Fiche->delete($id);
+
+            if ($success == true) {
+                $this->Fiche->commit();
+                $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementSupprimer'), 'flashsuccess');
+            } else {
+                $this->Fiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            }
         } else {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorSupprimerTraitementImpossible'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
         }
+
+        $this->redirect([
+            'controller' => 'pannel',
+            'action' => 'index'
+        ]);
     }
 
     /**
@@ -235,13 +267,28 @@ class FichesController extends AppController {
                     'put'
                 ])
         ) {
+            $success = true;
+            $this->Valeur->begin();
 
             foreach ($this->request->data['Fiche'] as $key => $value) {
-                $this->Valeur->begin();
-                $this->Valeur->deleteAll([
-                    'champ_name' => $key,
-                    'fiche_id' => $id
-                ]);
+                $idsToDelete = array_keys(
+                        $this->Valeur->find(
+                                'list', [
+                            'conditions' => [
+                                'champ_name' => $key,
+                                'fiche_id' => $id
+                            ],
+                            'contain' => false
+                                ]
+                        )
+                );
+
+                if (empty($idsToDelete) == false) {
+                    $success = $success && $this->Valeur->deleteAll([
+                                'Valeur.id' => $idsToDelete
+                    ]);
+                }
+
                 if ($key != 'formulaire_id') {
                     if (is_array($value)) {
                         $value = json_encode($value);
@@ -251,29 +298,58 @@ class FichesController extends AppController {
                         'fiche_id' => $id,
                         'valeur' => $value
                     ]);
-                    $this->Valeur->save();
-                    $this->Valeur->commit();
+                    $success = $success && false !== $this->Valeur->save();
                 }
             }
-            if ($this->Fichier->saveFichier($this->request->data, $id)) {
+
+            $success = $success && $this->Fichier->saveFichier($this->request->data, $id, false);
+
+            if (true === $success) {
+//                $success = $success && $this->EtatFiche->updateAll([
+//                    'actif' => false
+//                    ],[
+//                        'fiche_id' => $id,
+//                        'etat_id' => [5, 9],
+//                        'actif' => true
+//                    ]
+//                ) !== false;
+//               
+//                $this->EtatFiche->create([
+//                    'EtatFiche' => [
+//                        'fiche_id' => $id,
+//                        'etat_id' => 9,
+//                        'previous_user_id' => $this->Auth->user('id'),
+//                        'user_id' => $this->Auth->user('id')
+//                    ]
+//                ]);
+//                $success = $success && false !== $this->EtatFiche->save();
+
                 $this->Historique->create([
                     'Historique' => [
                         'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche', 'fiche.textModifierTraitement'),
                         'fiche_id' => $id
                     ]
                 ]);
-                $this->Historique->save();
+                $success = $success && false !== $this->Historique->save();
             }
+
             if (isset($this->request->data['delfiles']) && !empty($this->request->data['delfiles'])) {
                 foreach ($this->request->data['delfiles'] as $val) {
-                    $this->Fichier->deleteFichier($val);
+                    $success = $success && $this->Fichier->deleteFichier($val, false);
                 }
             }
-            $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementModifier'), 'flashsuccess');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+
+            if ($success == true) {
+                $this->Valeur->commit();
+                $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementModifier'), 'flashsuccess');
+                $this->redirect([
+                    'controller' => 'pannel',
+                    'action' => 'index'
+                ]);
+            } else {
+                $this->Valeur->rollback();
+                $this->Session->setFlash(__d('fiche', 'Une erreur inattendue est survenue...'), 'flasherror');
+            }
         } else {
             $idForm = $this->Fiche->find('first', ['conditions' => ['id' => $id]]);
             $champs = $this->Champ->find('all', [
@@ -383,204 +459,121 @@ class FichesController extends AppController {
     }
 
     /**
-     * Gère le téléchargement des extraits de registre
+     * Téléchargement du traitement verrouiller
      * 
      * @param int $id_fiche
+     * @param type $numeroRegistre
      * 
      * @access public
      * @created 04/01/2016
      * @version V0.9.0
      */
-    public function downloadFile($id_fiche, $numeroRegistre) {
+    public function downloadFileTraitement($id_fiche, $numeroRegistre) {
         $data = $this->Valeur->find('all', [
             'conditions' => [
                 'fiche_id' => $id_fiche]
         ]);
 
-        $pdf = $this->Extrait->find('first', [
+        $pdf = $this->TraitementRegistre->find('first', [
             'conditions' => ['id_fiche' => $id_fiche],
             'fields' => ['data']
         ]);
 
         header("content-type: application/pdf");
-        header('Content-Disposition: attachment; filename="' . $data[11]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf"');
-        echo($pdf['Extrait']['data']);
+        header('Content-Disposition: attachment; filename="Traitement_' . $data[17]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf"');
+
+        echo($pdf['TraitementRegistre']['data']);
     }
 
     /**
-     * Génération PDF à la volée
+     * Téléchargement de l'extrait de registre verrouiller
      * 
-     * @param int $id
-     * @param type|false $save
+     * @param type $id_fiche
      * @param type $numeroRegistre
-     * @return type
      * 
      * @access public
-     * @created 04/01/2016
-     * @version V0.9.0
+     * @created 09/01/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
      */
-    public function genereFusion($id, $numeroRegistre, $save = false) {
-        $annexe = false;
-
-        App::uses('FusionConvBuilder', 'FusionConv.Utility');
-
-        //On chercher si le traitement comporte des annexe(s)
-        $fileAnnexes = $this->Fichier->find('all', [
-            'conditions' => [
-                'fiche_id' => $id
-            ]
-        ]);
-
-        if (!empty($fileAnnexes)) {
-            $annexe = true;
-        }
-
+    public function downloadFileExtrait($id_fiche, $numeroRegistre) {
         $data = $this->Valeur->find('all', [
             'conditions' => [
-                'fiche_id' => $id
+                'fiche_id' => $id_fiche]
+        ]);
+
+        $pdf = $this->ExtraitRegistre->find('first', [
+            'conditions' => ['id_fiche' => $id_fiche],
+            'fields' => ['data']
+        ]);
+
+        header("content-type: application/pdf");
+        header('Content-Disposition: attachment; filename="Extrait_' . $data[17]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf"');
+        echo($pdf['ExtraitRegistre']['data']);
+    }
+
+    /**
+     * Genere le traitement de registre
+     * 
+     * @param int $id
+     * @param char $numeroRegistre
+     * @return data
+     * 
+     * @access public
+     * @created 09/01/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     */
+    public function genereTraitement($id, $numeroRegistre) {
+        $pdf = $this->Fiche->genereTraitement($id, $numeroRegistre);
+
+        $this->response->disableCache();
+        $this->response->body($pdf);
+        $this->response->type('application/pdf');
+        $this->response->download('Traitement_' . $numeroRegistre . '.pdf');
+
+        $this->requestAction(array(
+            'controller' => 'pannel',
+            'action' => 'supprimerLaNotif',
+            $id
+        ));
+
+        return $this->response;
+    }
+
+    /**
+     * Genere l'extrait de registre
+     * 
+     * @param int $id
+     * @param char $numeroRegistre
+     * @return data
+     * 
+     * @access public
+     * @created 09/01/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     */
+    public function genereExtrait($id, $numeroRegistre) {
+        $modele = $this->ModeleExtraitRegistre->find('first', [
+            'conditions' => [
+                'organisations_id' => $this->Session->read('Organisation.id')
             ]
         ]);
 
-        $fiche = $this->Fiche->find('first', [
-            'conditions' => [
-                'id' => $id
-            ]
-        ]);
+        $pdf = $this->Fiche->genereExtrait($id, $numeroRegistre, $modele);
 
-        $modele = $this->Modele->find('first', [
-            'conditions' => [
-                'formulaires_id' => $fiche['Fiche']['form_id']
-            ]
-        ]);
+        $this->response->disableCache();
+        $this->response->body($pdf);
+        $this->response->type('application/pdf');
+        $this->response->download('Extrait_' . $numeroRegistre . '.pdf');
 
-        if (!empty($modele)) {
-            $file = $modele['Modele']['fichier'];
-        } else {
-            $file = '1.odt';
-        }
+        $this->requestAction(array(
+            'controller' => 'pannel',
+            'action' => 'supprimerLaNotif',
+            $id
+        ));
 
-        /**
-         * On recupere les champs 'deroulant', 'checkboxes', 'radios' qui 
-         * sont dans le formulaire associer a la fiche
-         */
-        $typeChamps = ['deroulant', 'checkboxes', 'radios'];
-        $idForm = $this->Fiche->find('first', [
-            'conditions' => ['id' => $id]
-        ]);
-
-        $champs = $this->Champ->find('all', [
-            'conditions' => [
-                'formulaires_id' => $idForm['Fiche']['form_id'],
-                'type' => $typeChamps,
-            ],
-        ]);
-
-        /**
-         * On decode les infos du champ details pour ensuite faire 
-         * un tableau avec le name du champs et les valeurs
-         */
-        $choixChampMultiple = [];
-        $checkBoxField = [];
-        foreach ($champs as $value) {
-            $options = json_decode($value['Champ']['details'], true);
-
-            if ($value['Champ']['type'] != 'checkboxes') {
-                $choixChampMultiple[$options['name']] = $options['options'];
-            } else {
-                $checkBoxField[$options['name']] = $options['options'];
-            }
-        }
-
-        /**
-         * On vérifie que le tableau qu'on a créé juste au dessus existe. 
-         * Si il exite on on prend la valeur de l'id choisit dans le tableau,
-         * sinon on prend directement la valeur enregistré dans la table Valeur.
-         */
-        $donnees = [];
-        foreach ($data as $key => $value) {
-            if (!empty($choixChampMultiple[$value['Valeur']['champ_name']])) {
-                $donnees['Valeur'][$value['Valeur']['champ_name']] = $choixChampMultiple[$value['Valeur']['champ_name']][intval($value['Valeur']['valeur'])];
-            } elseif (!empty($checkBoxField[$value['Valeur']['champ_name']])) {
-                $choixCheckbox = json_decode($value["Valeur"]["valeur"]);
-                $nombreChoixCheckbox = sizeof($choixCheckbox);
-
-                $tampon = null;
-                for ($compteur = 0; $compteur < $nombreChoixCheckbox; $compteur++) {
-                    if ($compteur === 0) {
-                        $tampon = $checkBoxField[$value['Valeur']['champ_name']][$compteur];
-                    } else if ($compteur < $nombreChoixCheckbox && $compteur != 0) {
-                        $tampon = $tampon . ' , ' . $checkBoxField[$value['Valeur']['champ_name']][$compteur];
-                    }
-                }
-                $donnees['Valeur'][$value['Valeur']['champ_name']] = $tampon;
-            } else {
-                $donnees['Valeur'][$value['Valeur']['champ_name']] = $value['Valeur']['valeur'];
-            }
-        }
-        unset($donnees['Valeur']['fichiers']);
-
-        $types = [];
-        foreach ($donnees['Valeur'] as $key => $value) {
-            $types['valeur_' . $key] = 'text';
-        }
-
-        $correspondances = [];
-        foreach ($donnees['Valeur'] as $key => $value) {
-            $correspondances['valeur_' . $key] = 'Valeur.' . $key;
-        }
-
-        // On donne le numéro d'enregistrement au registre du traitement
-        $donnees['Valeur']['numenregistrement'] = $numeroRegistre;
-        $types['valeur_numenregistrement'] = 'text';
-        $correspondances['valeur_numenregistrement'] = 'Valeur.numenregistrement';
-
-        // Si il y a une annexe on ajoute les données au fichier au info envoyer a GEDOOO
-        if ($annexe == true) {
-            $compteur = 1;
-            foreach ($fileAnnexes as $fileAnnexe) {
-                $donnees['Valeur']['annexe' . $compteur] = file_get_contents(
-                        CHEMIN_PIECE_JOINT . $fileAnnexe['Fichier']['url']
-                );
-                $types['valeur_annexe' . $compteur] = "file";
-                $correspondances['valeur_annexe' . $compteur] = 'Valeur.annexe' . $compteur;
-                $compteur ++;
-            }
-        }
-
-        $MainPart = new GDO_PartType();
-
-        $Document = FusionConvBuilder::main($MainPart, $donnees, $types, $correspondances);
-
-        $sMimeType = 'application/vnd.oasis.opendocument.text';
-
-        $Template = new GDO_ContentType("", 'model.odt', "application/vnd.oasis.opendocument.text", "binary", file_get_contents(CHEMIN_MODELES . $file));
-        $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
-
-        $Fusion->process();
-        App::uses('FusionConvConverterCloudooo', 'FusionConv.Utility/Converter');
-        $pdf = FusionConvConverterCloudooo::convert($Fusion->getContent()->binary);
-
-        if ($save == false) {
-            $this->response->disableCache();
-            $this->response->body($pdf);
-            $this->response->type('application/pdf');
-            $this->response->download($data[11]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf');
-
-            $this->requestAction(array(
-                'controller' => 'pannel',
-                'action' => 'supprimerLaNotif',
-                $id
-            ));
-
-            return $this->response;
-        } else {
-            $this->Extrait->save(['id_fiche' => $id, 'data' => $pdf]);
-
-            $this->redirect(array(
-                'controller' => 'registres',
-                'action' => 'index'
-            ));
-        }
+        return $this->response;
     }
 
 }

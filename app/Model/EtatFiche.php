@@ -71,5 +71,22 @@ class EtatFiche extends AppModel {
             'dependent' => true
         )
     );
+    
+    /**
+     *
+     * @var type
+     * 
+     * @access public
+     * @created 11/01/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
+     */
+    public $hasOne = array(
+        'Modification' => array(
+            'className' => 'Modification',
+            'foreignKey' => 'etat_fiches_id',
+            'dependent' => true
+        ),
+    );
 
 }
