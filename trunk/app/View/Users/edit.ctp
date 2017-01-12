@@ -207,9 +207,9 @@
                             // On pré-selectionne
                             echo $this->Form->input('Service.' . $datas['infos']['id'], [
                                 'options' => $listeservices[$datas['infos']['id']],
-                                'class' => 'form-control',
+                                'class' => 'deroulantservice',
                                 'selected' => $tableau['UserService'],
-                                'id' => 'deroulantService',
+                                'id' => $datas['infos']['id'] ,
                                 'label' => [
                                     'text' => __d('user', 'user.champService'),
                                     'class' => 'col-md-4 control-label'
@@ -221,8 +221,8 @@
                         } else {
                             echo $this->Form->input('Service.' . $datas['infos']['id'], [
                                 'options' => $listeservices[$datas['infos']['id']],
-                                'class' => 'form-control',
-                                'id' => 'deroulantService',
+                                'class' => 'deroulantservice',
+                                'id' => $datas['infos']['id'],
                                 'label' => [
                                     'text' => __d('user', 'user.champService'),
                                     'class' => 'col-md-4 control-label'
@@ -315,7 +315,7 @@ echo $this->Html->script('users.js');
             allowClear: true
         });
 
-        $("#deroulantService").select2({
+        $(".deroulantservice").select2({
             placeholder: "Selectionnez un ou plusieurs service",
             allowClear: true
         });

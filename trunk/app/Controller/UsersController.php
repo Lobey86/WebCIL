@@ -372,9 +372,9 @@ class UsersController extends AppController {
 
             // Récupération de la liste des services de l'utilisateur en question sur l'entité en cours
             $listeServices = $this->Service->find('all', [
-                'conditions' => [
-                    'organisation_id' => $this->Session->read('Organisation.id')
-                ],
+//                'conditions' => [
+//                    'organisation_id' => $this->Session->read('Organisation.id')
+//                ],
                 'fields' => [
                     'id',
                     'libelle',
@@ -423,6 +423,10 @@ class UsersController extends AppController {
                             $tableauUserEntites = [];
                             $tableauUserEntites = Hash::extract($userEntites, '{n}.OrganisationUser.organisation_id');
 
+                            //On extrait les id des organisations de l'user
+                            $organisationsUserIDs = [];
+                            $organisationsUserIDs = Hash::extract($userEntites, '{n}.OrganisationUser.id');
+
                             // Récupération des infos des entités
                             $orgas = $this->Organisation->find('all', [
                                 'conditions' => [
@@ -433,6 +437,65 @@ class UsersController extends AppController {
                             // On supprime l'id de l'organisation dans "$this->request->data" et on le remplace par les id des entités de l'utilisateur
                             $this->request->data = Hash::remove($this->request->data, 'Organisation.Organisation_id');
                             $this->request->data = Hash::insert($this->request->data, 'Organisation.Organisation_id', $tableauUserEntites);
+
+                            // On supprime du tableau l'organisation en cour
+                            $tableauUserEntites = Hash::remove($tableauUserEntites, $this->Session->read('Organisation.id'));
+
+                            //ROLES
+                            $query = array(
+                                'fields' => array(
+                                    'OrganisationUser.organisation_id',
+                                    'OrganisationUserRole.role_id'
+                                ),
+                                'joins' => array(
+                                    $this->OrganisationUser->join('OrganisationUserRole', array('type' => 'INNER'))
+                                ),
+                                'conditions' => array(
+                                    'OrganisationUser.user_id' => $id,
+                                    'OrganisationUser.organisation_id' => $tableauUserEntites
+                                ),
+                                'contain' => false
+                            );
+                            $results = $this->OrganisationUser->find('all', $query);
+
+                            $roles = array();
+                            foreach ($results as $result) {
+                                $organisation_id = $result['OrganisationUser']['organisation_id'];
+                                if (false === isset($roles[$organisation_id])) {
+                                    $roles[$organisation_id] = array();
+                                }
+                                $roles[$organisation_id][] = $result['OrganisationUserRole']['role_id'];
+                            }
+                            $this->request->data['Role']['role_ida'] += $roles;
+
+
+                            //SERVICE
+                            $query = array();
+                            $query = array(
+                                'fields' => array(
+                                    'OrganisationUser.organisation_id',
+                                    'OrganisationUserService.service_id'
+                                ),
+                                'joins' => array(
+                                    $this->OrganisationUser->join('OrganisationUserService', array('type' => 'INNER'))
+                                ),
+                                'conditions' => array(
+                                    'OrganisationUser.user_id' => $id,
+                                    'OrganisationUser.organisation_id' => $tableauUserEntites
+                                ),
+                                'contain' => false
+                            );
+                            $results = $this->OrganisationUser->find('all', $query);
+
+                            $service = array();
+                            foreach ($results as $result) {
+                                $organisation_id = $result['OrganisationUser']['organisation_id'];
+                                if (false === isset($service[$organisation_id])) {
+                                    $service[$organisation_id] = array();
+                                }
+                                $service[$organisation_id][] = $result['OrganisationUserService']['service_id'];
+                            }
+                            $this->request->data['Service'] += $service;
                         } else {
                             // L'utilisateur est présent que dans une seul entité
                             // Récupération des informations de l'entité en cours
@@ -443,7 +506,8 @@ class UsersController extends AppController {
                             ]);
                         }
                     }
-
+//debug("STOP");
+//die;
                     if ($this->User->save($this->request->data)) {
                         foreach ($orgas as $value) {
                             if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {

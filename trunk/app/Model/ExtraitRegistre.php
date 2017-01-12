@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Model Modification
+ * Model Extrait
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
  * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
@@ -23,24 +23,23 @@
  */
 App::uses('AppModel', 'Model');
 
-class Modification extends AppModel {
+class ExtraitRegistre extends AppModel {
 
-    public $name = 'Modification';
+    public $name = 'ExtraitRegistre';
 
     /**
      * belongsTo associations
-     *
+     * 
      * @var array
      * 
      * @access public
-     * @created 18/06/2015
+     * @created 04/01/2016
      * @version V0.9.0
      */
     public $belongsTo = array(
-        'EtatFiche' => array(
-            'className' => 'EtatFiche',
-            'foreignKey' => 'etat_fiches_id',
-            'dependent' => true,
+        'Fiche' => array(
+            'className' => 'Fiche',
+            'foreignKey' => 'fiche_id'
         )
     );
 

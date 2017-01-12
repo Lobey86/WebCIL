@@ -25,33 +25,34 @@ App::uses('CakeEmail', 'Network/Email');
  * @package        app.Controller
  * @link        http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
-class AppController extends Controller {
+class AppController extends Controller
+{
 
-    public $uses = array(
+    public $uses = [
         'Organisation',
         'Droit',
         'OrganisationUser',
         'Notification',
         'Pannel',
         'Service'
-    );
-    public $components = array(
+    ];
+    public $components = [
         'Session',
         'FormGenerator.FormGen',
         'Droits',
         'Notifications',
-        'Auth' => array(
-            'loginRedirect' => array(
+        'Auth' => [
+            'loginRedirect' => [
                 'controller' => 'organisations',
                 'action' => 'change'
-            ),
-            'logoutRedirect' => array(
+            ],
+            'logoutRedirect' => [
                 'controller' => 'pages',
                 'action' => 'display',
                 'home'
-            )
-        )
-    );
+            ]
+        ]
+    ];
 
     /**
      * @access public
@@ -71,38 +72,41 @@ class AppController extends Controller {
         $this->set('userId', $this->Auth->user('id'));
 
         if ($this->Droits->isSu()) {
-            $this->set('organisations', $this->Organisation->find('all', array()));
+            $this->set('organisations', $this->Organisation->find('all', []));
         } else {
-            $this->set('organisations', $this->OrganisationUser->find('all', array(
-                        'conditions' => array(
+            $this->set('organisations', $this->OrganisationUser->find('all', [
+                        'conditions' => [
                             'OrganisationUser.user_id' => $this->Auth->user('id')
-                        ),
-                        'contain' => array(
+                        ],
+                        'contain' => [
                             'Organisation'
-                        )
-            )));
+                        ]
+            ]));
         }
         $this->set('droits', $this->Session->read('Droit.liste'));
 
-        $notificationsStayed = $this->Notification->find('all', array(
-            'conditions' => array(
+        $notificationsStayed = $this->Notification->find('all', [
+            'conditions' => [
                 'Notification.user_id' => $this->Auth->user('id'),
                 'Notification.afficher' => true,
-            ),
-            'contain' => array(
-                'Fiche' => array(
-                    'Valeur' => array(
-                        'conditions' => array(
+            ],
+            'contain' => [
+                'Fiche' => [
+                    'Valeur' => [
+                        'conditions' => [
                             'champ_name' => 'outilnom'
-                        ),
-                        'fields' => array('champ_name', 'valeur')
-                    )
-                )
-            ),
-            'order' => array(
+                        ],
+                        'fields' => [
+                            'champ_name',
+                            'valeur'
+                        ]
+                    ]
+                ]
+            ],
+            'order' => [
                 'Notification.content'
-            )
-        ));
+            ]
+        ]);
         $this->set('notificationsStayed', $notificationsStayed);
     }
 
@@ -113,8 +117,11 @@ class AppController extends Controller {
      */
     public function beforeRender() {
         parent::beforeRender();
-        $this->set('formulaires_actifs', $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id'), 'active' => true)));
-        
+        $this->set('formulaires_actifs', $this->FormGen->getAll([
+                    'organisations_id' => $this->Session->read('Organisation.id'),
+                    'active' => true
+        ]));
+
         $serviceUser = $this->OrganisationUser->find('all', [
             'conditions' => [
                 'user_id' => $this->Auth->user('id'),
@@ -128,7 +135,7 @@ class AppController extends Controller {
         ]);
         $userServices = Hash::extract($serviceUser, '{n}.OrganisationUserService.Service');
         $this->set('userServices', $userServices);
-        
+
         $serviceEntitee = $this->Service->find('all', [
             'conditions' => [
                 'organisation_id' => $this->Session->read('Organisation.id')

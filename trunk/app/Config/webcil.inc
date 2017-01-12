@@ -24,6 +24,13 @@ define('CHEMIN_PIECE_JOINT', APP . FICHIER . PIECE_JOINT . DS);
 define('MODELES', DS . "modeles");
 define('CHEMIN_MODELES', APP . FICHIER . MODELES . DS);
 
+define('EXTRAIT_REGISTRE', DS . "extrait_registre");
+define('CHEMIN_MODELES_EXTRAIT', APP . FICHIER . MODELES . EXTRAIT_REGISTRE . DS);
+
 //Dossier qui va contenir tous les registres imprimer
 define('REGISTRE', DS . "registre");
 define('CHEMIN_REGISTRE', APP . FICHIER . REGISTRE . DS);
+
+//Format des dates et heures
+define('FORMAT_DATE', '%e-%m-%Y');
+define('FORMAT_DATE_HEURE', '%e-%m-%Y à %H:%M');

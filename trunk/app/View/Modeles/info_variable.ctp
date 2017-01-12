@@ -1,44 +1,44 @@
 <?php
+
 if (!empty($organisations)) {
     ?>
-
     <!-- Tableau de l'entité -->
     <table class="table">
         <h4><?php echo __d('modele', 'modele.sousTitreEntité'); ?></h4>
         <thead>
         <th class="thleft col-md-5">
-            <?php echo __d('modele', 'modele.titreTableauNomChamp'); ?>
+                <?php echo __d('modele', 'modele.titreTableauNomChamp'); ?>
         </th>
         <th class="thleft col-md-5">
-            <?php echo __d('modele', 'modele.titreTableauNomVariable'); ?>
+                <?php echo __d('modele', 'modele.titreTableauNomVariable'); ?>
         </th>
 
         <th class="thleft col-md-5">
-            <?php echo __d('modele', 'modele.titreTableauValeur'); ?>
+                <?php echo __d('modele', 'modele.titreTableauValeur'); ?>
         </th>
     </thead>
     <tbody>
-        <?php
-        foreach ($valeurOrganisations as $key => $organisation) {
-            foreach ($organisation as $orgKey => $val) {
-                ?>
-                <tr>
-                    <td class="tdleft">
-                        <?php echo $orgKey; ?>
-                    </td>
+            <?php
+            foreach ($valeurOrganisations as $key => $organisation) {
+                foreach ($organisation as $orgKey => $val) {
+                    ?>
+        <tr>
+            <td class="tdleft">
+                            <?php echo $orgKey; ?>
+            </td>
 
-                    <td class="tdleft">
-                        <?php echo "valeur_declarant" . $orgKey; ?>
-                    </td>
+            <td class="tdleft">
+                            <?php echo "valeur_declarant" . $orgKey; ?>
+            </td>
 
-                    <td class="tdleft">
-                        <?php echo $val; ?>
-                    </td>
-                </tr>
-                <?php
+            <td class="tdleft">
+                            <?php echo $val; ?>
+            </td>
+        </tr>
+                    <?php
+                }
             }
-        }
-        ?>
+            ?>
     </tbody>
     </table>
 
@@ -46,6 +46,125 @@ if (!empty($organisations)) {
     <?php
 } else {
     echo __d('modele', 'modele.textAucuneEntite');
+}
+
+if (!empty($responsableOrganisations)) {
+    ?>
+    <!-- Tableau du responsable l'entité -->
+    <table class="table">
+        <h4>
+            <?php echo __d('modele', 'modele.sousTitreResponsableEntité'); ?>
+        </h4>
+        
+        <thead>
+            <th class="thleft col-md-5">
+                    <?php echo __d('modele', 'modele.titreTableauNomChamp'); ?>
+            </th>
+            
+            <th class="thleft col-md-5">
+                    <?php echo __d('modele', 'modele.titreTableauNomVariable'); ?>
+            </th>
+
+            <th class="thleft col-md-5">
+                    <?php echo __d('modele', 'modele.titreTableauValeur'); ?>
+            </th>
+        </thead>
+        
+        <tbody>
+            <?php
+            foreach ($responsableOrganisations as $key => $organisation) {
+                foreach ($organisation as $orgKey => $val) {
+                    ?>
+                    <tr>
+                        <td class="tdleft">
+                           <?php echo $orgKey; ?>
+                        </td>
+
+                        <td class="tdleft">
+                            <?php echo "valeur_" . $orgKey; ?>
+                        </td>
+
+                        <td class="tdleft">
+                            <?php echo $val; ?>
+                        </td>
+                    </tr>
+                    <?php
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+
+    <br>
+    <?php
+} else {
+    echo __d('modele', 'modele.textAucuneEntite');
+}
+
+//Logo CIL
+if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
+    echo $this->Html->image('logos' . DS . 'logo_cil.jpg', [
+        'class' => 'logo-well',
+    ]);
+} else {
+   ?>
+    <h4>
+        <?php echo __d('modele', 'modele.sousTitreCIL'); ?>
+    </h4>
+    <?php
+}
+
+foreach ($userCIL as $cil){
+?>
+
+    <!-- Tableau du CIL -->
+<table class="table">
+    <thead>
+        <th class="thleft col-md-5">
+                <?php echo __d('modele', 'modele.titreTableauNomChamp'); ?>
+        </th>
+        
+        <th class="thleft col-md-5">
+                <?php echo __d('modele', 'modele.titreTableauNomVariable'); ?>
+        </th>
+
+        <th class="thleft col-md-5">
+                <?php echo __d('modele', 'modele.titreTableauValeur'); ?>
+        </th>
+    </thead>
+    
+    <tbody>
+        <tr>
+            <td class="tdleft">
+                <?php echo __d('modele', 'modele.textTableauNomPrenomUserTraitement'); ?>
+            </td>
+
+            <td class="tdleft">
+                valeur_personnecil
+            </td>
+            
+            <td class="tdleft">
+                <?php echo $cil['prenom'] . ' ' . $cil['nom']?>
+            </td>
+        </tr>
+
+        <tr>
+            <td class="tdleft">
+                <?php echo __d('modele', 'modele.textTableauEmailUserTraitement'); ?>
+            </td>
+
+            <td class="tdleft">
+                valeur_emailcil
+            </td>
+            
+            <td class="tdleft">
+                 <?php echo $cil['email']?>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    
+<?php
 }
 ?>
 
@@ -136,37 +255,37 @@ if (!empty($organisations)) {
 <?php
 if (!empty($variables)) {
     ?>
-    <!-- Tableau des variables du formulaire -->
-    <table class="table">
-        <h4><?php echo __d('modele', 'modele.sousTitreVariableFormulaire'); ?></h4>
-        <thead>
-        <th class="thleft col-md-5">
+<!-- Tableau des variables du formulaire -->
+<table class="table">
+    <h4><?php echo __d('modele', 'modele.sousTitreVariableFormulaire'); ?></h4>
+    <thead>
+    <th class="thleft col-md-5">
             <?php echo __d('modele', 'modele.titreTableauNomChamp'); ?>
-        </th>
-        <th class="thleft col-md-5">
+    </th>
+    <th class="thleft col-md-5">
             <?php echo __d('modele', 'modele.titreTableauNomVariable'); ?>
-        </th>
-        <th class="thleft col-md-5">
+    </th>
+    <th class="thleft col-md-5">
             <?php echo __d('modele', 'modele.titreTableauType'); ?>
-        </th>
-    </thead>
-    <tbody>
+    </th>
+</thead>
+<tbody>
         <?php
         foreach ($variables as $key => $variable) {
             $details = json_decode($variable['details'], true);
 
             if (!empty($details['name'])) {
                 ?>
-                <tr>
-                    <td class="tdleft">
+    <tr>
+        <td class="tdleft">
                         <?php echo $details['label']; ?>
-                    </td>
+        </td>
 
-                    <td class="tdleft">
+        <td class="tdleft">
                         <?php echo "valeur_" . $details['name']; ?>
-                    </td>
+        </td>
 
-                    <td class="tdleft">
+        <td class="tdleft">
                         <?php
                         switch ($variable['type']) {
                             case 'input':
@@ -197,21 +316,21 @@ if (!empty($variables)) {
                                 break;
                         }
                         ?>    
-                    </td>
-                </tr>
+        </td>
+    </tr>
                 <?php
             }
         }
         ?>
-    </tbody>
-    </table>
+</tbody>
+</table>
 
-    <br></br>
+<br></br>
 
     <?php
-} else {
-    echo __d('modele', 'modele.textAucuneVariableFormulaire');
-}
+//} else {
+//    echo __d('modele', 'modele.textAucuneVariableFormulaire');
+//}
 ?>
 
 <br></br>
@@ -232,6 +351,11 @@ if (!empty($variables)) {
         <p>- valeur_annexe3</p>
     </h5>
 </div>    
+
+<?php
+}
+?>
+
 <!-- Bouton revenir -->    
 <div class="row">
     <div class="col-md-12 top17 text-center">

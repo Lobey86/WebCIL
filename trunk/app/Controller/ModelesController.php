@@ -32,7 +32,8 @@ class ModelesController extends AppController {
         'FormGenerator.Champ',
         'Fiche',
         'Valeur',
-        'Organisation'
+        'Organisation',
+        'User'
     );
 
     /**
@@ -123,18 +124,10 @@ class ModelesController extends AppController {
      * @created 26/04/2016
      * @version V1.0.2
      */
-    public function infoVariable($idFormulaire) {
+    public function infoVariable($idFormulaire = null) {
         $this->set('title', __d('modele', 'modele.titreInfoVariableModele'));
 
-        $variables = $this->Champ->find('all', array(
-            'conditions' => array(
-                'formulaires_id' => $idFormulaire,
-            ),
-            'fields' => array("type", "details")
-        ));
-        $variables = Hash::extract($variables, '{n}.Champ');
-        $this->set(compact('variables'));
-
+        //Information sur l'organisation
         $valeurOrganisations = $this->Organisation->find('all', array(
             'conditions' => array(
                 'id' => $this->Session->read('Organisation.id')
@@ -147,11 +140,61 @@ class ModelesController extends AppController {
                 'email',
                 'sigle',
                 'siret',
-                'ape',
+                'ape'
             )
         ));
         $valeurOrganisations = Hash::extract($valeurOrganisations, '{n}.Organisation');
         $this->set(compact('valeurOrganisations'));
+
+        //Information sur le responsable de l'organisation
+        $responsableOrganisations = $this->Organisation->find('all', array(
+            'conditions' => array(
+                'id' => $this->Session->read('Organisation.id')
+            ),
+            'fields' => array(
+                'nomresponsable',
+                'prenomresponsable',
+                'emailresponsable',
+                'telephoneresponsable',
+                'fonctionresponsable'
+            )
+        ));
+        $responsableOrganisations = Hash::extract($responsableOrganisations, '{n}.Organisation');
+        $this->set(compact('responsableOrganisations'));
+
+        //Information sur le CIL de l'entité
+        $cilOrganisation = $this->Organisation->find('all', array(
+            'conditions' => array(
+                'id' => $this->Session->read('Organisation.id')
+            )
+        ));
+        $cilOrganisation = Hash::extract($cilOrganisation, '{n}.Organisation.cil');
+
+        $userCIL = $this->User->find('all', [
+            'conditions' => [
+                'id' => $cilOrganisation
+            ],
+            'fields' => [
+                'nom',
+                'prenom',
+                'email'
+            ]
+        ]);
+        $userCIL = Hash::extract($userCIL, '{n}.User');
+        $this->set(compact('userCIL'));
+
+        if ($idFormulaire != null) {
+            //information sur les champs du formulaire
+            $variables = $this->Champ->find('all', array(
+                'conditions' => array(
+                    'formulaires_id' => $idFormulaire,
+                ),
+                'fields' => array("type", "details")
+            ));
+            $variables = Hash::extract($variables, '{n}.Champ');
+            $this->set(compact('variables'));
+        }
+        
     }
 
 }

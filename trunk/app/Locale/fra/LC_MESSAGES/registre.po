@@ -44,8 +44,11 @@ msgstr "Finalité principale : "
 msgid "registre.textTableauNumeroEnregistrement"
 msgstr "Numéro d'enregistrement : "
 
+msgid "registre.btnImprimerExtraitRegistrePDF"
+msgstr "Télécharger les traitements"
+
 msgid "registre.commentaireTelechargeRegistrePDF"
-msgstr "Télécharger l'extrait de registre"
+msgstr "Télécharger le traitement"
 
 msgid "registre.commentaireVoirTraitement"
 msgstr "Voir le traitement"

@@ -12,7 +12,10 @@
 ####################### Controller/ModelesController.php ######################
 
 msgid "modele.titreListeModele"
-msgstr "Liste des modèles"
+msgstr "Liste des modèles pour les formulaires"
+
+msgid "modele.titreModeleExtraitRegistre"
+msgstr "Modèles pour l'extrait de registre"
 
 msgid "modele.titreInfoVariableModele"
 msgstr "Information sur les variables utilisable dans le modèle"
@@ -106,6 +109,12 @@ msgstr "Variable dans le traitement"
 msgid "modele.sousTitreEntité"
 msgstr "L'entité"
 
+msgid "modele.sousTitreResponsableEntité"
+msgstr "Responsable de l'entité"
+
+msgid "modele.sousTitreCIL"
+msgstr "Le CIL"
+
 msgid "modele.sousTitreCreateurTraitement"
 msgstr "Personne a l'origine du traitement"
 
@@ -137,7 +146,7 @@ msgid "modele.textDeroulantChamp"
 msgstr "Menu déroulant"
 
 msgid "modele.textTableauNomPrenomUserTraitement"
-msgstr "Nom et prénom"
+msgstr "Prénom et nom"
 
 msgid "modele.textTableauEmailUserTraitement"
 msgstr "Email"

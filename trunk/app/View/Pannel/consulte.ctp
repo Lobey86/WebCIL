@@ -72,11 +72,11 @@ echo $this->Html->script('pannel.js');
                                 <div class="row top15">
                                     <div class="col-md-6">
                                         <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], '%e-%m-%Y'); ?>
+                                        </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
                                     </div>
                                     <div class="col-md-6">
                                         <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                        </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], '%e-%m-%Y'); ?>
+                                        </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
                                     </div>
                                 </div>
                             </td>
