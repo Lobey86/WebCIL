@@ -238,6 +238,30 @@ class UsersController extends AppController {
     }
 
     /**
+     * Validation manuelle des champs "Entité" et "Profil": champs obligatoires
+     * et occurences multiples.
+     */
+    protected function _validateEntiteProfil() {
+        $success = true;
+
+        $users_organisations = Hash::get($this->request->data, 'Organisation.Organisation_id');
+        if (empty($users_organisations) == true) {
+            $this->User->Organisation->invalidate('Organisation_id', __d('database', 'Validate::notEmpty'));
+            $success = false;
+        } else {
+            foreach ($users_organisations as $organisation_id) {
+                $value = Hash::get($this->request->data, "Role.{$organisation_id}");
+                if (empty($value)) {
+                    $this->User->Organisation->Role->invalidate($organisation_id, __d('database', 'Validate::notEmpty'));
+                    $success = false;
+                }
+            }
+        }
+
+        return $success;
+    }
+
+    /**
      * Affiche le formulaire d'ajout d'utilisateur, ou enregistre l'utilisateur et ses droits
      * 
      * @access public
@@ -251,10 +275,17 @@ class UsersController extends AppController {
             $this->set('idUser', $this->Auth->user('id'));
 
             if ($this->request->is('post')) {
+                $success = true;
+                $this->User->begin();
+
                 $this->log(var_export($this->request->data, true));
                 $this->User->create($this->request->data);
 
-                if ($this->User->save()) {
+                $success = false !== $this->User->save() && $success;
+
+                $success = false !== $this->_validateEntiteProfil() && $success;
+
+                if ($success == true) {
                     $userId = $this->User->getInsertID();
 
                     foreach ($this->request->data['Organisation']['Organisation_id'] as $key => $value) {
@@ -263,7 +294,8 @@ class UsersController extends AppController {
                             'organisation_id' => $value
                         ]);
 
-                        $this->OrganisationUser->save();
+                        $success = false !== $this->OrganisationUser->save() && $success;
+
                         $organisationUserId = $this->OrganisationUser->getInsertID();
 
                         if (isset($this->request->data['Service'][$value]) && $this->request->data['Service'][$value] != null) {
@@ -273,46 +305,48 @@ class UsersController extends AppController {
                                     'service_id' => $service
                                 ]);
 
-                                $this->OrganisationUserService->save();
+                                $success = false !== $this->OrganisationUserService->save() && $success;
                             }
                         }
 
                         if (!empty($this->request->data['Role'][$value])) {
-                            foreach ($this->request->data['Role'][$value] as $key => $donnee) {
-                                if ($donnee) {
-                                    $this->OrganisationUserRole->create([
+                            $this->OrganisationUserRole->create([
+                                'organisation_user_id' => $organisationUserId,
+                                'role_id' => $this->request->data['Role'][$value]
+                            ]);
+                            $success = false !== $this->OrganisationUserRole->save() && $success;
+
+                            $droits = $this->RoleDroit->find('all', [
+                                'conditions' => [
+                                    'role_id' => $this->request->data['Role'][$value]
+                                ]
+                            ]);
+
+                            foreach ($droits as $val) {
+                                if (empty($this->Droit->find('first', [
+                                                    'conditions' => [
+                                                        'organisation_user_id' => $organisationUserId,
+                                                        'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                    ]
+                                        ]))
+                                ) {
+                                    $this->Droit->create([
                                         'organisation_user_id' => $organisationUserId,
-                                        'role_id' => $donnee
+                                        'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
                                     ]);
-
-                                    $this->OrganisationUserRole->save();
-                                    $droits = $this->RoleDroit->find('all', [
-                                        'conditions' => [
-                                            'role_id' => $donnee
-                                        ]
-                                    ]);
-
-                                    foreach ($droits as $val) {
-                                        if (empty($this->Droit->find('first', [
-                                                            'conditions' => [
-                                                                'organisation_user_id' => $organisationUserId,
-                                                                'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
-                                                            ]
-                                                ]))
-                                        ) {
-                                            $this->Droit->create([
-                                                'organisation_user_id' => $organisationUserId,
-                                                'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
-                                            ]);
-                                            $this->Droit->save();
-                                        }
-                                    }
+                                    $success = false !== $this->Droit->save() && $success;
                                 }
                             }
                         }
                     }
 
-                    $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), 'flashsuccess');
+                    if ($success == true) {
+                        $this->User->commit();
+                        $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), 'flashsuccess');
+                    } else {
+                        $this->User->rollback();
+                        $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+                    }
                     $this->redirect([
                         'controller' => 'users',
                         'action' => 'index'
@@ -342,12 +376,15 @@ class UsersController extends AppController {
                 $this->set('listeservices', $listserv);
             }
         } else {
+            $this->User->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         }
+
+        $this->set('options', $this->User->enums());
     }
 
     /**
@@ -388,13 +425,18 @@ class UsersController extends AppController {
             $this->set('listeservices', $listserv);
 
             if ($this->request->is('post') || $this->request->is('put')) {
+                $success = true;
+                $this->User->begin();
+                
                 // Si le nouveau mot de passe = verification du nouveau mot de passe
                 if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
                     // Si le nouveau mot de passe est différent d'une chaine de caractère vide
                     if ($this->request->data['User']['new_password'] != '') {
                         $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                     }
-
+                    
+                    //$success = false !== $this->_validateEntiteProfil() && $success;
+                    
                     if ($this->Droits->isSu()) {
                         // SuperAdmin --> Récupération de toutes les informations des entités
                         $orgas = $this->Organisation->find('all');
@@ -506,9 +548,11 @@ class UsersController extends AppController {
                             ]);
                         }
                     }
-//debug("STOP");
-//die;
-                    if ($this->User->save($this->request->data)) {
+
+                    
+                    $success = false !== $this->User->save($this->request->data) && $success;
+                    
+                    if ($success == true) {
                         foreach ($orgas as $value) {
                             if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {
                                 $id_user = $this->OrganisationUser->find('first', [
@@ -522,16 +566,16 @@ class UsersController extends AppController {
                                  * en base de données l'utilisateur en question 
                                  * et de l'organisation en cours.
                                  */
-                                $this->OrganisationUser->deleteAll([
+                                $success = $success && false !== $this->OrganisationUser->deleteAll([
                                     'user_id' => $id,
                                     'organisation_id' => $value['Organisation']['id']
                                 ]);
-
+                                
                                 /* On supprime dans la table 
                                  * "organisation_user_roles" en base de données
                                  *  le role de l'utilisateur en question.
                                  */
-                                $this->OrganisationUserRole->deleteAll([
+                                $success = $success && false !== $this->OrganisationUserRole->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
 
@@ -539,7 +583,7 @@ class UsersController extends AppController {
                                  * de données les droits de l'utilisateur en
                                  * question en fonction de son id de l'organisation
                                  */
-                                $this->Droit->deleteAll([
+                                $success = $success && false !== $this->Droit->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
 
@@ -548,9 +592,20 @@ class UsersController extends AppController {
                                  * les services de l'utilisateur en question 
                                  * en fonction de son id de l'organisation
                                  */
-                                $this->OrganisationUserService->deleteAll([
+                                $success = $success && false !== $this->OrganisationUserService->deleteAll([
                                     'organisation_user_id' => $id_user
                                 ]);
+
+                                if($success == false) {
+                                    debug('lala');die;
+                                    $this->User->rollback();
+                                    $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+
+                                    $this->redirect([
+                                        'controller' => 'users',
+                                        'action' => 'index'
+                                    ]);
+                                }
                             } else {
                                 $count = $this->OrganisationUser->find('count', [
                                     'conditions' => [
@@ -564,8 +619,8 @@ class UsersController extends AppController {
                                         'user_id' => $id,
                                         'organisation_id' => $value['Organisation']['id']
                                     ]);
-
-                                    $this->OrganisationUser->save();
+                                    $success = false !== $this->OrganisationUser->save() && $success;
+                                    
                                     $organisationUserId = $this->OrganisationUser->getInsertID();
                                 } else {
                                     $id_orga = $this->OrganisationUser->find('first', [
@@ -578,45 +633,88 @@ class UsersController extends AppController {
                                     $organisationUserId = $id_orga['OrganisationUser']['id'];
                                 }
 
-                                if (!empty($this->request->data['Role']['role_ida'][$value['Organisation']['id']])) {
-                                    $this->OrganisationUserRole->deleteAll(
-                                            ['organisation_user_id' => $organisationUserId]
-                                    );
+                                if($success == true){
+                                    if (!empty($this->request->data['Role']['role_ida'][$value['Organisation']['id']])) {
+                                        $success = false !== $this->OrganisationUserRole->deleteAll([
+                                            'organisation_user_id' => $organisationUserId
+                                        ]) && $success;
 
-                                    foreach ($this->request->data['Role']['role_ida'][$value['Organisation']['id']] as $key => $donnee) {
-                                        if ($this->Role->find('count', [
-                                                    'conditions' => [
-                                                        'Role.organisation_id' => $value['Organisation']['id'],
-                                                        'Role.id' => $donnee
-                                                    ]
-                                                ]) > 0
-                                        ) {
-                                            $this->OrganisationUserRole->create([
-                                                'organisation_user_id' => $organisationUserId,
-                                                'role_id' => $donnee
-                                            ]);
-
-                                            $this->OrganisationUserRole->save();
-                                            $droits = $this->RoleDroit->find('all', ['conditions' => ['role_id' => $donnee]]);
-
-                                            foreach ($droits as $val) {
-                                                if (empty($this->Droit->find('first', [
-                                                                    'conditions' => [
-                                                                        'organisation_user_id' => $organisationUserId,
-                                                                        'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
-                                                                    ]
-                                                        ]))
+                                        if($success == true){
+                                            debug($this->request->data['Role']['role_ida'][$value['Organisation']['id']]);
+                                            foreach ($this->request->data['Role']['role_ida'][$value['Organisation']['id']] as $key => $donnee) {
+                                                if ($this->Role->find('count', [
+                                                            'conditions' => [
+                                                                'Role.organisation_id' => $value['Organisation']['id'],
+                                                                'Role.id' => $donnee
+                                                            ]
+                                                        ]) > 0
                                                 ) {
-                                                    $this->Droit->create([
+                                                    $this->OrganisationUserRole->create([
                                                         'organisation_user_id' => $organisationUserId,
-                                                        'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                        'role_id' => $donnee
                                                     ]);
+                                                    $success = false !== $this->OrganisationUserRole->save() && $success;
 
-                                                    $this->Droit->save();
+                                                    if ($success == true){
+                                                        $droits = $this->RoleDroit->find('all', [
+                                                            'conditions' => [
+                                                                'role_id' => $donnee
+                                                            ]
+                                                        ]);
+
+                                                        foreach ($droits as $val) {
+                                                            if (empty($this->Droit->find('first', [
+                                                                'conditions' => [
+                                                                    'organisation_user_id' => $organisationUserId,
+                                                                    'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                                ]]))
+                                                            ) {
+                                                                $this->Droit->create([
+                                                                    'organisation_user_id' => $organisationUserId,
+                                                                    'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                                ]);
+                                                                $success = false !== $this->Droit->save() && $success;
+                                                                
+                                                                if($success == false){
+                                                                    $this->User->rollback();
+                                                                    $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+
+                                                                    $this->redirect([
+                                                                        'controller' => 'users',
+                                                                        'action' => 'index'
+                                                                    ]);
+                                                                }
+                                                            }
+                                                        }
+                                                    } else {
+                                                        $this->User->rollback();
+                                                        $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+
+                                                        $this->redirect([
+                                                            'controller' => 'users',
+                                                            'action' => 'index'
+                                                        ]);
+                                                    }
                                                 }
                                             }
+                                        } else {
+                                            $this->User->rollback();
+                                            $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+
+                                            $this->redirect([
+                                                'controller' => 'users',
+                                                'action' => 'index'
+                                            ]);
                                         }
                                     }
+                                } else {
+                                    $this->User->rollback();
+                                    $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+                                        
+                                    $this->redirect([
+                                        'controller' => 'users',
+                                        'action' => 'index'
+                                    ]);
                                 }
 
                                 //Enregistrement du ou des service(s)
@@ -626,19 +724,27 @@ class UsersController extends AppController {
                                             'organisation_user_id' => $organisationUserId,
                                             'service_id' => $value
                                         ]);
-
-                                        $this->OrganisationUserService->save();
+                                        $success = false !== $this->OrganisationUserService->save() && $success;
                                     }
                                 }
                             }
                         }
-
-                        $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), "flashsuccess");
+                        
+                        if($success == true) {
+                            $this->User->commit();
+                            $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), "flashsuccess");
+                        } else {
+                            $this->User->rollback();
+                            $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
+                        }
+                        
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'index'
                         ]);
                     } else {
+                        debug('yoyoyo');die;
+                        $this->User->rollback();
                         $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
                         $this->redirect([
                             'controller' => 'users',
@@ -646,6 +752,7 @@ class UsersController extends AppController {
                         ]);
                     }
                 } else {
+                    $this->User->rollback();
                     $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
                     $this->redirect([
                         'controller' => 'users',
@@ -664,6 +771,8 @@ class UsersController extends AppController {
                 'action' => 'index'
             ]);
         }
+        
+        $this->set('options', $this->User->enums());
     }
 
     /**

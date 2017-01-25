@@ -155,7 +155,7 @@ if (!empty($fichesValid)) {
                                     <strong>
                                         <?php echo __d('registre', 'registre.textTableauDateCreation'); ?>
                                     </strong>
-                                    <?php echo $this->Time->format($value['EtatFiche']['created'], FORMAT_DATE_HEURE); ?>
+                                    <?php echo $this->Time->format($value['EtatFiche']['created'], FORMAT_DATE); ?>
                                 </div>
 
                                 <div class="col-md-4">

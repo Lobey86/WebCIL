@@ -26,6 +26,8 @@ App::uses('AppModel', 'Model');
 class Role extends AppModel {
 
     public $name = 'Role';
+    
+    public $displayField = 'libelle';
 
     /**
      * validate associations

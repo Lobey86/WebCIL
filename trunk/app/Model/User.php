@@ -39,19 +39,9 @@ class User extends AppModel {
      * @version V0.9.0
      */
     public $validate = array(
-        'username' => array(
-            array(
-                'rule' => 'notEmpty',
-                'message' => 'Un nom d\'utilisateur est requis'
-            ),
-            array(
-                'rule' => 'isUnique',
-                'message' => 'Ce nom d\'utilisateur existe déjà'
-            )
-        ),
         'password' => array(
             array(
-                'rule' =>  array('minLength', '5'),
+                'rule' => array('minLength', '5'),
                 'message' => 'Un mot de passe est requis avec minimum 5 caractères'
             )
         ),
@@ -68,24 +58,18 @@ class User extends AppModel {
                 'message' => 'Les mots de passe ne sont pas identiques'
             )
         ),
-        'email' => array(
+        'nom' => array(
             array(
-                'rule' => array('notEmpty'),
-                'message' => 'Une adresse e-mail doit être renseignée'
-            ),
-            array(
-                'rule' => 'isUnique',
-                'message' => 'Cette adresse e-mail est déjà utilisée'
+                'rule' => array('custom', REGEXP_ALPHA_FR),
+                'message' => 'Seulement des lettres sont accepté'
             )
         ),
-        'nom' => array(
-            'rule' => '/^[a-zA-Z-]{1,}$/i',
-            'message' => 'Seulement des lettres sont accepté'
-        ),
         'prenom' => array(
-            'rule' => '/^[a-zA-Z-]{1,}$/i',
-            'message' => 'Seulement des lettres sont accepté'
-        )
+            array(
+                'rule' => array('custom', REGEXP_ALPHA_FR),
+                'message' => 'Seulement des lettres sont accepté'
+            )
+        ),
     );
 
     /**

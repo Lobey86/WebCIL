@@ -112,6 +112,9 @@ msgstr "Vérification du mot de passe "
 msgid "user.placeholderChampVerifMotDePasse"
 msgstr "Vérification du mot de passe (requis)"
 
+msgid "user.champCivilite"
+msgstr "Civilité "
+
 msgid "user.placeholderChampNom"
 msgstr "Nom (requis)"
 
@@ -182,5 +185,13 @@ msgstr "Mot de passe (requis)"
 
 msgid "user.btnConnexion"
 msgstr "Connexion"
+
+###############################################################################
+
+msgid "ENUM::CIVILITE::M."
+msgstr "Monsieur"
+
+msgid "ENUM::CIVILITE::Mme."
+msgstr "Madame"
 
 ###############################################################################

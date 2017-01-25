@@ -52,7 +52,7 @@ class FichesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
         $this->redirect([
@@ -62,13 +62,38 @@ class FichesController extends AppController {
     }
 
     /**
+     * Champs virtuels obligatoires et non paramétrables du formulaire de fiche.
+     * @fixme à faire dans l'action edit aussi
+     *
+     * @var array
+     */
+    protected $_requiredFicheVirtualFields = array(
+        'declarantraisonsociale',
+        'declarantadresse',
+        'declarantemail',
+        'declarantsiret',
+        'declarantape',
+        'declaranttelephone',
+        'personneresponsable',
+        'fonctionresponsable',
+        'emailresponsable',
+        'telephoneresponsable',
+        'personnecil',
+        'emailcil',
+        'declarantpersonnenom',
+        'declarantpersonneemail',
+        'outilnom',
+        'finaliteprincipale'
+    );
+
+    /**
      * Gère l'ajout de fiches
      * 
      * @param int|null $id
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function add($id = null) {
         if ($this->Droits->authorized(1)) {
@@ -88,6 +113,26 @@ class FichesController extends AppController {
             ]);
             $this->set('userCil', $userCil);
 
+            $champs = $this->Champ->find('all', [
+                'conditions' => [
+                    'formulaires_id' => $id
+                ],
+                'order' => [
+                    'colonne ASC',
+                    'ligne ASC'
+                ]
+            ]);
+            // @fixme factoriser dans une méthode à utiliser également dans l'édit
+            foreach ($champs as $champ) {
+                $details = json_decode(Hash::get($champ, 'Champ.details'));
+                if ($details->obligatoire == true) {
+                    $this->_requiredFicheVirtualFields[] = $details->name;
+                }
+            }
+
+            $this->set(compact('champs'));
+            $this->set('formulaireid', $id);
+
             if ($this->request->is('POST')) {
                 $success = true;
                 $this->Fiche->begin();
@@ -106,7 +151,7 @@ class FichesController extends AppController {
 
                     if ($success == true) {
                         foreach ($this->request->data['Fiche'] as $key => $value) {
-                            if ($key != 'formulaire_id') {
+                            if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
                                 if (is_array($value)) {
                                     $value = json_encode($value);
                                 }
@@ -117,7 +162,12 @@ class FichesController extends AppController {
                                     'valeur' => $value
                                 ]);
 
-                                $success = $success && false !== $this->Valeur->save();
+                                $tmpSave = $this->Valeur->save();
+                                if ($tmpSave == false) {
+                                    $this->Fiche->invalidate($key, Hash::get($this->Valeur->validationErrors, 'valeur.0'));
+                                }
+
+                                $success = $success && false !== $tmpSave;
                             }
                         }
 
@@ -159,19 +209,6 @@ class FichesController extends AppController {
                     $this->Fiche->rollback();
                     $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $champs = $this->Champ->find('all', [
-                    'conditions' => [
-                        'formulaires_id' => $id
-                    ],
-                    'order' => [
-                        'colonne ASC',
-                        'ligne ASC'
-                    ]
-                ]);
-
-                $this->set(compact('champs'));
-                $this->set('formulaireid', $id);
             }
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
@@ -190,7 +227,7 @@ class FichesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function delete($id = null) {
         if ($this->Droits->authorized(1) && $this->Droits->isOwner($id)) {
@@ -231,13 +268,14 @@ class FichesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function edit($id = null) {
         $nameTraiment = $this->Valeur->find('first', [
             'conditions' => [
                 'fiche_id' => $id,
-                'champ_name' => 'outilnom']
+                'champ_name' => 'outilnom'
+            ]
         ]);
 
         $this->set('title', __d('fiche', 'fiche.titreEditionFiche') . $nameTraiment['Valeur']['valeur']);
@@ -261,27 +299,62 @@ class FichesController extends AppController {
                 'action' => 'index'
             ]);
         }
+        
+        $idForm = $this->Fiche->find('first', [
+            'conditions' => [
+                'id' => $id
+            ]
+        ]);
 
-        if ($this->request->is([
-                    'post',
-                    'put'
-                ])
-        ) {
+        $champs = $this->Champ->find('all', [
+            'conditions' => [
+                'formulaires_id' => $idForm['Fiche']['form_id']
+            ],
+            'order' => [
+                'colonne ASC',
+                'ligne ASC'
+            ]
+        ]);
+
+        foreach ($champs as $champ) {
+            $details = json_decode(Hash::get($champ, 'Champ.details'));
+            if ($details->obligatoire == true) {
+                $this->_requiredFicheVirtualFields[] = $details->name;
+            }
+        }
+
+        $this->set(compact('champs'));
+
+        // Si on sauvegarde
+        if ($this->request->is(['post', 'put'])) {
             $success = true;
             $this->Valeur->begin();
-
+            
+            $success = $success && $this->Fiche->updateAll([
+                'modified' => "'".date("Y-m-d H:i:s")."'"
+                ],[
+                    'id' => $id
+                ]
+            ) !== false;
+            
+            $success = $success && $this->EtatFiche->updateAll([
+                    'actif' => false
+                    ],[
+                        'fiche_id' => $id,
+                        'etat_id' => [5, 9],
+                        'actif' => true
+                    ]
+                ) !== false;
+            
+            
             foreach ($this->request->data['Fiche'] as $key => $value) {
-                $idsToDelete = array_keys(
-                        $this->Valeur->find(
-                                'list', [
-                            'conditions' => [
-                                'champ_name' => $key,
-                                'fiche_id' => $id
-                            ],
-                            'contain' => false
-                                ]
-                        )
-                );
+                $idsToDelete = array_keys($this->Valeur->find('list', [
+                    'conditions' => [
+                        'champ_name' => $key,
+                        'fiche_id' => $id
+                    ],
+                    'contain' => false
+                ]));
 
                 if (empty($idsToDelete) == false) {
                     $success = $success && $this->Valeur->deleteAll([
@@ -289,41 +362,28 @@ class FichesController extends AppController {
                     ]);
                 }
 
-                if ($key != 'formulaire_id') {
+                if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
                     if (is_array($value)) {
                         $value = json_encode($value);
                     }
+
                     $this->Valeur->create([
                         'champ_name' => $key,
                         'fiche_id' => $id,
                         'valeur' => $value
                     ]);
-                    $success = $success && false !== $this->Valeur->save();
+
+                    $tmpSave = $this->Valeur->save();
+                    if ($tmpSave == false) {
+                        $this->Fiche->invalidate($key, Hash::get($this->Valeur->validationErrors, 'valeur.0'));
+                    }
+                    $success = $success && false !== $tmpSave;
                 }
             }
 
-            $success = $success && $this->Fichier->saveFichier($this->request->data, $id, false);
+            $success = $success && false !== $this->Fichier->saveFichier($this->request->data, $id);
 
-            if (true === $success) {
-//                $success = $success && $this->EtatFiche->updateAll([
-//                    'actif' => false
-//                    ],[
-//                        'fiche_id' => $id,
-//                        'etat_id' => [5, 9],
-//                        'actif' => true
-//                    ]
-//                ) !== false;
-//               
-//                $this->EtatFiche->create([
-//                    'EtatFiche' => [
-//                        'fiche_id' => $id,
-//                        'etat_id' => 9,
-//                        'previous_user_id' => $this->Auth->user('id'),
-//                        'user_id' => $this->Auth->user('id')
-//                    ]
-//                ]);
-//                $success = $success && false !== $this->EtatFiche->save();
-
+            if ($success == true) {
                 $this->Historique->create([
                     'Historique' => [
                         'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche', 'fiche.textModifierTraitement'),
@@ -351,17 +411,20 @@ class FichesController extends AppController {
                 $this->Session->setFlash(__d('fiche', 'Une erreur inattendue est survenue...'), 'flasherror');
             }
         } else {
-            $idForm = $this->Fiche->find('first', ['conditions' => ['id' => $id]]);
-            $champs = $this->Champ->find('all', [
-                'conditions' => ['formulaires_id' => $idForm['Fiche']['form_id']],
-                'order' => [
-                    'colonne ASC',
-                    'ligne ASC'
+            $files = $this->Fichier->find('all', [
+                'conditions' => [
+                    'fiche_id' => $id
                 ]
             ]);
-            $files = $this->Fichier->find('all', ['conditions' => ['fiche_id' => $id]]);
+
             $this->set(compact('files'));
-            $valeurs = $this->Valeur->find('all', ['conditions' => ['fiche_id' => $id]]);
+
+            $valeurs = $this->Valeur->find('all', [
+                'conditions' => [
+                    'fiche_id' => $id
+                ]
+            ]);
+
             foreach ($valeurs as $key => $value) {
                 if ($this->Fiche->isJson($value['Valeur']['valeur'])) {
                     $this->request->data['Fiche'][$value['Valeur']['champ_name']] = json_decode($value['Valeur']['valeur']);
@@ -370,7 +433,6 @@ class FichesController extends AppController {
                 }
             }
             $this->set(compact('valeurs'));
-            $this->set(compact('champs'));
             $this->set('id', $id);
         }
     }
@@ -382,7 +444,7 @@ class FichesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function show($id = null) {
         $nameTraiment = $this->Valeur->find('first', [
@@ -447,7 +509,7 @@ class FichesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function download($url = null, $nomFile = 'file.odt') {
         $this->response->file(CHEMIN_PIECE_JOINT . $url, [
@@ -461,21 +523,21 @@ class FichesController extends AppController {
     /**
      * Téléchargement du traitement verrouiller
      * 
-     * @param int $id_fiche
+     * @param int $fiche_id
      * @param type $numeroRegistre
      * 
      * @access public
      * @created 04/01/2016
-     * @version V0.9.0
+     * @version V1.0.0
      */
-    public function downloadFileTraitement($id_fiche, $numeroRegistre) {
+    public function downloadFileTraitement($fiche_id, $numeroRegistre) {
         $data = $this->Valeur->find('all', [
             'conditions' => [
-                'fiche_id' => $id_fiche]
+                'fiche_id' => $fiche_id]
         ]);
 
         $pdf = $this->TraitementRegistre->find('first', [
-            'conditions' => ['id_fiche' => $id_fiche],
+            'conditions' => ['fiche_id' => $fiche_id],
             'fields' => ['data']
         ]);
 
@@ -488,7 +550,7 @@ class FichesController extends AppController {
     /**
      * Téléchargement de l'extrait de registre verrouiller
      * 
-     * @param type $id_fiche
+     * @param type $fiche_id
      * @param type $numeroRegistre
      * 
      * @access public
@@ -496,14 +558,14 @@ class FichesController extends AppController {
      * @version V1.0.0
      * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
      */
-    public function downloadFileExtrait($id_fiche, $numeroRegistre) {
+    public function downloadFileExtrait($fiche_id, $numeroRegistre) {
         $data = $this->Valeur->find('all', [
             'conditions' => [
-                'fiche_id' => $id_fiche]
+                'fiche_id' => $fiche_id]
         ]);
 
         $pdf = $this->ExtraitRegistre->find('first', [
-            'conditions' => ['id_fiche' => $id_fiche],
+            'conditions' => ['fiche_id' => $fiche_id],
             'fields' => ['data']
         ]);
 

@@ -26,6 +26,8 @@ App::uses('AppModel', 'Model');
 class ListeDroit extends AppModel {
 
     public $name = 'ListeDroit';
+    
+    public $displayField = 'libelle';
 
     /**
      * hasMany associations

@@ -16,9 +16,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     AppModel
  */
 App::uses('AppModel', 'Model');
@@ -34,15 +34,12 @@ class Notification extends AppModel {
      * 
      * @access public
      * @created 13/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public $belongsTo = array(
         'User' => array(
             'className' => 'User',
             'foreignKey' => 'user_id',
-        //'conditions' => '',
-        //'fields'     => '',
-        //'order'      => ''
         ),
         'Fiche' => array(
             'className' => 'Fiche',

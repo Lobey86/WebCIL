@@ -26,6 +26,8 @@ App::uses('AppModel', 'Model');
 class Formulaire extends AppModel {
 
     public $tablePrefix = 'fg_';
+    
+    public $displayField = 'libelle';
 
     /**
      * hasOne associations

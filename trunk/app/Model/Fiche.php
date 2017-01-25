@@ -34,11 +34,11 @@ class Fiche extends AppModel {
      * 
      * @access public
      * @created 04/01/2016
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public $hasOne = array(
-        'Extrait' => array(
-            'className' => 'Extrait',
+        'ExtraitRegistre' => array(
+            'className' => 'ExtraitRegistre',
             'foreignKey' => 'fiche_id'
         ),
     );
@@ -50,7 +50,7 @@ class Fiche extends AppModel {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public $belongsTo = array(
         'Organisation' => array(
@@ -70,7 +70,7 @@ class Fiche extends AppModel {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public $hasMany = array(
         'Fichier' => array(
@@ -117,7 +117,7 @@ class Fiche extends AppModel {
      * 
      * @access public
      * @created 09/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function isOwner($idUser = null, $fiche = null) {
         if ($idUser == $fiche['Fiche']['user_id']) {
@@ -133,23 +133,21 @@ class Fiche extends AppModel {
      * 
      * @access public
      * @created 26/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function isJson($string) {
         json_decode($string);
         return (json_last_error() == JSON_ERROR_NONE);
     }
-    
-    
-    
-       /**
+
+    /**
      * 
      * @param int $id
      * @param char $numeroRegistre
      * @param bool $save
      * @return type
      */
-    public function genereTraitement($id, $numeroRegistre ) {
+    public function genereTraitement($id, $numeroRegistre) {
         $annexe = false;
 
         //On chercher si le traitement comporte des annexe(s)
@@ -276,14 +274,14 @@ class Fiche extends AppModel {
                 $compteur ++;
             }
         }
-       
+
 
         $pdf = $this->genereFusion($file, $cheminFile, $donnees, $types, $correspondances);
 
         return $pdf;
     }
 
-    public function genereExtrait($id, $numeroRegistre, $modele ) {
+    public function genereExtrait($id, $numeroRegistre, $modele) {
         $data = $this->Valeur->find('all', [
             'conditions' => [
                 'fiche_id' => $id
@@ -377,8 +375,8 @@ class Fiche extends AppModel {
 
         return $pdf;
     }
-    
-        /**
+
+    /**
      * Génération PDF à la volée
      * 
      * @param int $id
@@ -388,7 +386,7 @@ class Fiche extends AppModel {
      * 
      * @access public
      * @created 04/01/2016
-     * @version V0.9.0
+     * @version V1.0.0
      */
     private function genereFusion($file, $cheminFile, $donnees, $types, $correspondances) {
         App::uses('FusionConvBuilder', 'FusionConv.Utility');

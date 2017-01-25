@@ -39,7 +39,7 @@ class Commentaire extends AppModel {
     public $belongsTo = array(
         'EtatFiche' => array(
             'className' => 'EtatFiche',
-            'foreignKey' => 'etat_fiche_id',
+            'foreignKey' => 'etat_fiches_id',
         //'conditions' => '',
         //'fields'     => '',
         //'order'      => ''

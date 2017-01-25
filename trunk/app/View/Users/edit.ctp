@@ -25,7 +25,8 @@
     echo $this->Form->create('User', [
         'autocomplete' => 'off',
         'inputDefaults' => ['div' => false],
-        'class' => 'form-horizontal'
+        'class' => 'form-horizontal',
+        'novalidate' => 'novalidate'
     ]);
     ?>
     
@@ -94,7 +95,25 @@
                 ?>
             </div>
         </div>
-        
+
+        <div class="form-group">
+            <?php
+            //Champ Civilité *
+            echo $this->Form->input('civilite', [
+                'class' => 'form-control',
+                'label' => [
+                    'text' => __d('user', 'user.champCivilite') . '<span class="requis">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'options' => $options['User']['civilite'],
+                'empty' => true,
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'required' => true
+            ]);
+            ?>
+        </div>
+
         <!-- Champs Nom * -->
         <div class="form-group">
             <?php
@@ -158,7 +177,7 @@
             foreach ($tableau['Organisation'] as $key => $datas) {
                 $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
             }
-            
+
             echo $this->Form->input('Organisation.Organisation_id', [
                 'options' => $listeOrganisations,
                 'selected' => $tableau['Orgas'],
@@ -243,32 +262,32 @@
                     if (!empty($listeroles)) {
                         //Si l'utilisateur en question a déjà un type de droit on le pré-selectionne sinon on affiche juste la liste
                         if (!empty($tableau['UserRoles'])) {
-                            echo $this->Form->input('Role.role_ida.' . $datas['infos']['id'], [
+                                echo $this->Form->input('Role.role_ida.' . $datas['infos']['id'], [
                                 'options' => $listeroles,
                                 'class' => 'form-control deroulantRoles' . $key,
                                 'selected' => $tableau['UserRoles'],
                                 'id' => $key,
-                                'label' => [
+                                    'label' => [
                                     'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . '<span class="requis"> *</span>',
-                                    'class' => 'col-md-4 control-label'
-                                ],
-                                'between' => '<div class="col-md-8">',
-                                'after' => '</div>',
+                                        'class' => 'col-md-4 control-label'
+                                    ],
+                                    'between' => '<div class="col-md-8">',
+                                    'after' => '</div>',
                                 'multiple' => 'multiple'
-                            ]);
+                                ]);
                         } else {
                             echo $this->Form->input('Role.role_ida.' . $datas['infos']['id'], [
                                 'options' => $listeroles,
                                 'class' => 'form-control deroulantRoles' . $key,
                                 'id' => $key,
-                                'label' => [
-                                    'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
-                                    'class' => 'col-md-4 control-label'
-                                ],
-                                'between' => '<div class="col-md-8">',
-                                'after' => '</div>',
+                                    'label' => [
+                                        'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
+                                        'class' => 'col-md-4 control-label'
+                                    ],
+                                    'between' => '<div class="col-md-8">',
+                                    'after' => '</div>',
                                 'multiple' => 'multiple'
-                            ]);
+                                ]);
                         }
                     } else {
                         echo "Aucun profil n'a été créé pour cette entité";

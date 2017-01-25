@@ -42,7 +42,7 @@ msgid "registre.textTableauFinalitePrincipale"
 msgstr "Finalité principale : "
 
 msgid "registre.textTableauNumeroEnregistrement"
-msgstr "Numéro d'enregistrement : "
+msgstr "Numéro : "
 
 msgid "registre.btnImprimerExtraitRegistrePDF"
 msgstr "Télécharger les traitements"

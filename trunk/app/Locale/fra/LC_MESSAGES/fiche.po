@@ -60,7 +60,7 @@ msgid "fiche.champFichier"
 msgstr "Fichier"
 
 msgid "fiche.textTypeFichierAccepter"
-msgstr "Seuls les fichiers au format ".odt" sont acceptés"
+msgstr "Seuls les fichiers au format ".odt" et ".pdf" sont acceptés"
 
 msgid "fiche.textAjouterPieceJointe"
 msgstr "Ajouter une pièce jointe"

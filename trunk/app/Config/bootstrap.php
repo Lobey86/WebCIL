@@ -80,7 +80,15 @@ CakePlugin::loadAll(array(
     'FormGenerator' => array(
         'bootstrap' => false,
         'routes' => false
-    )
+    ),
+    'Database' => array(
+        'bootstrap' => true,
+        'routes' => false
+    ),
+    'Postgres' => array(
+        'bootstrap' => true,
+        'routes' => false
+    ),
 ));
 
 /**

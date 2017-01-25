@@ -118,6 +118,11 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                    value='<?php echo $donnee['Fiche']['id']; ?>'><?php echo __d('pannel', 'pannel.textEnvoyerValidation'); ?>
                                                 </a>
                                             </li>
+                                            <?php 
+                                            if($donnee['EtatFiche']['user_id'] != $donnee['User']['id']){
+                                                debug($donnee);
+                                            }
+                                            ?>
                                             <li role='presentation'><?php
                                                 echo $this->Html->link(__d('pannel', 'pannel.textEnvoyerCIL'), [
                                                     'controller' => 'etatFiches',
