@@ -33,10 +33,10 @@ msgid "element.RecuePar"
 msgstr "Reçu par"
 
 msgid "element.Archivee"
-msgstr "Archivée"
+msgstr "Modifiée et validée au registre"
 
 msgid "element.ArchiveePar"
-msgstr "Archivée par"
+msgstr "Validée par"
 
 msgid "element.ModificationTraitementRegistre"
 msgstr "Modification du traitement inséré dans le registre"
@@ -57,7 +57,7 @@ msgid "element.RefuseePar"
 msgstr "Refusé par"
 
 msgid "element.ValideeInsereeRegistre"
-msgstr "Validée et insérée au registre"
+msgstr "Validée et inscrit au registre"
 
 msgid "element.ValideePar"
 msgstr "Validée par"

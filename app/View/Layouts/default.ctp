@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -50,8 +51,8 @@ $cakeDescription = 'Web-CIL';
         echo $this->fetch('script');
         ?>
     </head>
-    <body>
 
+    <body>
         <div id="container">
             <div id="content">
                 <div class="container-fluid container-fluid-custom theme-showcase" id="relatif" role="main"
@@ -76,13 +77,14 @@ $cakeDescription = 'Web-CIL';
                                         ],
                                         'class' => 'navbar-brand'
                                     ]);
-                                    ?></div>
-                                <div class="navbar-collapse collapse">
+                                    ?>
+                                </div>
 
+                                <div class="navbar-collapse collapse">
                                     <?php
                                     if (isset($prenom) && isset($nom)) {
                                         ?>
-                                        <ul class="nav navbar-nav">
+                                    <ul class="nav navbar-nav">
                                             <?php
                                             if ($this->Autorisation->authorized([
                                                         '1',
@@ -92,12 +94,12 @@ $cakeDescription = 'Web-CIL';
                                                             ], $this->Session->read('Droit.liste'))
                                             ) {
                                                 ?>
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                       data-toggle="dropdown"> <?php echo __d('default', 'default.titreTraitement'); ?>
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown"> <?php echo __d('default', 'default.titreTraitement'); ?>
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
                                                         <?php
                                                         if ($this->Autorisation->authorized([
                                                                     '1'
@@ -145,13 +147,13 @@ $cakeDescription = 'Web-CIL';
                                                             ]) . '</li>';
                                                         }
                                                         ?>
-                                                    </ul>
-                                                </li>
+                                            </ul>
+                                        </li>
 
                                                 <?php
                                             }
                                             ?>
-                                            <li><?php
+                                        <li><?php
                                                 echo $this->Html->link(__d('default', 'default.titreRegistre'), [
                                                     'plugin' => '',
                                                     'controller' => 'registres',
@@ -167,12 +169,12 @@ $cakeDescription = 'Web-CIL';
                                             ) {
                                                 ?>
 
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                       data-toggle="dropdown"><?php echo __d('default', 'default.titreAdministration') . $this->Session->read('Organisation.raisonsociale'); ?>
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown"><?php echo __d('default', 'default.titreAdministration') . $this->Session->read('Organisation.raisonsociale'); ?>
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
                                                         <?php
                                                         if ($this->Autorisation->authorized([
                                                                     '12',
@@ -194,14 +196,37 @@ $cakeDescription = 'Web-CIL';
                                                                 'controller' => 'Formulaires',
                                                                 'action' => 'index'
                                                                     ], ['escape' => false]) . '</li>';
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModele'), [
-                                                                'controller' => 'modeles',
-                                                                'action' => 'index'
-                                                                    ], ['escape' => false]) . '</li>';
+                                                            ?>
+                                                            <li class="dropdown-submenu">
+                                                                <a href="#" >
+                                                                    Mes modèles
+                                                                </a>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    <li>
+                                                                        <a href="#" title="Modèles pour les formulaires">
+                                                                            <?php
+                                                                             echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleFormulaire'), [
+                                                                                'controller' => 'modeles',
+                                                                                'action' => 'index'
+                                                                                    ], ['escape' => false]) . '</li>';
+                                                                            ?>
+                                                                        </a>
+                                                                        <a href="#" title="Modèle pour l'extrait de registre">
+                                                                            <?php
+                                                                             echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleExtraitRegistre'), [
+                                                                                'controller' => 'modeleExtraitRegistres',
+                                                                                'action' => 'index'
+                                                                                    ], ['escape' => false]) . '</li>';
+                                                                            ?>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </li>
+                                                            <?php
                                                         }
                                                         ?>
-                                                    </ul>
-                                                </li>
+                                            </ul>
+                                        </li>
                                                 <?php
                                             }
                                             if ($this->Autorisation->authorized([
@@ -216,12 +241,12 @@ $cakeDescription = 'Web-CIL';
                                                             ], $this->Session->read('Droit.liste'))
                                             ) {
                                                 ?>
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                       data-toggle="dropdown"><?php echo __d('default', 'default.titreAdministrationUser'); ?>
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown"><?php echo __d('default', 'default.titreAdministrationUser'); ?>
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
                                                         <?php
                                                         if ($this->Autorisation->authorized([
                                                                     '13',
@@ -262,19 +287,19 @@ $cakeDescription = 'Web-CIL';
                                                                     ], ['escape' => false]) . '</li>';
                                                         }
                                                         ?>
-                                                    </ul>
-                                                </li>
+                                            </ul>
+                                        </li>
                                                 <?php
                                             }
                                             if ($this->Session->read('Su')) {
                                                 ?>
-                                                <li class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                       data-toggle="dropdown">Administration
-                                                        de l'application
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown">Administration
+                                                de l'application
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
                                                         <?php
                                                         echo '<li>' . $this->Html->link('<i class="fa fa-institution fa-fw"></i> Entités', [
                                                             'controller' => 'organisations',
@@ -286,24 +311,24 @@ $cakeDescription = 'Web-CIL';
                                                             'action' => 'index'
                                                                 ], ['escape' => false]) . '</li>';
                                                         ?>
-                                                    </ul>
-                                                </li>
+                                            </ul>
+                                        </li>
                                                 <?php
                                             }
                                             ?>
-                                        </ul>
-                                        <ul class="nav navbar-nav pull-right">
-                                            <li class="dropdown">
-                                                <a href="#" class="dropdown-toggle"
-                                                   data-toggle="dropdown"><?php echo $prenom . " " . $nom . " - " . $this->Session->read('Organisation.raisonsociale'); ?>
-                                                    <span class="caret"></span>
-                                                </a>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreEntite'); ?></li>
+                                    </ul>
+                                    <ul class="nav navbar-nav pull-right">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown"><?php echo $prenom . " " . $nom . " - " . $this->Session->read('Organisation.raisonsociale'); ?>
+                                                <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreEntite'); ?></li>
                                                     <?php
                                                     foreach ($organisations as $datas) {
                                                         ?>
-                                                        <li><?php
+                                                <li><?php
                                                             echo $this->Html->link($datas['Organisation']['raisonsociale'], [
                                                                 'controller' => 'organisations',
                                                                 'action' => 'change',
@@ -313,31 +338,31 @@ $cakeDescription = 'Web-CIL';
                                                         <?php
                                                     }
                                                     ?>
-                                                    <li class="divider"></li>
-                                                    <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreCompte'); ?></li>
-                                                    <li><?php
+                                                <li class="divider"></li>
+                                                <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreCompte'); ?></li>
+                                                <li><?php
                                                         echo $this->Html->link('<i class="fa fa-cog fa-fw"></i>' . __d('default', 'default.sousTitreModifCompte'), [
                                                             'controller' => 'users',
                                                             'action' => 'changepassword',
                                                             $userId
                                                                 ], ['escapeTitle' => false]);
                                                         ?></li>
-                                                    <li><?php
+                                                <li><?php
                                                         echo $this->Html->link('<i class="fa fa-lock fa-fw"></i>' . __d('default', 'default.sousTitreDeconnexion'), [
                                                             'controller' => 'users',
                                                             'action' => 'logout'
                                                                 ], ['escapeTitle' => false]);
                                                         ?></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <ul class="nav navbar-nav pull-right">
-                                            <li class="dropdown">
-                                                <a href="#" class="dropdown-toggle"
-                                                   data-toggle="dropdown">
-                                                    <span class="glyphicon glyphicon-envelope"></span>
-                                                </a>
-                                                <ul class="info_notification dropdown-menu" role="menu">
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                    <ul class="nav navbar-nav pull-right">
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle"
+                                               data-toggle="dropdown">
+                                                <span class="glyphicon glyphicon-envelope"></span>
+                                            </a>
+                                            <ul class="info_notification dropdown-menu" role="menu">
 
                                                     <?php
                                                     foreach ($notificationsStayed as $key => $value) {
@@ -418,9 +443,9 @@ $cakeDescription = 'Web-CIL';
                                                         echo '<li class="dropdown-header">Aucune notification</li>';
                                                     }
                                                     ?>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                         <?php
                                     }
                                     ?>
@@ -436,18 +461,18 @@ $cakeDescription = 'Web-CIL';
                     echo $this->Session->flash();
                     if ($this->params['action'] != 'login') {
                         ?>
-                        <div class="row head">
-                            <div class="col-md-6">
-                                <h2><?php echo $title; ?></h2>
-                            </div>
-                            <div class="col-md-6 text-right">
+                    <div class="row head">
+                        <div class="col-md-6">
+                            <h2><?php echo $title; ?></h2>
+                        </div>
+                        <div class="col-md-6 text-right">
                                 <?php
                                 if (file_exists(IMAGES . DS . 'logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'))) {
                                     echo $this->Html->image('logos/' . $this->Session->read('Organisation.id') . '.' . $this->Session->read('Organisation.logo'), ['class' => 'logo-well']);
                                 }
                                 ?>
-                            </div>
                         </div>
+                    </div>
                         <?php
                     }
                     echo $this->fetch('content');
@@ -467,23 +492,23 @@ $cakeDescription = 'Web-CIL';
                                     echo __d('default', 'default.popupChoisirFormulaire'); ?>
                                 </h4>
                             </div>
-                            
+
                             <div class="modal-body">
                                 <table class="table table-bordered">
                                     <thead>
-                                        <th class="col-md-3">
+                                    <th class="col-md-3">
                                             <?php echo __d('default', 'default.popupTitreTableauNom'); ?>
-                                        </th>
+                                    </th>
 
-                                        <th class="col-md-7">
+                                    <th class="col-md-7">
                                             <?php echo __d('default', 'default.popupTitreTableauDescription'); ?>
-                                        </th>
-                                        
-                                        <th class="col-md-2">
+                                    </th>
+
+                                    <th class="col-md-2">
                                             <?php echo __d('default', 'default.popupTitreTableauAction'); ?>
-                                        </th>
+                                    </th>
                                     </thead>
-                                    
+
                                     <tbody>
                                         <?php
                                         foreach ($formulaires_actifs as $key => $value) {
@@ -528,7 +553,7 @@ $cakeDescription = 'Web-CIL';
             <div class="modal-body">
                 <div class="row top17">
                     <div class="col-md-12">
-                        <h3> Ce n'est pas un fichier .odt </h3>
+                        <h3> <?php echo __d('fiche', 'fiche.textTypeFichierAccepter'); ?> </h3>
                     </div>
                 </div>
             </div>

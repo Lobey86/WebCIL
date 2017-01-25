@@ -37,21 +37,11 @@ class Organisation extends AppModel {
      * @version V0.9.0
      */
     public $validate = [
-        'nom' => [
-            [
-                'rule' => ['notEmpty'],
-                'message' => 'Un nom d\'organisation est requis'
-            ],
-            [
-                'rule' => 'isUnique',
-                'message' => 'Cette organisation existe déjà'
-            ]
-        ],
         'logo_file' => [
             'upload' => [
                 'rule' => [
                     'extension',
-                    [
+                        [
                         'jpg',
                         'jpeg',
                         'png',
@@ -67,7 +57,7 @@ class Organisation extends AppModel {
             'upload' => [
                 'rule' => [
                     'extension',
-                    [
+                        [
                         'odt',
                         ''
                     ]
@@ -76,40 +66,8 @@ class Organisation extends AppModel {
                 'message' => 'Vous ne pouvez envoyer que des fichiers .odt'
             ]
         ],
-        'raisonsociale' => [
-            'unicité' => [
-                'rule' => 'isUnique',
-                'message' => 'Cette organisation existe déjà'
-            ],
-            'nonvide' => [
-                'rule' => 'notEmpty',
-                'message' => 'Le nom doit être précisé'
-            ]
-        ],
-        'telephone' => [
-            'rule' => 'notEmpty',
-            'message' => 'Le numéro de téléphone doit être précisé'
-        ],
-        'adresse' => [
-            'rule' => 'notEmpty',
-            'message' => 'L\'adresse doit etre précisée'
-        ],
-        'email' => [
-            'format' => [
-                'rule' => 'email',
-                'message' => 'L\'adresse e-mail présente un format non conforme'
-            ],
-            'nonvide' => [
-                'rule' => 'notEmpty',
-                'message' => 'Le nom doit être précisé'
-            ]
-        ],
         'siret' => [
-            [
-                'rule' => 'notEmpty',
-                'message' => 'Le numéro de SIRET doit être précisé'
-            ],
-            [
+            'luhn' => [
                 'rule' => [
                     'luhn',
                     true
@@ -117,10 +75,6 @@ class Organisation extends AppModel {
                 'message' => 'Le numéro de SIRET n\'est pas valide'
             ]
         ],
-        'ape' => [
-            'rule' => 'notEmpty',
-            'message' => 'Le code APE doit être précisé'
-        ]
     ];
 
     /**

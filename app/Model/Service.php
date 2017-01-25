@@ -27,6 +27,8 @@ class Service extends AppModel {
 
     public $name = 'Service';
 
+    public $displayField = 'libelle';
+
     /**
      * hasMany associations
      * 
@@ -42,14 +44,6 @@ class Service extends AppModel {
             'className' => 'OrganisationUser',
             'foreignKey' => 'service_id',
             'dependent' => false,
-        //'conditions' => array('' => ''),
-        //'fields'       => '',
-        //'order'        => '',
-        //'limit'        => '',
-        //'offset'       => '',
-        //'exclusive'    => '',
-        //'finderQuery'  => '',
-        //'counterQuery' => ''
         ),
         'Formulaire' => array(
             'className' => 'Formulaire',

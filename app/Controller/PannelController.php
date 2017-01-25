@@ -47,7 +47,7 @@ class PannelController extends AppController {
      * 
      * @access public
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
         $this->Session->write('nameController', "pannel");
@@ -244,7 +244,7 @@ class PannelController extends AppController {
     /**
      * @access public
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function inbox() {
         $this->Session->write('nameController', "pannel");
@@ -393,7 +393,7 @@ class PannelController extends AppController {
     /**
      * @access public
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function archives() {
         $this->Session->write('nameController', "pannel");
@@ -453,7 +453,7 @@ class PannelController extends AppController {
      * 
      * @access public
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function parcours($id) {
         $parcours = $this->EtatFiche->find('all', [
@@ -533,7 +533,7 @@ class PannelController extends AppController {
                 'AND' => [
                     'EtatFiche.etat_id IN' => [2, 3, 4, 6, 8],
                     'EtatFiche.user_id' => $this->Auth->user('id'),
-                    'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sq($sq) . ')',
+                    'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sql($sq) . ')',
                 ]],
             'contain' => [
                 'Fiche' => [
@@ -610,7 +610,7 @@ class PannelController extends AppController {
      * 
      * @access public
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function getHistorique($id) {
         $historique = $this->Historique->find('all', [
@@ -629,7 +629,7 @@ class PannelController extends AppController {
      * 
      * @access public
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function dropNotif() {
         $this->Notification->deleteAll([
@@ -644,7 +644,7 @@ class PannelController extends AppController {
      * 
      * @access public
      * @created 20/01/2016
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function supprimerLaNotif($idFiche) {
         $this->Notification->deleteAll([
@@ -659,7 +659,7 @@ class PannelController extends AppController {
      * 
      * @access public
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function validNotif() {
         $this->Notification->updateAll([
@@ -677,7 +677,7 @@ class PannelController extends AppController {
      * 
      * @access public
      * @created 20/01/2016
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function notifAfficher($idFicheEnCourAffigage = 0) {
         $this->Notification->updateAll([
@@ -693,7 +693,7 @@ class PannelController extends AppController {
      * 
      * @access protected
      * @created 02/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     protected function _listValidants() {
         // Requète récupérant les utilisateurs ayant le droit de consultation

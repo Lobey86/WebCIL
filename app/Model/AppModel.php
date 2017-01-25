@@ -22,10 +22,69 @@
  * @package     AppModel
  */
 App::uses('Model', 'Model');
+App::uses('FrValidation', 'Validation');
 
 class AppModel extends Model {
 
     public $recursive = -1;
-    public $actsAs = array('DatabaseTable', 'Containable');
+    public $actsAs = array(
+        //'DatabaseTable',
+        'Containable',
+        'Database.DatabaseTable',
+        'Database.DatabaseFormattable',
+        'Database.DatabaseAutovalidate',
+        'Postgres.PostgresAutovalidate'
+    );
+
+    /**
+     * Cache "live", notamment utilisé par la méthode enums.
+     *
+     * @var array
+     */
+    protected $_appModelCache = array();
+
+    /**
+     * Retourne la liste des options venant des champs possédant la règle de
+     * validation inList.
+     *
+     * @return array
+     */
+    public function enums() {
+        $cacheKey = $this->useDbConfig . '_' . __CLASS__ . '_enums_' . $this->alias;
+
+        // Dans le cache "live" ?
+        if (false === isset($this->_appModelCache[$cacheKey])) {
+            $this->_appModelCache[$cacheKey] = Cache::read($cacheKey);
+
+            // Dans le cache CakePHP ?
+            if (false === $this->_appModelCache[$cacheKey]) {
+                $this->_appModelCache[$cacheKey] = array();
+
+                $domain = Inflector::underscore($this->alias);
+
+                // D'autres champs avec la règle inList ?
+                foreach ($this->validate as $field => $validate) {
+                    foreach ($validate as $ruleName => $rule) {
+                        if (( $ruleName === 'inList' ) && !isset($this->_appModelCache[$cacheKey][$this->alias][$field])) {
+                            $fieldNameUpper = strtoupper($field);
+
+                            $tmp = $rule['rule'][1];
+                            $list = array();
+
+                            foreach ($tmp as $value) {
+                                $list[$value] = __d($domain, "ENUM::{$fieldNameUpper}::{$value}");
+                            }
+
+                            $this->_appModelCache[$cacheKey][$this->alias][$field] = $list;
+                        }
+                    }
+                }
+
+                Cache::write($cacheKey, $this->_appModelCache[$cacheKey]);
+            }
+        }
+
+        return (array) $this->_appModelCache[$cacheKey];
+    }
 
 }

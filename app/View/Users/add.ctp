@@ -21,11 +21,12 @@
         </div>
         <?php
     }
-
+   
     echo $this->Form->create('User', [
         'autocomplete' => 'off',
         'inputDefaults' => ['div' => false],
-        'class' => 'form-horizontal'
+        'class' => 'form-horizontal',
+        'novalidate' => 'novalidate'
     ]);
     ?>
     <div class="row">
@@ -89,6 +90,24 @@
             'text' => __d('user', 'user.champVerifMotDePasse') . '<span class="requis">*</span>',
             'class' => 'col-md-4 control-label'
         ],
+        'between' => '<div class="col-md-8">',
+        'after' => '</div>',
+        'required' => true
+    ]);
+    ?>
+</div>
+
+<div class="form-group">
+    <?php
+    //Champ Civilité *
+    echo $this->Form->input('civilite', [
+        'class' => 'form-control',
+        'label' => [
+            'text' => __d('user', 'user.champCivilite') . '<span class="requis">*</span>',
+            'class' => 'col-md-4 control-label'
+        ],
+        'options' => $options['User']['civilite'],
+        'empty' => true,
         'between' => '<div class="col-md-8">',
         'after' => '</div>',
         'required' => true
@@ -165,7 +184,6 @@ echo $this->Form->input('email', [
         //Champ Entité *
         echo $this->Form->input('Organisation.Organisation_id', [
             'options' => $listeOrganisations,
-            'selected' => $this->Session->read('Organisation.id'),
             'class' => 'form-control',
             'id' => 'deroulant',
             'label' => [
@@ -224,19 +242,25 @@ echo $this->Form->input('email', [
                 <?php
                 if (!empty($listeroles)) {
                     //Champ Profils au sein de  *
-                    echo $this->Form->input('Role.' . $datas['infos']['id'], [
-                        'options' => $listeroles,
-                        'class' => 'form-control deroulantRoles' . $key,
-                        'id' => $key,
-                        'label' => [
-                            'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
-                            'class' => 'col-md-4 control-label'
-                        ],
-                        'between' => '<div class="col-md-8">',
-                        'after' => '</div>',
-                        'multiple' => 'multiple',
-                        'required' => true
-                    ]);
+                    ?>
+                    <div class="form-group">
+                        <?php
+                        //Champ Profils au sein de  *
+                        echo $this->Form->input('Role.' . $datas['infos']['id'], [
+                            'class' => 'form-control',
+                            'label' => [
+                                'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
+                                'class' => 'col-md-4 control-label'
+                            ],
+                            'options' => $listeroles,
+                            'empty' => true,
+                            'between' => '<div class="col-md-8">',
+                            'after' => '</div>',
+                            'required' => true
+                        ]);
+                        ?>
+                    </div>
+                    <?php
                 } else {
                     echo "Aucun profil n'a été créé pour cette entité";
                 }

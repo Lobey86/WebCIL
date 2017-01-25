@@ -196,7 +196,7 @@ class RegistresController extends AppController {
             ]
         ]);
         
-        $success = $success && false !== $this->EtatFiche->save();
+        $success = false !== $this->EtatFiche->save() && $success;
 
         $idEtatFiche = $this->EtatFiche->find('first', [
             'conditions' => [
@@ -210,7 +210,7 @@ class RegistresController extends AppController {
             'modif' => $this->request->data['Registre']['motif']
         ]);
 
-        $success = $success && false !== $this->Modification->save();
+        $success = false !== $this->Modification->save() && $success;
 
         if ($success == true) {
             $this->Modification->commit();
@@ -285,7 +285,7 @@ class RegistresController extends AppController {
                 //On recupere en BDD le flux de donnee qui a ete enregistre 
                 //au verrouillage du traitement en fonction de ID
                 $pdf = $this->TraitementRegistre->find('first', [
-                    'conditions' => ['id_fiche' => $ficheID],
+                    'conditions' => ['fiche_id' => $ficheID],
                     'fields' => ['data']
                 ]);
 

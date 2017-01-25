@@ -34,7 +34,7 @@ class Fichier extends AppModel {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public $belongsTo = array(
         'Fiche' => array(
@@ -52,16 +52,15 @@ class Fichier extends AppModel {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function saveFichier($data, $id = null, $transaction = true) {
         if (isset($data['Fiche']['fichiers']) && !empty($data['Fiche']['fichiers'])) {
             foreach ($data['Fiche']['fichiers'] as $key => $file) {
                 if (!empty($file['name'])) {
                     $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-                    debug($extension);
 
-                    if ($extension == 'odt') {
+                    if ($extension == 'odt' || $extension == 'pdf') {
                         $success = true;
 
                         if (!empty($file['name'])) {
@@ -128,7 +127,7 @@ class Fichier extends AppModel {
      * 
      * @access public
      * @created 26/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function deleteFichier($id, $transaction = true) {
         $success = true;

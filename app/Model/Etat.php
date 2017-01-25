@@ -26,6 +26,8 @@ App::uses('AppModel', 'Model');
 class Etat extends AppModel {
 
     public $name = 'Etat';
+    
+    public $displayField = 'libelle';
 
     /**
      * hasMany associations

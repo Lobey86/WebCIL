@@ -17,95 +17,129 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 class EtatFichesController extends AppController {
 
     public $uses = [
-        'EtatFiche',
         'Commentaire',
+        'EtatFiche',
+        'ExtraitRegistre',
         'Fiche',
-        'Organisation',
         'Historique',
-        'User',
-        'Pannel',
         'ModeleExtraitRegistre',
+        'Notification',
+        'Organisation',
+        'Pannel',
         'TraitementRegistre',
-        'ExtraitRegistre'
+        'User'
     ];
 
     /**
-     * Envoie ou renvoie une fiche en validation et crée les états
+     * Envoie ou renvoie d'un traitement en validation et crée les états
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function sendValidation() {
+        $success = true;
+        $this->EtatFiche->begin();
+
         //On met EtatFiche.actif a false en fonction de l'id 
-        $this->EtatFiche->updateAll([
-            'actif' => false
-                ], [
-            'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+        $success = $success && $this->EtatFiche->updateAll([
+                    'actif' => false
+                        ], [
+                    'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                        ]
+                ) !== false;
+
+        if ($success == true) {
+            $idEncoursValid = $this->EtatFiche->find('first', [
+                'conditions' => [
+                    'EtatFiche.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
+                    'EtatFiche.etat_id' => 2
+                ],
+                'fields' => 'id'
+            ]);
+
+            if (!empty($idEncoursValid)) {
+                $id = $idEncoursValid['EtatFiche']['id'];
+                $this->EtatFiche->id = $id;
+                $this->EtatFiche->saveField('etat_id', 3);
+            }
+
+            $this->EtatFiche->create([
+                'EtatFiche' => [
+                    'fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
+                    'etat_id' => 2,
+                    'previous_user_id' => $this->Auth->user('id'),
+                    'user_id' => $this->request->data['EtatFiche']['destinataire']
                 ]
-        );
+            ]);
+            $success = $success && false !== $this->EtatFiche->save();
 
-        $idEncoursValid = $this->EtatFiche->find('first', [
-            'conditions' => [
-                'EtatFiche.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-                'EtatFiche.etat_id' => 2
-            ],
-            'fields' => 'id'
-        ]);
+            if ($success == true) {
+                $this->Notification->create([
+                    'Notification' => [
+                        'user_id' => $this->request->data['EtatFiche']['destinataire'],
+                        'content' => 2,
+                        'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                    ]
+                ]);
+                $success = $success && false !== $this->Notification->save();
 
-        if (!empty($idEncoursValid)) {
-            $id = $idEncoursValid['EtatFiche']['id'];
-            $this->EtatFiche->id = $id;
-            $this->EtatFiche->saveField('etat_id', 3);
+//                $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
+//
+//                $this->Notification->updateAll([
+//                    'Notification.afficher' => false
+//                        ], [
+//                    'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
+//                    'Notification.user_id' => $this->request->data['EtatFiche']['destinataire'],
+//                ]);
+                if ($success == true) {
+                    $destinataire = $this->User->find('first', [
+                        'conditions' => [
+                            'id' => $this->request->data['EtatFiche']['destinataire']
+                        ]
+                    ]);
+
+                    $this->Historique->create([
+                        'Historique' => [
+                            'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche à ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' pour validation',
+                            'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Historique->save();
+
+                    if ($success == true) {
+                        $this->EtatFiche->commit();
+                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerValidation'), 'flashsuccess');
+
+                        $this->requestAction([
+                            'controller' => 'pannel',
+                            'action' => 'supprimerLaNotif',
+                            $this->request->data['EtatFiche']['ficheNum']
+                        ]);
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
+        } else {
+            $this->EtatFiche->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
-
-        $this->EtatFiche->create([
-            'EtatFiche' => [
-                'fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-                'etat_id' => 2,
-                'previous_user_id' => $this->Auth->user('id'),
-                'user_id' => $this->request->data['EtatFiche']['destinataire']
-            ]
-        ]);
-        $this->EtatFiche->save();
-        $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
-
-        $this->Notification->updateAll([
-            'Notification.afficher' => false
-                ], [
-            'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-            'Notification.user_id' => $this->request->data['EtatFiche']['destinataire'],
-        ]);
-
-        $destinataire = $this->User->find('first', [
-            'conditions' => [
-                'id' => $this->request->data['EtatFiche']['destinataire']
-            ]
-        ]);
-
-        $this->Historique->create([
-            'Historique' => [
-                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche à ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' pour validation',
-                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
-            ]
-        ]);
-        $this->Historique->save();
-        
-        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerValidation'), 'flashsuccess');
-
-        $this->requestAction([
-            'controller' => 'pannel',
-            'action' => 'supprimerLaNotif',
-            $this->request->data['EtatFiche']['ficheNum']
-        ]);
 
         $this->redirect([
             'controller' => 'pannel',
@@ -118,10 +152,13 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function reorientation() {
-        $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
+        $success = true;
+        $this->EtatFiche->begin();
+
+        $success = $success && false !== $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
         $this->EtatFiche->create([
             'EtatFiche' => [
                 'fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
@@ -130,39 +167,69 @@ class EtatFichesController extends AppController {
                 'user_id' => $this->request->data['EtatFiche']['destinataire']
             ]
         ]);
-        $this->EtatFiche->save();
+        $success = $success && false !== $this->EtatFiche->save();
 
-        $destinataire = $this->User->find('first', [
-            'conditions' => [
-                'id' => $this->request->data['EtatFiche']['destinataire']
-            ]
-        ]);
+        if ($success == true) {
+            $destinataire = $this->User->find('first', [
+                'conditions' => [
+                    'id' => $this->request->data['EtatFiche']['destinataire']
+                ]
+            ]);
 
-        $this->Historique->create([
-            'Historique' => [
-                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' réoriente la fiche vers ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' pour validation',
-                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
-            ]
-        ]);
-        $this->Historique->save();
-        
-        $this->Notifications->del(2, $this->request->data['EtatFiche']['ficheNum']);
-        $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
+            $this->Historique->create([
+                'Historique' => [
+                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' réoriente la fiche vers ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' pour validation',
+                    'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                ]
+            ]);
+            $success = $success && false !== $this->Historique->save();
 
-        $this->Notification->updateAll([
-            'Notification.afficher' => false
-                ], [
-            'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-            'Notification.user_id' => $this->request->data['EtatFiche']['destinataire']
-        ]);
+            if ($success == true) {
+                $success = $success && false !== $this->Notifications->del(2, $this->request->data['EtatFiche']['ficheNum']);
 
-        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRedirige'), 'flashsuccess');
+                if ($success == true) {
+                    $this->Notification->create([
+                        'Notification' => [
+                            'user_id' => $this->request->data['EtatFiche']['destinataire'],
+                            'content' => 2,
+                            'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Notification->save();
 
-        $this->requestAction([
-            'controller' => 'pannel',
-            'action' => 'supprimerLaNotif',
-            $this->request->data['EtatFiche']['ficheNum']
-        ]);
+                    //        $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
+                    //        $this->Notification->updateAll([
+                    //            'Notification.afficher' => false
+                    //                ], [
+                    //            'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
+                    //            'Notification.user_id' => $this->request->data['EtatFiche']['destinataire']
+                    //        ]);
+
+                    if ($success == true) {
+                        $this->EtatFiche->commit();
+                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRedirige'), 'flashsuccess');
+
+                        $this->requestAction([
+                            'controller' => 'pannel',
+                            'action' => 'supprimerLaNotif',
+                            $this->request->data['EtatFiche']['ficheNum']
+                        ]);
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
+        } else {
+            $this->EtatFiche->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+        }
 
         $this->redirect([
             'controller' => $this->Session->read('nameController'),
@@ -175,9 +242,12 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function refuse() {
+        $success = true;
+        $this->EtatFiche->begin();
+
         $idEncoursValid = $this->EtatFiche->find('first', [
             'conditions' => [
                 'EtatFiche.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
@@ -188,53 +258,83 @@ class EtatFichesController extends AppController {
         $id = $idEncoursValid['EtatFiche']['id'];
 
         $this->EtatFiche->id = $id;
-        $this->EtatFiche->saveField('etat_id', 4);
+        $success = $success && false !== $this->EtatFiche->saveField('etat_id', 4);
 
-        $idDestinataire = $this->Fiche->find('first', [
-            'conditions' => [
-                'Fiche.id' => $this->request->data['EtatFiche']['ficheNum']
-            ],
-            'fields' => ['id'],
-            'contain' => [
-                'User' => array('id')
-            ]
-        ]);
-        $idFiche = $idDestinataire['Fiche']['id'];
-        $idDestinataire = $idDestinataire['User']['id'];
+        if ($success == true) {
+            $idDestinataire = $this->Fiche->find('first', [
+                'conditions' => [
+                    'Fiche.id' => $this->request->data['EtatFiche']['ficheNum']
+                ],
+                'fields' => ['id'],
+                'contain' => [
+                    'User' => array('id')
+                ]
+            ]);
+            $idFiche = $idDestinataire['Fiche']['id'];
+            $idDestinataire = $idDestinataire['User']['id'];
 
-        $this->Commentaire->create([
-            'Commentaire' => [
-                'etat_fiches_id' => $id,
-                'content' => $this->request->data['EtatFiche']['content'],
-                'user_id' => $this->Auth->user('id'),
-                'destinataire_id' => $idDestinataire
-            ]
-        ]);
-        $this->Commentaire->save();
+            $this->Commentaire->create([
+                'Commentaire' => [
+                    'etat_fiches_id' => $id,
+                    'content' => $this->request->data['EtatFiche']['content'],
+                    'user_id' => $this->Auth->user('id'),
+                    'destinataire_id' => $idDestinataire
+                ]
+            ]);
+            $success = $success && false !== $this->Commentaire->save();
 
-        $this->Historique->create([
-            'Historique' => [
-                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' refuse la fiche',
-                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
-            ]
-        ]);
-        $this->Historique->save();
-        $this->Notifications->add(4, $this->request->data['EtatFiche']['ficheNum'], $idDestinataire);
+            if ($success == true) {
+                $this->Historique->create([
+                    'Historique' => [
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' refuse la fiche',
+                        'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                    ]
+                ]);
+                $success = $success && false !== $this->Historique->save();
 
-        $this->Notification->updateAll([
-            'Notification.afficher' => false
-                ], [
-            'Notification.fiche_id' => $idFiche,
-            'Notification.user_id' => $idDestinataire,
-        ]);
+                if ($success == true) {
+                    $this->Notification->create([
+                        'Notification' => [
+                            'user_id' => $idDestinataire,
+                            'content' => 4,
+                            'fiche_id' => $idFiche
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Notification->save();
 
-        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRefuse'), 'flashsuccess');
+//                    $this->Notifications->add(4, $this->request->data['EtatFiche']['ficheNum'], $idDestinataire);
+//                    $this->Notification->updateAll([
+//                        'Notification.afficher' => false
+//                            ], [
+//                        'Notification.fiche_id' => $idFiche,
+//                        'Notification.user_id' => $idDestinataire,
+//                    ]);
 
-        $this->requestAction([
-            'controller' => 'pannel',
-            'action' => 'supprimerLaNotif',
-            $idFiche
-        ]);
+                    if ($success == true) {
+                        $this->EtatFiche->commit();
+                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRefuse'), 'flashsuccess');
+
+                        $this->requestAction([
+                            'controller' => 'pannel',
+                            'action' => 'supprimerLaNotif',
+                            $idFiche
+                        ]);
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
+        } else {
+            $this->EtatFiche->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+        }
 
         $this->redirect([
             'controller' => 'pannel',
@@ -247,9 +347,12 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function askAvis() {
+        $success = true;
+        $this->EtatFiche->begin();
+
         $count = $this->EtatFiche->find('count', [
             'conditions' => [
                 'previous_user_id' => $this->Auth->user('id'),
@@ -275,35 +378,62 @@ class EtatFichesController extends AppController {
                     'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
                 ]
             ]);
-            $this->EtatFiche->save();
-            $destinataire = $this->User->find('first', [
-                'conditions' => [
-                    'id' => $this->request->data['EtatFiche']['destinataire']
-                ]
-            ]);
-            $this->Historique->create([
-                'Historique' => [
-                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' demande l\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
-                    'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
-                ]
-            ]);
-            $this->Historique->save();
-            $this->Notifications->add(1, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
+            $success = $success && false !== $this->EtatFiche->save();
 
-            $this->Notification->updateAll([
-                'Notification.afficher' => false
-                    ], [
-                'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-                'Notification.user_id' => $this->request->data['EtatFiche']['destinataire'],
-            ]);
+            if ($success == true) {
+                $destinataire = $this->User->find('first', [
+                    'conditions' => [
+                        'id' => $this->request->data['EtatFiche']['destinataire']
+                    ]
+                ]);
 
-            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerAvis'), 'flashsuccess');
+                $this->Historique->create([
+                    'Historique' => [
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' demande l\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
+                        'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                    ]
+                ]);
+                $success = $success && false !== $this->Historique->save();
 
-            $this->requestAction([
-                'controller' => 'pannel',
-                'action' => 'supprimerLaNotif',
-                $this->request->data['EtatFiche']['ficheNum']
-            ]);
+                if ($success == true) {
+                    $this->Notification->create([
+                        'Notification' => [
+                            'user_id' => $this->request->data['EtatFiche']['destinataire'],
+                            'content' => 1,
+                            'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Notification->save();
+
+//                    $this->Notifications->add(1, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
+//                    $this->Notification->updateAll([
+//                        'Notification.afficher' => false
+//                            ], [
+//                        'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
+//                        'Notification.user_id' => $this->request->data['EtatFiche']['destinataire'],
+//                    ]);
+
+                    if ($success == true) {
+                        $this->EtatFiche->commit();
+                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerAvis'), 'flashsuccess');
+
+                        $this->requestAction([
+                            'controller' => 'pannel',
+                            'action' => 'supprimerLaNotif',
+                            $this->request->data['EtatFiche']['ficheNum']
+                        ]);
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
 
             $this->redirect([
                 'controller' => 'pannel',
@@ -317,58 +447,92 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function answerAvis() {
+        $success = true;
+        $this->EtatFiche->begin();
+
         $idEncoursAnswer = $this->EtatFiche->find('first', [
             'conditions' => [
                 'EtatFiche.id' => $this->request->data['EtatFiche']['etatFiche']
             ],
             'fields' => 'previous_etat_id'
         ]);
-
         $id = $idEncoursAnswer['EtatFiche']['previous_etat_id'];
-        $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
 
-        $this->Commentaire->create([
-            'Commentaire' => [
-                'etat_fiches_id' => $id,
-                'content' => $this->request->data['EtatFiche']['commentaireRepondre'],
-                'user_id' => $this->Auth->user('id'),
-                'destinataire_id' => $this->request->data['EtatFiche']['previousUserId']
-            ]
-        ]);
-        $this->Commentaire->save();
+        $success = $success && false !== $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
 
-        $destinataire = $this->User->find('first', [
-            'conditions' => [
-                'id' => $this->request->data['EtatFiche']['previousUserId']
-            ]
-        ]);
+        if ($success == true) {
+            $this->Commentaire->create([
+                'Commentaire' => [
+                    'etat_fiches_id' => $id,
+                    'content' => $this->request->data['EtatFiche']['commentaireRepondre'],
+                    'user_id' => $this->Auth->user('id'),
+                    'destinataire_id' => $this->request->data['EtatFiche']['previousUserId']
+                ]
+            ]);
+            $success = $success && false !== $this->Commentaire->save();
 
-        $this->Historique->create([
-            'Historique' => [
-                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' répond à la demande d\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
-                'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
-            ]
-        ]);
-        $this->Historique->save();
-        $this->Notifications->add(5, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['previousUserId']);
+            if ($success == true) {
+                $destinataire = $this->User->find('first', [
+                    'conditions' => [
+                        'id' => $this->request->data['EtatFiche']['previousUserId']
+                    ]
+                ]);
 
-        $this->Notification->updateAll([
-            'Notification.afficher' => false
-                ], [
-            'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-            'Notification.user_id' => $this->request->data['EtatFiche']['previousUserId'],
-        ]);
+                $this->Historique->create([
+                    'Historique' => [
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' répond à la demande d\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
+                        'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                    ]
+                ]);
+                $success = $success && false !== $this->Historique->save();
 
-        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessCommentaireAjouter'), 'flashsuccess');
+                if ($success == true) {
+                    $this->Notification->create([
+                        'Notification' => [
+                            'user_id' => $this->request->data['EtatFiche']['previousUserId'],
+                            'content' => 5,
+                            'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Notification->save();
 
-        $this->requestAction([
-            'controller' => 'pannel',
-            'action' => 'supprimerLaNotif',
-            $this->request->data['EtatFiche']['ficheNum']
-        ]);
+
+//                    $this->Notifications->add(5, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['previousUserId']);
+//                    $this->Notification->updateAll([
+//                        'Notification.afficher' => false
+//                            ], [
+//                        'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
+//                        'Notification.user_id' => $this->request->data['EtatFiche']['previousUserId'],
+//                    ]);
+
+                    if ($success == true) {
+                        $this->EtatFiche->commit();
+                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessCommentaireAjouter'), 'flashsuccess');
+
+                        $this->requestAction([
+                            'controller' => 'pannel',
+                            'action' => 'supprimerLaNotif',
+                            $this->request->data['EtatFiche']['ficheNum']
+                        ]);
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
+        } else {
+            $this->EtatFiche->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+        }
 
         $this->redirect([
             'controller' => 'pannel',
@@ -383,53 +547,73 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function relaunch($id) {
         if (!$id) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
-            $this->redirect(['controller' => 'pannel',
+            $this->redirect([
+                'controller' => 'pannel',
                 'action' => 'index'
             ]);
         } else {
+            $success = true;
+            $this->EtatFiche->begin();
+
             $this->requestAction([
                 'controller' => 'pannel',
                 'action' => 'supprimerLaNotif',
                 $id
             ]);
 
-            $this->EtatFiche->updateAll([
-                'actif' => false
-                    ], [
-                'fiche_id' => $id
-                    ]
-            );
-
-            $this->EtatFiche->save([
-                'EtatFiche' => [
-                    'fiche_id' => $id,
-                    'etat_id' => 8,
-                    'previous_user_id' => $this->Auth->user('id'),
-                    'user_id' => $this->Auth->user('id')
-                ]
-            ]);
-
-            if ($this->EtatFiche->save()) {
-                $this->Historique->create([
-                    'Historique' => [
-                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' replace la fiche en rédaction',
+            $success = $success && $this->EtatFiche->updateAll([
+                        'actif' => false
+                            ], [
                         'fiche_id' => $id
+                            ]
+                    ) !== false;
+
+            if ($success == true) {
+                $this->EtatFiche->create([
+                    'EtatFiche' => [
+                        'fiche_id' => $id,
+                        'etat_id' => 8,
+                        'previous_user_id' => $this->Auth->user('id'),
+                        'user_id' => $this->Auth->user('id')
                     ]
                 ]);
-                $this->Historique->save();
+                $success = $success && false !== $this->EtatFiche->save();
 
-                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementReplacerRedaction'), 'flashsuccess');
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+                if ($success == true) {
+                    $this->Historique->create([
+                        'Historique' => [
+                            'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' replace la fiche en rédaction',
+                            'fiche_id' => $id
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Historique->save();
+
+                    if ($success == true) {
+                        $this->EtatFiche->commit();
+                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementReplacerRedaction'), 'flashsuccess');
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
         }
+
+        $this->redirect([
+            'controller' => 'pannel',
+            'action' => 'index'
+        ]);
     }
 
     /**
@@ -439,88 +623,115 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function cilValid($id) {
-        $this->EtatFiche->updateAll([
-            'actif' => false
-                ], [
-            'fiche_id' => $id
-                ]
-        );
+        $success = true;
+        $this->EtatFiche->begin();
 
-        $cil = $this->Organisation->find('first', [
-            'conditions' => [
-                'Organisation.id' => $this->Session->read('Organisation.id')
-            ],
-            'fields' => [
-                'cil'
-            ]
-        ]);
-
-        if ($cil['Organisation']['cil'] != null) {
-            $idEncoursValid = $this->EtatFiche->find('first', [
-                'conditions' => [
-                    'EtatFiche.fiche_id' => $id,
-                    'EtatFiche.etat_id' => 2
-                ],
-                'fields' => 'id'
-            ]);
-
-            if (!empty($idEncoursValid)) {
-                $etatId = $idEncoursValid['EtatFiche']['id'];
-                $this->EtatFiche->id = $etatId;
-                $this->EtatFiche->saveField('etat_id', 3);
-            }
-
-            $this->EtatFiche->create([
-                'EtatFiche' => [
-                    'fiche_id' => $id,
-                    'etat_id' => 2,
-                    'previous_user_id' => $this->Auth->user('id'),
-                    'user_id' => $cil['Organisation']['cil']
-                ]
-            ]);
-
-            $this->EtatFiche->save();
-
-            $this->Historique->create([
-                'Historique' => [
-                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche pour validation du CIL',
+        $success = $success && $this->EtatFiche->updateAll([
+                    'actif' => false
+                        ], [
                     'fiche_id' => $id
+                        ]
+                ) !== false;
+
+        if ($success == true) {
+            $cil = $this->Organisation->find('first', [
+                'conditions' => [
+                    'Organisation.id' => $this->Session->read('Organisation.id')
+                ],
+                'fields' => [
+                    'cil'
                 ]
             ]);
 
-            $this->Historique->save();
+            if ($cil['Organisation']['cil'] != null) {
+                $idEncoursValid = $this->EtatFiche->find('first', [
+                    'conditions' => [
+                        'EtatFiche.fiche_id' => $id,
+                        'EtatFiche.etat_id' => 2
+                    ],
+                    'fields' => 'id'
+                ]);
 
-            $this->Notifications->add(2, $id, $cil['Organisation']['cil']);
+                if (!empty($idEncoursValid)) {
+                    $etatId = $idEncoursValid['EtatFiche']['id'];
+                    $this->EtatFiche->id = $etatId;
+                    $this->EtatFiche->saveField('etat_id', 3);
+                }
 
-            $this->Notification->updateAll([
-                'Notification.afficher' => false
-                    ], [
-                'Notification.fiche_id' => $id,
-                'Notification.user_id' => $cil['Organisation']['cil']
-            ]);
+                $this->EtatFiche->create([
+                    'EtatFiche' => [
+                        'fiche_id' => $id,
+                        'etat_id' => 2,
+                        'previous_user_id' => $this->Auth->user('id'),
+                        'user_id' => $cil['Organisation']['cil']
+                    ]
+                ]);
+                $success = $success && false !== $this->EtatFiche->save();
 
-            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerCIL'), 'flashsuccess');
+                if ($success == true) {
+                    $this->Historique->create([
+                        'Historique' => [
+                            'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche pour validation du CIL',
+                            'fiche_id' => $id
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Historique->save();
 
-            $this->requestAction([
-                'controller' => 'pannel',
-                'action' => 'supprimerLaNotif',
-                $id
-            ]);
+                    if ($success == true) {
+                        $this->Notification->create([
+                            'Notification' => [
+                                'user_id' => $cil['Organisation']['cil'],
+                                'content' => 2,
+                                'fiche_id' => $id
+                            ]
+                        ]);
+                        $success = $success && false !== $this->Notification->save();
 
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+//                        $this->Notifications->add(2, $id, $cil['Organisation']['cil']);
+//                        $this->Notification->updateAll([
+//                            'Notification.afficher' => false
+//                                ], [
+//                            'Notification.fiche_id' => $id,
+//                            'Notification.user_id' => $cil['Organisation']['cil']
+//                        ]);
+
+                        if ($success == true) {
+                            $this->EtatFiche->commit();
+                            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerCIL'), 'flashsuccess');
+
+                            $this->requestAction([
+                                'controller' => 'pannel',
+                                'action' => 'supprimerLaNotif',
+                                $id
+                            ]);
+                        } else {
+                            $this->EtatFiche->rollback();
+                            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                        }
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flasherrorAucunCIL'), 'flasherror');
+            }
         } else {
-            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flasherrorAucunCIL'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->EtatFiche->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
+
+        $this->redirect([
+            'controller' => 'pannel',
+            'action' => 'index'
+        ]);
     }
 
     /**
@@ -531,88 +742,104 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function insertRegistre($id, $numero = null) {
-        if(empty($id)) {
+        if (empty($id)) {
             throw new NotFoundException();
         }
-        
+
         $success = true;
         $this->EtatFiche->begin();
-        
-        if (!empty($numero)) {           
+
+        if (!empty($numero)) {
             $success = $success && $this->Fiche->updateAll(
-                [
-                    'numero' => $numero
-                ],[
-                    'id' => $id
-                ]
-            ) !== false;
+                            [
+                        'numero' => $numero
+                            ], [
+                        'id' => $id
+                            ]
+                    ) !== false;
         }
 
-        $idEncoursValid = $this->EtatFiche->find('first', [
-            'conditions' => [
-                'EtatFiche.fiche_id' => $id,
-                'EtatFiche.etat_id' => 2
-            ],
-            'fields' => ['id'],
-            'contain' => [
-                'Fiche' => [
-                    'user_id'
-                ]
-            ]
-        ]);
-
-        if (!empty($idEncoursValid)) {
-            $id_etat = $idEncoursValid['EtatFiche']['id'];
-            $this->EtatFiche->id = $id_etat;
-            
-            $success = $success && false !== $this->EtatFiche->saveField('etat_id', 5);
-            $success = $success && false !== $this->Notifications->add(3, $id, $idEncoursValid['Fiche']['user_id']);
-
-            $success = $success && $this->Notification->updateAll([
-                'Notification.afficher' => false
-                ], [
-                    'Notification.fiche_id' => $idEncoursValid['Fiche']['id'],
-                    'Notification.user_id' => $idEncoursValid['Fiche']['user_id'],
-                ]
-            ) !== false;
-
-            $this->Historique->create([
-                'Historique' => [
-                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' valide la fiche et l\'insère au registre',
-                    'fiche_id' => $id
+        if ($success == true) {
+            $idEncoursValid = $this->EtatFiche->find('first', [
+                'conditions' => [
+                    'EtatFiche.fiche_id' => $id,
+                    'EtatFiche.etat_id' => 2
+                ],
+                'fields' => ['id'],
+                'contain' => [
+                    'Fiche' => [
+                        'user_id'
+                    ]
                 ]
             ]);
-            $success = $success && false !== $this->Historique->save();
 
-            if($success == true) {
-                $this->EtatFiche->commit();
-                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEngregistreRegistre'), 'flashsuccess');
-            
-                $this->requestAction([
-                    'controller' => 'pannel',
-                    'action' => 'supprimerLaNotif',
-                    $idEncoursValid['Fiche']['id']
-                ]);
+            if (!empty($idEncoursValid)) {
+                $id_etat = $idEncoursValid['EtatFiche']['id'];
+                $this->EtatFiche->id = $id_etat;
+
+                $success = $success && false !== $this->EtatFiche->saveField('etat_id', 5);
+
+                if ($success == true) {
+                    $this->Notification->create([
+                        'Notification' => [
+                            'user_id' => $idEncoursValid['Fiche']['user_id'],
+                            'content' => 3,
+                            'fiche_id' => $id
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Notification->save();
+
+                    if ($success == true) {
+                        $this->Historique->create([
+                            'Historique' => [
+                                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' valide la fiche et l\'insère au registre',
+                                'fiche_id' => $id
+                            ]
+                        ]);
+                        $success = $success && false !== $this->Historique->save();
+
+                        if ($success == true) {
+                            $this->EtatFiche->commit();
+                            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEngregistreRegistre'), 'flashsuccess');
+
+                            $this->requestAction([
+                                'controller' => 'pannel',
+                                'action' => 'supprimerLaNotif',
+                                $idEncoursValid['Fiche']['id']
+                            ]);
+
+                            $this->redirect([
+                                'controller' => 'registres',
+                                'action' => 'index'
+                            ]);
+                        } else {
+                            $this->EtatFiche->rollback();
+                            $this->Session->setFlash(__d('etat_fiche', 'oups! (FIXME msg)'), 'flasherror');
+                        }
+                    } else {
+                        $this->EtatFiche->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    }
+                } else {
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
             } else {
                 $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('etat_fiche', 'oups! (FIXME msg)'), 'flasherror');
+                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flasherrorTraitementPasEnCourValidation'), 'flasherror');
             }
-
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
         } else {
             $this->EtatFiche->rollback();
-            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flasherrorTraitementPasEnCourValidation'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
+
+        $this->redirect([
+            'controller' => 'pannel',
+            'action' => 'inbox'
+        ]);
     }
 
     /**
@@ -622,16 +849,20 @@ class EtatFichesController extends AppController {
      * 
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function archive($id, $numeroRegistre) {
         if (empty($id)) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
+
             $this->redirect([
                 'controller' => 'registres',
                 'action' => 'index'
             ]);
         } else {
+            $success = true;
+            $this->EtatFiche->begin();
+
             $pdfTraitement = $this->Fiche->genereTraitement($id, $numeroRegistre);
 
             $modele = $this->ModeleExtraitRegistre->find('first', [
@@ -643,80 +874,69 @@ class EtatFichesController extends AppController {
 
             // Si la génération n'est pas vide on enregistre les data du Traitement en base de données
             if (!empty($pdfTraitement)) {
-                $this->TraitementRegistre->begin();
-                $fileSave = $this->TraitementRegistre->save([
-                    'id_fiche' => $id,
+                $this->TraitementRegistre->create([
+                    'fiche_id' => $id,
                     'data' => $pdfTraitement
                 ]);
+                $success = $success && false !== $this->TraitementRegistre->save();
+            }
 
-                if ($fileSave == true) {
-                    $this->TraitementRegistre->commit();
-                    $saveTraitement = true;
-                } else {
-                    $this->TraitementRegistre->rollback();
-                    $saveTraitement = false;
+            if ($success == true) {
+                // Si la génération n'est pas vide on enregistre les data de l'Extrait de registre en base de données
+                if (!empty($pdfExtrait)) {
+                    $this->ExtraitRegistre->create([
+                        'fiche_id' => $id,
+                        'data' => $pdfExtrait
+                    ]);
+                    $success = $success && false !== $this->ExtraitRegistre->save();
+                }
+
+                if ($success == true) {
+                    $success = $success && $this->EtatFiche->updateAll([
+                                'actif' => false
+                                    ], [
+                                'fiche_id' => $id,
+                                'etat_id' => [5, 9],
+                                'actif' => true
+                                    ]
+                            ) !== false;
+
+                    if ($success == true) {
+                        $this->EtatFiche->create([
+                            'EtatFiche' => [
+                                'fiche_id' => $id,
+                                'etat_id' => 7,
+                                'previous_user_id' => $this->Auth->user('id'),
+                                'user_id' => $this->Auth->user('id')
+                            ]
+                        ]);
+                        $success = $success && false !== $this->EtatFiche->save();
+
+                        if ($success == true) {
+                            $this->Historique->create([
+                                'Historique' => [
+                                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' archive la fiche',
+                                    'fiche_id' => $id
+                                ]
+                            ]);
+                            $success = $success && false !== $this->Historique->save();
+                        }
+                    }
                 }
             }
 
-            // Si la génération n'est pas vide on enregistre les data de l'Extrait de registre en base de données
-            if (!empty($pdfExtrait)) {
-                $this->ExtraitRegistre->begin();
-
-                $fileSave = $this->ExtraitRegistre->save([
-                    'id_fiche' => $id,
-                    'data' => $pdfExtrait
-                ]);
-
-                if ($fileSave == true) {
-                    $this->ExtraitRegistre->commit();
-                    $saveExtrait = true;
-                } else {
-                    $this->ExtraitRegistre->rollback();
-                    $saveExtrait = false;
-                }
-            }
-
-
-            if ($saveTraitement == true && $saveExtrait == true) {
-                $this->EtatFiche->updateAll([
-                    'actif' => false
-                    ],[
-                        'fiche_id' => $id,
-                        'etat_id' => [5, 9],
-                        'actif' => true
-                    ]
-                );
-                
-                $this->EtatFiche->create([
-                    'EtatFiche' => [
-                        'fiche_id' => $id,
-                        'etat_id' => 7,
-                        'previous_user_id' => $this->Auth->user('id'),
-                        'user_id' => $this->Auth->user('id')
-                    ]
-                ]);
-                $this->EtatFiche->save();
-                
-                $this->Historique->create([
-                    'Historique' => [
-                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' archive la fiche',
-                        'fiche_id' => $id
-                    ]
-                ]);
-                $this->Historique->save();
-
+            if ($success == true) {
+                $this->EtatFiche->commit();
                 $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementArchiver'), 'flashsuccess');
-                $this->redirect(array(
-                    'controller' => 'registres',
-                    'action' => 'index'
-                ));
             } else {
-                $this->Session->setFlash('ERREUR d\'enregistrement', 'flasherror');
-                $this->redirect(array(
-                    'controller' => 'registres',
-                    'action' => 'index'
-                ));
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
+
+            $this->redirect(array(
+                'controller' => 'registres',
+                'action' => 'index'
+            ));
         }
     }
 

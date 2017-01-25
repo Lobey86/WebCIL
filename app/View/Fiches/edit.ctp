@@ -8,9 +8,9 @@ unset($_SESSION['nameController']);
 unset($_SESSION['nameView']);
 
 echo $this->Form->create('Fiche', [
-    'action' => 'edit',
     'class' => 'form-horizontal',
-    'type' => 'file'
+    'type' => 'file',
+    'novalidate' => 'novalidate'
 ]);
 ?>
 <!--<div class="row">
@@ -474,6 +474,7 @@ if (!empty($files)) {
         'between' => '<div class="col-md-8">',
         'after' => '</div>',
         'class' => 'filestyle fichiers draggable',
+        'required' => false,
         'div' => 'form-group',
         'accept' => ".odt",
         'multiple'

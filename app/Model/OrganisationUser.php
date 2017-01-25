@@ -38,8 +38,10 @@ class OrganisationUser extends AppModel {
      */
     public $validate = array(
         'organisation_id' => array(
-            'rule' => 'notEmpty',
-            'message' => 'Vous devez sélectionner une organisation'
+            array(
+                'rule' => 'notEmpty',
+                'message' => 'Vous devez sélectionner une organisation'
+            )
         )
     );
 

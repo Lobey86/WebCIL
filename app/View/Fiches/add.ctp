@@ -3,9 +3,9 @@ $col = 1;
 $line = 1;
 
 echo $this->Form->create('Fiche', [
-    'action' => 'add',
     'class' => 'form-horizontal',
-    'type' => 'file'
+    'type' => 'file',
+    'novalidate' => 'novalidate'
 ]);
 ?>
 
@@ -16,7 +16,7 @@ echo $this->Form->create('Fiche', [
         <span class='labelFormulaire'>
             <?php
             // Texte
-            echo('Information sur l\'entitée :');
+            echo('Information sur l\'organisation :');
             ?>
         </span>
         <div class="row row35"></div>
@@ -351,40 +351,73 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <?php
-        // Champ Nom du traitement * , à remplire par le créateur du traitement
-        echo $this->Form->input('outilnom', [
-            'label' => [
-                'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'div' => 'form-group',
-            'required' => 'required'
-        ]);
-        ?>
-    </div>
+<div class="row row35"></div>
 
-    <div class="col-md-6">
-        <?php
-        // Champ Finalité * , à remplire par le créateur du traitement
-        echo $this->Form->input('finaliteprincipale', [
-            'label' => [
-                'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'div' => 'form-group',
-            'type' => 'textarea',
-            'required' => 'required'
-        ]);
-        ?>
+<!-- Champs concernant le traitement -->
+<div class="row">
+    <div class="col-md-12">
+        <span class='labelFormulaire'>
+            <?php
+            // Texte
+            echo "Information concernant le traitement :"
+            ?>
+        </span>
+        <div class="row row35"></div>
+    </div>
+    
+    <!-- Champs des informations du traitement -->
+    <div class="row">
+        <!-- Colonne de gauche -->
+        <div class="col-md-6">
+            <?php
+            // Champ Nom du traitement * , à remplire par le créateur du traitement
+            echo $this->Form->input('outilnom', [
+                'label' => [
+                    'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'div' => 'form-group',
+                'required' => 'required'
+            ]);
+            ?>
+            
+            <?php
+            //Champ type de déclaration * , à remplire par le CIL
+//            echo $this->Form->input('typedeclaration', [
+//                'label' => [
+//                    'text' => __d('default', 'Type de déclaration '),
+//                    'class' => 'col-md-4 control-label'
+//                ],
+//                'between' => '<div class="col-md-8">',
+//                'after' => '</div>',
+//                'class' => 'form-control',
+//                'div' => 'form-group',
+//                'readonly' => 'readonly',
+//            ]);
+            ?>
+        </div>
+
+        <!-- Colonne de droite -->
+        <div class='col-md-6'>
+            <?php
+            // Champ Finalité * , à remplire par le créateur du traitement
+            echo $this->Form->input('finaliteprincipale', [
+                'label' => [
+                    'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'div' => 'form-group',
+                'type' => 'textarea',
+                'required' => 'required'
+            ]);
+            ?>
+        </div>
     </div>
 </div>
 
@@ -612,8 +645,8 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
         'between' => '<div class="col-md-8">',
         'after' => '</div>',
         'class' => 'filestyle fichiers draggable',
+        'required' => false,
         'div' => 'form-group',
-        'accept' => ".odt",
         'multiple'
     ]);
     ?>
@@ -649,7 +682,6 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
         </div>
     </div>
 </div>
-
 
 <script type="text/javascript">
 

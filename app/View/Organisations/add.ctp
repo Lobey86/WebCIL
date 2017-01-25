@@ -28,7 +28,8 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
         'action' => 'add',
         'type' => 'file',
         'autocomplete' => 'off',
-        'class' => 'form-horizontal'
+        'class' => 'form-horizontal',
+        'novalidate' => 'novalidate'
     ));
     ?>
 

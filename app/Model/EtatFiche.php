@@ -34,7 +34,7 @@ class EtatFiche extends AppModel {
      * 
      * @access public
      * @created 13/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public $belongsTo = array(
         'Etat' => array(
@@ -62,7 +62,7 @@ class EtatFiche extends AppModel {
      * 
      * @access public
      * @created 13/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public $hasMany = array(
         'Commentaire' => array(

@@ -47,6 +47,10 @@
                                             <b>
                                                 <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
                                             </b>
+                                            <?php echo __d('element', 'element.Le'); ?> 
+                                            <b>
+                                                <?php echo $this->Time->format($value['Fiche']['created'], FORMAT_DATE_HEURE); ?>
+                                            </b>
                                     </footer>
                                 </div>
                                 <br/>
