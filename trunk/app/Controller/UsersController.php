@@ -78,9 +78,9 @@ class UsersController extends AppController {
         $this->set('cil', $cil);
 
         if ($this->Droits->authorized([
-                    '8',
-                    '9',
-                    '10'
+                    ListeDroit::CREER_UTILISATEUR,
+                    ListeDroit::MODIFIER_UTILISATEUR,
+                    ListeDroit::SUPPRIMER_UTILISATEUR
                 ])
         ) {
             $query = [
@@ -217,9 +217,9 @@ class UsersController extends AppController {
         $this->set('title', 'Voir l\'utilisateur');
 
         if ($this->Droits->authorized([
-                    '8',
-                    '9',
-                    '10'
+                    ListeDroit::CREER_UTILISATEUR,
+                    ListeDroit::MODIFIER_UTILISATEUR,
+                    ListeDroit::SUPPRIMER_UTILISATEUR
                 ])
         ) {
             $this->User->id = $id;
@@ -399,7 +399,7 @@ class UsersController extends AppController {
      * @version V1.0.0
      */
     public function edit($id = null) {
-        if ($this->Droits->authorized(9) == true || $id == $this->Auth->user('id')) {
+        if ($this->Droits->authorized(ListeDroit::MODIFIER_UTILISATEUR) == true || $id == $this->Auth->user('id')) {
             $this->set('title', __d('user', 'user.titreEditerUser'));
 
             $this->User->id = $id;
@@ -428,16 +428,16 @@ class UsersController extends AppController {
             if ($this->request->is('post') || $this->request->is('put')) {
                 $success = true;
                 $this->User->begin();
-                
+
                 // Si le nouveau mot de passe = verification du nouveau mot de passe
                 if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
                     // Si le nouveau mot de passe est différent d'une chaine de caractère vide
                     if ($this->request->data['User']['new_password'] != '') {
                         $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                     }
-                    
+
                     //$success = false !== $this->_validateEntiteProfil() && $success;
-                    
+
                     if ($this->Droits->isSu()) {
                         // SuperAdmin --> Récupération de toutes les informations des entités
                         $orgas = $this->Organisation->find('all');
@@ -550,9 +550,9 @@ class UsersController extends AppController {
                         }
                     }
 
-                    
+
                     $success = false !== $this->User->save($this->request->data) && $success;
-                    
+
                     if ($success == true) {
                         foreach ($orgas as $value) {
                             if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {
@@ -568,16 +568,16 @@ class UsersController extends AppController {
                                  * et de l'organisation en cours.
                                  */
                                 $success = $success && false !== $this->OrganisationUser->deleteAll([
-                                    'user_id' => $id,
-                                    'organisation_id' => $value['Organisation']['id']
+                                            'user_id' => $id,
+                                            'organisation_id' => $value['Organisation']['id']
                                 ]);
-                                
+
                                 /* On supprime dans la table 
                                  * "organisation_user_roles" en base de données
                                  *  le role de l'utilisateur en question.
                                  */
                                 $success = $success && false !== $this->OrganisationUserRole->deleteAll([
-                                    'organisation_user_id' => $id_user
+                                            'organisation_user_id' => $id_user
                                 ]);
 
                                 /* On supprime dans la table "droits" en base 
@@ -585,7 +585,7 @@ class UsersController extends AppController {
                                  * question en fonction de son id de l'organisation
                                  */
                                 $success = $success && false !== $this->Droit->deleteAll([
-                                    'organisation_user_id' => $id_user
+                                            'organisation_user_id' => $id_user
                                 ]);
 
                                 /* On supprime dans la table 
@@ -594,11 +594,12 @@ class UsersController extends AppController {
                                  * en fonction de son id de l'organisation
                                  */
                                 $success = $success && false !== $this->OrganisationUserService->deleteAll([
-                                    'organisation_user_id' => $id_user
+                                            'organisation_user_id' => $id_user
                                 ]);
 
-                                if($success == false) {
-                                    debug('lala');die;
+                                if ($success == false) {
+                                    debug('lala');
+                                    die;
                                     $this->User->rollback();
                                     $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
 
@@ -621,7 +622,7 @@ class UsersController extends AppController {
                                         'organisation_id' => $value['Organisation']['id']
                                     ]);
                                     $success = false !== $this->OrganisationUser->save() && $success;
-                                    
+
                                     $organisationUserId = $this->OrganisationUser->getInsertID();
                                 } else {
                                     $id_orga = $this->OrganisationUser->find('first', [
@@ -634,13 +635,13 @@ class UsersController extends AppController {
                                     $organisationUserId = $id_orga['OrganisationUser']['id'];
                                 }
 
-                                if($success == true){
+                                if ($success == true) {
                                     if (!empty($this->request->data['Role']['role_ida'][$value['Organisation']['id']])) {
                                         $success = false !== $this->OrganisationUserRole->deleteAll([
-                                            'organisation_user_id' => $organisationUserId
-                                        ]) && $success;
+                                                    'organisation_user_id' => $organisationUserId
+                                                ]) && $success;
 
-                                        if($success == true){
+                                        if ($success == true) {
                                             debug($this->request->data['Role']['role_ida'][$value['Organisation']['id']]);
                                             foreach ($this->request->data['Role']['role_ida'][$value['Organisation']['id']] as $key => $donnee) {
                                                 if ($this->Role->find('count', [
@@ -656,7 +657,7 @@ class UsersController extends AppController {
                                                     ]);
                                                     $success = false !== $this->OrganisationUserRole->save() && $success;
 
-                                                    if ($success == true){
+                                                    if ($success == true) {
                                                         $droits = $this->RoleDroit->find('all', [
                                                             'conditions' => [
                                                                 'role_id' => $donnee
@@ -665,9 +666,9 @@ class UsersController extends AppController {
 
                                                         foreach ($droits as $val) {
                                                             if (empty($this->Droit->find('first', [
-                                                                'conditions' => [
-                                                                    'organisation_user_id' => $organisationUserId,
-                                                                    'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                                                'conditions' => [
+                                                                                    'organisation_user_id' => $organisationUserId,
+                                                                                    'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
                                                                 ]]))
                                                             ) {
                                                                 $this->Droit->create([
@@ -675,8 +676,8 @@ class UsersController extends AppController {
                                                                     'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
                                                                 ]);
                                                                 $success = false !== $this->Droit->save() && $success;
-                                                                
-                                                                if($success == false){
+
+                                                                if ($success == false) {
                                                                     $this->User->rollback();
                                                                     $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
 
@@ -711,7 +712,7 @@ class UsersController extends AppController {
                                 } else {
                                     $this->User->rollback();
                                     $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
-                                        
+
                                     $this->redirect([
                                         'controller' => 'users',
                                         'action' => 'index'
@@ -730,21 +731,22 @@ class UsersController extends AppController {
                                 }
                             }
                         }
-                        
-                        if($success == true) {
+
+                        if ($success == true) {
                             $this->User->commit();
                             $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), "flashsuccess");
                         } else {
                             $this->User->rollback();
                             $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
                         }
-                        
+
                         $this->redirect([
                             'controller' => 'users',
                             'action' => 'index'
                         ]);
                     } else {
-                        debug('yoyoyo');die;
+                        debug('yoyoyo');
+                        die;
                         $this->User->rollback();
                         $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
                         $this->redirect([
@@ -772,7 +774,7 @@ class UsersController extends AppController {
                 'action' => 'index'
             ]);
         }
-        
+
         $this->set('options', $this->User->enums());
     }
 
@@ -872,7 +874,7 @@ class UsersController extends AppController {
      * @version V1.0.0
      */
     public function delete($id = null) {
-        if ($this->Droits->authorized(10)) {
+        if ($this->Droits->authorized(ListeDroit::SUPPRIMER_UTILISATEUR)) {
             $this->User->id = $id;
 
             if (!$this->User->exists()) {

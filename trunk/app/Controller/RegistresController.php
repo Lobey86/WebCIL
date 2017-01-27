@@ -23,6 +23,8 @@
  */
 App::uses('Folder', 'Utility');
 App::uses('File', 'Utility');
+App::uses('EtatFiche', 'Model');
+App::uses('ListeDroit', 'Model');
 
 class RegistresController extends AppController {
 
@@ -59,9 +61,9 @@ class RegistresController extends AppController {
 
         $condition = [
             'EtatFiche.etat_id' => [
-                5,
-                7,
-                9
+                EtatFiche::VALIDER_CIL,
+                EtatFiche::ARCHIVER,
+                EtatFiche::MODIFICATION_TRAITEMENT_REGISTRE
             ],
             'EtatFiche.actif' => true,
             'Fiche.organisation_id' => $this->Session->read('Organisation.id')
@@ -81,19 +83,19 @@ class RegistresController extends AppController {
         }
 
         if (isset($this->request->data['Registre']['archive']) && $this->request->data['Registre']['archive'] == 1) {
-            $condition['EtatFiche.etat_id'] = 7;
+            $condition['EtatFiche.etat_id'] = EtatFiche::ARCHIVER;
             $search = true;
         }
 
         if (isset($this->request->data['Registre']['nonArchive']) && $this->request->data['Registre']['nonArchive'] == 1) {
-            $condition['EtatFiche.etat_id'] = 5;
+            $condition['EtatFiche.etat_id'] = EtatFiche::VALIDER_CIL;
             $search = true;
         }
 
         if ($this->Droits->authorized([
-                    '4',
-                    '5',
-                    '6'
+                    ListeDroit::CONSULTER_REGISTRE,
+                    ListeDroit::INSERER_TRAITEMENT_REGISTRE,
+                    ListeDroit::MODIFIER_TRAITEMENT_REGISTRE
                 ])
         ) {
             $fichesValid = $this->EtatFiche->find('all', [
@@ -179,13 +181,13 @@ class RegistresController extends AppController {
         $this->Modification->begin();
 
         $success = $success && $this->EtatFiche->updateAll([
-            'actif' => false
-            ], [
-                'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
-                'etat_id' => [5, 9],
-                'actif' => true
-            ]
-        ) !== false;
+                    'actif' => false
+                        ], [
+                    'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
+                    'etat_id' => [5, 9],
+                    'actif' => true
+                        ]
+                ) !== false;
 
         $this->EtatFiche->create([
             'EtatFiche' => [
@@ -195,7 +197,7 @@ class RegistresController extends AppController {
                 'user_id' => $this->Auth->user('id')
             ]
         ]);
-        
+
         $success = false !== $this->EtatFiche->save() && $success;
 
         $idEtatFiche = $this->EtatFiche->find('first', [

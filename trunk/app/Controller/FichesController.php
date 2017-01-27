@@ -22,6 +22,8 @@
  * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('ListeDroit', 'Model');
+
 class FichesController extends AppController {
 
     public $helpers = [
@@ -96,7 +98,7 @@ class FichesController extends AppController {
      * @version V1.0.0
      */
     public function add($id = null) {
-        if ($this->Droits->authorized(1)) {
+        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
 
             $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
 
@@ -190,7 +192,7 @@ class FichesController extends AppController {
                         $success = $success && false !== $this->EtatFiche->save();
                     }
                 }
-                
+
                 if ($success == true) {
                     $this->Fiche->commit();
                     $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
@@ -224,7 +226,7 @@ class FichesController extends AppController {
      * @version V1.0.0
      */
     public function delete($id = null) {
-        if ($this->Droits->authorized(1) && $this->Droits->isOwner($id)) {
+        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT) && $this->Droits->isOwner($id)) {
             if (!$this->Droits->isdeletable($id)) {
                 $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
                 $this->redirect([
