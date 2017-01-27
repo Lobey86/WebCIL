@@ -57,7 +57,7 @@ class AppController extends Controller
     /**
      * @access public
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function beforeFilter() {
         $locale = Configure::read('Config.language');
@@ -113,7 +113,7 @@ class AppController extends Controller
     /**
      * @access public
      * @created 26/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function beforeRender() {
         parent::beforeRender();

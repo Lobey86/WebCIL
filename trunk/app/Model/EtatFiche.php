@@ -27,6 +27,16 @@ class EtatFiche extends AppModel {
 
     public $name = 'EtatFiche';
 
+    const ENCOURS_REDACTION = 1; // En cours de rédaction
+    const ENCOURS_VALIDATION = 2; // En cours de validation
+    const VALIDER = 3; // Validée
+    const REFUSER = 4; // Refusée
+    const VALIDER_CIL = 5; // Validée par le CIL
+    const DEMANDE_AVIS = 6; // Demande d avis
+    const ARCHIVER = 7; // Archivée
+    const REPLACER_REDACTION = 8; // Replacer en rédaction
+    const MODIFICATION_TRAITEMENT_REGISTRE = 9; // Modification du traitement inséré au registre
+
     /**
      * belongsTo associations
      *

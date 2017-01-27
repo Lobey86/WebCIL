@@ -17,11 +17,14 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('EtatFiche', 'Model');
+App::uses('ListeDroit', 'Model');
+
 class PannelController extends AppController {
 
     public $uses = [
@@ -53,7 +56,7 @@ class PannelController extends AppController {
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "index");
 
-        if (!$this->Droits->authorized(1)) {
+        if (!$this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
             $this->redirect(['controller' => 'pannel', 'action' => 'inbox']);
         }
 
@@ -61,23 +64,39 @@ class PannelController extends AppController {
 
         // Requète récupérant les traitements en cours de rédaction
         $db = $this->EtatFiche->getDataSource();
-        $subQuery = $db->buildStatement([
-            'fields' => ['"EtatFiche2"."fiche_id"'],
-            'table' => $db->fullTableName($this->EtatFiche),
-            'alias' => 'EtatFiche2',
-            'limit' => null,
-            'offset' => null,
-            'joins' => [],
-            'conditions' => ['EtatFiche2.etat_id BETWEEN 2 AND 5'],
-            'order' => null,
-            'group' => null
-                ], $this->EtatFiche);
+        $subQuery = $this->EtatFiche->sql(
+            array(
+                'alias' => 'etats_fiches2',
+                'fields' => ['etats_fiches2.fiche_id'],
+                'conditions' => ['etats_fiches2.etat_id BETWEEN ' . EtatFiche::ENCOURS_VALIDATION . ' AND '.EtatFiche::VALIDER_CIL ]
+            )
+        );
 
-        $subQuery = '"Fiche"."user_id" = ' . $this->Auth->user('id') . ' AND "Fiche"."organisation_id" = ' . $this->Session->read('Organisation.id') . ' AND "EtatFiche"."fiche_id" NOT IN (' . $subQuery . ') ';
-        $subQueryExpression = $db->expression($subQuery);
+        $conditions[] = $db->conditions(
+            [
+                'Fiche.user_id' => $this->Auth->user('id'),
+                'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
+                'EtatFiche.fiche_id NOT IN (' . $subQuery . ')'
+            ],
+            true,
+            false
+        );
+       
+        $conditions[] = $db->conditions(
+            [
+                'OR' => [
+                    'EtatFiche.etat_id' => EtatFiche::ENCOURS_REDACTION,
+                    [
+                        'EtatFiche.etat_id' => EtatFiche::REPLACER_REDACTION,
+                        'EtatFiche.actif' => true,
+                        'EtatFiche.user_id' => $this->Auth->user('id')
+                    ]
+                ]
+            ],
+            true,
+            false
+        );
 
-        $conditions[] = $subQueryExpression;
-        $conditions[] = 'EtatFiche.etat_id = 1 OR EtatFiche.etat_id = 8 AND EtatFiche.actif = true AND EtatFiche.user_id =' . $this->Auth->user('id');
         $encours = $this->EtatFiche->find('all', [
             'conditions' => $conditions,
             'contain' => [
@@ -113,13 +132,12 @@ class PannelController extends AppController {
                 ]
             ]
         ]);
-
         $this->set('encours', $encours);
 
         // Requète récupérant les traitements en cours de validation
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
-                'EtatFiche.etat_id' => 2,
+                'EtatFiche.etat_id' => EtatFiche::ENCOURS_VALIDATION,
                 'Fiche.user_id' => $this->Auth->user('id'),
                 'Fiche.organisation_id' => $this->Session->read('Organisation.id')
             ],
@@ -159,8 +177,11 @@ class PannelController extends AppController {
         );
         $this->set('encoursValidation', $requete);
 
-        $conditions = null;
-        $conditions[] = 'EtatFiche.etat_id = 4 AND EtatFiche.actif = true';
+        $conditions = [];
+        $conditions[] = array(
+            'EtatFiche.etat_id' => EtatFiche::REFUSER,
+            'EtatFiche.actif' => true
+        );
 
         // Requète récupérant les traitements refusées par un validateur
         $requete = $this->EtatFiche->find('all', [
@@ -250,7 +271,11 @@ class PannelController extends AppController {
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "inbox");
 
-        if (!$this->Droits->authorized([2, 3, 5])) {
+        if (!$this->Droits->authorized([
+            ListeDroit::VALIDER_TRAITEMENT, 
+            ListeDroit::VISER_TRAITEMENT,
+            ListeDroit::INSERER_TRAITEMENT_REGISTRE
+        ])) {
             $this->redirect($this->referer());
         }
         $this->set('title', __d('pannel', 'pannel.titreTraitementRecue'));
@@ -258,7 +283,7 @@ class PannelController extends AppController {
 
         $requete = $this->EtatFiche->find('all', [
             'conditions' => [
-                'EtatFiche.etat_id' => 2,
+                'EtatFiche.etat_id' => EtatFiche::ENCOURS_VALIDATION,
                 'EtatFiche.user_id' => $this->Auth->user('id'),
                 'Fiche.organisation_id' => $this->Session->read('Organisation.id')
             ],

@@ -17,9 +17,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 class OrganisationsController extends AppController {
@@ -38,7 +38,7 @@ class OrganisationsController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
         $this->set('title', 'Les entités de l\'application');
@@ -75,7 +75,7 @@ class OrganisationsController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function add() {
         $this->set('title', 'Créer une entité');
@@ -115,7 +115,7 @@ class OrganisationsController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function delete($id = null) {
         if ($this->Droits->isSu()) {
@@ -141,7 +141,7 @@ class OrganisationsController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function show($id = null) {
         $this->set('title', 'Informations générales - ' . $this->Session->read('Organisation.raisonsociale'));
@@ -201,7 +201,7 @@ class OrganisationsController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function edit($id = null) {
         if ($id == $this->Session->read('Organisation.id')) {
@@ -307,7 +307,7 @@ class OrganisationsController extends AppController {
      * 
      * @access public
      * @created 08/01/2016
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function changenotification($id = null, $controller = null, $action = null, $idFicheNotification = 0) {
         $idArray = $this->OrganisationUser->find('first', ['conditions' => ['OrganisationUser.user_id' => $this->Auth->user('id')]]);
@@ -349,7 +349,7 @@ class OrganisationsController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function change($id = null, $redirect = 0, $controller = null, $action = null) {
         if ($id == null) {
@@ -431,7 +431,7 @@ class OrganisationsController extends AppController {
      * 
      * @access protected
      * @created 29/04/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     protected function _insertRoles($id = null) {
         if ($id != NULL) {

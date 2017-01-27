@@ -158,9 +158,6 @@ msgstr "Vous n'avez pas le droit d'acceder à cette page"
 msgid "default.flashsuccessEnregistrementEffectuer"
 msgstr "Enregistrement effectué"
 
-msgid "default.flasherrorErreurEnregistrement"
-msgstr "Erreur lors de l'enregistrement"
-
 msgid "default.flasherrorEtapeIntrouvable"
 msgstr "Etape introuvable"
 

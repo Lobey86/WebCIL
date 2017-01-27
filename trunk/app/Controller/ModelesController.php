@@ -19,9 +19,9 @@ App::uses('File', 'Utility');
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 class ModelesController extends AppController {
@@ -39,7 +39,7 @@ class ModelesController extends AppController {
     /**
      * @access public
      * @created 18/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
         $this->set('title', __d('modele', 'modele.titreListeModele'));
@@ -53,7 +53,7 @@ class ModelesController extends AppController {
     /**
      * @access public
      * @created 18/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function add() {
         $saveFile = $this->Modele->saveFile($this->request->data, $this->request->data['Modele']['idUploadModele']);
@@ -80,7 +80,7 @@ class ModelesController extends AppController {
      * 
      * @access public
      * @created 18/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function download($file, $nameFile) {
         $this->response->file(CHEMIN_MODELES . $file, array(

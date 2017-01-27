@@ -15,9 +15,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 
