@@ -16,9 +16,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 class FormulairesController extends AppController {
@@ -34,7 +34,7 @@ class FormulairesController extends AppController {
     /**
      * @access public
      * @created 18/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
         $this->set('title', __d('formulaire', 'formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
@@ -60,6 +60,8 @@ class FormulairesController extends AppController {
      * @version V1.0.2
      */
     public function dupliquer() {
+        $success = true;
+        $this->Formulaire->begin();
 
         $id = $this->request->data['Formulaire']['id'];
 
@@ -70,66 +72,89 @@ class FormulairesController extends AppController {
         $organisation['Organisation']['service'] = ($this->Session->read('User.service') == null) ? '' : $this->Session->read('User.service');
 
         //pour que le formulaire qu'on duplique reste actif
-        $this->Formulaire->updateAll(array('active' => true), array('id' => $id));
+        $success = $success && $this->Formulaire->updateAll(array(
+                    'active' => true
+                        ), array(
+                    'id' => $id
+                )) !== false;
 
-        //on c'est un nouveau formulaire en renseignant les infos
-        $this->Formulaire->create(array(
-            'organisations_id' => $organisation['Organisation']['id'],
-            'libelle' => $this->request->data['Formulaire']['libelle'],
-            'description' => $this->request->data['Formulaire']['description'],
-            'active' => false,
-        ));
-
-        //on enregistre le formualire
-        $this->Formulaire->save();
-
-        //on recupere l'id du formulaire qu'on vien d'enregistré
-        $idForm = $this->Formulaire->getLastInsertId();
-
-        //on recupere en BDD tout les champs qui corresponde a $id
-        $champs = $this->Champ->find('all', array(
-            'conditions' => array(
-                'formulaires_id' => $id
-            )
-        ));
-
-        foreach ($champs as $key => $champ) {
-            //on decode pour récupere les info
-            $array = json_decode($champ['Champ']['details'], true);
-
-            //on cree un nouveau champs avec l'id du nouveau formulaire qu'on a cree et les info qu'on a décodé
-            $this->Champ->create(array(
-                'formulaires_id' => $idForm,
-                'type' => $champ['Champ']['type'],
-                'ligne' => $champ['Champ']['ligne'],
-                'colonne' => $champ['Champ']['colonne'],
-                'details' => $champ['Champ']['details']
+        if ($success == true) {
+            //on c'est un nouveau formulaire en renseignant les infos
+            $this->Formulaire->create(array(
+                'organisations_id' => $organisation['Organisation']['id'],
+                'libelle' => $this->request->data['Formulaire']['libelle'],
+                'description' => $this->request->data['Formulaire']['description'],
+                'active' => false,
             ));
+            //on enregistre le formualire
+            $success = $success && false !== $this->Formulaire->save();
 
-            //on enregistre le champ
-            $this->Champ->save();
+            if ($success == true) {
+                //on recupere l'id du formulaire qu'on vien d'enregistré
+                $idForm = $this->Formulaire->getLastInsertId();
+
+                //on recupere en BDD tout les champs qui corresponde a $id
+                $champs = $this->Champ->find('all', array(
+                    'conditions' => array(
+                        'formulaires_id' => $id
+                    )
+                ));
+
+                foreach ($champs as $key => $champ) {
+                    //on decode pour récupere les info
+                    $array = json_decode($champ['Champ']['details'], true);
+
+                    //on cree un nouveau champs avec l'id du nouveau formulaire qu'on a cree et les info qu'on a décodé
+                    $this->Champ->create(array(
+                        'formulaires_id' => $idForm,
+                        'type' => $champ['Champ']['type'],
+                        'ligne' => $champ['Champ']['ligne'],
+                        'colonne' => $champ['Champ']['colonne'],
+                        'details' => $champ['Champ']['details']
+                    ));
+
+                    //on enregistre le champ
+                    $success = $success && false !== $this->Champ->save();
+                }
+            }
         }
 
-        $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireDupliquer'), 'flashsuccess');
-        $this->redirect(array(
-            'controller' => 'Formulaires',
-            'action' => 'index'
-        ));
+        if ($success == true) {
+            $this->Formulaire->commit();
+            $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireDupliquer'), 'flashsuccess');
+
+            $this->redirect(array(
+                'controller' => 'Formulaires',
+                'action' => 'index'
+            ));
+        } else {
+            $this->Formulaire->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+        }
     }
 
     /**
+     * Supprime un formulaire
+     * 
      * @param int $id
      * 
      * @access public
      * @created 18/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function delete($id) {
         if ($id != null) {
-            if ($this->FormGen->del($id)) {
+            $success = true;
+            $this->FormGen->begin();
+
+            $success = $success && false !== $this->FormGen->del($id);
+
+            if ($success == true) {
+                $this->FormGen->commit();
                 $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireSupprimer'), 'flashsuccess');
             } else {
-                $this->Session->setFlash(__d('formulaire', 'formulaire.flasherrorErreurSupprimerFormulaire'), 'flasherror');
+                $this->FormGen->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
         } else {
             $this->Session->setFlash(__d('formulaire', 'formulaire.flasherrorFormulaireInexistant'), 'flasherror');
@@ -140,23 +165,31 @@ class FormulairesController extends AppController {
     /**
      * @access public
      * @created 18/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function addFirst() {
         if ($this->request->is('POST')) {
+            $success = true;
+            $this->Formulaire->begin();
+
             $this->Formulaire->create(array(
                 'organisations_id' => $this->Session->read('Organisation.id'),
                 'libelle' => $this->request->data['Formulaire']['libelle'],
                 'description' => $this->request->data['Formulaire']['description'],
                 'active' => 0
             ));
-            $this->Formulaire->save();
-            
-            $this->redirect(array(
-                'controller' => 'formulaires',
-                'action' => 'add',
-                $this->Formulaire->getInsertId()
-            ));
+            $success = $success && false !== $this->Formulaire->save();
+
+            if ($success == true) {
+                $this->redirect(array(
+                    'controller' => 'formulaires',
+                    'action' => 'add',
+                    $this->Formulaire->getInsertId()
+                ));
+            } else {
+                $this->Formulaire->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
         }
     }
 
@@ -166,7 +199,7 @@ class FormulairesController extends AppController {
      * @access public
      * @created 18/06/2015
      * @edit 24/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function add($id = null) {
         $formulaire = $this->Formulaire->find('first', [
@@ -178,7 +211,7 @@ class FormulairesController extends AppController {
             ]
         ]);
         $this->set('title', __d('formulaire', 'formulaire.titreCreerFormulaire') . $formulaire['Formulaire']['libelle']);
-        
+
         $organisation = $this->Organisation->find('first', array(
             'conditions' => array('Organisation.id' => $this->Session->read('Organisation.id'))
         ));
@@ -186,10 +219,15 @@ class FormulairesController extends AppController {
         $organisation['Organisation']['service'] = ($this->Session->read('User.service') == null) ? '' : $this->Session->read('User.service');
 
         $this->set(compact(['id', 'organisation']));
+
         if ($this->request->is('POST')) {
+            $success = true;
+            $this->Formulaire->begin();
+
             if ($id == null) {
                 $id = $this->request->data['Formulaire']['id'];
             }
+
             $array = json_decode($this->request->data['Formulaire']['json'], true);
             foreach ($array as $key => $value) {
                 $sortie = array();
@@ -209,6 +247,7 @@ class FormulairesController extends AppController {
                             break;
                     }
                 }
+
                 $this->Champ->create(array(
                     'formulaires_id' => $id,
                     'type' => $type,
@@ -216,13 +255,21 @@ class FormulairesController extends AppController {
                     'colonne' => $colonne,
                     'details' => json_encode($sortie)
                 ));
-                $this->Champ->save();
+                $success = $success && false !== $this->Champ->save();
             }
-            $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
-            $this->redirect(array(
-                'controller' => 'formulaires',
-                'action' => 'index'
-            ));
+
+            if ($success == true) {
+                $this->Formulaire->commit();
+                $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
+
+                $this->redirect(array(
+                    'controller' => 'formulaires',
+                    'action' => 'index'
+                ));
+            } else {
+                $this->Formulaire->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
         }
     }
 
@@ -233,15 +280,31 @@ class FormulairesController extends AppController {
      * @access public
      * @created 18/06/2015
      * @edit 24/12/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function toggle($id, $state = null) {
+        $success = true;
+        $this->Formulaire->begin();
+
         $this->Formulaire->id = $id;
-        if ($this->Formulaire->updateAll(array('active' => (int) !$state), array('id' => $id))) {
+
+        $success = $success && $this->Formulaire->updateAll(array(
+            'active' => (int) !$state
+                ), array(
+            'id' => $id
+        ));
+
+        if ($success == true) {
+            $this->Formulaire->commit();
+            $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
+
             $this->redirect(array(
                 'controller' => 'formulaires',
                 'action' => 'index'
             ));
+        } else {
+            $this->Formulaire->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
     }
 
@@ -251,7 +314,7 @@ class FormulairesController extends AppController {
      * @param int|null $id
      * 
      * @access public
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function edit($id = null) {
         $formulaire = $this->Formulaire->find('first', [

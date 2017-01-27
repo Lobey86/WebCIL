@@ -92,14 +92,6 @@ class EtatFichesController extends AppController {
                 ]);
                 $success = $success && false !== $this->Notification->save();
 
-//                $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
-//
-//                $this->Notification->updateAll([
-//                    'Notification.afficher' => false
-//                        ], [
-//                    'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-//                    'Notification.user_id' => $this->request->data['EtatFiche']['destinataire'],
-//                ]);
                 if ($success == true) {
                     $destinataire = $this->User->find('first', [
                         'conditions' => [
@@ -114,28 +106,19 @@ class EtatFichesController extends AppController {
                         ]
                     ]);
                     $success = $success && false !== $this->Historique->save();
-
-                    if ($success == true) {
-                        $this->EtatFiche->commit();
-                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerValidation'), 'flashsuccess');
-
-                        $this->requestAction([
-                            'controller' => 'pannel',
-                            'action' => 'supprimerLaNotif',
-                            $this->request->data['EtatFiche']['ficheNum']
-                        ]);
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                    }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
+        }
+
+        if ($success == true) {
+            $this->EtatFiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerValidation'), 'flashsuccess');
+
+            $this->requestAction([
+                'controller' => 'pannel',
+                'action' => 'supprimerLaNotif',
+                $this->request->data['EtatFiche']['ficheNum']
+            ]);
         } else {
             $this->EtatFiche->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -196,36 +179,19 @@ class EtatFichesController extends AppController {
                         ]
                     ]);
                     $success = $success && false !== $this->Notification->save();
-
-                    //        $this->Notifications->add(2, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
-                    //        $this->Notification->updateAll([
-                    //            'Notification.afficher' => false
-                    //                ], [
-                    //            'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-                    //            'Notification.user_id' => $this->request->data['EtatFiche']['destinataire']
-                    //        ]);
-
-                    if ($success == true) {
-                        $this->EtatFiche->commit();
-                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRedirige'), 'flashsuccess');
-
-                        $this->requestAction([
-                            'controller' => 'pannel',
-                            'action' => 'supprimerLaNotif',
-                            $this->request->data['EtatFiche']['ficheNum']
-                        ]);
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                    }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
+        }
+
+        if ($success == true) {
+            $this->EtatFiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRedirige'), 'flashsuccess');
+
+            $this->requestAction([
+                'controller' => 'pannel',
+                'action' => 'supprimerLaNotif',
+                $this->request->data['EtatFiche']['ficheNum']
+            ]);
         } else {
             $this->EtatFiche->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -301,36 +267,19 @@ class EtatFichesController extends AppController {
                         ]
                     ]);
                     $success = $success && false !== $this->Notification->save();
-
-//                    $this->Notifications->add(4, $this->request->data['EtatFiche']['ficheNum'], $idDestinataire);
-//                    $this->Notification->updateAll([
-//                        'Notification.afficher' => false
-//                            ], [
-//                        'Notification.fiche_id' => $idFiche,
-//                        'Notification.user_id' => $idDestinataire,
-//                    ]);
-
-                    if ($success == true) {
-                        $this->EtatFiche->commit();
-                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRefuse'), 'flashsuccess');
-
-                        $this->requestAction([
-                            'controller' => 'pannel',
-                            'action' => 'supprimerLaNotif',
-                            $idFiche
-                        ]);
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                    }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
+        }
+
+        if ($success == true) {
+            $this->EtatFiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementRefuse'), 'flashsuccess');
+
+            $this->requestAction([
+                'controller' => 'pannel',
+                'action' => 'supprimerLaNotif',
+                $idFiche
+            ]);
         } else {
             $this->EtatFiche->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -404,32 +353,18 @@ class EtatFichesController extends AppController {
                         ]
                     ]);
                     $success = $success && false !== $this->Notification->save();
-
-//                    $this->Notifications->add(1, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['destinataire']);
-//                    $this->Notification->updateAll([
-//                        'Notification.afficher' => false
-//                            ], [
-//                        'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-//                        'Notification.user_id' => $this->request->data['EtatFiche']['destinataire'],
-//                    ]);
-
-                    if ($success == true) {
-                        $this->EtatFiche->commit();
-                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerAvis'), 'flashsuccess');
-
-                        $this->requestAction([
-                            'controller' => 'pannel',
-                            'action' => 'supprimerLaNotif',
-                            $this->request->data['EtatFiche']['ficheNum']
-                        ]);
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                    }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
+            }
+
+            if ($success == true) {
+                $this->EtatFiche->commit();
+                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerAvis'), 'flashsuccess');
+
+                $this->requestAction([
+                    'controller' => 'pannel',
+                    'action' => 'supprimerLaNotif',
+                    $this->request->data['EtatFiche']['ficheNum']
+                ]);
             } else {
                 $this->EtatFiche->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -498,37 +433,19 @@ class EtatFichesController extends AppController {
                         ]
                     ]);
                     $success = $success && false !== $this->Notification->save();
-
-
-//                    $this->Notifications->add(5, $this->request->data['EtatFiche']['ficheNum'], $this->request->data['EtatFiche']['previousUserId']);
-//                    $this->Notification->updateAll([
-//                        'Notification.afficher' => false
-//                            ], [
-//                        'Notification.fiche_id' => $this->request->data['EtatFiche']['ficheNum'],
-//                        'Notification.user_id' => $this->request->data['EtatFiche']['previousUserId'],
-//                    ]);
-
-                    if ($success == true) {
-                        $this->EtatFiche->commit();
-                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessCommentaireAjouter'), 'flashsuccess');
-
-                        $this->requestAction([
-                            'controller' => 'pannel',
-                            'action' => 'supprimerLaNotif',
-                            $this->request->data['EtatFiche']['ficheNum']
-                        ]);
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                    }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
+        }
+
+        if ($success == true) {
+            $this->EtatFiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessCommentaireAjouter'), 'flashsuccess');
+
+            $this->requestAction([
+                'controller' => 'pannel',
+                'action' => 'supprimerLaNotif',
+                $this->request->data['EtatFiche']['ficheNum']
+            ]);
         } else {
             $this->EtatFiche->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -592,22 +509,16 @@ class EtatFichesController extends AppController {
                         ]
                     ]);
                     $success = $success && false !== $this->Historique->save();
-
-                    if ($success == true) {
-                        $this->EtatFiche->commit();
-                        $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementReplacerRedaction'), 'flashsuccess');
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                    }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
+        }
+
+        if ($success == true) {
+            $this->EtatFiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementReplacerRedaction'), 'flashsuccess');
+        } else {
+            $this->EtatFiche->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
 
         $this->redirect([
@@ -689,40 +600,20 @@ class EtatFichesController extends AppController {
                             ]
                         ]);
                         $success = $success && false !== $this->Notification->save();
-
-//                        $this->Notifications->add(2, $id, $cil['Organisation']['cil']);
-//                        $this->Notification->updateAll([
-//                            'Notification.afficher' => false
-//                                ], [
-//                            'Notification.fiche_id' => $id,
-//                            'Notification.user_id' => $cil['Organisation']['cil']
-//                        ]);
-
-                        if ($success == true) {
-                            $this->EtatFiche->commit();
-                            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerCIL'), 'flashsuccess');
-
-                            $this->requestAction([
-                                'controller' => 'pannel',
-                                'action' => 'supprimerLaNotif',
-                                $id
-                            ]);
-                        } else {
-                            $this->EtatFiche->rollback();
-                            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                        }
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                     }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flasherrorAucunCIL'), 'flasherror');
             }
+        }
+
+        if ($success == true) {
+            $this->EtatFiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEnvoyerCIL'), 'flashsuccess');
+
+            $this->requestAction([
+                'controller' => 'pannel',
+                'action' => 'supprimerLaNotif',
+                $id
+            ]);
         } else {
             $this->EtatFiche->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -800,37 +691,25 @@ class EtatFichesController extends AppController {
                             ]
                         ]);
                         $success = $success && false !== $this->Historique->save();
-
-                        if ($success == true) {
-                            $this->EtatFiche->commit();
-                            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEngregistreRegistre'), 'flashsuccess');
-
-                            $this->requestAction([
-                                'controller' => 'pannel',
-                                'action' => 'supprimerLaNotif',
-                                $idEncoursValid['Fiche']['id']
-                            ]);
-
-                            $this->redirect([
-                                'controller' => 'registres',
-                                'action' => 'index'
-                            ]);
-                        } else {
-                            $this->EtatFiche->rollback();
-                            $this->Session->setFlash(__d('etat_fiche', 'oups! (FIXME msg)'), 'flasherror');
-                        }
-                    } else {
-                        $this->EtatFiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                     }
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flasherrorTraitementPasEnCourValidation'), 'flasherror');
             }
+        }
+
+        if ($success == true) {
+            $this->EtatFiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementEngregistreRegistre'), 'flashsuccess');
+
+            $this->requestAction([
+                'controller' => 'pannel',
+                'action' => 'supprimerLaNotif',
+                $idEncoursValid['Fiche']['id']
+            ]);
+
+            $this->redirect([
+                'controller' => 'registres',
+                'action' => 'index'
+            ]);
         } else {
             $this->EtatFiche->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');

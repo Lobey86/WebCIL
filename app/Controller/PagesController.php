@@ -16,9 +16,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 App::uses('AppController', 'Controller');
@@ -49,7 +49,7 @@ class PagesController extends AppController {
      * 
      * @access public
      * @created 24/10/2014
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function display() {
         $path = func_get_args();

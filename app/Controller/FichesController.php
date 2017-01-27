@@ -17,9 +17,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 class FichesController extends AppController {
@@ -188,23 +188,17 @@ class FichesController extends AppController {
                             ]
                         ]);
                         $success = $success && false !== $this->EtatFiche->save();
-
-                        if ($success == true) {
-                            $this->Fiche->commit();
-                            $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
-
-                            $this->redirect([
-                                'controller' => 'pannel',
-                                'action' => 'index'
-                            ]);
-                        } else {
-                            $this->Fiche->rollback();
-                            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                        }
-                    } else {
-                        $this->Fiche->rollback();
-                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                     }
+                }
+                
+                if ($success == true) {
+                    $this->Fiche->commit();
+                    $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
+
+                    $this->redirect([
+                        'controller' => 'pannel',
+                        'action' => 'index'
+                    ]);
                 } else {
                     $this->Fiche->rollback();
                     $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -299,7 +293,7 @@ class FichesController extends AppController {
                 'action' => 'index'
             ]);
         }
-        
+
         $idForm = $this->Fiche->find('first', [
             'conditions' => [
                 'id' => $id
@@ -329,31 +323,31 @@ class FichesController extends AppController {
         if ($this->request->is(['post', 'put'])) {
             $success = true;
             $this->Valeur->begin();
-            
+
             $success = $success && $this->Fiche->updateAll([
-                'modified' => "'".date("Y-m-d H:i:s")."'"
-                ],[
-                    'id' => $id
-                ]
-            ) !== false;
-            
+                        'modified' => "'" . date("Y-m-d H:i:s") . "'"
+                            ], [
+                        'id' => $id
+                            ]
+                    ) !== false;
+
             $success = $success && $this->EtatFiche->updateAll([
-                    'actif' => false
-                    ],[
+                        'actif' => false
+                            ], [
                         'fiche_id' => $id,
                         'etat_id' => [5, 9],
                         'actif' => true
-                    ]
-                ) !== false;
-            
-            
+                            ]
+                    ) !== false;
+
+
             foreach ($this->request->data['Fiche'] as $key => $value) {
                 $idsToDelete = array_keys($this->Valeur->find('list', [
-                    'conditions' => [
-                        'champ_name' => $key,
-                        'fiche_id' => $id
-                    ],
-                    'contain' => false
+                            'conditions' => [
+                                'champ_name' => $key,
+                                'fiche_id' => $id
+                            ],
+                            'contain' => false
                 ]));
 
                 if (empty($idsToDelete) == false) {

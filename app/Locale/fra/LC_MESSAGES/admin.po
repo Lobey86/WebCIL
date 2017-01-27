@@ -19,9 +19,6 @@ msgstr "Super-administrateurs"
 msgid "admin.flashsuccessUserRecuPrivilege"
 msgstr "L'utilisateur a reçu les privilèges"
 
-msgid "admin.flasherrorErreurEnregistrement"
-msgstr "Une erreur s'est produite lors de l'enregistrement"
-
 msgid "admin.flasherrorUserDejaAdmin"
 msgstr "Cet utilisateur possède déjà les privilèges administrateur"
 

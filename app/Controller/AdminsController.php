@@ -16,9 +16,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 class AdminsController extends AppController {
@@ -31,10 +31,10 @@ class AdminsController extends AppController {
     /**
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
-        $this->set('title', __d('admin','admin.titreSuperAdministrateur'));
+        $this->set('title', __d('admin', 'admin.titreSuperAdministrateur'));
         $admins = $this->Admin->find('all', [
             'contain' => [
                 'User'
@@ -58,24 +58,40 @@ class AdminsController extends AppController {
     /**
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function add() {
         if ($this->request->data['Admin']['user'] != '') {
-            $this->Admin->create(['user_id' => $this->request->data['Admin']['user']]);
-            $count = $this->Admin->find('count', ['conditions' => ['user_id' => $this->request->data['Admin']['user']]]);
+            $success = true;
+            $this->Admin->begin();
+
+            $this->Admin->create([
+                'user_id' => $this->request->data['Admin']['user']
+            ]);
+
+            $count = $this->Admin->find('count', [
+                'conditions' => [
+                    'user_id' => $this->request->data['Admin']['user']
+                ]
+            ]);
+
             if (!$count) {
-                if ($this->Admin->save()) {
-                    $this->Session->setFlash(__d('admin','admin.flashsuccessUserRecuPrivilege'), 'flashsuccess');
+                $success = $success && false !== $this->Admin->save();
+
+                if ($success == true) {
+                    $this->Admin->commit();
+                    $this->Session->setFlash(__d('admin', 'admin.flashsuccessUserRecuPrivilege'), 'flashsuccess');
                 } else {
-                    $this->Session->setFlash(__d('admin','admin.flasherrorErreurEnregistrement'), 'flasherror');
+                    $this->EtatFiche->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                 }
             } else {
-                $this->Session->setFlash(__d('amin','admin.flasherrorUserDejaAdmin'), 'flasherror');
+                $this->Session->setFlash(__d('amin', 'admin.flasherrorUserDejaAdmin'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash(__d('admin','admin.flasherrorUserNonSelectionne'), 'flasherror');
+            $this->Session->setFlash(__d('admin', 'admin.flasherrorUserNonSelectionne'), 'flasherror');
         }
+
         $this->redirect([
             'controller' => 'admins',
             'action' => 'index'
@@ -85,17 +101,24 @@ class AdminsController extends AppController {
     /**
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function delete($id) {
         if ($this->Admin->exists($id)) {
-            if ($this->Admin->delete($id)) {
-                $this->Session->setFlash(__d('admin','admin.flashsuccessPrivilegeRetire'), 'flashsuccess');
+            $success = true;
+            $this->Admin->begin();
+
+            $success = $success && false !== $this->Admin->delete($id);
+
+            if ($success == true) {
+                $this->Admin->commit();
+                $this->Session->setFlash(__d('admin', 'admin.flashsuccessPrivilegeRetire'), 'flashsuccess');
             } else {
-                $this->Session->setFlash(__d('admin','admin.flasherrorErreurEnregistrement'), 'flasherror');
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash(__d('admin','admin.flasherrorUserInexistant'), 'flasherror');
+            $this->Session->setFlash(__d('admin', 'admin.flasherrorUserInexistant'), 'flasherror');
         }
         $this->redirect([
             'controller' => 'admins',

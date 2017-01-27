@@ -16,9 +16,9 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
 class RolesController extends AppController {
@@ -33,7 +33,7 @@ class RolesController extends AppController {
     /**
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
         $this->set('title', __d('role', 'role.titreListeProfil'));
@@ -67,7 +67,7 @@ class RolesController extends AppController {
     /**
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function add() {
         $this->set('title', __d('role', 'role.titreAjouterProfil'));
@@ -114,7 +114,7 @@ class RolesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function show($id) {
         $this->set('title', 'Voir un profil');
@@ -155,7 +155,7 @@ class RolesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function edit($id = null) {
         $this->set('title', __d('role', 'role.titreEditerProfil'));
@@ -228,7 +228,7 @@ class RolesController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function delete($id = null) {
         if (($this->Droits->authorized(15) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {

@@ -16,11 +16,13 @@
  * 
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @since       webcil V1.0.0
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
+ * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('ListeDroit', 'Model');
+
 class UsersController extends AppController {
 
     public $uses = [
@@ -46,7 +48,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function beforeFilter() {
         parent::beforeFilter();
@@ -57,7 +59,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function index() {
         $this->set('title', __d('user', 'user.titreListeUser'));
@@ -209,7 +211,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function view($id = null) {
         $this->set('title', 'Voir l\'utilisateur');
@@ -266,19 +268,18 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function add() {
         $this->set('title', __d('user', 'user.titreAjouterUser'));
 
-        if ($this->Droits->authorized(8) || $this->Droits->isSu()) {
+        if ($this->Droits->authorized(ListeDroit::CREER_UTILISATEUR) || $this->Droits->isSu()) {
             $this->set('idUser', $this->Auth->user('id'));
 
             if ($this->request->is('post')) {
                 $success = true;
                 $this->User->begin();
 
-                $this->log(var_export($this->request->data, true));
                 $this->User->create($this->request->data);
 
                 $success = false !== $this->User->save() && $success;
@@ -395,7 +396,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function edit($id = null) {
         if ($this->Droits->authorized(9) == true || $id == $this->Auth->user('id')) {
@@ -783,7 +784,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 03/02/2016
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function changepassword($id = null) {
         $this->set('title', __d('user', 'user.titreModificationInfoUser'));
@@ -868,7 +869,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function delete($id = null) {
         if ($this->Droits->authorized(10)) {
@@ -908,7 +909,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function login() {
 //        $hashpass = AuthComponent::password("theog");
@@ -970,7 +971,7 @@ class UsersController extends AppController {
      * 
      * @access public
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     public function logout() {
         $this->_cleanSession();
@@ -982,7 +983,7 @@ class UsersController extends AppController {
      * 
      * @access protected
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     protected function _cleanSession() {
         $this->Session->delete('Organisation');
@@ -996,7 +997,7 @@ class UsersController extends AppController {
      * 
      * @access protected
      * @created 17/06/2015
-     * @version V0.9.0
+     * @version V1.0.0
      */
     protected function _createTable($id = null) {
         $tableau = ['Organisation' => []];
