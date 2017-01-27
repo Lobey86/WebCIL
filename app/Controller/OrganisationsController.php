@@ -22,6 +22,8 @@
  * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('ListeDroit', 'Model');
+
 class OrganisationsController extends AppController {
 
     public $uses = [
@@ -49,10 +51,9 @@ class OrganisationsController extends AppController {
             }
             $this->set('organisations', $organisations);
         } elseif ($this->Droits->authorized([
-                    '11',
-                    '12'
-                ])
-        ) {
+                    ListeDroit::CREER_ORGANISATION,
+                    ListeDroit::MODIFIER_ORGANISATION
+                ])) {
             $this->set('organisations', $this->OrganisationUser->find('all', [
                         'conditions' => [
                             'OrganisationUser.user_id' => $this->Auth->user('id')
@@ -210,7 +211,7 @@ class OrganisationsController extends AppController {
             $this->set('title', 'Editer une entité');
         }
 
-        if (($this->Droits->authorized(12) && $this->Session->read('Organisation.id') == $id) || $this->Droits->isSu()) {
+        if (($this->Droits->authorized(ListeDroit::MODIFIER_ORGANISATION) && $this->Session->read('Organisation.id') == $id) || $this->Droits->isSu()) {
             if (!$id) {
                 $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
                 $this->redirect([
@@ -253,7 +254,7 @@ class OrganisationsController extends AppController {
                         'email'
                     ]
                 ]);
-                
+
                 // On reformate le tableau
                 $result = Hash::combine($informationsUsers, '{n}.User.id', '{n}.User');
                 $result = Hash::remove($result, '{n}.id');
@@ -436,7 +437,7 @@ class OrganisationsController extends AppController {
     protected function _insertRoles($id = null) {
         if ($id != NULL) {
             $data = [
-                [
+                    [
                     'Role' => [
                         'libelle' => 'Rédacteur',
                         'organisation_id' => $id
@@ -447,7 +448,7 @@ class OrganisationsController extends AppController {
                         '7'
                     ]
                 ],
-                [
+                    [
                     'Role' => [
                         'libelle' => 'Valideur',
                         'organisation_id' => $id
@@ -458,7 +459,7 @@ class OrganisationsController extends AppController {
                         '7'
                     ]
                 ],
-                [
+                    [
                     'Role' => [
                         'libelle' => 'Consultant',
                         'organisation_id' => $id
@@ -469,7 +470,7 @@ class OrganisationsController extends AppController {
                         '7'
                     ]
                 ],
-                [
+                    [
                     'Role' => [
                         'libelle' => 'Administrateur',
                         'organisation_id' => $id

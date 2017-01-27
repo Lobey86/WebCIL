@@ -21,6 +21,8 @@
  * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('ListeDroit', 'Model');
+
 class RolesController extends AppController {
 
     public $uses = [
@@ -38,9 +40,9 @@ class RolesController extends AppController {
     public function index() {
         $this->set('title', __d('role', 'role.titreListeProfil'));
         if ($this->Droits->authorized([
-                    '13',
-                    '14',
-                    '15'
+                    ListeDroit::CREER_PROFIL,
+                    ListeDroit::MODIFIER_PROFIL,
+                    ListeDroit::SUPPRIMER_PROFIL
                 ])
         ) {
             $roles = $this->Role->find('all', [
@@ -71,7 +73,7 @@ class RolesController extends AppController {
      */
     public function add() {
         $this->set('title', __d('role', 'role.titreAjouterProfil'));
-        if ($this->Droits->authorized(13) || $this->Droits->isSu()) {
+        if ($this->Droits->authorized(ListeDroit::CREER_PROFIL) || $this->Droits->isSu()) {
             if ($this->request->is('post')) {
                 $this->Role->create($this->request->data);
                 if ($this->Role->save()) {
@@ -118,7 +120,7 @@ class RolesController extends AppController {
      */
     public function show($id) {
         $this->set('title', 'Voir un profil');
-        if (($this->Droits->authorized(13) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
+        if (($this->Droits->authorized(ListeDroit::CREER_PROFIL) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
             if (!$id) {
                 throw new NotFoundException('Ce profil n\'existe pas');
             }
@@ -159,7 +161,7 @@ class RolesController extends AppController {
      */
     public function edit($id = null) {
         $this->set('title', __d('role', 'role.titreEditerProfil'));
-        if (($this->Droits->authorized(14) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
+        if (($this->Droits->authorized(ListeDroit::MODIFIER_PROFIL) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
             if (!$id) {
                 throw new NotFoundException('Ce profil n\'existe pas');
             }
@@ -231,7 +233,7 @@ class RolesController extends AppController {
      * @version V1.0.0
      */
     public function delete($id = null) {
-        if (($this->Droits->authorized(15) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
+        if (($this->Droits->authorized(ListeDroit::SUPPRIMER_PROFIL) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
             $this->Role->id = $id;
             if (!$this->Role->exists()) {
                 throw new NotFoundException(__d('profil', 'profil.exceptionProfilInexistant'));
@@ -284,8 +286,7 @@ class RolesController extends AppController {
                     $this->Droit->begin();
                     // Suppression de tout les droits de l'utilisateur
                     $this->Droit->deleteAll(
-                        ['organisation_user_id' => $userRole['OrganisationUserRole']['organisation_user_id']], 
-                        false
+                            ['organisation_user_id' => $userRole['OrganisationUserRole']['organisation_user_id']], false
                     );
 
                     // Pour chaque droit du profil
