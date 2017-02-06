@@ -239,9 +239,9 @@ $(document).ready(function () {
         if (object.hasClass('small-text')) {
             var options = jQuery('' +
                 '<div class="col-md-12">' +
-                '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-small-text" placeholder="Nom UNIQUE" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
-                '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-small-text" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                '<div class="form-group"><label>Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-small-text" value="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
+                '<div class="form-group"><label for="name-small-text">Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="name" id="name-small-text" placeholder="Nom UNIQUE" value="' + $('.ui-selected').find('input').attr('name') + '"></div>' +
+                '<div class="form-group"><label for="label-small-text">Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-small-text" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                '<div class="form-group"><label for="placeholder-small-text">Aide à la saisie</label><input type="text" class="form-control placeholderForm" name="name" id="placeholder-small-text" value="' + $('.ui-selected').find('input').attr('placeholder') + '"></div>' +
                 check +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
