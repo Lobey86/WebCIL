@@ -50,8 +50,17 @@ msgstr "Une erreur est survenue lors de l'enregistrement. Merci de contacter vot
 
 #################: View/Fiches/add.ctp + edit.ctp + show.ctp ##################
 
+msgid "fiche.textInfoOrganisation"
+msgstr "Information sur l'entité :"
+
+msgid "fiche.textInfoResponsableEntite"
+msgstr "Information sur le responsable de l'entité :"
+
 msgid "fiche.textInfoContact"
 msgstr "Information sur le rédacteur :"
+
+msgid "fiche.textInfoTraitement"
+msgstr "Information concernant le traitement :"
 
 msgid "fiche.champNomPrenom"
 msgstr "Nom et prénom "
