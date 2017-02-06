@@ -16,7 +16,7 @@ echo $this->Form->create('Fiche', [
         <span class='labelFormulaire'>
             <?php
             // Texte
-            echo('Information sur l\'organisation :');
+            echo( __d('fiche', 'fiche.textInfoOrganisation'));
             ?>
         </span>
         <div class="row row35"></div>
@@ -152,7 +152,7 @@ echo $this->Form->create('Fiche', [
         <span class='labelFormulaire'>
             <?php
             // Texte
-            echo('Information sur le responsable de l\'entitée :');
+            echo( __d('fiche', 'fiche.textInfoResponsableEntite'));
             ?>
         </span>
         <div class="row row35"></div>
@@ -359,7 +359,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
         <span class='labelFormulaire'>
             <?php
             // Texte
-            echo "Information concernant le traitement :"
+            echo __d('fiche', 'fiche.textInfoTraitement');
             ?>
         </span>
         <div class="row row35"></div>
