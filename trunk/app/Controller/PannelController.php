@@ -531,12 +531,12 @@ class PannelController extends AppController {
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "consulte");
 
-        if (!$this->Droits->authorized([
-                    ListeDroit::VALIDER_TRAITEMENT,
-                    ListeDroit::INSERER_TRAITEMENT_REGISTRE
-                ])) {
-            $this->redirect($this->referer());
-        }
+//        if (!$this->Droits->authorized([
+//                    ListeDroit::VALIDER_TRAITEMENT,
+//                    ListeDroit::INSERER_TRAITEMENT_REGISTRE,
+//                ])) {
+//            $this->redirect($this->referer());
+//        }
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementVu'));
 
@@ -546,7 +546,7 @@ class PannelController extends AppController {
             'contain' => false,
             'conditions' => array(
                 '"etat_fiches"."actif"' => true,
-                '"etat_fiches"."etat_id"' => 5,
+                '"etat_fiches"."etat_id"' => EtatFiche::VALIDER_CIL,
                 '"etat_fiches"."fiche_id" = "EtatFiche"."fiche_id"'
             ),
             'limit' => 1
@@ -598,6 +598,57 @@ class PannelController extends AppController {
                 ]
             ]
         ]);
+
+        if (empty($requete)) {
+            $test = $this->Commentaire->find('first', [
+                'order' => ['id' => 'desc'],
+                'conditions' => [
+                    'user_id' => $this->Auth->user('id')
+                ]
+            ]);
+
+            if (!empty($test)) {
+                $requete = $this->EtatFiche->find('all', [
+                    'conditions' => [
+                        'AND' => [
+                            'EtatFiche.id' => $test['Commentaire']['etat_fiches_id'],
+                            'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sql($sq) . ')',
+                        ]],
+                    'contain' => [
+                        'Fiche' => [
+                            'fields' => [
+                                'id',
+                                'created',
+                                'modified'
+                            ],
+                            'User' => [
+                                'fields' => [
+                                    'id',
+                                    'nom',
+                                    'prenom'
+                                ]
+                            ],
+                            'Valeur' => [
+                                'conditions' => [
+                                    'champ_name' => 'outilnom'
+                                ],
+                                'fields' => [
+                                    'champ_name',
+                                    'valeur'
+                                ]
+                            ],
+                        ],
+                        'User' => [
+                            'fields' => [
+                                'id',
+                                'nom',
+                                'prenom'
+                            ]
+                        ]
+                    ]
+                ]);
+            }
+        }
 
         $return = [];
         $inArray = [];
@@ -662,10 +713,20 @@ class PannelController extends AppController {
      * @version V1.0.0
      */
     public function dropNotif() {
-        $this->Notification->deleteAll([
-            'Notification.user_id' => $this->Auth->user('id'),
-            false
+        $success = true;
+        $this->User->begin();
+
+        $success = $success && $this->Notification->deleteAll([
+                    'Notification.user_id' => $this->Auth->user('id'),
+                    false
         ]);
+
+        if ($success == true) {
+            $this->User->commit();
+        } else {
+            $this->User->rollback();
+        }
+
         $this->redirect($this->referer());
     }
 
@@ -677,10 +738,19 @@ class PannelController extends AppController {
      * @version V1.0.0
      */
     public function supprimerLaNotif($idFiche) {
-        $this->Notification->deleteAll([
-            'Notification.fiche_id' => $idFiche,
-            'Notification.user_id' => $this->Auth->user('id')
+        $success = true;
+        $this->Notification->begin();
+
+        $success = $success && $this->Notification->deleteAll([
+                    'Notification.fiche_id' => $idFiche,
+                    'Notification.user_id' => $this->Auth->user('id')
         ]);
+
+        if ($success == true) {
+            $this->Notification->commit();
+        } else {
+            $this->Notification->rollback();
+        }
     }
 
     /**
@@ -692,11 +762,21 @@ class PannelController extends AppController {
      * @version V1.0.0
      */
     public function validNotif() {
-        $this->Notification->updateAll([
-            'Notification.afficher' => true
-                ], [
-            'Notification.user_id' => $this->Auth->user('id')
-        ]);
+        $success = true;
+        $this->Notification->begin();
+
+        $success = $success && $this->Notification->updateAll([
+                    'Notification.afficher' => true
+                        ], [
+                    'Notification.user_id' => $this->Auth->user('id')
+                ]) !== false;
+
+        if ($success == true) {
+            $this->Notification->commit();
+        } else {
+            $this->Notification->rollback();
+        }
+
         $this->redirect($this->referer());
     }
 
@@ -710,12 +790,21 @@ class PannelController extends AppController {
      * @version V1.0.0
      */
     public function notifAfficher($idFicheEnCourAffigage = 0) {
-        $this->Notification->updateAll([
-            'Notification.afficher' => true
-                ], [
-            'Notification.user_id' => $this->Auth->user('id'),
-            'Notification.fiche_id' => $idFicheEnCourAffigage
-        ]);
+        $success = true;
+        $this->Notification->begin();
+
+        $success = $success && $this->Notification->updateAll([
+                    'Notification.afficher' => true
+                        ], [
+                    'Notification.user_id' => $this->Auth->user('id'),
+                    'Notification.fiche_id' => $idFicheEnCourAffigage
+                ]) !== false;
+
+        if ($success == true) {
+            $this->Notification->commit();
+        } else {
+            $this->Notification->rollback();
+        }
     }
 
     /**

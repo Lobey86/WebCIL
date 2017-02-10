@@ -89,6 +89,7 @@
                     </div>
                     <?php
                     if (!empty($value['Commentaire'])) {
+                        $idUserCommentaire = [];
                         ?>
                         <div>
                             <br/>
@@ -100,6 +101,9 @@
                             </div>
                             <?php
                             foreach ($value['Commentaire'] as $val) {
+                                if ($value['User']['id'] != $val['user_id'] && !in_array($val['user_id'], $idUserCommentaire)) {
+                                    $idUserCommentaire[$val['user_id']] = $val['user_id'];
+                                }
                                 ?>
                                 <div>
                                     <p>
@@ -110,13 +114,105 @@
                                         <b>
                                             <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
                                         </b>
+                                        <?php echo __d('element', 'element.Le'); ?> 
+                                        <b>
+                                            <?php echo $this->Time->format($val['created'], FORMAT_DATE_HEURE); ?>
+                                        </b>
                                     </footer>
                                 </div>
                                 <br/>
                                 <hr class='hrComms'/>
                                 <?php
                             }
-                            ?>
+                            ?>     
+                            
+                            <!--Bouton de réponse à un commentaire-->
+                            <div class="row bottom10">
+                                <div class="col-md-12 text-center">
+                                    <button type="button" class="btn btn-default-primary" data-toggle="modal" data-target="#AddCommentaire">
+                                        <?php echo("Répondre au commentaire");/*echo __d('formulaire', 'formulaire.btnCreerFormulaire');*/ ?>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="AddCommentaire" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">
+                                                <?php echo("Ajouter un commentaire");/*echo __d('formulaire', 'formulaire.popupInfoGeneraleFormulaire');*/ ?>
+                                            </h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <?php
+                                            //pop-up de création de formulaire
+                                            echo $this->Form->create('EtatFiche', array(
+                                                'action' => 'repondreCommentaire'
+                                            ));
+                                            
+                                            echo '<div class="row form-group">';
+                                            //Champ Description
+                                            echo $this->Form->input('commentaire', array(
+                                                'type' => 'textarea',
+                                                'class' => 'form-control',
+                                                'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderDescription'),
+                                                'label' => array(
+                                                    'text' => /*__d('formulaire', 'formulaire.popupDescription')*/ "Commentaire" .' '. '<span class="requis">*</span>',
+                                                    'class' => 'col-md-4 control-label'
+                                                ),
+                                                'between' => '<div class="col-md-8">',
+                                                'after' => '</div>',
+                                                'required' => true
+                                            ));
+                                            
+                                            echo $this->Form->input('idUserCommentaire', array(
+                                                'type' => 'hidden',
+                                                'value' => json_encode($idUserCommentaire)
+                                            ));
+                                            
+                                            echo $this->Form->input('etat_fiche_id', array(
+                                                'type' => 'hidden',
+                                                'value' => $value['EtatFiche']['id']
+                                            ));
+                                            
+                                            echo $this->Form->input('fiche_id', array(
+                                                'type' => 'hidden',
+                                                'value' => $value['EtatFiche']['fiche_id']
+                                            ));
+                                            
+                                            echo '</div>'
+                                            ?>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
+                                                        class="fa fa-arrow-left"></i><?php echo __d('default', 'default.btnAnnuler'); ?>
+                                                </button>
+                                                <?php
+                                                echo $this->Form->button("<i class='fa fa-check'></i>" . __d('default', 'default.btnEnregistrer'), array(
+                                                    'type' => 'submit',
+                                                    'class' => 'btn btn-default-success',
+                                                    'escape' => false
+                                                ));
+                                                ?>
+                                            </div>
+                                            <?php
+                                            echo $this->Form->end();
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
                         </div>
                         <?php
                     }
@@ -460,6 +556,10 @@
                                         <?php echo __d('element', 'element.CommenterPar'); ?>
                                         <b>
                                             <?php echo $val['User']['prenom'] . " " . $val['User']['nom']; ?>
+                                        </b>
+                                        <?php echo __d('element', 'element.Le'); ?> 
+                                        <b>
+                                            <?php echo $this->Time->format($value['EtatFiche']['created'], FORMAT_DATE_HEURE); ?>
                                         </b>
                                     </footer>
                                 </div>

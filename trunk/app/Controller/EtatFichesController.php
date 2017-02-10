@@ -320,7 +320,7 @@ class EtatFichesController extends AppController {
         } else {
             $this->EtatFiche->create([
                 'EtatFiche' => [
-                    'etat_id' => 6,
+                    'etat_id' => EtatFiche::DEMANDE_AVIS,
                     'previous_user_id' => $this->Auth->user('id'),
                     'user_id' => $this->request->data['EtatFiche']['destinataire'],
                     'previous_etat_id' => $this->request->data['EtatFiche']['etatFiche'],
@@ -397,7 +397,7 @@ class EtatFichesController extends AppController {
         $id = $idEncoursAnswer['EtatFiche']['previous_etat_id'];
 
         $success = $success && false !== $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
-
+        
         if ($success == true) {
             $this->Commentaire->create([
                 'Commentaire' => [
@@ -455,6 +455,60 @@ class EtatFichesController extends AppController {
             'controller' => 'pannel',
             'action' => 'index'
         ]);
+    }
+
+    public function repondreCommentaire() {
+        if ($this->request->is('POST')) {
+            $success = true;
+            $this->Commentaire->begin();
+
+            $this->Commentaire->create([
+                'Commentaire' => [
+                    'etat_fiches_id' => $this->request->data['EtatFiche']['etat_fiche_id'],
+                    'content' => $this->request->data['EtatFiche']['commentaire'],
+                    'user_id' => $this->Auth->user('id'),
+                    'destinataire_id' => $this->Auth->user('id')
+                ]
+            ]);
+            $success = $success && false !== $this->Commentaire->save();
+
+            if ($success == true) {
+
+                $this->Historique->create([
+                    'Historique' => [
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' répond à l\'avis',
+                        'fiche_id' => $this->request->data['EtatFiche']['fiche_id']
+                    ]
+                ]);
+                $success = $success && false !== $this->Historique->save();
+
+                if ($success == true) {
+                    foreach (json_decode($this->request->data['EtatFiche']['idUserCommentaire']) as $idUserCommentaire) {
+                        $this->Notification->create([
+                            'Notification' => [
+                                'user_id' => $idUserCommentaire,
+                                'content' => 5,
+                                'fiche_id' => $this->request->data['EtatFiche']['fiche_id']
+                            ]
+                        ]);
+                        $success = $success && false !== $this->Notification->save();
+                    }
+                }
+            }
+
+            if ($success == true) {
+                $this->EtatFiche->commit();
+                $this->Session->setFlash("Commentaire enregistrée", 'flashsuccess');
+            } else {
+                $this->EtatFiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
+
+            $this->requestAction([
+                'controller' => 'pannel',
+                'action' => 'index',
+            ]);
+        }
     }
 
     /**
