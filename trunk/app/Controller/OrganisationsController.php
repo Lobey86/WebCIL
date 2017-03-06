@@ -79,14 +79,25 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     public function add() {
-        $this->set('title', 'Créer une entité');
         if ($this->Droits->isSu()) {
+            $this->set('title', 'Créer une entité');
+
             if ($this->request->is('post')) {
+                $success = false;
+                $this->Organisation->begin();
+
                 $recup = $this->Organisation->saveAddEditForm($this->request->data);
+
                 if (!is_array($recup)) {
-                    $this->_insertRoles($this->Organisation->getInsertID());
+                    $success = $this->_insertRoles($this->Organisation->getInsertID());
+                }
+
+                if ($success == true) {
+                    $this->Organisation->commit();
                     $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteEnregistrer'), 'flashsuccess');
+
                     $compte = $this->Organisation->find('count');
+
                     if ($compte > 1) {
                         $this->redirect([
                             'controller' => 'organisations',
@@ -99,15 +110,20 @@ class OrganisationsController extends AppController {
                         ]);
                     }
                 } else {
+                    $this->Organisation->rollback();
                     $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurEnregistrementSEF'), 'flasherror');
+
                     $this->set('error', $recup);
                 }
             }
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect(['controller' => 'pannel',
-                'action' => 'index']);
         }
+
+        $this->redirect([
+            'controller' => 'pannel',
+            'action' => 'index'
+        ]);
     }
 
     /**
@@ -311,32 +327,52 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     public function changenotification($id = null, $controller = null, $action = null, $idFicheNotification = 0) {
-        $idArray = $this->OrganisationUser->find('first', ['conditions' => ['OrganisationUser.user_id' => $this->Auth->user('id')]]);
+//        debug($id);
+//        debug($controller);
+//        debug($action);
+//        debug($idFicheNotification);
+//        die;
 
-        $this->Notification->updateAll([
-            'Notification.vu' => true,
-                ], [
-            'Notification.user_id' => $this->Auth->user('id'),
-            'Notification.fiche_id' => $idFicheNotification
+
+        $success = true;
+        $this->Notification->begin();
+
+        $idArray = $this->OrganisationUser->find('first', [
+            'conditions' => [
+                'OrganisationUser.user_id' => $this->Auth->user('id')
+            ]
         ]);
 
-        if ($id != $idArray['OrganisationUser']['organisation_id']) {
-            $redirect = 1;
-            $this->Session->write('idFicheNotification', $idFicheNotification);
-            $this->redirect([
-                'controller' => 'organisations',
-                'action' => 'change',
-                $id,
-                $redirect,
-                $controller,
-                $action
-            ]);
+        $success = $success && $this->Notification->updateAll([
+                    'Notification.vu' => true,
+                        ], [
+                    'Notification.user_id' => $this->Auth->user('id'),
+                    'Notification.fiche_id' => $idFicheNotification
+                ]) !== false;
+
+        if ($success == true) {
+            $this->Notification->commit();
+            if ($id != $idArray['OrganisationUser']['organisation_id']) {
+                $redirect = 1;
+                $this->Session->write('idFicheNotification', $idFicheNotification);
+                $this->redirect([
+                    'controller' => 'organisations',
+                    'action' => 'change',
+                    $id,
+                    $redirect,
+                    $controller,
+                    $action
+                ]);
+            } else {
+                $this->Session->write('idFicheNotification', $idFicheNotification);
+                $this->redirect([
+                    'controller' => $controller,
+                    'action' => $action,
+                ]);
+            }
         } else {
-            $this->Session->write('idFicheNotification', $idFicheNotification);
-            $this->redirect([
-                'controller' => $controller,
-                'action' => $action,
-            ]);
+            $this->Formulaire->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
     }
 
@@ -435,7 +471,10 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     protected function _insertRoles($id = null) {
-        if ($id != NULL) {
+        if ($id != null) {
+            $success = true;
+            $this->Role->begin();
+
             $data = [
                     [
                     'Role' => [
@@ -443,9 +482,9 @@ class OrganisationsController extends AppController {
                         'organisation_id' => $id
                     ],
                     'Droit' => [
-                        '1',
-                        '4',
-                        '7'
+                        ListeDroit::REDIGER_TRAITEMENT,
+                        ListeDroit::CONSULTER_REGISTRE,
+                        ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE
                     ]
                 ],
                     [
@@ -454,9 +493,9 @@ class OrganisationsController extends AppController {
                         'organisation_id' => $id
                     ],
                     'Droit' => [
-                        '2',
-                        '4',
-                        '7'
+                        ListeDroit::VALIDER_TRAITEMENT,
+                        ListeDroit::CONSULTER_REGISTRE,
+                        ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE
                     ]
                 ],
                     [
@@ -465,9 +504,9 @@ class OrganisationsController extends AppController {
                         'organisation_id' => $id
                     ],
                     'Droit' => [
-                        '3',
-                        '4',
-                        '7'
+                        ListeDroit::VISER_TRAITEMENT,
+                        ListeDroit::CONSULTER_REGISTRE,
+                        ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE
                     ]
                 ],
                     [
@@ -476,37 +515,57 @@ class OrganisationsController extends AppController {
                         'organisation_id' => $id
                     ],
                     'Droit' => [
-                        '1',
-                        '2',
-                        '3',
-                        '4',
-                        '5',
-                        '6',
-                        '7',
-                        '8',
-                        '9',
-                        '10',
-                        '11',
-                        '12',
-                        '13',
-                        '14',
-                        '15'
+                        ListeDroit::REDIGER_TRAITEMENT,
+                        ListeDroit::VALIDER_TRAITEMENT,
+                        ListeDroit::VISER_TRAITEMENT,
+                        ListeDroit::CONSULTER_REGISTRE,
+                        ListeDroit::INSERER_TRAITEMENT_REGISTRE,
+                        ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
+                        ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE,
+                        ListeDroit::CREER_UTILISATEUR,
+                        ListeDroit::MODIFIER_UTILISATEUR,
+                        ListeDroit::SUPPRIMER_UTILISATEUR,
+                        ListeDroit::CREER_ORGANISATION,
+                        ListeDroit::MODIFIER_ORGANISATION,
+                        ListeDroit::CREER_PROFIL,
+                        ListeDroit::MODIFIER_PROFIL,
+                        ListeDroit::SUPPRIMER_PROFIL
                     ]
                 ]
             ];
+
             foreach ($data as $key => $value) {
-                $this->Role->create($value['Role']);
-                $this->Role->save();
-                $last = $this->Role->getInsertID();
-                foreach ($value['Droit'] as $valeur) {
-                    $this->RoleDroit->create([
-                        'RoleDroit' => [
-                            'role_id' => $last,
-                            'liste_droit_id' => $valeur
-                        ]
-                    ]);
-                    $this->RoleDroit->save();
+                if ($success == true) {
+                    $this->Role->create($value['Role']);
+
+                    $success = $success && false !== $this->Role->save();
+
+                    $last = $this->Role->getInsertID();
+
+                    if ($success == true) {
+                        foreach ($value['Droit'] as $valeur) {
+                            if ($success == true) {
+                                $this->RoleDroit->create([
+                                    'RoleDroit' => [
+                                        'role_id' => $last,
+                                        'liste_droit_id' => $valeur
+                                    ]
+                                ]);
+
+                                $success = $success && false !== $this->RoleDroit->save();
+                            }
+                        }
+                    }
                 }
+            }
+
+            if ($success == true) {
+                $this->Role->commit();
+                return(true);
+            } else {
+                $this->Role->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                return(false);
             }
         }
     }

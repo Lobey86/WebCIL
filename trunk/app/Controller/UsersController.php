@@ -882,19 +882,37 @@ class UsersController extends AppController {
             }
 
             if ($id != 1) {
-                if ($this->OrganisationUser->deleteAll([
-                            'user_id' => $id
-                        ])
-                ) {
+                $success = true;
+                $this->User->begin();
+
+                $success = $success && $this->OrganisationUser->deleteAll(['user_id' => $id]);
+
+                if ($success == true) {
                     if ($this->Droits->isCil()) {
-                        $this->Organisation->updateAll(['Organisation.cil' => null], ['Organisation.cil' => $id]);
+                        $success = $success && $this->Organisation->updateAll([
+                                    'Organisation.cil' => null
+                                        ], [
+                                    'Organisation.cil' => $id
+                                        ]
+                                ) !== false;
                     }
-                    if ($this->User->delete()) {
-                        $this->Session->setFlash(__d('user', 'user.flashsuccessUserSupprimer'), 'flashsuccess');
-                        $this->redirect(['action' => 'index']);
+
+                    if ($success == true) {
+                        $success = $success && $this->User->delete();
                     }
                 }
+
+                if ($success == true) {
+                    $this->User->commit();
+                    $this->Session->setFlash(__d('user', 'user.flashsuccessUserSupprimer'), 'flashsuccess');
+                } else {
+                    $this->User->rollback();
+                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                }
+
+                $this->redirect(['action' => 'index']);
             }
+
             $this->Session->setFlash(__d('user', 'user.flasherrorErreurSupprimerUser'), 'flasherror');
             $this->redirect(['action' => 'index']);
         } else {

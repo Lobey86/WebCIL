@@ -504,10 +504,7 @@ class EtatFichesController extends AppController {
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
 
-            $this->requestAction([
-                'controller' => 'pannel',
-                'action' => 'index',
-            ]);
+            $this->redirect($this->referer());
         }
     }
 
@@ -770,8 +767,8 @@ class EtatFichesController extends AppController {
         }
 
         $this->redirect([
-            'controller' => 'pannel',
-            'action' => 'inbox'
+            'controller' => 'registres',
+            'action' => 'index'
         ]);
     }
 

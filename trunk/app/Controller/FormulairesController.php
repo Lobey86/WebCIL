@@ -84,11 +84,12 @@ class FormulairesController extends AppController {
                 'organisations_id' => $organisation['Organisation']['id'],
                 'libelle' => $this->request->data['Formulaire']['libelle'],
                 'description' => $this->request->data['Formulaire']['description'],
-                'active' => false,
+                'active' => false
             ));
             //on enregistre le formualire
+            unset( $this->Formulaire->validate['active']['notEmpty'] ); //@FIXME christian
             $success = $success && false !== $this->Formulaire->save();
-
+            
             if ($success == true) {
                 //on recupere l'id du formulaire qu'on vien d'enregistré
                 $idForm = $this->Formulaire->getLastInsertId();
@@ -122,15 +123,15 @@ class FormulairesController extends AppController {
         if ($success == true) {
             $this->Formulaire->commit();
             $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireDupliquer'), 'flashsuccess');
-
-            $this->redirect(array(
-                'controller' => 'Formulaires',
-                'action' => 'index'
-            ));
         } else {
             $this->Formulaire->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
+
+        $this->redirect(array(
+            'controller' => 'Formulaires',
+            'action' => 'index'
+        ));
     }
 
     /**
@@ -145,15 +146,15 @@ class FormulairesController extends AppController {
     public function delete($id) {
         if ($id != null) {
             $success = true;
-            $this->FormGen->begin();
+            $this->Formulaire->begin();
 
             $success = $success && false !== $this->FormGen->del($id);
 
             if ($success == true) {
-                $this->FormGen->commit();
+                $this->Formulaire->commit();
                 $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireSupprimer'), 'flashsuccess');
             } else {
-                $this->FormGen->rollback();
+                $this->Formulaire->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
         } else {
@@ -181,6 +182,7 @@ class FormulairesController extends AppController {
             $success = $success && false !== $this->Formulaire->save();
 
             if ($success == true) {
+                $this->Formulaire->commit();
                 $this->redirect(array(
                     'controller' => 'formulaires',
                     'action' => 'add',
@@ -289,10 +291,10 @@ class FormulairesController extends AppController {
         $this->Formulaire->id = $id;
 
         $success = $success && $this->Formulaire->updateAll(array(
-            'active' => (int) !$state
-                ), array(
-            'id' => $id
-        ));
+                    'active' => (int) !$state
+                        ), array(
+                    'id' => $id
+                )) !== false;
 
         if ($success == true) {
             $this->Formulaire->commit();
@@ -335,54 +337,75 @@ class FormulairesController extends AppController {
 
         $champs = $this->Champ->find('all', array('conditions' => array('formulaires_id' => $id)));
         $this->set(compact(['id', 'organisation', 'champs']));
-        $this->Formulaire->updateAll(array('active' => 0), array('id' => $id));
 
-        if ($this->request->is(array('POST', 'PUT'))) {
-            if ($id == null) {
-                $id = $this->request->data['Formulaire']['id'];
-            }
+        if ($this->request->is('POST')) {
+            $success = true;
+            $this->Formulaire->begin();
 
-            if ($this->Champ->deleteAll(array('formulaires_id' => $id))) {
-                $array = json_decode($this->request->data['Formulaire']['json'], true);
+            $success = $success && $this->Formulaire->updateAll(array(
+                        'active' => 0
+                            ), array(
+                        'id' => $id
+                    )) !== false;
 
-                foreach ($array as $key => $value) {
-                    $sortie = array();
-                    foreach ($value as $clef => $valeur) {
-                        switch ($clef) {
-                            case 'type':
-                                $type = $valeur;
-                                break;
-
-                            case 'ligne':
-                                $ligne = $valeur;
-                                break;
-
-                            case 'colonne':
-                                $colonne = $valeur;
-                                break;
-
-                            default:
-                                $sortie[$clef] = $valeur;
-                                break;
-                        }
+            if ($success == true) {
+                if ($this->request->is(array('POST', 'PUT'))) {
+                    if ($id == null) {
+                        $id = $this->request->data['Formulaire']['id'];
                     }
 
-                    $this->Champ->create(array(
-                        'formulaires_id' => $id,
-                        'type' => $type,
-                        'ligne' => $ligne,
-                        'colonne' => $colonne,
-                        'details' => json_encode($sortie)
-                    ));
+                    $success = $success && false !== $this->Champ->deleteAll(array('formulaires_id' => $id));
 
-                    $this->Champ->save();
+                    if ($success == true) {
+                        $array = json_decode($this->request->data['Formulaire']['json'], true);
+
+                        foreach ($array as $key => $value) {
+                            $sortie = array();
+                            foreach ($value as $clef => $valeur) {
+                                switch ($clef) {
+                                    case 'type':
+                                        $type = $valeur;
+                                        break;
+
+                                    case 'ligne':
+                                        $ligne = $valeur;
+                                        break;
+
+                                    case 'colonne':
+                                        $colonne = $valeur;
+                                        break;
+
+                                    default:
+                                        $sortie[$clef] = $valeur;
+                                        break;
+                                }
+                            }
+
+                            $this->Champ->create(array(
+                                'formulaires_id' => $id,
+                                'type' => $type,
+                                'ligne' => $ligne,
+                                'colonne' => $colonne,
+                                'details' => json_encode($sortie)
+                            ));
+
+                            $success = $success && false !== $this->Champ->save();
+                        }
+                    }
                 }
+            }
 
+            if ($success == true) {
+                $this->Formulaire->commit();
                 $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
+
                 $this->redirect(array(
                     'controller' => 'formulaires',
                     'action' => 'index'
                 ));
+            } else {
+                $this->Formulaire->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
             }
         }
     }
@@ -392,7 +415,7 @@ class FormulairesController extends AppController {
      * 
      * @param int $id ID du formulaire
      * 
-     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
      * @created 03 novembre 2016 
      * @version V1.0.0
      * @access public
