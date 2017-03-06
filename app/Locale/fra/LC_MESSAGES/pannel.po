@@ -32,6 +32,24 @@ msgstr "Vous n'avez aucun traitement refusé"
 msgid "pannel.btnCreerTraitement"
 msgstr " Créer un traitement"
 
+msgid "pannel.btnVoirTraitementEnCoursRedaction"
+msgstr " Voir tous les traitements en cours de rédaction"
+
+msgid "pannel.btnVoirTraitementEnAttente"
+msgstr " Voir tous les traitements en attente"
+
+msgid "pannel.btnVoirTraitementRefuser"
+msgstr " Voir tous les traitements refusés"
+
+msgid "pannel.btnVoirTraitementRecuValidation"
+msgstr " Voir tous les traitements reçus pour validation"
+
+msgid "pannel.btnVoirTraitementRecuConsultation"
+msgstr " Voir tous les traitements reçus pour consultation"
+
+msgid "pannel.btnVoirTraitementArchiver"
+msgstr " Voir tous mes traitements validés et insérés au registre"
+
 msgid "pannel.commentaireSupprimerTraitement"
 msgstr "Supprimer le traitement"
 
@@ -65,8 +83,23 @@ msgstr "Mes déclarations reçus"
 msgid "pannel.titreTraitementValidee"
 msgstr "Mes déclarations validés"
 
+msgid "pannel.titreTraitementEnCoursRedaction"
+msgstr "Mes déclarations en cours de rédaction"
+
+msgid "pannel.titreTraitementEnAttente"
+msgstr "Mes déclarations en attente"
+
+msgid "pannel.titreTraitementRefuser"
+msgstr "Mes déclarations refusés"
+
+msgid "pannel.titreTraitementRecuValidation"
+msgstr "Mes déclarations reçus pour validation"
+
+msgid "pannel.titreTraitementConsultation"
+msgstr "Mes déclarations reçus pour consultation"
+
 msgid "pannel.titreTraitementVu"
-msgstr "Touts les traitements en ma connaissance"
+msgstr "Tous les traitements en ma connaissance"
 
 ###############################################################################
 
@@ -74,10 +107,10 @@ msgstr "Touts les traitements en ma connaissance"
 #########################: View/Pannel/inbox.ctp###############################
 
 msgid "pannel.traitementValidation"
-msgstr "Traitements reçus en validation ("
+msgstr "Traitements reçus pour validation ("
 
 msgid "pannel.traitementConsultation"
-msgstr "Traitements reçus en consultation ("
+msgstr "Traitements reçus pour consultation ("
 
 msgid "pannel.aucunTraitementValidation"
 msgstr "Vous n'avez aucun traitement en validation"

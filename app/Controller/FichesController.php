@@ -552,7 +552,7 @@ class FichesController extends AppController {
      * @access public
      * @created 09/01/2017
      * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function downloadFileExtrait($fiche_id, $numeroRegistre) {
         $data = $this->Valeur->find('all', [
@@ -580,7 +580,7 @@ class FichesController extends AppController {
      * @access public
      * @created 09/01/2017
      * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function genereTraitement($id, $numeroRegistre) {
         $pdf = $this->Fiche->genereTraitement($id, $numeroRegistre);
@@ -609,7 +609,7 @@ class FichesController extends AppController {
      * @access public
      * @created 09/01/2017
      * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@adullact-projet.coop>
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function genereExtrait($id, $numeroRegistre) {
         $modele = $this->ModeleExtraitRegistre->find('first', [

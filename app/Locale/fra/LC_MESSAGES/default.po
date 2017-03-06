@@ -18,6 +18,21 @@ msgstr "Traitements"
 msgid "default.sousTitreMesTraitement"
 msgstr "Mes déclarations"
 
+msgid "default.sousTitreMesTraitementEnCoursRedaction"
+msgstr "Mes déclarations en cours de rédaction"
+
+msgid "default.sousTitreMesTraitementEnAttente"
+msgstr "Mes déclarations en attente"
+
+msgid "default.sousTitreMesTraitementRefuser"
+msgstr "Mes déclarations refusés"
+
+msgid "default.sousTitreMesTraitementRecuValidation"
+msgstr "Mes déclarations reçus pour validation"
+
+msgid "default.sousTitreMesTraitementRecuConsultation"
+msgstr "Mes déclarations reçus pour consultation"
+
 msgid "default.sousTitreTraitementRecues"
 msgstr "Les déclarations reçus"
 
