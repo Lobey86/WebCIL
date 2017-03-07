@@ -174,7 +174,7 @@ CREATE UNIQUE INDEX admins_user_id_idx ON admins (user_id);
 --
 CREATE TABLE fg_formulaires (
     id SERIAL  NOT NULL PRIMARY KEY,
-    organisations_id  INTEGER NOT NULL REFERENCES organisations (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    organisations_id  INTEGER NOT NULL REFERENCES organisations(id) ON DELETE CASCADE ON UPDATE CASCADE,
     libelle VARCHAR(50) NOT NULL,
     active BOOL NOT NULL,
     description TEXT,
@@ -191,6 +191,7 @@ CREATE TABLE fiches
     user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
     form_id integer NOT NULL REFERENCES fg_formulaires (id) ON DELETE CASCADE ON UPDATE CASCADE,
     organisation_id integer NOT NULL REFERENCES organisations (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    numero VARCHAR(50),
     created timestamp without time zone NOT NULL,
     modified timestamp without time zone NOT NULL
 );
@@ -218,7 +219,7 @@ CREATE TABLE etat_fiches (
     etat_id INTEGER NOT NULL REFERENCES etats(id) ON DELETE CASCADE ON UPDATE CASCADE,
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     previous_user_id INTEGER DEFAULT NULL REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE,
-    previous_etat_id INTEGER DEFAULT NULL REFERENCES etats(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    previous_etat_id INTEGER DEFAULT NULL,
     actif BOOLEAN DEFAULT TRUE,
     created timestamp without time zone NOT NULL,
     modified timestamp without time zone NOT NULL
