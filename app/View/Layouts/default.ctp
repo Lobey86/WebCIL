@@ -567,7 +567,7 @@ $cakeDescription = 'Web-CIL';
                 </div>
                 <div id="footer" class="container-fluid-custom">
                     <div class="text-center versioning">
-                        <?php echo "Web-CIL v" . VERSION . " - Adullact-Projet"; ?>
+                        <?php echo "Web-CIL v" . VERSION . " - Libriciel SCOP"; ?>
                     </div>
                 </div>
             </div>
