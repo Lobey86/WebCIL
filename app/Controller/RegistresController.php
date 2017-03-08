@@ -244,7 +244,9 @@ class RegistresController extends AppController {
             'controller' => 'etat_fiches',
             'action' => 'insertRegistre',
             $this->request->data['Registre']['idfiche'],
-            Hash::get($this->request->data, 'Registre.numero')
+            //Hash::get($this->request->data, 'Registre.numero'),
+            $this->request->data['Registre']['numero'] ?: 'null',
+            $this->request->data['Registre']['typedeclaration']
         ]);
     }
 
@@ -256,7 +258,7 @@ class RegistresController extends AppController {
      * 
      * @access public
      * @created 13/05/2016
-     * @version V1.0.2
+     * @version V1.0.0
      */
     public function imprimer($tabId = null) {
         $tabId = json_decode($tabId);
@@ -322,6 +324,18 @@ class RegistresController extends AppController {
                 'action' => 'index'
             ));
         }
+    }
+
+    /**
+     * 
+     * 
+     * @access public
+     * @created 07/03/2017
+     * @version V1.0.0
+     */
+    public function telechargeTousExtraitsRegistre() {
+        debug("En attende de modèle avec amélie");
+        die;
     }
 
 }

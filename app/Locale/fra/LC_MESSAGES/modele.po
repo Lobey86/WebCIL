@@ -160,6 +160,9 @@ msgstr "Finalité principale du traitement "
 msgid "modele.textNumeroEnregistrementRegistre"
 msgstr "Numéro d'enregistrement du traitement dans le registre"
 
+msgid "modele.textTypeDeclaration"
+msgstr "Type de déclaration du traitement dans le registre"
+
 msgid "modele.sousTitreAnnexe"
 msgstr "Variable pour l'utilisation des annexes"
 

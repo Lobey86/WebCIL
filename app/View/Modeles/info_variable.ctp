@@ -247,6 +247,16 @@ foreach ($userCIL as $cil){
             valeur_numenregistrement
         </td>
     </tr>
+    
+    <tr>
+        <td class="tdleft">
+            <?php echo __d('modele', 'modele.textTypeDeclaration'); ?>
+        </td>
+
+        <td class="tdleft">
+            valeur_typedeclaration
+        </td>
+    </tr>
 </tbody>
 </table>
 

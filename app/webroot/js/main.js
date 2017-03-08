@@ -36,10 +36,19 @@ $(document).ready(function () {
         var id = $(this).attr('data');
         $('#idEditRegistre').val(id);
     })
+    
     $('.btn-insert-registre').click(function () {
-        var id = $(this).attr('data');
+        var id = $(this).attr('data-id');
         $('#idFiche').val(id);
+        
+        if ($(this).attr('data-type') === 'false'){
+            $('#typedeclaration').parent().parent().show();
+        } else{
+            $('#typedeclaration').parent().parent().hide();
+        }
+        
     })
+    
     $('.btn-upload-modele').click(function () {
         var id = $(this).attr('data');
         $('#idUploadModele').val(id);
@@ -69,7 +78,7 @@ function verificationExtension() {
 
             //verification de l'extension odt
             var ctrlName = tmpName.split('.');
-            if (ctrlName[ctrlName.length - 1] !== 'odt') {
+            if (ctrlName[ctrlName.length - 1] !== 'odt' && ctrlName[ctrlName.length - 1] !== 'pdf') {
                 $(this).val("");
                 $('#errorExtentionAnnexe').modal('show');
             } 

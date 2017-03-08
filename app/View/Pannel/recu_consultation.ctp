@@ -141,59 +141,7 @@ if ($this->Autorisation->authorized(3, $droits)) {
 <?php
 }
 ?>
-<div class="modal fade" id="modalValidCil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Insertion au registre</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 text-warning">
-                        <div class="col-md-12 text-center">
-                            <i class="fa fa-fw fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="col-md-12">
-                            <?php echo __d('pannel','pannel.confirmationInsererRegistre');?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row top17">
-                    <div class="col-md-12">
-                        <?php
-                        echo $this->Form->create('Registre', [
-                            'action' => 'add',
-                            'class' => 'form-horizontal'
-                        ]);
 
-                        echo $this->Form->input('numero', [
-                            'label' => [
-                                'text' => 'Numéro d\'enregistrement',
-                                'class' => 'col-md-4 control-label'
-                            ],
-                            'between' => '<div class="col-md-8">',
-                            'after' => '</div>',
-                            'class' => 'form-control',
-                            'div' => 'form-group',
-                        ]);
-                        echo $this->Form->hidden('idfiche', ['id' => 'idFiche']);
-                        ?>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default-default" data-dismiss="modal"><?php echo __d('default', 'default.btnAnnuler'); ?></button>
-                <button type="submit" class="btn btn-default-success">Valider</button>
-                <?php
-                echo $this->Form->end();
-                ?>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script type="text/javascript">
 

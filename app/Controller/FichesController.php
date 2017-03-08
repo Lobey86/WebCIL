@@ -136,6 +136,10 @@ class FichesController extends AppController {
             $this->set('formulaireid', $id);
 
             if ($this->request->is('POST')) {
+//                 foreach ($this->request->data['Fiche'] as $key => $value) {
+//                     debug($value);
+//                 }
+//                 die;
                 $success = true;
                 $this->Fiche->begin();
 
