@@ -385,18 +385,24 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
             ?>
             
             <?php
+            if ($this->Autorisation->authorized('5', $this->Session->read('Droit.liste'))) {
+                $readonly = '';
+            } else {
+                $readonly = 'readonly';
+            }
+            
             //Champ type de déclaration * , à remplire par le CIL
-//            echo $this->Form->input('typedeclaration', [
-//                'label' => [
-//                    'text' => __d('default', 'Type de déclaration '),
-//                    'class' => 'col-md-4 control-label'
-//                ],
-//                'between' => '<div class="col-md-8">',
-//                'after' => '</div>',
-//                'class' => 'form-control',
-//                'div' => 'form-group',
-//                'readonly' => 'readonly',
-//            ]);
+            echo $this->Form->input('typedeclaration', [
+                'label' => [
+                    'text' => __d('default', 'Type de déclaration '),
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'div' => 'form-group',
+                'readonly' => $readonly,
+            ]);
             ?>
         </div>
 

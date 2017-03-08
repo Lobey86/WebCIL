@@ -45,6 +45,9 @@ msgid "registre.textTableauNumeroEnregistrement"
 msgstr "Numéro : "
 
 msgid "registre.btnImprimerExtraitRegistrePDF"
+msgstr "Télécharger tous les extraits de registre"
+
+msgid "registre.btnImprimerTraitementRegistrePDF"
 msgstr "Télécharger les traitements"
 
 msgid "registre.commentaireTelechargeRegistrePDF"

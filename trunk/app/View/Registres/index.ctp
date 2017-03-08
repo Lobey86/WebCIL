@@ -84,8 +84,16 @@ if (!empty($fichesValid)) {
     <br/>
     <br/>
     <?php
+    echo $this->Html->link('<span class="fa fa-upload"></span>' . __d('registre', 'registre.btnImprimerExtraitRegistrePDF'), [
+        'controller' => 'registres',
+        'action' => 'telechargeTousExtraitsRegistre',
+            ], [
+        'class' => 'btn btn-default-primary',
+        'escapeTitle' => false,
+    ]);
+    
     if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
-        echo $this->Form->button(__d('registre', 'registre.btnImprimerExtraitRegistrePDF'), array(
+        echo $this->Form->button(__d('registre', 'registre.btnImprimerTraitementRegistrePDF'), array(
             'onclick' => "sendData()",
             'class' => 'btn btn-default-primary pull-right'
         ));
@@ -128,11 +136,7 @@ if (!empty($fichesValid)) {
         <tbody>
             <?php
             foreach ($fichesValid as $key => $value) {
-                if ($value['Fiche']['numero'] != null) {
-                    $numeroRegistre = $value['Fiche']['numero'];
-                } else {
-                    $numeroRegistre = 'CIL00' . $value['Fiche']['id'];
-                }
+                $numeroRegistre = $value['Fiche']['numero'];
 
                 if ($value['EtatFiche']['etat_id'] != 7) {
                     $DlOrGenerate = 'genereTraitement';

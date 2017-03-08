@@ -38,7 +38,8 @@ class PannelController extends AppController {
         'Modification',
         'Notification',
         'Historique',
-        'Organisation'
+        'Organisation',
+        'Valeur'
     ];
     public $components = [
         'FormGenerator.FormGen',
@@ -995,6 +996,12 @@ class PannelController extends AppController {
             'limit' => $limiteTraitementRecupere
         ]);
 
+        foreach ($traitementRecuEnValidation as $key => $traitement){
+            $remplieTypeDeclaration = $this->_typeDeclarationRemplie($traitement['Fiche']['id']);
+
+            $traitementRecuEnValidation[$key]['Fiche']['typedeclaration'] = $remplieTypeDeclaration;
+        }
+
         return ($traitementRecuEnValidation);
     }
 
@@ -1294,6 +1301,16 @@ class PannelController extends AppController {
         return ($nbTraitementArchives);
     }
 
+    /**
+     * 
+     * @param type $limiteTraitementRecupere
+     * @return type
+     * 
+     * @access protected
+     * @created 06/03/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@libriciel.coop> 
+     */
     protected function _traitementConnaissance($limiteTraitementRecupere) {
         $sq = array(
             'alias' => 'etat_fiches',
@@ -1438,6 +1455,36 @@ class PannelController extends AppController {
         }
 
         return ($validees);
+    }
+    
+    /**
+     * 
+     * @param type $id
+     * 
+     * @access protected
+     * @created 07/03/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
+     */
+    protected function _typeDeclarationRemplie($id) {
+        $typeDeclaration = $this->Valeur->find('first',[
+            'conditions' => [
+                'fiche_id' => $id,
+                'champ_name' => 'typedeclaration'
+            ]
+        ]);
+        
+        if (!empty($typeDeclaration)){
+            if ($typeDeclaration['Valeur']['valeur'] != ' '){
+                $remplie = 'true';
+            } else {
+                $remplie = 'false';
+            }
+        } else {
+            $remplie = 'false';
+        }
+        
+        return($remplie);
     }
 
 }

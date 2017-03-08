@@ -35,7 +35,8 @@ class EtatFichesController extends AppController {
         'Organisation',
         'Pannel',
         'TraitementRegistre',
-        'User'
+        'User',
+        'Valeur'
     ];
 
     /**
@@ -686,24 +687,31 @@ class EtatFichesController extends AppController {
      * @created 29/04/2015
      * @version V1.0.0
      */
-    public function insertRegistre($id, $numero = null) {
+    public function insertRegistre($id, $numero = null, $typeDeclaration = null) {
         if (empty($id)) {
             throw new NotFoundException();
         }
-
+        
+        if ($numero == null || $numero === 'null') {
+            $numero = 'CIL' . $id;
+        }
+        
         $success = true;
         $this->EtatFiche->begin();
 
-        if (!empty($numero)) {
-            $success = $success && $this->Fiche->updateAll(
-                            [
-                        'numero' => $numero
-                            ], [
-                        'id' => $id
-                            ]
-                    ) !== false;
-        }
+        $this->Fiche->id = $id;
+        $success = $success && false !== $this->Fiche->saveField('numero', $numero);
+        
+        if ($typeDeclaration != null && $success == true) {
+            $this->Valeur->create([
+                'champ_name' => 'typedeclaration',
+                'fiche_id' => $id,
+                'valeur' => $typeDeclaration
+            ]);
 
+            $success = $success && false !== $this->Valeur->save();
+        }
+        
         if ($success == true) {
             $idEncoursValid = $this->EtatFiche->find('first', [
                 'conditions' => [
@@ -755,11 +763,6 @@ class EtatFichesController extends AppController {
                 'controller' => 'pannel',
                 'action' => 'supprimerLaNotif',
                 $idEncoursValid['Fiche']['id']
-            ]);
-
-            $this->redirect([
-                'controller' => 'registres',
-                'action' => 'index'
             ]);
         } else {
             $this->EtatFiche->rollback();

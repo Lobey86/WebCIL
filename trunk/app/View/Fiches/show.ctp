@@ -191,9 +191,21 @@ echo $this->Form->create('Fiche', array(
                 'div' => 'form-group',
                 'required' => 'required'
             ));
+            
+            //Champ type de déclaration * , à remplire par le CIL
+            echo $this->Form->input('typedeclaration', [
+                'label' => [
+                    'text' => __d('default', 'Type de déclaration '),
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'div' => 'form-group'
+            ]);
             ?>
-
         </div>
+
         <div class="col-md-6">
             <?php
             echo $this->Form->input('finaliteprincipale', array(

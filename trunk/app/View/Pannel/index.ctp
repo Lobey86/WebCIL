@@ -785,7 +785,8 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                                 'tabindex' => '-1',
                                                 'data-toggle' => 'modal',
                                                 'data-target' => '#modalValidCil',
-                                                'data' => $donnee['Fiche']['id'],
+                                                'data-type' => $donnee['Fiche']['typedeclaration'],
+                                                'data-id' => $donnee['Fiche']['id'],
                                                 'class' => 'btn-insert-registre'
                                             ]) . "</li> ";
                                         }
@@ -1535,6 +1536,19 @@ if ($this->Autorisation->authorized(1, $droits)) {
                             'class' => 'form-control',
                             'div' => 'form-group',
                         ]);
+                        
+                        echo $this->Form->input('typedeclaration', [
+                            'label' => [
+                                'text' => 'Type de déclaration',
+                                'class' => 'col-md-4 control-label'
+                            ],
+                            'between' => '<div class="col-md-8">',
+                            'after' => '</div>',
+                            'class' => 'form-control',
+                            'div' => 'form-group',
+                            'id' => 'typedeclaration'
+                        ]);
+
                         echo $this->Form->hidden('idfiche', ['id' => 'idFiche']);
                         ?>
                     </div>
