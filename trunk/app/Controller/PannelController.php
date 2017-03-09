@@ -177,11 +177,11 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function encours_redaction() {
-        $this->set('title', __d('pannel', 'pannel.titreTraitementEnCoursRedaction'));
-
-        $limiteTraitementRecupere = 0;
-
         if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            $this->set('title', __d('pannel', 'pannel.titreTraitementEnCoursRedaction'));
+
+            $limiteTraitementRecupere = 0;
+        
             // Conditions pour récupére les traitements en cours de rédaction
             $db = $this->EtatFiche->getDataSource();
             $subQuery = $this->EtatFiche->sql(
@@ -218,6 +218,12 @@ class PannelController extends AppController {
             $return = $this->_listValidants();
             $this->set('validants', $return['validants']);
             $this->set('consultants', $return['consultants']);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
     }
 
@@ -230,17 +236,23 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function attente() {
-        $this->set('title', __d('pannel', 'pannel.titreTraitementEnAttente'));
-
-        $limiteTraitementRecupere = 0;
-
         if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            $this->set('title', __d('pannel', 'pannel.titreTraitementEnAttente'));
+
+            $limiteTraitementRecupere = 0;
+            
             $this->set('traitementEnCoursValidation', $this->_traitementEnCoursValidation($limiteTraitementRecupere));
             $this->set('nbTraitementEnCoursValidation', $this->_nbTraitementEnCoursValidation());
 
             $return = $this->_listValidants();
             $this->set('validants', $return['validants']);
             $this->set('consultants', $return['consultants']);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
     }
 
@@ -253,11 +265,11 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function refuser() {
-        $this->set('title', __d('pannel', 'pannel.titreTraitementRefuser'));
-
-        $limiteTraitementRecupere = 0;
-
         if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            $this->set('title', __d('pannel', 'pannel.titreTraitementRefuser'));
+
+            $limiteTraitementRecupere = 0;
+            
             $conditions = [];
             $conditions[] = array(
                 'EtatFiche.etat_id' => EtatFiche::REFUSER,
@@ -270,6 +282,12 @@ class PannelController extends AppController {
             $return = $this->_listValidants();
             $this->set('validants', $return['validants']);
             $this->set('consultants', $return['consultants']);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
     }
 
@@ -311,11 +329,11 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function recuConsultation() {
-        $this->set('title', __d('pannel', 'pannel.titreTraitementConsultation'));
-
-        $limiteTraitementRecupere = 0;
-
         if ($this->Droits->authorized(ListeDroit::VISER_TRAITEMENT)) {
+            $this->set('title', __d('pannel', 'pannel.titreTraitementConsultation'));
+
+            $limiteTraitementRecupere = 0;
+        
             $this->set('traitementRecuEnConsultation', $this->_traitementRecuEnConsultation($limiteTraitementRecupere));
             $this->set('nbTraitementRecuEnConsultation', $this->_nbTraitementRecuEnConsultation());
 
@@ -339,15 +357,23 @@ class PannelController extends AppController {
      * @version V1.0.0
      */
     public function archives() {
-        $this->Session->write('nameController', "pannel");
-        $this->Session->write('nameView', "archives");
+        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            $this->Session->write('nameController', "pannel");
+            $this->Session->write('nameView', "archives");
 
-        $this->set('title', __d('pannel', 'pannel.titreTraitementValidee'));
+            $this->set('title', __d('pannel', 'pannel.titreTraitementValidee'));
 
-        $limiteTraitementRecupere = 0;
+            $limiteTraitementRecupere = 0;
 
-        $this->set('validees', $this->_traitementArchives($limiteTraitementRecupere));
-        $this->set('nbTraitementArchives', $this->_nbTraitementArchives());
+            $this->set('validees', $this->_traitementArchives($limiteTraitementRecupere));
+            $this->set('nbTraitementArchives', $this->_nbTraitementArchives());
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
+        }
     }
 
     /**
