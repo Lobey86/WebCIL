@@ -21,6 +21,8 @@
  * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('ListeDroit', 'Model');
+
 class FormulairesController extends AppController {
 
     public $uses = array(
@@ -37,19 +39,27 @@ class FormulairesController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        $this->set('title', __d('formulaire', 'formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
-        $all = $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id')));
-        $valid = array();
-        foreach ($all as $key => $value) {
-            $verif = $this->Fiche->find('count', array('conditions' => array('form_id' => $value['Formulaire']['id'])));
-            if ($verif == 0) {
-                $valid[$value['Formulaire']['id']] = true;
-            } else {
-                $valid[$value['Formulaire']['id']] = false;
+        if ($this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR, ListeDroit::CREER_ORGANISATION, ListeDroit::MODIFIER_ORGANISATION, ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
+            $this->set('title', __d('formulaire', 'formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
+            $all = $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id')));
+            $valid = array();
+            foreach ($all as $key => $value) {
+                $verif = $this->Fiche->find('count', array('conditions' => array('form_id' => $value['Formulaire']['id'])));
+                if ($verif == 0) {
+                    $valid[$value['Formulaire']['id']] = true;
+                } else {
+                    $valid[$value['Formulaire']['id']] = false;
+                }
             }
+            $this->set(compact('valid'));
+            $this->set('formulaires', $all);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
-        $this->set(compact('valid'));
-        $this->set('formulaires', $all);
     }
 
     /**

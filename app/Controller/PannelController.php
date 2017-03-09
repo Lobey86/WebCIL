@@ -293,6 +293,12 @@ class PannelController extends AppController {
             $return = $this->_listValidants();
             $this->set('validants', $return['validants']);
             $this->set('consultants', $return['consultants']);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
     }
 
@@ -316,6 +322,12 @@ class PannelController extends AppController {
             $return = $this->_listValidants();
             $this->set('validants', $return['validants']);
             $this->set('consultants', $return['consultants']);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
     }
 
