@@ -21,6 +21,8 @@
  * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('ListeDroit', 'Model');
+
 class ServicesController extends AppController {
 
     public $uses = array(
@@ -34,13 +36,21 @@ class ServicesController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        $this->set('title', __d('service','service.titreService') . $this->Session->read('Organisation.raisonsociale'));
-        $serv = $this->Service->find('all', array('conditions' => array('organisation_id' => $this->Session->read('Organisation.id'))));
-        foreach ($serv as $key => $value) {
-            $count = $this->OrganisationUserService->find('count', array('conditions' => array('service_id' => $value['Service']['id'])));
-            $serv[$key]['count'] = $count;
+        if ($this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR, ListeDroit::CREER_ORGANISATION, ListeDroit::MODIFIER_ORGANISATION, ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
+            $this->set('title', __d('service','service.titreService') . $this->Session->read('Organisation.raisonsociale'));
+            $serv = $this->Service->find('all', array('conditions' => array('organisation_id' => $this->Session->read('Organisation.id'))));
+            foreach ($serv as $key => $value) {
+                $count = $this->OrganisationUserService->find('count', array('conditions' => array('service_id' => $value['Service']['id'])));
+                $serv[$key]['count'] = $count;
+            }
+            $this->set('serv', $serv);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
-        $this->set('serv', $serv);
     }
 
     /**
