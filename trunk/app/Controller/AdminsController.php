@@ -21,6 +21,8 @@
  * @version     V1.0.0
  * @package     App.Controller
  */
+App::uses('ListeDroit', 'Model');
+
 class AdminsController extends AppController {
 
     public $uses = [
@@ -34,25 +36,33 @@ class AdminsController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        $this->set('title', __d('admin', 'admin.titreSuperAdministrateur'));
-        $admins = $this->Admin->find('all', [
-            'contain' => [
-                'User'
-            ]
-        ]);
-        $this->set('admins', $admins);
-        $users = $this->User->find('all', [
-            'fields' => [
-                'id',
-                'prenom',
-                'nom'
-            ]
-        ]);
-        $listeuser = [];
-        foreach ($users as $value) {
-            $listeuser[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
+        if ($this->Droits->isSu()){
+            $this->set('title', __d('admin', 'admin.titreSuperAdministrateur'));
+            $admins = $this->Admin->find('all', [
+                'contain' => [
+                    'User'
+                ]
+            ]);
+            $this->set('admins', $admins);
+            $users = $this->User->find('all', [
+                'fields' => [
+                    'id',
+                    'prenom',
+                    'nom'
+                ]
+            ]);
+            $listeuser = [];
+            foreach ($users as $value) {
+                $listeuser[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
+            }
+            $this->set('listeusers', $listeuser);
+        } else {
+            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+            $this->redirect([
+                'controller' => 'pannel',
+                'action' => 'index'
+            ]);
         }
-        $this->set('listeusers', $listeuser);
     }
 
     /**
