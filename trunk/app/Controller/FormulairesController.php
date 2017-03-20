@@ -39,27 +39,27 @@ class FormulairesController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        if ($this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR, ListeDroit::CREER_ORGANISATION, ListeDroit::MODIFIER_ORGANISATION, ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
-            $this->set('title', __d('formulaire', 'formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
-            $all = $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id')));
-            $valid = array();
-            foreach ($all as $key => $value) {
-                $verif = $this->Fiche->find('count', array('conditions' => array('form_id' => $value['Formulaire']['id'])));
-                if ($verif == 0) {
-                    $valid[$value['Formulaire']['id']] = true;
-                } else {
-                    $valid[$value['Formulaire']['id']] = false;
-                }
-            }
-            $this->set(compact('valid'));
-            $this->set('formulaires', $all);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        if (true !== $this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR, ListeDroit::CREER_ORGANISATION, ListeDroit::MODIFIER_ORGANISATION, ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+
+        $this->set('title', __d('formulaire', 'formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
+        
+        $all = $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id')));
+        
+        $valid = array();
+        foreach ($all as $key => $value) {
+            $verif = $this->Fiche->find('count', array('conditions' => array('form_id' => $value['Formulaire']['id'])));
+            
+            if ($verif == 0) {
+                $valid[$value['Formulaire']['id']] = true;
+            } else {
+                $valid[$value['Formulaire']['id']] = false;
+            }
+        }
+        
+        $this->set(compact('valid'));
+        $this->set('formulaires', $all);
     }
 
     /**
@@ -97,9 +97,9 @@ class FormulairesController extends AppController {
                 'active' => false
             ));
             //on enregistre le formualire
-            unset( $this->Formulaire->validate['active']['notEmpty'] ); //@FIXME christian
+            unset($this->Formulaire->validate['active']['notEmpty']); //@FIXME christian
             $success = $success && false !== $this->Formulaire->save();
-            
+
             if ($success == true) {
                 //on recupere l'id du formulaire qu'on vien d'enregistré
                 $idForm = $this->Formulaire->getLastInsertId();
