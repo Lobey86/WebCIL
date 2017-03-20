@@ -38,35 +38,27 @@ class RolesController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        $this->set('title', __d('role', 'role.titreListeProfil'));
-        if ($this->Droits->authorized([
-                    ListeDroit::CREER_PROFIL,
-                    ListeDroit::MODIFIER_PROFIL,
-                    ListeDroit::SUPPRIMER_PROFIL
-                ])
-        ) {
-            $roles = $this->Role->find('all', [
-                'conditions' => ['organisation_id' => $this->Session->read('Organisation.id')]
-            ]);
-            
-            foreach ($roles as $key => $value) {
-                $test = $this->RoleDroit->find('all', [
-                    'conditions' => ['role_id' => $value['Role']['id']],
-                    'contain' => ['ListeDroit' => ['libelle']],
-                    'fields' => 'id'
-                ]);
-                
-                $roles[$key]['Droits'] = $test;
-            }
-            
-            $this->set('roles', $roles);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        if (true !== $this->Droits->authorized([ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+
+        $this->set('title', __d('role', 'role.titreListeProfil'));
+        
+        $roles = $this->Role->find('all', [
+            'conditions' => ['organisation_id' => $this->Session->read('Organisation.id')]
+        ]);
+
+        foreach ($roles as $key => $value) {
+            $test = $this->RoleDroit->find('all', [
+                'conditions' => ['role_id' => $value['Role']['id']],
+                'contain' => ['ListeDroit' => ['libelle']],
+                'fields' => 'id'
+            ]);
+
+            $roles[$key]['Droits'] = $test;
+        }
+
+        $this->set('roles', $roles);
     }
 
     /**
