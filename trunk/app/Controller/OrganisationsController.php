@@ -217,7 +217,7 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     public function edit($id = null) {
-        if ((true !== $this->Droits->authorized(ListeDroit::MODIFIER_ORGANISATION)) || $this->Droits->isSu()) {
+        if (true !== ($this->Droits->authorized(ListeDroit::MODIFIER_ORGANISATION) || $this->Droits->isSu())) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
