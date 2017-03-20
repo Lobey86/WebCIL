@@ -341,6 +341,11 @@ $cakeDescription = 'Web-CIL';
                                                             'controller' => 'admins',
                                                             'action' => 'index'
                                                                 ], ['escape' => false]) . '</li>';
+                                                        
+                                                        echo '<li>' . $this->Html->link('<i class="fa fa-group fa-fw"></i> Gestion de tous les utilisateurs', [
+                                                            'controller' => 'users',
+                                                            'action' => 'admin_index'
+                                                                ], ['escape' => false]) . '</li>';
                                                         ?>
                                             </ul>
                                         </li>
@@ -599,12 +604,13 @@ $cakeDescription = 'Web-CIL';
     </div>
 </div>
 
+<?php if( isset( $idFicheNotification ) ): ?>
 <script type="text/javascript">
-
+//<![CDATA[
     $(document).ready(function () {
-
         openTarget("<?php echo $idFicheNotification ?>");
 
     });
-
+//]]>
 </script>
+<?php endif; ?>
