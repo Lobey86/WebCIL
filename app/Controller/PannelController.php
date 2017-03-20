@@ -177,54 +177,50 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function encours_redaction() {
-        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
-            $this->set('title', __d('pannel', 'pannel.titreTraitementEnCoursRedaction'));
-
-            $limiteTraitementRecupere = 0;
-
-            // Conditions pour récupére les traitements en cours de rédaction
-            $db = $this->EtatFiche->getDataSource();
-            $subQuery = $this->EtatFiche->sql(
-                    array(
-                        'alias' => 'etats_fiches2',
-                        'fields' => ['etats_fiches2.fiche_id'],
-                        'conditions' => [
-                            'etats_fiches2.etat_id BETWEEN ' . EtatFiche::ENCOURS_VALIDATION . ' AND ' . EtatFiche::VALIDER_CIL,
-                            'etats_fiches2.actif' => true
-                        ]
-                    )
-            );
-
-            $conditions[] = $db->conditions(
-                    [
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
-                'EtatFiche.fiche_id NOT IN (' . $subQuery . ')'
-                    ], true, false
-            );
-
-            $conditions[] = $db->conditions([
-                    [
-                    'EtatFiche.etat_id' => [EtatFiche::ENCOURS_REDACTION, EtatFiche::REPLACER_REDACTION]
-                ],
-                'EtatFiche.actif' => true,
-                'EtatFiche.user_id' => $this->Auth->user('id')
-                    ], true, false
-            );
-
-            $this->set('traitementEnCoursRedaction', $this->_traitementEnCoursRedaction($conditions, $limiteTraitementRecupere));
-            $this->set('nbTraitementEnCoursRedaction', $this->_nbTraitementEnCoursRedaction($conditions));
-
-            $return = $this->_listValidants();
-            $this->set('validants', $return['validants']);
-            $this->set('consultants', $return['consultants']);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        if (true !== $this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+
+        $this->set('title', __d('pannel', 'pannel.titreTraitementEnCoursRedaction'));
+
+        $limiteTraitementRecupere = 0;
+
+        // Conditions pour récupére les traitements en cours de rédaction
+        $db = $this->EtatFiche->getDataSource();
+        $subQuery = $this->EtatFiche->sql(
+                array(
+                    'alias' => 'etats_fiches2',
+                    'fields' => ['etats_fiches2.fiche_id'],
+                    'conditions' => [
+                        'etats_fiches2.etat_id BETWEEN ' . EtatFiche::ENCOURS_VALIDATION . ' AND ' . EtatFiche::VALIDER_CIL,
+                        'etats_fiches2.actif' => true
+                    ]
+                )
+        );
+
+        $conditions[] = $db->conditions(
+                [
+            'Fiche.user_id' => $this->Auth->user('id'),
+            'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
+            'EtatFiche.fiche_id NOT IN (' . $subQuery . ')'
+                ], true, false
+        );
+
+        $conditions[] = $db->conditions([
+                [
+                'EtatFiche.etat_id' => [EtatFiche::ENCOURS_REDACTION, EtatFiche::REPLACER_REDACTION]
+            ],
+            'EtatFiche.actif' => true,
+            'EtatFiche.user_id' => $this->Auth->user('id')
+                ], true, false
+        );
+
+        $this->set('traitementEnCoursRedaction', $this->_traitementEnCoursRedaction($conditions, $limiteTraitementRecupere));
+        $this->set('nbTraitementEnCoursRedaction', $this->_nbTraitementEnCoursRedaction($conditions));
+
+        $return = $this->_listValidants();
+        $this->set('validants', $return['validants']);
+        $this->set('consultants', $return['consultants']);
     }
 
     /**
@@ -236,24 +232,20 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function attente() {
-        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
-            $this->set('title', __d('pannel', 'pannel.titreTraitementEnAttente'));
-
-            $limiteTraitementRecupere = 0;
-
-            $this->set('traitementEnCoursValidation', $this->_traitementEnCoursValidation($limiteTraitementRecupere));
-            $this->set('nbTraitementEnCoursValidation', $this->_nbTraitementEnCoursValidation());
-
-            $return = $this->_listValidants();
-            $this->set('validants', $return['validants']);
-            $this->set('consultants', $return['consultants']);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        if (true !== $this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+
+        $this->set('title', __d('pannel', 'pannel.titreTraitementEnAttente'));
+
+        $limiteTraitementRecupere = 0;
+
+        $this->set('traitementEnCoursValidation', $this->_traitementEnCoursValidation($limiteTraitementRecupere));
+        $this->set('nbTraitementEnCoursValidation', $this->_nbTraitementEnCoursValidation());
+
+        $return = $this->_listValidants();
+        $this->set('validants', $return['validants']);
+        $this->set('consultants', $return['consultants']);
     }
 
     /**
@@ -265,30 +257,26 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function refuser() {
-        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
-            $this->set('title', __d('pannel', 'pannel.titreTraitementRefuser'));
-
-            $limiteTraitementRecupere = 0;
-
-            $conditions = [];
-            $conditions[] = array(
-                'EtatFiche.etat_id' => EtatFiche::REFUSER,
-                'EtatFiche.actif' => true
-            );
-
-            $this->set('traitementRefuser', $this->_traitementRefuser($conditions, $limiteTraitementRecupere));
-            $this->set('nbTraitementRefuser', $this->_nbTraitementRefuser($conditions));
-
-            $return = $this->_listValidants();
-            $this->set('validants', $return['validants']);
-            $this->set('consultants', $return['consultants']);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        if (true !== $this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+
+        $this->set('title', __d('pannel', 'pannel.titreTraitementRefuser'));
+
+        $limiteTraitementRecupere = 0;
+
+        $conditions = [];
+        $conditions[] = array(
+            'EtatFiche.etat_id' => EtatFiche::REFUSER,
+            'EtatFiche.actif' => true
+        );
+
+        $this->set('traitementRefuser', $this->_traitementRefuser($conditions, $limiteTraitementRecupere));
+        $this->set('nbTraitementRefuser', $this->_nbTraitementRefuser($conditions));
+
+        $return = $this->_listValidants();
+        $this->set('validants', $return['validants']);
+        $this->set('consultants', $return['consultants']);
     }
 
     /**
