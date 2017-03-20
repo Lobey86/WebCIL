@@ -63,11 +63,7 @@ class OrganisationsController extends AppController {
                         ]
             ]));
         } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
     }
 
