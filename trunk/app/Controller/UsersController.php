@@ -262,7 +262,7 @@ class UsersController extends AppController {
      * @version V1.0.0
      */
     public function add() {
-        if (true !== $this->Droits->authorized(ListeDroit::CREER_UTILISATEUR) || $this->Droits->isSu()) {
+        if (true !== ($this->Droits->authorized(ListeDroit::CREER_UTILISATEUR) || $this->Droits->isSu())) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
