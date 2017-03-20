@@ -137,6 +137,10 @@ class User extends AppModel {
         'Notification' => array(
             'className' => 'Notification',
             'foreignKey' => 'user_id'
+        ),
+        'OrganisationUserRole' => array(
+            'className' => 'OrganisationUserRole',
+            'foreignKey' => 'organisation_user_id'
         )
     );
 

@@ -71,6 +71,9 @@ msgstr "Actions"
 msgid "user.textTableauEntite"
 msgstr "Entités :"
 
+msgid "user.textTableauAucuneEntite"
+msgstr "L'utilisateur n'est dans aucune entité"
+
 msgid "user.textTableauLogin"
 msgstr "Login : "
 

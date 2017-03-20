@@ -62,6 +62,10 @@ class UsersController extends AppController {
      * @version V1.0.0
      */
     public function index() {
+        if (true !== $this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR])) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+
         $this->set('title', __d('user', 'user.titreListeUser'));
 
         // Récupération du CIL de l'entité en cour
@@ -77,130 +81,117 @@ class UsersController extends AppController {
         $cil = Hash::get($cil, 'Organisation.cil');
         $this->set('cil', $cil);
 
-        if ($this->Droits->authorized([
-                    ListeDroit::CREER_UTILISATEUR,
-                    ListeDroit::MODIFIER_UTILISATEUR,
-                    ListeDroit::SUPPRIMER_UTILISATEUR
-                ])
-        ) {
-            $query = [
-                'conditions' => [],
-                'contain' => [
-                    'User' => [
-                        'id',
-                        'username',
-                        'nom',
-                        'prenom',
-                        'created'
-                    ],
+        $query = [
+            'conditions' => [],
+            'contain' => [
+                'User' => [
+                    'id',
+                    'username',
+                    'nom',
+                    'prenom',
+                    'created'
+                ],
 //                    'OrganisationUserService' => [
 //                        'Service' => ['libelle']
 //                    ],
-                    'OrganisationUserRole' => [
-                        'Role' => ['libelle']
-                    ]
+                'OrganisationUserRole' => [
+                    'Role' => ['libelle']
                 ]
-            ];
+            ]
+        ];
 
-            if ($this->Droits->isSu()) {
-                if ($this->request->is('post')) {
-                    if ($this->request->data['users']['organisation'] != '') {
-                        $query['conditions']['OrganisationUser.organisation_id'] = $this->request->data['users']['organisation'];
-                    }
+        if ($this->Droits->isSu()) {
+            if ($this->request->is('post')) {
+                if ($this->request->data['users']['organisation'] != '') {
+                    $query['conditions']['OrganisationUser.organisation_id'] = $this->request->data['users']['organisation'];
+                }
 
-                    if ($this->request->data['users']['nom'] != '') {
-                        $query['conditions']['OrganisationUser.user_id'] = $this->request->data['users']['nom'];
-                        $query['limit'] = 1;
-                    }
-                } else {
-                    $query['conditions'] = [
-                        'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
-                    ];
+                if ($this->request->data['users']['nom'] != '') {
+                    $query['conditions']['OrganisationUser.user_id'] = $this->request->data['users']['nom'];
+                    $query['limit'] = 1;
                 }
             } else {
                 $query['conditions'] = [
-                    'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
-                    'OrganisationUser.user_id !=' => 1
+                    'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
                 ];
             }
-
-            $users = $this->OrganisationUser->find('all', $query);
-            foreach ($users as $key => $value) {
-                $orgausers = $this->OrganisationUser->find('all', [
-                    'conditions' => [
-                        'OrganisationUser.user_id' => $value['OrganisationUser']['user_id']
-                    ]
-                ]);
-
-                foreach ($orgausers as $clef => $valeur) {
-                    $orga = $this->Organisation->find('first', [
-                        'conditions' => [
-                            'Organisation.id' => $valeur['OrganisationUser']['organisation_id']
-                        ],
-                        'fields' => [
-                            'raisonsociale'
-                        ]
-                    ]);
-                    $users[$key]['Organisations'][] = $orga;
-                }
-
-                $orgaUserService = $this->OrganisationUserService->find('all', [
-                    'conditions' => [
-                        'organisation_user_id' => $users[$key]['OrganisationUser']['id']
-                    ]
-                ]);
-                foreach ($orgaUserService as $valeur) {
-                    $orgaService = $this->Service->find('first', [
-                        'conditions' => [
-                            'id' => $valeur['OrganisationUserService']['service_id']
-                        ],
-                        'fields' => [
-                            'libelle'
-                        ]
-                    ]);
-                    $users[$key]['OrganisationUserService'][] = $orgaService;
-                }
-            }
-            $this->set('users', $users);
-
-            //On récupére tout les services de l'entitée utilisé à l'instant T
-            $services = $this->Service->find('all', [
-                'conditions' => [
-                    'organisation_id' => $this->Session->read('Organisation.id')
-                ]
-            ]);
-            $this->set('services', $services);
-
-            $orgas = $this->Organisation->find('all', [
-                'fields' => [
-                    'Organisation.raisonsociale',
-                    'id'
-                ]
-            ]);
-            $organisations = [];
-            foreach ($orgas as $value) {
-                $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
-            }
-            $this->set('orgas', $organisations);
-
-            $utils = $this->User->find('all', [
-                'fields' => [
-                    'User.nom',
-                    'User.prenom',
-                    'User.id'
-                ]
-            ]);
-
-            $this->set(
-                    'utilisateurs', Hash::combine($utils, '{n}.User.id', array('%s %s', '{n}.User.prenom', '{n}.User.nom'))
-            );
         } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $query['conditions'] = [
+                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
+                'OrganisationUser.user_id !=' => 1
+            ];
         }
+
+        $users = $this->OrganisationUser->find('all', $query);
+        foreach ($users as $key => $value) {
+            $orgausers = $this->OrganisationUser->find('all', [
+                'conditions' => [
+                    'OrganisationUser.user_id' => $value['OrganisationUser']['user_id']
+                ]
+            ]);
+
+            foreach ($orgausers as $clef => $valeur) {
+                $orga = $this->Organisation->find('first', [
+                    'conditions' => [
+                        'Organisation.id' => $valeur['OrganisationUser']['organisation_id']
+                    ],
+                    'fields' => [
+                        'raisonsociale'
+                    ]
+                ]);
+                $users[$key]['Organisations'][] = $orga;
+            }
+
+            $orgaUserService = $this->OrganisationUserService->find('all', [
+                'conditions' => [
+                    'organisation_user_id' => $users[$key]['OrganisationUser']['id']
+                ]
+            ]);
+            foreach ($orgaUserService as $valeur) {
+                $orgaService = $this->Service->find('first', [
+                    'conditions' => [
+                        'id' => $valeur['OrganisationUserService']['service_id']
+                    ],
+                    'fields' => [
+                        'libelle'
+                    ]
+                ]);
+                $users[$key]['OrganisationUserService'][] = $orgaService;
+            }
+        }
+        $this->set('users', $users);
+
+        //On récupére tout les services de l'entitée utilisé à l'instant T
+        $services = $this->Service->find('all', [
+            'conditions' => [
+                'organisation_id' => $this->Session->read('Organisation.id')
+            ]
+        ]);
+        $this->set('services', $services);
+
+        $orgas = $this->Organisation->find('all', [
+            'fields' => [
+                'Organisation.raisonsociale',
+                'id'
+            ]
+        ]);
+        $organisations = [];
+        foreach ($orgas as $value) {
+            $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
+        }
+        $this->set('orgas', $organisations);
+
+        $utils = $this->User->find('all', [
+            'fields' => [
+                'User.nom',
+                'User.prenom',
+                'User.id'
+            ]
+        ]);
+
+        $this->set(
+                'utilisateurs', Hash::combine($utils, '{n}.User.id', array('%s %s', '{n}.User.prenom', '{n}.User.nom'))
+        );
     }
 
     /**
@@ -271,118 +262,113 @@ class UsersController extends AppController {
      * @version V1.0.0
      */
     public function add() {
+        if (true !== $this->Droits->authorized(ListeDroit::CREER_UTILISATEUR) || $this->Droits->isSu()) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+
         $this->set('title', __d('user', 'user.titreAjouterUser'));
 
-        if ($this->Droits->authorized(ListeDroit::CREER_UTILISATEUR) || $this->Droits->isSu()) {
-            $this->set('idUser', $this->Auth->user('id'));
+        $this->set('idUser', $this->Auth->user('id'));
 
-            if ($this->request->is('post')) {
-                $success = true;
-                $this->User->begin();
+        if ($this->request->is('post')) {
+            $success = true;
+            $this->User->begin();
 
-                $this->User->create($this->request->data);
+            $this->User->create($this->request->data);
 
-                $success = false !== $this->User->save() && $success;
+            $success = false !== $this->User->save() && $success;
 
-                $success = false !== $this->_validateEntiteProfil() && $success;
+            $success = false !== $this->_validateEntiteProfil() && $success;
 
-                if ($success == true) {
-                    $userId = $this->User->getInsertID();
+            if ($success == true) {
+                $userId = $this->User->getInsertID();
 
-                    foreach ($this->request->data['Organisation']['Organisation_id'] as $key => $value) {
-                        $this->OrganisationUser->create([
-                            'user_id' => $userId,
-                            'organisation_id' => $value
+                foreach ($this->request->data['Organisation']['Organisation_id'] as $key => $value) {
+                    $this->OrganisationUser->create([
+                        'user_id' => $userId,
+                        'organisation_id' => $value
+                    ]);
+
+                    $success = false !== $this->OrganisationUser->save() && $success;
+
+                    $organisationUserId = $this->OrganisationUser->getInsertID();
+
+                    if (isset($this->request->data['Service'][$value]) && $this->request->data['Service'][$value] != null) {
+                        foreach ($this->request->data['Service'][$value] as $service) {
+                            $this->OrganisationUserService->create([
+                                'organisation_user_id' => $organisationUserId,
+                                'service_id' => $service
+                            ]);
+
+                            $success = false !== $this->OrganisationUserService->save() && $success;
+                        }
+                    }
+
+                    if (!empty($this->request->data['Role'][$value])) {
+                        $this->OrganisationUserRole->create([
+                            'organisation_user_id' => $organisationUserId,
+                            'role_id' => $this->request->data['Role'][$value]
+                        ]);
+                        $success = false !== $this->OrganisationUserRole->save() && $success;
+
+                        $droits = $this->RoleDroit->find('all', [
+                            'conditions' => [
+                                'role_id' => $this->request->data['Role'][$value]
+                            ]
                         ]);
 
-                        $success = false !== $this->OrganisationUser->save() && $success;
-
-                        $organisationUserId = $this->OrganisationUser->getInsertID();
-
-                        if (isset($this->request->data['Service'][$value]) && $this->request->data['Service'][$value] != null) {
-                            foreach ($this->request->data['Service'][$value] as $service) {
-                                $this->OrganisationUserService->create([
+                        foreach ($droits as $val) {
+                            if (empty($this->Droit->find('first', [
+                                                'conditions' => [
+                                                    'organisation_user_id' => $organisationUserId,
+                                                    'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                ]
+                                    ]))
+                            ) {
+                                $this->Droit->create([
                                     'organisation_user_id' => $organisationUserId,
-                                    'service_id' => $service
+                                    'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
                                 ]);
-
-                                $success = false !== $this->OrganisationUserService->save() && $success;
-                            }
-                        }
-
-                        if (!empty($this->request->data['Role'][$value])) {
-                            $this->OrganisationUserRole->create([
-                                'organisation_user_id' => $organisationUserId,
-                                'role_id' => $this->request->data['Role'][$value]
-                            ]);
-                            $success = false !== $this->OrganisationUserRole->save() && $success;
-
-                            $droits = $this->RoleDroit->find('all', [
-                                'conditions' => [
-                                    'role_id' => $this->request->data['Role'][$value]
-                                ]
-                            ]);
-
-                            foreach ($droits as $val) {
-                                if (empty($this->Droit->find('first', [
-                                                    'conditions' => [
-                                                        'organisation_user_id' => $organisationUserId,
-                                                        'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
-                                                    ]
-                                        ]))
-                                ) {
-                                    $this->Droit->create([
-                                        'organisation_user_id' => $organisationUserId,
-                                        'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
-                                    ]);
-                                    $success = false !== $this->Droit->save() && $success;
-                                }
+                                $success = false !== $this->Droit->save() && $success;
                             }
                         }
                     }
-
-                    if ($success == true) {
-                        $this->User->commit();
-                        $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), 'flashsuccess');
-                    } else {
-                        $this->User->rollback();
-                        $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
-                    }
-                    $this->redirect([
-                        'controller' => 'users',
-                        'action' => 'index'
-                    ]);
-                } else {
-                    $table = $this->_createTable();
-                    $this->set('tableau', $table['tableau']);
-                    $this->set('listedroits', $table['listedroits']);
                 }
+
+                if ($success == true) {
+                    $this->User->commit();
+                    $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), 'flashsuccess');
+                } else {
+                    $this->User->rollback();
+                    $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
+                }
+                $this->redirect([
+                    'controller' => 'users',
+                    'action' => 'index'
+                ]);
             } else {
                 $table = $this->_createTable();
                 $this->set('tableau', $table['tableau']);
                 $this->set('listedroits', $table['listedroits']);
-                $listeServices = $this->Service->find('all', [
-                    'fields' => [
-                        'id',
-                        'libelle',
-                        'organisation_id'
-                    ]
-                ]);
-
-                $listserv = [];
-                foreach ($listeServices as $key => $value) {
-                    $listserv[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
-                }
-
-                $this->set('listeservices', $listserv);
             }
         } else {
-            $this->User->rollback();
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
+            $table = $this->_createTable();
+            $this->set('tableau', $table['tableau']);
+            $this->set('listedroits', $table['listedroits']);
+            $listeServices = $this->Service->find('all', [
+                'fields' => [
+                    'id',
+                    'libelle',
+                    'organisation_id'
+                ]
             ]);
+
+            $listserv = [];
+            foreach ($listeServices as $key => $value) {
+                $listserv[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
+            }
+
+            $this->set('listeservices', $listserv);
         }
 
         $this->set('options', $this->User->enums());
@@ -1127,6 +1113,64 @@ class UsersController extends AppController {
         ];
 
         return $retour;
+    }
+
+    public function admin_index() {
+        if (true !== $this->Droits->isSu()) { // @fixme
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+
+        $this->paginate = [
+            'fields' => [
+                'id',
+                'civilite',
+                'username',
+                'nom',
+                'prenom',
+                'created'
+            ],
+            'contain' => [
+                'Organisation' => [
+                    'fields' => [
+                        'id',
+                        'raisonsociale'
+                    ]
+                ]
+            ],
+            'limit' => 20,
+        ];
+
+        $users = $this->paginate('User');
+
+        foreach ($users as $key => $user) {
+            foreach ($user['Organisation'] as $userOrganisation) {
+                $organisationUserRole = $this->OrganisationUserRole->find('first', [
+                    'conditions' => [
+                        'organisation_user_id' => $userOrganisation['OrganisationUser']['id']
+                    ]
+                ]);
+
+                $users[$key]['OrganisationUserRole'] = $organisationUserRole['OrganisationUserRole'];
+
+                foreach ($organisationUserRole as $test) {
+                    $userRole = $this->Role->find('first', [
+                        'conditions' => [
+                            'id' => $test['role_id']
+                        ],
+                        'fields' => [
+                            'libelle'
+                        ]
+                    ]);
+
+                    $users[$key]['OrganisationUserRole'] += $userRole;
+                }
+            }
+        }
+
+        $title = 'Tous les utilisateurs de l\'application';
+
+        $this->set(compact('title', 'users'));
+//        $this->view = 'index';
     }
 
 }
