@@ -181,7 +181,7 @@ class PannelController extends AppController {
             $this->set('title', __d('pannel', 'pannel.titreTraitementEnCoursRedaction'));
 
             $limiteTraitementRecupere = 0;
-        
+
             // Conditions pour récupére les traitements en cours de rédaction
             $db = $this->EtatFiche->getDataSource();
             $subQuery = $this->EtatFiche->sql(
@@ -240,7 +240,7 @@ class PannelController extends AppController {
             $this->set('title', __d('pannel', 'pannel.titreTraitementEnAttente'));
 
             $limiteTraitementRecupere = 0;
-            
+
             $this->set('traitementEnCoursValidation', $this->_traitementEnCoursValidation($limiteTraitementRecupere));
             $this->set('nbTraitementEnCoursValidation', $this->_nbTraitementEnCoursValidation());
 
@@ -269,7 +269,7 @@ class PannelController extends AppController {
             $this->set('title', __d('pannel', 'pannel.titreTraitementRefuser'));
 
             $limiteTraitementRecupere = 0;
-            
+
             $conditions = [];
             $conditions[] = array(
                 'EtatFiche.etat_id' => EtatFiche::REFUSER,
@@ -300,24 +300,20 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function recuValidation() {
+        if (true !== $this->Droits->authorized(ListeDroit::VALIDER_TRAITEMENT)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+
         $this->set('title', __d('pannel', 'pannel.titreTraitementRecuValidation'));
 
         $limiteTraitementRecupere = 0;
 
-        if ($this->Droits->authorized(ListeDroit::VALIDER_TRAITEMENT)) {
-            $this->set('traitementRecuEnValidation', $this->_traitementRecuEnValidation($limiteTraitementRecupere));
-            $this->set('nbTaitementRecuEnValidation', $this->_nbTraitementRecuEnValidation());
+        $this->set('traitementRecuEnValidation', $this->_traitementRecuEnValidation($limiteTraitementRecupere));
+        $this->set('nbTaitementRecuEnValidation', $this->_nbTraitementRecuEnValidation());
 
-            $return = $this->_listValidants();
-            $this->set('validants', $return['validants']);
-            $this->set('consultants', $return['consultants']);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
-        }
+        $return = $this->_listValidants();
+        $this->set('validants', $return['validants']);
+        $this->set('consultants', $return['consultants']);
     }
 
     /**
@@ -333,7 +329,7 @@ class PannelController extends AppController {
             $this->set('title', __d('pannel', 'pannel.titreTraitementConsultation'));
 
             $limiteTraitementRecupere = 0;
-        
+
             $this->set('traitementRecuEnConsultation', $this->_traitementRecuEnConsultation($limiteTraitementRecupere));
             $this->set('nbTraitementRecuEnConsultation', $this->_nbTraitementRecuEnConsultation());
 
@@ -1034,7 +1030,7 @@ class PannelController extends AppController {
             'limit' => $limiteTraitementRecupere
         ]);
 
-        foreach ($traitementRecuEnValidation as $key => $traitement){
+        foreach ($traitementRecuEnValidation as $key => $traitement) {
             $remplieTypeDeclaration = $this->_typeDeclarationRemplie($traitement['Fiche']['id']);
 
             $traitementRecuEnValidation[$key]['Fiche']['typedeclaration'] = $remplieTypeDeclaration;
@@ -1494,7 +1490,7 @@ class PannelController extends AppController {
 
         return ($validees);
     }
-    
+
     /**
      * 
      * @param type $id
@@ -1505,15 +1501,15 @@ class PannelController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     protected function _typeDeclarationRemplie($id) {
-        $typeDeclaration = $this->Valeur->find('first',[
+        $typeDeclaration = $this->Valeur->find('first', [
             'conditions' => [
                 'fiche_id' => $id,
                 'champ_name' => 'typedeclaration'
             ]
         ]);
-        
-        if (!empty($typeDeclaration)){
-            if ($typeDeclaration['Valeur']['valeur'] != ' '){
+
+        if (!empty($typeDeclaration)) {
+            if ($typeDeclaration['Valeur']['valeur'] != ' ') {
                 $remplie = 'true';
             } else {
                 $remplie = 'false';
@@ -1521,7 +1517,7 @@ class PannelController extends AppController {
         } else {
             $remplie = 'false';
         }
-        
+
         return($remplie);
     }
 
