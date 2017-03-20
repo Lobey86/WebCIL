@@ -36,21 +36,23 @@ class ServicesController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        if ($this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR, ListeDroit::CREER_ORGANISATION, ListeDroit::MODIFIER_ORGANISATION, ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
-            $this->set('title', __d('service','service.titreService') . $this->Session->read('Organisation.raisonsociale'));
-            $serv = $this->Service->find('all', array('conditions' => array('organisation_id' => $this->Session->read('Organisation.id'))));
-            foreach ($serv as $key => $value) {
-                $count = $this->OrganisationUserService->find('count', array('conditions' => array('service_id' => $value['Service']['id'])));
-                $serv[$key]['count'] = $count;
-            }
-            $this->set('serv', $serv);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        if (true !== $this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR, ListeDroit::CREER_ORGANISATION, ListeDroit::MODIFIER_ORGANISATION, ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+
+        $this->set('title', __d('service', 'service.titreService') . $this->Session->read('Organisation.raisonsociale'));
+        
+        $serv = $this->Service->find('all', array(
+            'conditions' => array(
+                'organisation_id' => $this->Session->read('Organisation.id')
+            )
+        ));
+        
+        foreach ($serv as $key => $value) {
+            $count = $this->OrganisationUserService->find('count', array('conditions' => array('service_id' => $value['Service']['id'])));
+            $serv[$key]['count'] = $count;
+        }
+        $this->set('serv', $serv);
     }
 
     /**
@@ -59,17 +61,17 @@ class ServicesController extends AppController {
      * @version V1.0.0
      */
     public function add() {
-        $this->set('title', __d('service','service.titreAjouterService'));
+        $this->set('title', __d('service', 'service.titreAjouterService'));
         if ($this->request->is('post')) {
             $this->Service->create($this->request->data);
             if ($this->Service->save()) {
-                $this->Session->setFlash(__d('service','service.flashsuccessServiceEnregistrer'), 'flashsuccess');
+                $this->Session->setFlash(__d('service', 'service.flashsuccessServiceEnregistrer'), 'flashsuccess');
                 $this->redirect(array(
                     'controller' => 'services',
                     'action' => 'index'
                 ));
             } else {
-                $this->Session->setFlash(__d('service','service.flasherrorErreurEnregistrementService'), 'flasherror');
+                $this->Session->setFlash(__d('service', 'service.flasherrorErreurEnregistrementService'), 'flasherror');
                 $this->redirect(array(
                     'controller' => 'services',
                     'action' => 'index'
@@ -92,20 +94,20 @@ class ServicesController extends AppController {
         if ($this->Service->exists()) {
             if ($this->request->is('post') || $this->request->is('put')) {
                 if ($this->Service->save($this->request->data)) {
-                    $this->Session->setFlash(__d('service','service.flashsuccessServiceEnregistrer'), "flashsuccess");
+                    $this->Session->setFlash(__d('service', 'service.flashsuccessServiceEnregistrer'), "flashsuccess");
                     $this->redirect(array(
                         'controller' => 'services',
                         'action' => 'index'
                     ));
                 } else {
-                    $this->Session->setFlash(__d('service','service.flasherrorErreurEnregistrementService'), 'flasherror');
+                    $this->Session->setFlash(__d('service', 'service.flasherrorErreurEnregistrementService'), 'flasherror');
                 }
             }
             if (!$this->request->data) {
                 $this->request->data = $servi;
             }
         } else {
-            $this->Session->setFlash(__d('service','service.flasherrorServiceInexistant'), "flasherror");
+            $this->Session->setFlash(__d('service', 'service.flasherrorServiceInexistant'), "flasherror");
             $this->redirect(array(
                 'controller' => 'services',
                 'action' => 'index'
@@ -125,13 +127,13 @@ class ServicesController extends AppController {
         $this->Service->id = $id;
         if ($this->Service->exists()) {
             $this->Service->delete($id, false);
-            $this->Session->setFlash(__d('service','service.flashsuccessServiceSupprimer'), 'flashsuccess');
+            $this->Session->setFlash(__d('service', 'service.flashsuccessServiceSupprimer'), 'flashsuccess');
             $this->redirect(array(
                 'controller' => 'services',
                 'action' => 'index'
             ));
         } else {
-            $this->Session->setFlash(__d('service','service.flasherrorErreurSupprimerService'), 'flasherror');
+            $this->Session->setFlash(__d('service', 'service.flasherrorErreurSupprimerService'), 'flasherror');
             $this->redirect(array(
                 'controller' => 'services',
                 'action' => 'index'
