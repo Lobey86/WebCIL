@@ -118,7 +118,7 @@ class OrganisationsController extends AppController {
             }
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            
+
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
@@ -221,96 +221,92 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     public function edit($id = null) {
+        if ((true !== $this->Droits->authorized(ListeDroit::MODIFIER_ORGANISATION)) || $this->Droits->isSu()) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+
         if ($id == $this->Session->read('Organisation.id')) {
             $this->set('title', __d('organisation', 'organisation.titreInfoGenerales') . $this->Session->read('Organisation.raisonsociale'));
         } else {
             $this->set('title', 'Editer une entité');
         }
 
-        if (($this->Droits->authorized(ListeDroit::MODIFIER_ORGANISATION) && $this->Session->read('Organisation.id') == $id) || $this->Droits->isSu()) {
-            if (!$id) {
+        if (!$id) {
+            $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
+            $this->redirect([
+                'controller' => 'organisations',
+                'action' => 'index'
+            ]);
+        } else {
+            $organisation = $this->Organisation->findById($id);
+            $users = $this->OrganisationUser->find('all', [
+                'conditions' => [
+                    'OrganisationUser.organisation_id' => $id
+                ],
+                'contain' => [
+                    'User' => [
+                        'id',
+                        'nom',
+                        'prenom'
+                    ]
+                ]
+            ]);
+
+            // Construction de la liste déroulante avec les utilisateurs de l'entitée
+            $array_users = [];
+            $idUsers = [];
+            foreach ($users as $key => $value) {
+                $array_users[$value['User']['id']] = $value['User']['prenom'] . " " . $value['User']['nom'];
+                $idUsers[] = $value['User']['id'];
+            }
+            $this->set('users', $array_users);
+
+            // On récupére en BDD tout les utilisateurs qui sont présent dans l'entitée
+            $informationsUsers = $this->User->find('all', [
+                'conditions' => [
+                    'id' => $idUsers
+                ],
+                'fields' => [
+                    'id',
+                    'nom',
+                    'prenom',
+                    'email'
+                ]
+            ]);
+
+            // On reformate le tableau
+            $result = Hash::combine($informationsUsers, '{n}.User.id', '{n}.User');
+            $result = Hash::remove($result, '{n}.id');
+            $this->set('informationsUsers', $result);
+
+            if (!$organisation) {
                 $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
+
                 $this->redirect([
                     'controller' => 'organisations',
                     'action' => 'index'
                 ]);
             } else {
-                $organisation = $this->Organisation->findById($id);
-                $users = $this->OrganisationUser->find('all', [
-                    'conditions' => [
-                        'OrganisationUser.organisation_id' => $id
-                    ],
-                    'contain' => [
-                        'User' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ]
-                ]);
-
-                // Construction de la liste déroulante avec les utilisateurs de l'entitée
-                $array_users = [];
-                $idUsers = [];
-                foreach ($users as $key => $value) {
-                    $array_users[$value['User']['id']] = $value['User']['prenom'] . " " . $value['User']['nom'];
-                    $idUsers[] = $value['User']['id'];
-                }
-                $this->set('users', $array_users);
-
-                // On récupére en BDD tout les utilisateurs qui sont présent dans l'entitée
-                $informationsUsers = $this->User->find('all', [
-                    'conditions' => [
-                        'id' => $idUsers
-                    ],
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom',
-                        'email'
-                    ]
-                ]);
-
-                // On reformate le tableau
-                $result = Hash::combine($informationsUsers, '{n}.User.id', '{n}.User');
-                $result = Hash::remove($result, '{n}.id');
-                $this->set('informationsUsers', $result);
-
-                if (!$organisation) {
-                    $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
-
-                    $this->redirect([
-                        'controller' => 'organisations',
-                        'action' => 'index'
-                    ]);
-                } else {
-                    if ($this->request->is([
-                                'post',
-                                'put'
-                            ])
-                    ) {
-                        $this->Organisation->id = $id;
-                        if ($this->Organisation->saveAddEditForm($this->request->data, $id)) {
-                            $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteModifier'), 'flashsuccess');
-                            $this->redirect([
-                                'controller' => 'pannel',
-                                'action' => 'index'
-                            ]);
-                        } else {
-                            $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurMoficationEntite'), 'flasherror');
-                        }
+                if ($this->request->is([
+                            'post',
+                            'put'
+                        ])
+                ) {
+                    $this->Organisation->id = $id;
+                    if ($this->Organisation->saveAddEditForm($this->request->data, $id)) {
+                        $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteModifier'), 'flashsuccess');
+                        $this->redirect([
+                            'controller' => 'pannel',
+                            'action' => 'index'
+                        ]);
+                    } else {
+                        $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurMoficationEntite'), 'flasherror');
                     }
                 }
             }
-            if (!$this->request->data) {
-                $this->request->data = $organisation;
-            }
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        }
+        if (!$this->request->data) {
+            $this->request->data = $organisation;
         }
     }
 
