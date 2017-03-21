@@ -337,23 +337,19 @@ class PannelController extends AppController {
      * @version V1.0.0
      */
     public function archives() {
-        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
-            $this->Session->write('nameController', "pannel");
-            $this->Session->write('nameView', "archives");
-
-            $this->set('title', __d('pannel', 'pannel.titreTraitementValidee'));
-
-            $limiteTraitementRecupere = 0;
-
-            $this->set('validees', $this->_traitementArchives($limiteTraitementRecupere));
-            $this->set('nbTraitementArchives', $this->_nbTraitementArchives());
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+        if (true !== $this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+
+        $this->Session->write('nameController', "pannel");
+        $this->Session->write('nameView', "archives");
+
+        $this->set('title', __d('pannel', 'pannel.titreTraitementValidee'));
+
+        $limiteTraitementRecupere = 0;
+
+        $this->set('validees', $this->_traitementArchives($limiteTraitementRecupere));
+        $this->set('nbTraitementArchives', $this->_nbTraitementArchives());
     }
 
     /**
