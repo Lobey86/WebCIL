@@ -65,6 +65,15 @@ msgstr "Utilisateur"
 msgid "user.titreTableauSynthese"
 msgstr "Synthèse"
 
+msgid "user.titreTableauNomDuFormulaire"
+msgstr "Nom du formulaire"
+
+msgid "user.titreTableauDescription"
+msgstr "Description"
+
+msgid "user.titreTableauDateCreation"
+msgstr "Date de création"
+
 msgid "user.titreTableauAction"
 msgstr "Actions"
 
