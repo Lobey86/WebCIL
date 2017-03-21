@@ -19,8 +19,12 @@
 <h2><?php echo $name; ?></h2>
 <p class="error">
 	<strong><?php echo __d('cake', 'Error'); ?>: </strong>
-	<?php printf(
-		__d('cake', 'The requested address %s was not found on this server.'),
+	<?php
+            $msg = 403 == $error->getCode()
+                ? 'Accès interdit à l\'adresse demandée %s'
+                : 'The requested address %s was not found on this server.';
+            printf(
+		__d('cake', $msg),
 		"<strong>'{$url}'</strong>"
 	); ?>
 </p>
