@@ -272,32 +272,16 @@ $(document).ready(function () {
         } else if (object.hasClass('title')) {
             var options = jQuery('' +
                 '<div class="col-md-12">' +
-                '<div class="form-group"><label>Contenu</label><input type="text" class="form-control titleForm" name="content-title" id="content-title" value="' + $('.ui-selected').find('h1').html() + '"></div>' +
+                '<div class="form-group"><label for="content-title">Contenu</label><input type="text" class="form-control titleForm" name="content-title" id="content-title" value="' + $('.ui-selected').find('h1').html() + '"></div>' +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
             );
         
         } else if (object.hasClass('texte')) {
-//            var options = jQuery('' +
-//                '<div class="col-md-12">' +
-//                    '<div class="form-group">\n\
-//                        <label>Contenu</label>\n\
-//                        <input type="text" class="form-control texteForm" name="content-texte" id="content-texte" value="' + $('.ui-selected').find('h5').html() + '"></input>\n\
-//                    </div>' +
-//                    '<div class=" btn-group text-center">\n\
-//                        <button type="button" class="btn btn-default-danger btn-sm" id="closer">\n\
-//                            <i class="fa fa-trash"></i>\n\
-//                        </button>\n\
-//                        <button type="button" class="btn btn-default-success btn-sm" id="applicable">\n\
-//                            <i class="fa fa-check"></i> Appliquer\n\
-//                        </button>\n\
-//                    </div>\n\
-//            </div>');
-
             var options = jQuery('' +
                 '<div class="col-md-12">' +
                     '<div class="form-group">\n\
-                        <label>Contenu</label>\n\
+                        <label for="content-texte">Contenu</label>\n\
                         <textarea class="form-control texteForm" name="content-texte" id="content-texte">' + $('.ui-selected').find('h5').html() + '</textarea>\n\
                     </div>' +
                     '<div class=" btn-group text-center">\n\
@@ -313,7 +297,7 @@ $(document).ready(function () {
         } else if (object.hasClass('help')) {
             var options = jQuery('' +
                 '<div class="col-md-12">' +
-                '<div class="form-group"><label>Contenu</label><input type="text" class="form-control helpForm" name="content-help" id="content-help" value="'+ $('.ui-selected').find('.messager').html() + '"></div>' +
+                '<div class="form-group"><label for="content-help">Contenu</label><input type="text" class="form-control helpForm" name="content-help" id="content-help" value="'+ $('.ui-selected').find('.messager').html() + '"></div>' +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
             );
@@ -339,9 +323,9 @@ $(document).ready(function () {
 
             var options = jQuery('' +
                 '<div class="col-md-12">' +
-                '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="checkboxes" id="name-checkboxes" placeholder="Nom UNIQUE" value="' + nom + '"></div>' +
-                '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                '<div class="form-group"><label>Options (1 par ligne)</label><textarea class="form-control checkboxForm">' + list + '</textarea></div>' +
+                '<div class="form-group"><label for="name-checkboxes">Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="checkboxes" id="name-checkboxes" placeholder="Nom UNIQUE" value="' + nom + '"></div>' +
+                '<div class="form-group"><label for="label-checkbox">Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                '<div class="form-group"><label for="option-checkbox">Options (1 par ligne)</label><textarea class="form-control checkboxForm" id="option-checkbox">' + list + '</textarea></div>' +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
             );
@@ -366,9 +350,9 @@ $(document).ready(function () {
 
             var options = jQuery('' +
                 '<div class="col-md-12">' +
-                '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="radios" id="name-radios" placeholder="Nom UNIQUE" value="' + nom + '"></div>' +
-                '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                '<div class="form-group"><label>Options (1 par ligne)</label><textarea class="form-control radioForm">' + list + '</textarea></div>' +
+                '<div class="form-group"><label for="name-radios">Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="radios" id="name-radios" placeholder="Nom UNIQUE" value="' + nom + '"></div>' +
+                '<div class="form-group"><label for="label-radios">Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-radios" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                '<div class="form-group"><label for="option-radios">Options (1 par ligne)</label><textarea class="form-control radioForm" id="option-radios">' + list + '</textarea></div>' +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
             );
@@ -394,9 +378,9 @@ $(document).ready(function () {
 
             var options = jQuery('' +
                 '<div class="col-md-12">' +
-                '<div class="form-group"><label>Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="deroulant" id="name-deroulant" placeholder="Nom UNIQUE" value="' + nom + '"></div>' +
-                '<div class="form-group"><label>Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
-                '<div class="form-group"><label>Options (1 par ligne)</label><textarea class="form-control deroulantForm">' + list + '</textarea></div>' +
+                '<div class="form-group"><label for="name-deroulant">Nom de variable <span class="obligatoire">*</span></label><input type="text" class="form-control nameForm" name="deroulant" id="name-deroulant" placeholder="Nom UNIQUE" value="' + nom + '"></div>' +
+                '<div class="form-group"><label for="label-checkbox">Nom du champ</label><input type="text" class="form-control labelForm" name="name" id="label-checkbox" placeholder="Label du champ" value="' + $('.ui-selected').find('.labeler').html() + '"></div>' +
+                '<div class="form-group"><label for="option-checkbox">Options (1 par ligne)</label><textarea class="form-control deroulantForm" id="option-checkbox">' + list + '</textarea></div>' +
                 check +
                 '<div class=" btn-group text-center"><button type="button" class="btn btn-default-danger btn-sm" id="closer"><i class="fa fa-trash"></i></button><button type="button" class="btn btn-default-success btn-sm" id="applicable"><i class="fa fa-check"></i> Appliquer</button> </div>' +
                 '</div>'
