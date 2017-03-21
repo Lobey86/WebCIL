@@ -1,229 +1,158 @@
+<!-- Tableau des formulaires -->
 <table class="table">
+    <!-- Titre tableau -->
     <thead>
-    <th class="thleft col-md-1">
-        <?php echo __d('formulaire', 'formulaire.titreTableauStatut'); ?>
-    </th>
-    <th class="thleft col-md-9">
-        <?php echo __d('formulaire', 'formulaire.titreTableauSynthese'); ?>
-    </th>
-    <th class="thleft col-md-2">
-        <?php echo __d('formulaire', 'formulaire.titreTableauAction'); ?>
-    </th>
-</thead>
-<tbody>
-    <?php
-    foreach ($formulaires as $data) {
-        if ($data['Formulaire']['active']) {
-            $iconClass = 'fa fa-check-square-o fa-3x fa-success';
-            $statut = __d('formulaire', 'formulaire.textStatutActif');
-            $statutClass = 'fa-success';
-        } else {
-            $statut = __d('formulaire', 'formulaire.textStatutInactif');
-            $iconClass = 'fa fa-close fa-3x fa-danger';
-            $statutClass = 'fa-danger';
+            <!-- Statut -->
+        <th class="col-md-1">
+            <?php echo __d('formulaire', 'formulaire.titreTableauStatut'); ?>
+        </th>
+
+        <!-- Nom -->
+        <th class="col-md-3">
+            <?php echo __d('user', 'user.titreTableauNomDuFormulaire'); ?>
+        </th>
+        
+        <!-- Description -->
+        <th class="col-md-4">
+            <?php echo __d('user', 'user.titreTableauDescription'); ?>
+        </th>
+        
+        <!-- Date de création -->
+        <th class="col-md-2">
+            <?php echo __d('user', 'user.titreTableauDateCreation'); ?>
+        </th>
+
+        <!-- Actions -->
+        <th class="col-md-2">
+            <?php echo __d('user', 'user.titreTableauAction'); ?>
+        </th>
+    </thead>
+    
+    <!-- Info tableau -->
+    <tbody>
+        <?php
+        foreach ($formulaires as $data) {
+            if ($data['Formulaire']['active'] == true) {
+                $iconClass = 'fa fa-check-square-o fa-3x fa-success';
+                $statut = __d('formulaire', 'formulaire.textStatutActif');
+                $statutClass = 'fa-success';
+            } else {
+                $statut = __d('formulaire', 'formulaire.textStatutInactif');
+                $iconClass = 'fa fa-close fa-3x fa-danger';
+                $statutClass = 'fa-danger';
+            }
+            ?>
+            <tr>
+                <!-- Status du formulaire -->
+                <td class="tdleft col-md-1">
+                    <div class="etatIcone">
+                        <i class= '<?php echo $iconClass; ?>'></i>
+                        <span class='<?php echo $statutClass; ?>'>
+                            <?php echo $statut; ?>
+                        </span>
+                    </div>
+                </td>
+                
+                <!-- Nom du formulaire -->
+                <td class="tdleft">
+                    <?php echo $data['Formulaire']['libelle']; ?>
+                </td>
+                
+                <!-- Description du formulaire -->
+                <td class="tdleft">
+                    <?php echo $data['Formulaire']['description']; ?>
+                </td>
+                
+                <!-- Date de création -->
+                <td class="tdleft">
+                    <?php echo $this->Time->format($data['Formulaire']['created'], FORMAT_DATE); ?>
+                </td>
+
+                <!-- Action possible d'effectuer en fonction de l'état du formulaire -->
+                <td class="tdleft">
+                    <div class="btn-group">
+                        <?php
+                        // Bouton voir le formulaire
+                        echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
+                            'controller' => 'formulaires',
+                            'action' => 'show',
+                            $data['Formulaire']['id']
+                                ), array(
+                            'class' => 'btn btn-default-default btn-sm my-tooltip',
+                            'title' => __d('formulaire', 'formulaire.commentaireVoirFormulaire'),
+                            'escape' => false,
+                        ));
+
+                        if ($valid[$data['Formulaire']['id']]) {
+                            // Bouton édité le formulaire
+                            echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
+                                'controller' => 'formulaires',
+                                'action' => 'edit',
+                                $data['Formulaire']['id']
+                                    ), array(
+                                'class' => 'btn btn-default-default btn-sm my-tooltip',
+                                'title' => __d('formulaire', 'formulaire.commentaireModifierFormulaire'),
+                                'escape' => false
+                            ));
+                        }
+
+                        if ($data['Formulaire']['active'] == true) {
+                            // Bouton désactivé le formulaire
+                            $lien = $this->Html->link('<span class="glyphicon glyphicon-remove"></span>', array(
+                                'controller' => 'formulaires',
+                                'action' => 'toggle',
+                                $data['Formulaire']['id'],
+                                $data['Formulaire']['active']
+                                    ), array(
+                                'class' => 'btn btn-default-default btn-sm my-tooltip',
+                                'escape' => false,
+                                'title' => __d('formulaire', 'formulaire.commentaireDesactiverFormulaire')
+                            ));
+                        } else {
+                            // Bouton activé le formulaire
+                            $lien = $this->Html->link('<span class="glyphicon glyphicon-check"></span>', array(
+                                'controller' => 'formulaires',
+                                'action' => 'toggle',
+                                $data['Formulaire']['id'],
+                                $data['Formulaire']['active']
+                                    ), array(
+                                'class' => 'btn btn-default-default btn-sm my-tooltip',
+                                'title' => __d('formulaire', 'formulaire.commentaireActiverFormulaire'),
+                                'escape' => false
+                            ));
+                        }
+                        echo $lien;
+                        
+                        if ($valid[$data['Formulaire']['id']] == true) {
+                            //Bouton supprimé le formulaire
+                            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                                'controller' => 'formulaires',
+                                'action' => 'delete',
+                                $data['Formulaire']['id']
+                                    ), array(
+                                'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                                'title' => __d('formulaire', 'formulaire.commentaireSupprimerFormulaire'),
+                                'escape' => false
+                                    ), __d('formulaire', 'formulaire.confirmationSupprimerFormulaire')
+                            );
+                        } else {
+                            //Bouton dupliqué le formulaire
+                            ?> 
+                            <button type="button" class="btn btn-default-default btn-sm my-tooltip btn_duplicate" 
+                                    data-toggle="modal" data-target="#modalDupliquer" value="<?php echo $data['Formulaire']['id']; ?>"
+                                    title="<?php echo __d('formulaire', 'formulaire.commentaireDupliquerFormulaire'); ?>">
+                                <span class="fa fa-files-o fa-lg" ></span>
+                            </button>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </td>
+            </tr>
+            <?php
         }
         ?>
-        <tr>
-            <!-- Status -->
-            <td class="tdleft col-md-1">
-                <div class="etatIcone">
-                    <i class= '<?php echo $iconClass; ?>'></i>
-                </div>
-            </td>
-
-            <!-- Synthèse -->
-            <td class="tdleft col-md-9">
-                <div class="row">
-                    <div class="col-md-5">
-                        <!-- Nom : -->
-                        <div class="row col-md-12">
-                            <strong>
-                                <?php echo __d('formulaire', 'formulaire.textTableauNom'); ?>
-                            </strong>
-                            <?php echo $data['Formulaire']['libelle']; ?>
-                        </div>
-
-                        <!-- Statut : --> 
-                        <div class="row col-md-12">
-                            <strong>
-                                <?php echo __d('formulaire', 'formulaire.textTableauStatut'); ?>
-                            </strong>
-                            <span class='<?php echo $statutClass; ?>'><?php echo $statut; ?></span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-7">
-                        <!-- Description : -->
-                        <div class="col-md-3">
-                            <strong>
-                                <?php echo __d('formulaire', 'formulaire.textTableauDescription'); ?>
-                            </strong>
-                        </div>
-                        <div class="col-md-9">
-                            <?php echo $data['Formulaire']['description']; ?>
-                        </div>
-                    </div>
-                </div>
-            </td>
-
-            <!--Actions-->
-            <td class="tdleft col-md-2">
-                <div class="btn-group">
-                    <?php
-                    //Bouton voir le formulaire
-                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
-                        'controller' => 'formulaires',
-                        'action' => 'show',
-                        $data['Formulaire']['id']
-                            ), array(
-                        'class' => 'btn btn-default-default btn-sm my-tooltip',
-                        'title' => __d('formulaire', 'formulaire.commentaireVoirFormulaire'),
-                        'escape' => false
-                    ));
-
-                    if ($valid[$data['Formulaire']['id']]) {
-                        //Bouton édité le formulaire
-                        echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
-                            'controller' => 'formulaires',
-                            'action' => 'edit',
-                            $data['Formulaire']['id']
-                                ), array(
-                            'class' => 'btn btn-default-default btn-sm my-tooltip',
-                            'title' => __d('formulaire', 'formulaire.commentaireModifierFormulaire'),
-                            'escape' => false
-                        ));
-                    }
-
-                    if ($data['Formulaire']['active']) {
-                        //Bouton désactivé le formulaire
-                        $lien = $this->Html->link('<span class="glyphicon glyphicon-remove"></span>', array(
-                            'controller' => 'formulaires',
-                            'action' => 'toggle',
-                            $data['Formulaire']['id'],
-                            $data['Formulaire']['active']
-                                ), array(
-                            'class' => 'btn btn-default-default btn-sm my-tooltip',
-                            'escape' => false,
-                            'title' => __d('formulaire', 'formulaire.commentaireDesactiverFormulaire')
-                        ));
-                    } else {
-                        //Bouton activé le formulaire
-                        $lien = $this->Html->link('<span class="glyphicon glyphicon-check"></span>', array(
-                            'controller' => 'formulaires',
-                            'action' => 'toggle',
-                            $data['Formulaire']['id'],
-                            $data['Formulaire']['active']
-                                ), array(
-                            'class' => 'btn btn-default-default btn-sm my-tooltip',
-                            'title' => __d('formulaire', 'formulaire.commentaireActiverFormulaire'),
-                            'escape' => false
-                        ));
-                    }
-
-                    echo $lien;
-                    if ($valid[$data['Formulaire']['id']]) {
-                        //Bouton supprimé le formulaire
-                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
-                            'controller' => 'formulaires',
-                            'action' => 'delete',
-                            $data['Formulaire']['id']
-                                ), array(
-                            'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                            'title' => __d('formulaire', 'formulaire.commentaireSupprimerFormulaire'),
-                            'escape' => false
-                                ), __d('formulaire', 'formulaire.confirmationSupprimerFormulaire')
-                        );
-                    } else {
-                        //Bouton dupliqué le formulaire
-                        ?> 
-                        <button type="button" class="btn btn-default-default btn-sm my-tooltip btn_duplicate" 
-                                data-toggle="modal" data-target="#modalDupliquer" value="<?php echo $data['Formulaire']['id']; ?>"
-                                title="<?php echo __d('formulaire', 'formulaire.commentaireDupliquerFormulaire'); ?>">
-                            <span class="fa fa-files-o fa-lg" ></span>
-                        </button>
-
-                        <div class="modal fade" id="modalDupliquer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-
-                                        <h4 class="modal-title" id="myModalLabel">
-                                            <?php echo __d('formulaire', 'formulaire.popupInfoGeneraleFormulaireDuplication'); ?>
-                                        </h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row form-group">
-                                            <?php
-                                            echo $this->Form->create('Formulaire', array('action' => 'dupliquer'));
-
-                                            echo $this->Form->input('id', array("value" => 0));
-                                            //echo $this->Form->input('id', array("value" => $data['Formulaire']['id']));
-
-                                            //champ nom du formulaire *
-                                            echo $this->Form->input('libelle', array(
-                                                'class' => 'form-control',
-                                                'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderNomFormulaire'),
-                                                'label' => array(
-                                                    'text' => __d('formulaire', 'formulaire.popupNomFormulaire') . '<span class="requis">*</span>',
-                                                    'class' => 'col-md-4 control-label'
-                                                ),
-                                                'between' => '<div class="col-md-8">',
-                                                'after' => '</div>',
-                                                'required' => true
-                                            ));
-                                            echo '</div>';
-
-                                            //Champ Description
-                                            echo '<div class="row form-group">';
-                                            echo $this->Form->input('description', array(
-                                                'type' => 'textarea',
-                                                'class' => 'form-control',
-                                                'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderDescription'),
-                                                'label' => array(
-                                                    'text' => __d('formulaire', 'formulaire.popupDescription'),
-                                                    'class' => 'col-md-4 control-label'
-                                                ),
-                                                'between' => '<div class="col-md-8">',
-                                                'after' => '</div>',
-                                                'required' => false
-                                            ));
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default-default" data-dismiss="modal">
-                                                <i class="fa fa-arrow-left"></i>
-                                                <?php echo __d('default', 'default.btnAnnuler'); ?>
-                                            </button>
-                                            <?php
-                                            echo $this->Form->button("<i class='fa fa-check'></i>" . __d('default', 'default.btnEnregistrer'), array(
-                                                'type' => 'submit',
-                                                'class' => 'btn btn-default-success',
-                                                'escape' => false
-                                            ));
-                                            ?>
-                                        </div>
-                                        <?php
-                                        echo $this->Form->end();
-                                        ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>             
-                        <?php
-                    }
-
-                    echo '
-        </div>
-        </td>
-    </tr>';
-                }
-                ?>
-</tbody>
+    </tbody>
 </table>
 
 <!--Bouton de création d'un formulaire -->
@@ -235,6 +164,8 @@
         </button>
     </div>
 </div>
+
+<!-- Pop-up de création d'un nouveau formulaire -->
 <div class="modal fade" id="modalAddForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -300,6 +231,84 @@
         </div>
     </div>
 </div>
+
+<!-- Pop-up de duplication d'un formulaire -->
+<div class="modal fade" id="modalDupliquer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <h4 class="modal-title" id="myModalLabel">
+                    <?php echo __d('formulaire', 'formulaire.popupInfoGeneraleFormulaireDuplication'); ?>
+                </h4>
+            </div>
+            
+            <div class="modal-body">
+                <div class="row form-group">
+                    <?php
+                    echo $this->Form->create('Formulaire', array('action' => 'dupliquer'));
+
+                    echo $this->Form->input('id', array("value" => 0));
+                    //echo $this->Form->input('id', array("value" => $data['Formulaire']['id']));
+
+                    // Champ nom du formulaire *
+                    echo $this->Form->input('libelle', array(
+                        'class' => 'form-control',
+                        'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderNomFormulaire'),
+                        'label' => array(
+                            'text' => __d('formulaire', 'formulaire.popupNomFormulaire') . '<span class="requis">*</span>',
+                            'class' => 'col-md-4 control-label'
+                        ),
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>',
+                        'required' => true
+                    ));
+                    ?>
+                </div>
+
+                <div class="row form-group">';
+                    <?php
+                    // Champ Description
+                    echo $this->Form->input('description', array(
+                        'type' => 'textarea',
+                        'class' => 'form-control',
+                        'placeholder' => __d('formulaire', 'formulaire.popupPlaceholderDescription'),
+                        'label' => array(
+                            'text' => __d('formulaire', 'formulaire.popupDescription'),
+                            'class' => 'col-md-4 control-label'
+                        ),
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>',
+                        'required' => false
+                    ));
+                    ?>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default-default" data-dismiss="modal">
+                        <i class="fa fa-arrow-left"></i>
+                        <?php echo __d('default', 'default.btnAnnuler'); ?>
+                    </button>
+                    <?php
+                    echo $this->Form->button("<i class='fa fa-check'></i>" . __d('default', 'default.btnEnregistrer'), array(
+                        'type' => 'submit',
+                        'class' => 'btn btn-default-success',
+                        'escape' => false
+                    ));
+                    ?>
+                </div>
+                <?php
+                echo $this->Form->end();
+                ?>
+            </div>
+        </div>
+    </div>
+</div>      
 
 <script>
     $(".btn_duplicate").click(function () {
