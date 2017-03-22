@@ -242,22 +242,41 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
 <div class="row">
     <!-- Colonne de gauche -->
     <div class="col-md-6">
-        <?php
-        // Champ Nom et prénom * , du CIL (remplissage automatique) 
-        echo $this->Form->input('personnecil', [
-            'label' => [
-                'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'required' => 'required',
-            'readonly' => 'readonly',
-            'div' => 'form-group',
-            'value' => $userCil['User']['prenom'] . ' '. $userCil['User']['nom']
-        ]);
-        ?>
+        <div class="form-group">
+            <?php
+            // Champ Nom et prénom * , du CIL (remplissage automatique) 
+            echo $this->Form->input('personnecil', [
+                'label' => [
+                    'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'required' => 'required',
+                'readonly' => 'readonly',
+                'div' => 'form-group',
+                'value' => $userCil['User']['prenom'] . ' '. $userCil['User']['nom']
+            ]);
+            ?>
+        
+            <!-- Champ numerocil * -->
+            <?php
+            echo $this->Form->input('numerocil', [
+                'label' => [
+                    'text' => __d('organisation', 'organisation.numeroCIL') . '<span class="obligatoire">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'required' => 'required',
+                'readonly' => 'readonly',
+                'div' => 'form-group',
+                'value' => $this->Session->read('Organisation.numerocil')
+            ]);
+            ?>
+        </div>
     </div>
 
     <!-- Colonne de droite -->

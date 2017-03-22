@@ -98,125 +98,115 @@ class FichesController extends AppController {
      * @version V1.0.0
      */
     public function add($id = null) {
-        if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+        if (true !== $this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
 
-            $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
+        $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
 
-            //On récupére le CIL de la collectivité
-            $userCil = $this->User->find('first', [
-                'conditions' => [
-                    'id' => $this->Session->read('Organisation.cil')
-                ],
-                'fields' => [
-                    'nom',
-                    'prenom',
-                    'email'
-                ]
-            ]);
-            $this->set('userCil', $userCil);
+        //On récupére le CIL de la collectivité
+        $userCil = $this->User->find('first', [
+            'conditions' => [
+                'id' => $this->Session->read('Organisation.cil')
+            ],
+            'fields' => [
+                'nom',
+                'prenom',
+                'email'
+            ]
+        ]);
+        $this->set('userCil', $userCil);
 
-            $champs = $this->Champ->find('all', [
-                'conditions' => [
-                    'formulaires_id' => $id
-                ],
-                'order' => [
-                    'colonne ASC',
-                    'ligne ASC'
-                ]
-            ]);
-            // @fixme factoriser dans une méthode à utiliser également dans l'édit
-            foreach ($champs as $champ) {
-                $details = json_decode(Hash::get($champ, 'Champ.details'));
-                if ($details->obligatoire == true) {
-                    $this->_requiredFicheVirtualFields[] = $details->name;
-                }
+        $champs = $this->Champ->find('all', [
+            'conditions' => [
+                'formulaires_id' => $id
+            ],
+            'order' => [
+                'colonne ASC',
+                'ligne ASC'
+            ]
+        ]);
+        // @fixme factoriser dans une méthode à utiliser également dans l'édit
+        foreach ($champs as $champ) {
+            $details = json_decode(Hash::get($champ, 'Champ.details'));
+            if ($details->obligatoire == true) {
+                $this->_requiredFicheVirtualFields[] = $details->name;
             }
+        }
 
-            $this->set(compact('champs'));
-            $this->set('formulaireid', $id);
+        $this->set(compact('champs'));
+        $this->set('formulaireid', $id);
 
-            if ($this->request->is('POST')) {
-//                 foreach ($this->request->data['Fiche'] as $key => $value) {
-//                     debug($value);
-//                 }
-//                 die;
-                $success = true;
-                $this->Fiche->begin();
+        if ($this->request->is('POST')) {
+            $success = true;
+            $this->Fiche->begin();
 
-                $this->Fiche->create([
-                    'user_id' => $this->Auth->user('id'),
-                    'form_id' => $this->request->data['Fiche']['formulaire_id'],
-                    'organisation_id' => $this->Session->read('Organisation.id')
-                ]);
+            $this->Fiche->create([
+                'user_id' => $this->Auth->user('id'),
+                'form_id' => $this->request->data['Fiche']['formulaire_id'],
+                'organisation_id' => $this->Session->read('Organisation.id')
+            ]);
 
-                $success = $success && false !== $this->Fiche->save();
+            $success = $success && false !== $this->Fiche->save();
+
+            if ($success == true) {
+                $last = $this->Fiche->getLastInsertID();
+                $success = $success && false !== $this->Fichier->saveFichier($this->request->data, $last);
 
                 if ($success == true) {
-                    $last = $this->Fiche->getLastInsertID();
-                    $success = $success && false !== $this->Fichier->saveFichier($this->request->data, $last);
-
-                    if ($success == true) {
-                        foreach ($this->request->data['Fiche'] as $key => $value) {
-                            if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
-                                if (is_array($value)) {
-                                    $value = json_encode($value);
-                                }
-
-                                $this->Valeur->create([
-                                    'champ_name' => $key,
-                                    'fiche_id' => $last,
-                                    'valeur' => $value
-                                ]);
-
-                                $tmpSave = $this->Valeur->save();
-                                if ($tmpSave == false) {
-                                    $this->Fiche->invalidate($key, Hash::get($this->Valeur->validationErrors, 'valeur.0'));
-                                }
-
-                                $success = $success && false !== $tmpSave;
+                    foreach ($this->request->data['Fiche'] as $key => $value) {
+                        if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
+                            if (is_array($value)) {
+                                $value = json_encode($value);
                             }
-                        }
 
-                        $this->Historique->create([
-                            'Historique' => [
-                                'content' => 'Création de la fiche par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
-                                'fiche_id' => $last
-                            ]
-                        ]);
-                        $success = $success && false !== $this->Historique->save();
-
-                        $this->EtatFiche->create([
-                            'EtatFiche' => [
+                            $this->Valeur->create([
+                                'champ_name' => $key,
                                 'fiche_id' => $last,
-                                'etat_id' => 1,
-                                'previous_user_id' => $this->Auth->user('id'),
-                                'user_id' => $this->Auth->user('id')
-                            ]
-                        ]);
-                        $success = $success && false !== $this->EtatFiche->save();
+                                'valeur' => $value
+                            ]);
+
+                            $tmpSave = $this->Valeur->save();
+                            if ($tmpSave == false) {
+                                $this->Fiche->invalidate($key, Hash::get($this->Valeur->validationErrors, 'valeur.0'));
+                            }
+
+                            $success = $success && false !== $tmpSave;
+                        }
                     }
-                }
 
-                if ($success == true) {
-                    $this->Fiche->commit();
-                    $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
-
-                    $this->redirect([
-                        'controller' => 'pannel',
-                        'action' => 'index'
+                    $this->Historique->create([
+                        'Historique' => [
+                            'content' => 'Création de la fiche par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
+                            'fiche_id' => $last
+                        ]
                     ]);
-                } else {
-                    $this->Fiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+                    $success = $success && false !== $this->Historique->save();
+
+                    $this->EtatFiche->create([
+                        'EtatFiche' => [
+                            'fiche_id' => $last,
+                            'etat_id' => 1,
+                            'previous_user_id' => $this->Auth->user('id'),
+                            'user_id' => $this->Auth->user('id')
+                        ]
+                    ]);
+                    $success = $success && false !== $this->EtatFiche->save();
                 }
             }
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
 
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            if ($success == true) {
+                $this->Fiche->commit();
+                $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
+
+                $this->redirect([
+                    'controller' => 'pannel',
+                    'action' => 'index'
+                ]);
+            } else {
+                $this->Fiche->rollback();
+                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+            }
         }
     }
 
