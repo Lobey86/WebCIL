@@ -140,6 +140,12 @@ msgstr "CIL "
 msgid "organisation.placeholderCIL"
 msgstr "Selectionnez un nouveau CIL"
 
+msgid "organisation.numeroCIL"
+msgstr "Numéro d'enregistrement du CIL "
+
+msgid "organisation.placeholderNumeroCIL"
+msgstr "Numéro d'enregistrement du CIL à la CNIL "
+
 msgid "organisation.textEmailCIL"
 msgstr "E-mail du CIL "
 

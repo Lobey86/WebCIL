@@ -358,6 +358,24 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                 ]);
                 ?>
             </div>
+            
+            <!-- Champ numerocil * -->
+            <div class="form-group">
+                <?php
+                echo $this->Form->input('numerocil', [
+                    'class' => 'form-control',
+                    'placeholder' => __d('organisation', 'organisation.placeholderNumeroCIL'),
+                    'required' => true,
+                    'label' => [
+                        'text' => __d('organisation', 'organisation.numeroCIL') . '<span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'escape' => true
+                ]);
+                ?>
+            </div>
         </div>
         <!-- Colonne de groite -->
         <div class="col-md-6">

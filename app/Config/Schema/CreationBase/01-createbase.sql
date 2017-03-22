@@ -51,6 +51,7 @@ CREATE TABLE organisations (
     telephoneresponsable VARCHAR(15) NOT NULL,
     fonctionresponsable VARCHAR(75) NOT NULL,
     cil INT DEFAULT NULL REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    numerocil VARCHAR(50) DEFAULT NULL,
     created timestamp without time zone NOT NULL,
     modified timestamp without time zone NOT NULL
 );
