@@ -75,6 +75,20 @@ class Organisation extends AppModel {
                 'message' => 'Le numéro de SIRET n\'est pas valide'
             ]
         ],
+        'numerocil' => [
+            'notEmpty' => [
+                'rule' => [ 'notEmpty' ],
+                'allowEmpty' => false,
+                'on' => 'update'
+            ]
+        ],
+        'cil' => [
+            'notEmpty' => [
+                'rule' => [ 'notEmpty' ],
+                'allowEmpty' => false,
+                'on' => 'update'
+            ]
+        ]
     ];
 
     /**

@@ -25,7 +25,6 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
 <div class="users form">
     <?php
     echo $this->Form->create('Organisation', [
-        'action' => 'edit',
         'type' => 'file',
         'autocomplete' => 'off',
         'class' => 'form-horizontal',
@@ -58,7 +57,8 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     ],
                     'between' => '<div class="col-md-8">',
                     'after' => '</div>',
-                    'escape' => true
+                    'escape' => true,
+                    'value' => $organisation['Organisation']['raisonsociale']
                 ]);
                 ?>
             </div>
@@ -70,6 +70,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderTelephone'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['telephone'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textTelephone') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -86,6 +87,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                 echo $this->Form->input('fax', [
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderFax'),
+                    'value' => $organisation['Organisation']['fax'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textFax'),
                         'class' => 'col-md-4 control-label'
@@ -110,7 +112,8 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'type' => 'textarea',
                     'placeholder' => __d('organisation', 'organisation.placeholderAdresse'),
-                    'required' => true
+                    'required' => true,
+                    'value' => $organisation['Organisation']['adresse'],
                 ]);
                 ?>
             </div>
@@ -122,6 +125,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderE-mail'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['email'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textE-mail') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -141,6 +145,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                 echo $this->Form->input('sigle', [
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderSigle'),
+                    'value' => $organisation['Organisation']['sigle'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textSigle'),
                         'class' => 'col-md-4 control-label'
@@ -158,6 +163,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderSIRET'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['siret'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textSIRET') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -175,6 +181,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderAPE'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['ape'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textAPE') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -187,12 +194,12 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
 
             <!-- Affichage logo si l'entitée en a déjà un d'enregistré -->
             <div class="col-md-8 col-md-offset-4">
-                <?php if (file_exists(IMAGES . 'logos' . DS . $this->request->data['Organisation']['id'] . '.' . $this->request->data['Organisation']['logo'])) {
+                <?php if (file_exists(IMAGES . 'logos' . DS . $organisation['Organisation']['id'] . '.' . $organisation['Organisation']['logo'])) {
                     ?>
 
                     <div class="thumbnail">
                         <?php
-                        echo $this->Html->image('logos/' . $this->request->data['Organisation']['id'] . '.' . $this->request->data['Organisation']['logo'], [
+                        echo $this->Html->image('logos' . DS . $organisation['Organisation']['id'] . '.' . $organisation['Organisation']['logo'], [
                             'alt' => 'Logo',
                             'width' => '300px'
                         ]);
@@ -239,6 +246,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderNomResponsable'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['nomresponsable'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textNomResponsable') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -257,6 +265,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderPrenomResponsable'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['prenomresponsable'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textPrenomResponsable') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -275,6 +284,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderFonctionResponsable'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['fonctionresponsable'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textFonctionResponsable') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -296,6 +306,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderE-mailResponsable'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['emailresponsable'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textE-mailResponsable') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -313,6 +324,7 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
                     'class' => 'form-control',
                     'placeholder' => __d('organisation', 'organisation.placeholderTelephoneResponsable'),
                     'required' => true,
+                    'value' => $organisation['Organisation']['telephoneresponsable'],
                     'label' => [
                         'text' => __d('organisation', 'organisation.textTelephoneResponsable') . '<span class="requis">*</span>',
                         'class' => 'col-md-4 control-label'
@@ -328,93 +340,97 @@ if (isset($this->validationErrors['Organisation']) && !empty($this->validationEr
     </br>
     <!-- Affichage du logo du CIL -->
     <?php
-    if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
-        echo $this->Html->image('logos' . DS . 'logo_cil.jpg', [
-            'class' => 'logo-well',
-        ]);
-    }
-    ?>
-    </br>
+    if($array_users != null) {
+        if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
+            echo $this->Html->image('logos' . DS . 'logo_cil.jpg', [
+                'class' => 'logo-well',
+            ]);
+        }
+        ?>
+        </br>
 
-    <!-- Information sur le CIL -->
-    <div class="row">
-        <!-- Colonne de gauche -->
-        <div class="col-md-6">
-            <!-- Menu déroulant CIL -->
-            <div class="form-group">
-                <?php
-                echo $this->Form->input('cil', [
-                    'options' => $users,
-                    'div' => 'input-group inputsForm',
-                    'class' => 'form-control usersDeroulant',
-                    'empty' => __d('organisation', 'organisation.placeholderCIL'),
-                    'required' => true,
-                    'label' => [
-                        'text' => __d('organisation', 'organisation.textCIL') . '<span class="requis">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ],
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                ]);
-                ?>
-            </div>
-            
-            <!-- Champ numerocil * -->
-            <div class="form-group">
-                <?php
-                echo $this->Form->input('numerocil', [
-                    'class' => 'form-control',
-                    'placeholder' => __d('organisation', 'organisation.placeholderNumeroCIL'),
-                    'required' => true,
-                    'label' => [
-                        'text' => __d('organisation', 'organisation.numeroCIL') . '<span class="requis">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ],
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'escape' => true
-                ]);
-                ?>
-            </div>
-        </div>
-        <!-- Colonne de groite -->
-        <div class="col-md-6">
-            <div class="form-group">
-                <!-- Champ E-mail du CIL * -->
+        <!-- Information sur le CIL -->
+        <div class="row">
+            <!-- Colonne de gauche -->
+            <div class="col-md-6">
+                <!-- Menu déroulant CIL -->
                 <div class="form-group">
                     <?php
-                    foreach ($organisations as $organisation) {
-                        $idCil = $organisation['Organisation']['cil'];
-                    }
-
-                    echo $this->Form->input('emailCil', [
-                        'class' => 'form-control',
+                    echo $this->Form->input('cil', [
+                        'options' => $array_users,
+                        'div' => 'input-group inputsForm',
+                        'class' => 'form-control usersDeroulant',
+                        'empty' => __d('organisation', 'organisation.placeholderCIL'),
+                        'value' => $organisation['Organisation']['cil'],
                         'required' => true,
-                        'value' => $informationsUsers[$idCil]['email'],
                         'label' => [
-                            'text' => __d('organisation', 'organisation.textEmailCIL') . '<span class="requis">*</span>',
+                            'text' => __d('organisation', 'organisation.textCIL') . '<span class="requis">*</span>',
                             'class' => 'col-md-4 control-label'
                         ],
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'readonly' => true
+                    ]);
+                    ?>
+                </div>
+
+                <!-- Champ numerocil * -->
+                <div class="form-group">
+                    <?php
+                    echo $this->Form->input('numerocil', [
+                        'class' => 'form-control',
+                        'placeholder' => __d('organisation', 'organisation.placeholderNumeroCIL'),
+                        'required' => true,
+                        'value' => $organisation['Organisation']['numerocil'],
+                        'label' => [
+                            'text' => __d('organisation', 'organisation.numeroCIL') . '<span class="requis">*</span>',
+                            'class' => 'col-md-4 control-label'
+                        ],
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>',
+                        'escape' => true
                     ]);
                     ?>
                 </div>
             </div>
+            <!-- Colonne de groite -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <!-- Champ E-mail du CIL * -->
+                    <div class="form-group">
+                        <?php
+                        $idCil = $organisation['Organisation']['cil'];
+                        
+                        echo $this->Form->input('emailCil', [
+                            'class' => 'form-control',
+                            'required' => true,
+                            'value' => $informationsUsers[$idCil]['email'],
+                            'label' => [
+                                'text' => __d('organisation', 'organisation.textEmailCIL') . '<span class="requis">*</span>',
+                                'class' => 'col-md-4 control-label'
+                            ],
+                            'between' => '<div class="col-md-8">',
+                            'after' => '</div>',
+                            'readonly' => true
+                        ]);
+                        ?>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    <?php
+    }
+    ?>
 
     <!-- Groupe de bouton centré -->
     <div class="text-center">
         <div class="btn-group send">
             <?php
             // Bouton Annuler
-            echo $this->Html->link('<i class="fa fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), $referer, [
+            echo $this->Html->link('<i class="fa fa-arrow-left"></i>'.__d('default', 'default.btnAnnuler'), $referer, array(
                 'class' => 'btn btn-default-default',
                 'escape' => false
-            ]);
-
+            ));
+            
             // Bouton Enregistrer    
             echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
                 'type' => 'submit',
