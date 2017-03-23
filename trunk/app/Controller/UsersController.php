@@ -860,53 +860,58 @@ class UsersController extends AppController {
      * @version V1.0.0
      */
     public function delete($id = null) {
-        if ($this->Droits->authorized(ListeDroit::SUPPRIMER_UTILISATEUR)) {
-            $this->User->id = $id;
+        if ($this->Session->read('Auth.User.id') != $id){
+            if ($this->Droits->authorized(ListeDroit::SUPPRIMER_UTILISATEUR)) {
+                $this->User->id = $id;
 
-            if (!$this->User->exists()) {
-                throw new NotFoundException('User invalide');
-            }
+                if (!$this->User->exists()) {
+                    throw new NotFoundException('User invalide');
+                }
 
-            if ($id != 1) {
-                $success = true;
-                $this->User->begin();
+                if ($id != 1) {
+                    $success = true;
+                    $this->User->begin();
 
-                $success = $success && $this->OrganisationUser->deleteAll(['user_id' => $id]);
+                    $success = $success && $this->OrganisationUser->deleteAll(['user_id' => $id]);
 
-                if ($success == true) {
-                    if ($this->Droits->isCil()) {
-                        $success = $success && $this->Organisation->updateAll([
-                                    'Organisation.cil' => null
-                                        ], [
-                                    'Organisation.cil' => $id
-                                        ]
-                                ) !== false;
+                    if ($success == true) {
+                        if ($this->Droits->isCil()) {
+                            $success = $success && $this->Organisation->updateAll([
+                                        'Organisation.cil' => null
+                                            ], [
+                                        'Organisation.cil' => $id
+                                            ]
+                                    ) !== false;
+                        }
+
+                        if ($success == true) {
+                            $success = $success && $this->User->delete();
+                        }
                     }
 
                     if ($success == true) {
-                        $success = $success && $this->User->delete();
+                        $this->User->commit();
+                        $this->Session->setFlash(__d('user', 'user.flashsuccessUserSupprimer'), 'flashsuccess');
+                    } else {
+                        $this->User->rollback();
+                        $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                     }
+
+                    $this->redirect(['action' => 'index']);
                 }
 
-                if ($success == true) {
-                    $this->User->commit();
-                    $this->Session->setFlash(__d('user', 'user.flashsuccessUserSupprimer'), 'flashsuccess');
-                } else {
-                    $this->User->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                }
-
+                $this->Session->setFlash(__d('user', 'user.flasherrorErreurSupprimerUser'), 'flasherror');
                 $this->redirect(['action' => 'index']);
+            } else {
+                $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
+                $this->redirect([
+                    'controller' => 'pannel',
+                    'action' => 'index'
+                ]);
             }
-
-            $this->Session->setFlash(__d('user', 'user.flasherrorErreurSupprimerUser'), 'flasherror');
-            $this->redirect(['action' => 'index']);
         } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->Session->setFlash(__d('user', 'user.flasherrorErreurSuppressionImpossibleUser'), 'flasherror');
+            $this->redirect($this->referer());
         }
     }
 
