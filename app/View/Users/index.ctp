@@ -198,29 +198,31 @@ if ($this->Autorisation->isSu()) {
                         ]);
                     }
 
-                    if ($this->Autorisation->authorized(10, $droits)) {
-                        if ($donnees['User']['id'] != 1) {
-                            //Bouton de suppression
-                            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
-                                'controller' => 'users',
-                                'action' => 'delete',
-                                $donnees['User']['id']
-                                    ], [
-                                'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                                'title' => __d('user', 'user.commentaireSupprimerUser'),
-                                'escapeTitle' => false
-                                    ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
-                        } else {
-                            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
-                                'controller' => 'users',
-                                'action' => 'delete',
-                                $donnees['User']['id']
-                                    ], [
-                                'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                                'escapeTitle' => false,
-                                'title' => __d('user', 'user.commentaireSupprimerUser'),
-                                "disabled" => "disabled"
-                                    ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
+                    if ($this->Session->read('Auth.User.id') != $donnees['User']['id']){
+                        if ($this->Autorisation->authorized(10, $droits)) {
+                            if ($donnees['User']['id'] != 1) {
+                                //Bouton de suppression
+                                echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                                    'controller' => 'users',
+                                    'action' => 'delete',
+                                    $donnees['User']['id']
+                                        ], [
+                                    'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                                    'title' => __d('user', 'user.commentaireSupprimerUser'),
+                                    'escapeTitle' => false
+                                        ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
+                            } else {
+                                echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                                    'controller' => 'users',
+                                    'action' => 'delete',
+                                    $donnees['User']['id']
+                                        ], [
+                                    'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                                    'escapeTitle' => false,
+                                    'title' => __d('user', 'user.commentaireSupprimerUser'),
+                                    "disabled" => "disabled"
+                                        ], __d('user', 'user.confirmationSupprimerUser') . $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'] . ' ?');
+                            }
                         }
                     }
                     ?>
