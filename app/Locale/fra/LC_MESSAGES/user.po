@@ -49,6 +49,9 @@ msgstr "L'utilisateur a bien été supprimé"
 msgid "user.flasherrorErreurSupprimerUser"
 msgstr "Une erreur s'est produite lors de la suppression de l'utilisateur"
 
+msgid "user.flasherrorErreurSuppressionImpossibleUser"
+msgstr "Vous ne pouvez pas vous supprimer"
+
 msgid "user.flasherrorNameUserPasswordInvalide"
 msgstr "Le nom d'utilisateur ou mot de passe est invalide, réessayer"
 
