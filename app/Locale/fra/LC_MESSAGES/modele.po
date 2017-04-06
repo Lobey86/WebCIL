@@ -107,10 +107,16 @@ msgid "modele.sousTitreVariableFormulaire"
 msgstr "Variable dans le traitement"
 
 msgid "modele.sousTitreEntité"
-msgstr "L'entité"
+msgstr "L'organisation"
+
+msgid "modele.textOrganisation"
+msgstr "organisation_"
+
+msgid "modele.textValeur"
+msgstr "valeur_"
 
 msgid "modele.sousTitreResponsableEntité"
-msgstr "Responsable de l'entité"
+msgstr "Responsable de l'organisation"
 
 msgid "modele.sousTitreCIL"
 msgstr "Le CIL"
@@ -172,7 +178,28 @@ msgstr "Il faut rajouter en variable "valeur_annexe + numéro de l'annexe""
 msgid "modele.textExempleVariableAnnexeModele"
 msgstr "Exemple : Si il y a 3 annexes, il faut mettre a la fin du modèle :"
 
+msgid "modele.textInformationSectionTraitement"
+msgstr "Les varibles propre au traitement se trouve dans une section "traitement""
 
+msgid "modele.textInformationSectionFichiers"
+msgstr "Les varibles propre au traitement se trouve dans une section "fichiers""
 
+msgid "modele.sousTitreAnnexeTraitement"
+msgstr "Annexe dans le traitement"
+
+msgid "modele.textTableauAnnexe"
+msgstr "Annexe"
+
+msgid "modele.textInformationSectionHistoriques"
+msgstr "Les varibles propre au traitement se trouve dans une section "historiques""
+
+msgid "modele.sousTitreHistoriqueTraitement"
+msgstr "Historique du traitement"
+
+msgid "modele.textTableauHistoriqueCommentaire"
+msgstr "Commentaire"
+
+msgid "modele.textTableauHistoriqueDate"
+msgstr "Date"
 
 ###############################################################################

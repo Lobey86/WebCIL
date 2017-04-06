@@ -140,7 +140,8 @@ class ModelesController extends AppController {
                 'email',
                 'sigle',
                 'siret',
-                'ape'
+                'ape',
+                'numerocil'
             )
         ));
         $valeurOrganisations = Hash::extract($valeurOrganisations, '{n}.Organisation');
@@ -175,6 +176,7 @@ class ModelesController extends AppController {
                 'id' => $cilOrganisation
             ],
             'fields' => [
+                'civilite',
                 'nom',
                 'prenom',
                 'email'
