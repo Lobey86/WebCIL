@@ -36,21 +36,27 @@ if ($this->Autorisation->authorized(1, $droits)) {
                 </div>
             </div>
         </div>
+        
+        <!-- Tableau des déclarations en cours de rédaction -->
         <div class="panel-body panel-body-custom">
             <?php
             if (!empty($traitementEnCoursRedaction)) {
                 ?>
-
                 <table class="table  table-bordered">
                     <thead>
                         <tr>
-                            <th class="thleft col-md-1">
+                            <!-- Etat -->
+                            <th class="col-md-1">
                                 <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
-                            <th class="thleft col-md-9 col-md-offset-1">
+                            
+                            <!-- Synthèse -->
+                            <th class="col-md-9">
                                 <?php echo __d('pannel', 'pannel.motSynthese'); ?>
                             </th>
-                            <th class="thleft col-md-2 col-md-offset-10">
+                            
+                            <!-- Actions -->
+                            <th class="col-md-2">
                                 <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
                         </tr>
@@ -60,18 +66,23 @@ if ($this->Autorisation->authorized(1, $droits)) {
                         foreach ($traitementEnCoursRedaction as $donnee) {
                             ?>
                             <tr>
+                                <!-- Status du traitement -->
                                 <td class='tdleft col-md-1'>
                                     <div class="etatIcone">
                                         <i class="fa fa-pencil-square-o fa-3x"></i>
                                     </div>
                                 </td>
-                                <td class='tdleft col-md-9 col-md-offset-1'>
+                                
+                                <td class='tdleft'>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
+                                            <strong>
+                                                <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
+                                            </strong>
+                                            <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
                                         </div>
                                     </div>
+                                    
                                     <div class="row top15">
                                         <div class="col-md-6">
                                             <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
@@ -83,7 +94,8 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         </div>
                                     </div>
                                 </td>
-                                <td class='tdleft col-md-2 col-md-offset-10'>
+                                
+                                <td class='tdleft'>
                                     <div class="btn-group">
                                         <?php
                                         echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
@@ -453,8 +465,6 @@ if ($this->Autorisation->authorized(1, $droits)) {
                         ?>
                     </tbody>
                 </table>
-
-
                 <?php
             } else {
                 ?>
@@ -534,7 +544,6 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                                             </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
                                         </div>
-
                                     </div>
                                     <div class="row top15">
                                         <div class="col-md-6">
@@ -1246,8 +1255,9 @@ if ($this->Autorisation->authorized(1, $droits)) {
 </div>
 <?php
 }
-?>
 
+if ($this->Autorisation->authorized([2,3], $droits)) {
+?>
 <!-- Bannette consulte -->
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -1261,7 +1271,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                     ?>
                         <span class="pull-right">
                                <?php
-                                echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementArchiver'), [
+                                echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementPasserPossession'), [
                                     'controller' => 'pannel',
                                     'action' => 'consulte',
                                         ], [
@@ -1319,6 +1329,10 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     } elseif ($donnee['EtatFiche']['etat_id'] == 4) {
                                         ?>
                                         <i class="fa fa-times fa-3x fa-danger"></i>
+                                        <?php
+                                    } elseif ($donnee['EtatFiche']['etat_id'] == 5 || $donnee['EtatFiche']['etat_id'] == 7 || $donnee['EtatFiche']['etat_id'] == 9) {
+                                        ?>
+                                        <i class="fa fa-check fa-3x fa-success"></i>
                                         <?php
                                     }
                                     ?>
@@ -1495,8 +1509,9 @@ if ($this->Autorisation->authorized(1, $droits)) {
         ?>
     </div>
 </div>
-
-
+<?php
+}
+?>
 
 <div class="modal fade" id="modalValidCil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">

@@ -116,9 +116,11 @@ class PannelController extends AppController {
             $this->set('nbTraitementArchives', $this->_nbTraitementArchives());
         }
 
-        // Tous les traitements passés en ma possession
-        $this->set('traitementConnaissance', $this->_traitementConnaissance($limiteTraitementRecupere));
-
+        if ($this->Droits->authorized([ListeDroit::VALIDER_TRAITEMENT, ListeDroit::VISER_TRAITEMENT])) {
+            // Tous les traitements passés en ma possession
+            $this->set('traitementConnaissance', $this->_traitementConnaissance($limiteTraitementRecupere));
+        }
+        
         if ($this->Droits->authorized(ListeDroit::VALIDER_TRAITEMENT)) {
             // Traitement reçu pour validation
             $this->set('traitementRecuEnValidation', $this->_traitementRecuEnValidation($limiteTraitementRecupere));
@@ -407,19 +409,24 @@ class PannelController extends AppController {
     }
 
     /**
-     * Fonction permettant d'afficher tout les traitements passer par le CIL ou le valideur ou l'administrateur
+     * Fonction permettant d'afficher tout les traitements passer par le CIL 
+     * ou le valideur ou l'administrateur
      * 
      * @access public
      * @created 10/05/2016
-     * @version V1.0.2
+     * @version V1.0.0
      */
     public function consulte() {
+        if (true !== $this->Droits->authorized([ListeDroit::VALIDER_TRAITEMENT, ListeDroit::VISER_TRAITEMENT])) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "consulte");
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementVu'));
 
-        $limiteTraitementRecupere = 5;
+        $limiteTraitementRecupere = 0;
 
         $this->set('validees', $this->_traitementConnaissance($limiteTraitementRecupere));
 
@@ -672,7 +679,7 @@ class PannelController extends AppController {
                     ]
                 ]
             ],
-                //'limit' => $limitRecuperation
+            'limit' => $limitRecuperation
         ]);
 
         return ($traitementEnCoursRedaction);
@@ -1316,6 +1323,11 @@ class PannelController extends AppController {
     }
 
     /**
+     * On récupéré tous les traitements ou l'utilisateur connecté a 
+     * effectué une action dessus, qui font partie de l'organisation 
+     * en cours en excluant les traitements ou l'utilisatuer connecté est
+     * à l'origine avec une limite de 5 si c'est pour l'affichage de 
+     * pannel/index sinon on récupére tous.
      * 
      * @param type $limiteTraitementRecupere
      * @return type
@@ -1330,31 +1342,23 @@ class PannelController extends AppController {
             'alias' => 'etat_fiches',
             'fields' => array('"etat_fiches"."fiche_id"'),
             'contain' => false,
-            'conditions' => array(
-                '"etat_fiches"."actif"' => true,
-                '"etat_fiches"."etat_id"' => EtatFiche::VALIDER_CIL,
-                '"etat_fiches"."fiche_id" = "EtatFiche"."fiche_id"'
-            ),
             'limit' => 1
         );
 
-        $requete = $this->EtatFiche->find('all', [
+        $traitementConnaissances = $this->EtatFiche->find('all', [
+            $sq,
             'conditions' => [
-                'AND' => [
-                    'EtatFiche.etat_id IN' => [
-                        EtatFiche::ENCOURS_VALIDATION,
-                        EtatFiche::VALIDER,
-                        EtatFiche::REFUSER,
-                        EtatFiche::DEMANDE_AVIS,
-                        EtatFiche::REPLACER_REDACTION
-                    ],
-                    'EtatFiche.user_id' => $this->Auth->user('id'),
-                    'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sql($sq) . ')',
-                ]],
+                'EtatFiche.user_id' => $this->Auth->user('id'),
+                'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sql($sq) . ')',
+                'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
+                'Fiche.user_id NOT IN ( ' . $this->Auth->user('id') . ')'
+            ],
             'contain' => [
                 'Fiche' => [
                     'fields' => [
                         'id',
+                        'user_id',
+                        'organisation_id',
                         'created',
                         'modified'
                     ],
@@ -1383,24 +1387,32 @@ class PannelController extends AppController {
                     ]
                 ]
             ],
-            'limit' => $limiteTraitementRecupere
+          //  'limit' => $limiteTraitementRecupere
         ]);
 
-        if (empty($requete)) {
-            $test = $this->Commentaire->find('first', [
+        if (empty($traitementConnaissances)) {
+            $commentairesUser = $this->Commentaire->find('all', [
                 'order' => ['id' => 'desc'],
                 'conditions' => [
                     'user_id' => $this->Auth->user('id')
-                ]
+                ],
+                'fields' => 'etat_fiches_id'
             ]);
 
-            if (!empty($test)) {
-                $requete = $this->EtatFiche->find('all', [
+            if (!empty($commentairesUser)) {
+                foreach ($commentairesUser as $commentaireUser){
+                    $idEtatFiche[] = $commentaireUser['Commentaire']['etat_fiches_id'];
+                }
+
+                $idEtatFiche = array_unique($idEtatFiche);
+
+                $traitementConnaissances = $this->EtatFiche->find('all', [
+                    $sq,
                     'conditions' => [
-                        'AND' => [
-                            'EtatFiche.id' => $test['Commentaire']['etat_fiches_id'],
-                            'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sql($sq) . ')',
-                        ]],
+                        'EtatFiche.id' => $idEtatFiche, 
+                        'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
+                        'Fiche.user_id NOT IN ( ' . $this->Auth->user('id') . ')'
+                    ],
                     'contain' => [
                         'Fiche' => [
                             'fields' => [
@@ -1441,13 +1453,15 @@ class PannelController extends AppController {
         $return = [];
         $inArray = [];
         $validees = [];
-        foreach ($requete as $res) {
+        foreach ($traitementConnaissances as $res) {
             if (!in_array($res['EtatFiche']['fiche_id'], $inArray)) {
                 array_push($inArray, $res['EtatFiche']['fiche_id']);
                 array_push($return, $res);
             }
         }
+        
 
+        
         $etatFicheActuels = [];
         foreach ($return as $key => $ret) {
             //On récupére l'état actuel de la fiche
@@ -1467,8 +1481,12 @@ class PannelController extends AppController {
 
             $validees[] = $ret;
         }
-
-        return ($validees);
+        
+        if($limiteTraitementRecupere > 0){
+            return (array_slice($validees, 0, $limiteTraitementRecupere, true));
+        } else {
+            return ($validees);
+        }
     }
 
     /**
