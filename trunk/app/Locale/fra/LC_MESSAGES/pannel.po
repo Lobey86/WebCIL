@@ -50,6 +50,9 @@ msgstr " Voir tous les traitements reçus pour consultation"
 msgid "pannel.btnVoirTraitementArchiver"
 msgstr " Voir tous mes traitements validés et insérés au registre"
 
+msgid "pannel.btnVoirTraitementPasserPossession"
+msgstr " Voir tous les traitements passés en ma possession"
+
 msgid "pannel.commentaireSupprimerTraitement"
 msgstr "Supprimer le traitement"
 

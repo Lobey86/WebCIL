@@ -28,6 +28,7 @@ $cakeDescription = 'Web-CIL';
         echo $this->Html->script('fadeflash.js', ['inline' => false]);
         echo $this->Html->script('bootstrap-filestyle.min.js', ['inline' => false]);
         echo $this->Html->script('chosen.jquery.min.js');
+        echo $this->Html->script('jquery-ui.js');
         echo $this->Html->script('main.js');
         echo $this->Html->script('bootstrap-datetimepicker.min');
         echo $this->Html->script('locales/bootstrap-datetimepicker.fr.js');
@@ -148,7 +149,7 @@ $cakeDescription = 'Web-CIL';
                                                         
                                                         if ($this->Autorisation->authorized([
                                                                     '3'
-                                                                        ], $this->Session->read('Droit.liste'))
+                                                            ], $this->Session->read('Droit.liste'))
                                                         ) {
                                                             echo '<li>' . $this->Html->link('<i class="fa fa-inbox fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRecuConsultation'), [
                                                                 'controller' => 'pannel',
@@ -156,10 +157,16 @@ $cakeDescription = 'Web-CIL';
                                                                     ], ['escape' => false]) . '</li>';
                                                         }
                                                         
-                                                        echo '<li>' . $this->Html->link('<i class="fa fa-eye fa-fw"></i>' . __d('default', 'default.sousTitreTraitementVu'), [
-                                                            'controller' => 'pannel',
-                                                            'action' => 'consulte'
-                                                             ], ['escape' => false]) . '</li>';
+                                                        if ($this->Autorisation->authorized([
+                                                            '2',
+                                                            '3'
+                                                            ], $this->Session->read('Droit.liste'))
+                                                        ) {
+                                                            echo '<li>' . $this->Html->link('<i class="fa fa-eye fa-fw"></i>' . __d('default', 'default.sousTitreTraitementVu'), [
+                                                                'controller' => 'pannel',
+                                                                'action' => 'consulte'
+                                                                 ], ['escape' => false]) . '</li>';
+                                                        }
                                                         
                                                         if ($this->Autorisation->authorized([
                                                                     '1'
