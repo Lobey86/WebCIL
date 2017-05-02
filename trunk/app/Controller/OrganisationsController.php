@@ -231,10 +231,8 @@ class OrganisationsController extends AppController {
 
         $organisationEdit = $this->Organisation->findById($id);
         $this->set('organisation', $organisationEdit);
-        //debug($organisationEdit);
 
         if (!$organisationEdit) {
-            debug('123');die;
             $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
 
             $this->redirect([
@@ -259,8 +257,6 @@ class OrganisationsController extends AppController {
             ]
         ]);
 
-        //debug($users);
-
         if (!empty($users)) {
             // Construction de la liste déroulante avec les utilisateurs de l'entitée
             $array_users = [];
@@ -272,8 +268,6 @@ class OrganisationsController extends AppController {
         } else {
             $array_users = null;
         }
-
-        //debug($array_users);
 
         $this->set('array_users', $array_users);
 
@@ -290,13 +284,9 @@ class OrganisationsController extends AppController {
             ]
         ]);
 
-        //debug($informationsUsers);
-
         // On reformate le tableau
         $result = Hash::combine($informationsUsers, '{n}.User.id', '{n}.User');
         $result = Hash::remove($result, '{n}.id');
-
-        //debug($result);
 
         $this->set('informationsUsers', $result);
 
@@ -425,13 +415,6 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     public function changenotification($id = null, $controller = null, $action = null, $idFicheNotification = 0) {
-//        debug($id);
-//        debug($controller);
-//        debug($action);
-//        debug($idFicheNotification);
-//        die;
-
-
         $success = true;
         $this->Notification->begin();
 

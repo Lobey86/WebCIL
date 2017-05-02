@@ -120,7 +120,6 @@ class Organisation extends AppModel {
         $errors = $this->validationErrors;
 
         if ($success) {
-            debug($success);
             if (isset($data[$this->alias]['logo_file']['tmp_name'])) {
                 $file = $data[$this->alias]['logo_file'];
                 $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
