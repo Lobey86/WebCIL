@@ -1,5 +1,10 @@
 <?php
 
+use phpgedooo_client\GDO_PartType;
+use phpgedooo_client\GDO_IterationType;
+use phpgedooo_client\GDO_FieldType;
+use phpgedooo_client\GDO_ContentType;
+
 /**
  * Code source de la classe FusionConvBuilder.
  *
@@ -42,11 +47,12 @@ abstract class FusionConvBuilder {
                 $value = Hash::get($data, $alias);
                 $type = ( isset($types[$newKey]) ? $types[$newKey] : 'text' );
 
+
                 if ($type == 'file') {
-                    $GDOPartType->addElement(new GDO_ContentType($newKey, $newKey . '.odt', 'application/vnd.oasis.opendocument.text', 'binary', $value));
+                    $GDOPartType->addElement(new GDO_ContentType($alias, $alias . '.odt', 'application/vnd.oasis.opendocument.text', 'binary', $value));
                 } else {
                     $value = mb_convert_encoding($value, "UTF-8", mb_detect_encoding($value));
-                    $GDOPartType->addElement(new GDO_FieldType($newKey, $value, $type));
+                    $GDOPartType->addElement(new GDO_FieldType($alias, $value, $type));
                 }
             }
         }
