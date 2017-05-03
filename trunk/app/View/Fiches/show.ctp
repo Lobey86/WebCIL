@@ -147,6 +147,7 @@ echo $this->Form->create('Fiche', array(
         </div>
         <div class="col-md-6">
             <?php
+            // Champ Nom et prénom *
             echo $this->Form->input('declarantpersonnenom', array(
                 'label' => array(
                     'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
@@ -158,10 +159,25 @@ echo $this->Form->create('Fiche', array(
                 'required' => 'required',
                 'div' => 'form-group',
             ));
+
+            // Champ Service *
+            echo $this->Form->input('declarantservice', [
+                'label' => [
+                    'text' => 'Service',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+                'div' => 'form-group',
+            ]);
+            
             ?>
         </div>
         <div class="col-md-6">
             <?php
+            // Champ E-mail *
             echo $this->Form->input('declarantpersonneemail', array(
                 'label' => array(
                     'text' => __d('default', 'default.champE-mail') . '<span class="obligatoire">*</span>',
@@ -177,51 +193,71 @@ echo $this->Form->create('Fiche', array(
         </div>
     </div>
 
+    <!-- Champs concernant le traitement -->
     <div class="row">
-        <div class="col-md-6">
-            <?php
-            echo $this->Form->input('outilnom', array(
-                'label' => array(
-                    'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ),
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'class' => 'form-control',
-                'div' => 'form-group',
-                'required' => 'required'
-            ));
-            
-            //Champ type de déclaration * , à remplire par le CIL
-            echo $this->Form->input('typedeclaration', [
-                'label' => [
-                    'text' => __d('default', 'Type de déclaration '),
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'class' => 'form-control',
-                'div' => 'form-group'
-            ]);
-            ?>
+        <div class="col-md-12">
+            <span class='labelFormulaire'>
+                <?php
+                // Texte
+                echo __d('fiche', 'fiche.textInfoTraitement');
+                ?>
+            </span>
+            <div class="row row35"></div>
         </div>
 
-        <div class="col-md-6">
-            <?php
-            echo $this->Form->input('finaliteprincipale', array(
-                'label' => array(
-                    'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ),
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'class' => 'form-control',
-                'div' => 'form-group',
-                'type' => 'textarea'
-            ));
-            ?>
+        <!-- Champs des informations du traitement -->
+        <div class="row">
+            <!-- Colonne de gauche -->
+            <div class="col-md-6">
+                <?php
+                // Champ Nom du traitement * 
+                echo $this->Form->input('outilnom', [
+                    'label' => [
+                        'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
+                    'div' => 'form-group',
+                    'required' => 'required'
+                ]);
+
+                //Champ type de déclaration * , à remplire par le CIL
+                echo $this->Form->input('typedeclaration', [
+                    'label' => [
+                        'text' => __d('default', 'Type de déclaration '),
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
+                    'div' => 'form-group'
+                ]);
+                ?>
+            </div>
+
+            <!-- Colonne de droite -->
+            <div class="col-md-6">
+                <?php
+                // Champ Finalité *
+                echo $this->Form->input('finaliteprincipale', array(
+                    'label' => array(
+                        'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
+                    'div' => 'form-group',
+                    'type' => 'textarea'
+                ));
+                ?>
+            </div>
         </div>
     </div>
+    
+    <!-- Champs du formulaire -->
     <div class="row">
         <div class="row row35"></div>
 
