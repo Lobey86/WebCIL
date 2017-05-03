@@ -1,5 +1,0 @@
-<?php
- 
-define("GEDOOO_WSDL", "http://localhost:8080/axis2/services/OfficeService?wsdl");
-
-?>
