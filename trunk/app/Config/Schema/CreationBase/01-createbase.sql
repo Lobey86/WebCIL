@@ -19,6 +19,8 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL,
     password VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
+    telephonefixe VARCHAR(15),
+    telephoneportable VARCHAR(15),
     createdby INT DEFAULT NULL REFERENCES users(id) ON DELETE SET NULL ON UPDATE CASCADE,
     created timestamp without time zone NOT NULL,
     modified timestamp without time zone NOT NULL
@@ -30,7 +32,8 @@ CREATE UNIQUE INDEX users_email_idx ON users (email);
 ALTER TABLE users ADD CONSTRAINT users_civilite_in_list_chk CHECK (cakephp_validate_in_list(civilite, ARRAY['M.', 'Mme.']));
 ALTER TABLE users ADD CONSTRAINT users_email_email_chk CHECK (cakephp_validate_email(email));
 ALTER TABLE users ADD CONSTRAINT users_username_min_length_chk CHECK (cakephp_validate_min_length(username, 3));
-
+ALTER TABLE users ADD CONSTRAINT users_telephonefixe_phone_chk CHECK ( cakephp_validate_phone( telephonefixe, NULL, 'fr' ) );
+ALTER TABLE users ADD CONSTRAINT users_telephoneportable_phone_chk CHECK ( cakephp_validate_phone( telephoneportable, NULL, 'fr' ) );
 --
 -- Création de la table organisations
 --

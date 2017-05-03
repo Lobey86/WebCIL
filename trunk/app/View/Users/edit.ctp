@@ -1,5 +1,7 @@
 <div class="users form">
     <?php
+    echo $this->Html->script('users.js');
+    
     if (isset($this->validationErrors['User']) && !empty($this->validationErrors['User'])) {
         ?>
 
@@ -31,15 +33,16 @@
     ?>
     
     <div class="row">
-        <!-- Champs Login * -->
         <div class="col-md-6">
             <?php
+            // Erreur sur le champ Login *
             if (empty($this->validationErrors['User']['username'])) {
                 echo '<div class="form-group">';
             } else {
                 echo '<div class="form-group has-error">';
             }
 
+            // Champs Login *
             echo $this->Form->input('username', [
                 'class' => 'form-control',
                 'placeholder' => __d('user', 'user.placeholderChampLogin'),
@@ -164,12 +167,41 @@
             ]);
             ?>
         </div>
+        
+        <div class="form-group">
+            <?php
+            // Champ Téléphone fixe
+            echo $this->Form->input('telephonefixe', array(
+                'class' => 'form-control',
+                'placeholder' => __d('user', 'user.placeholderTelephoneFixe'),
+                'label' => array(
+                    'text' => __d('user', 'user.textTelephoneFixe'),
+                    'class' => 'col-md-4 control-label'
+                ),
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>'
+            ));
+            ?>
+        </div>
+
+        <div class="form-group">
+            <?php
+            // Champ Téléphone portable
+            echo $this->Form->input('telephoneportable', array(
+                'class' => 'form-control',
+                'placeholder' => __d('user', 'user.placeholderTelephonePortable'),
+                'label' => array(
+                    'text' => __d('user', 'user.textTelephonePortable'),
+                    'class' => 'col-md-4 control-label'
+                ),
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>'
+            ));
+            ?>
+        </div>
     </div>
 
     <div class="col-md-6">
-        <?php
-        //if ($this->request->data['User']['id'] != $this->Session->read('Auth.User.id')) {
-        ?>
         <!-- Champs Entité * -->
         <div class="form-group">
             <?php
@@ -197,7 +229,6 @@
 
         <?php
         foreach ($tableau['Organisation'] as $key => $datas) {
-
             $listeroles = [];
             echo "<script type='text/javascript'>";
 
@@ -211,12 +242,12 @@
             echo "</script>";
             ?>
 
-            <!-- Champs Service * -->
             <div class="form-group droitsVille" id="droitsVille<?php echo $key; ?>">
                 <div class="titreDiv text-center">
                     <h4><?php echo $datas['infos']['raisonsociale']; ?></h4>
-                </div>
+                </div>  
 
+                <!-- Champs Service -->
                 <div class="form-group">
                     <?php
                     //Si des service existe on affiche le champs de selection d'un service
@@ -226,9 +257,9 @@
                             // On pré-selectionne
                             echo $this->Form->input('Service.' . $datas['infos']['id'], [
                                 'options' => $listeservices[$datas['infos']['id']],
-                                'class' => 'deroulantservice',
                                 'selected' => $tableau['UserService'],
-                                'id' => $datas['infos']['id'] ,
+                                'class' => 'form-control',
+                                'id' => 'deroulantservice',
                                 'label' => [
                                     'text' => __d('user', 'user.champService'),
                                     'class' => 'col-md-4 control-label'
@@ -240,8 +271,8 @@
                         } else {
                             echo $this->Form->input('Service.' . $datas['infos']['id'], [
                                 'options' => $listeservices[$datas['infos']['id']],
-                                'class' => 'deroulantservice',
-                                'id' => $datas['infos']['id'],
+                                'class' => 'form-control',
+                                'id' => 'deroulantservice',
                                 'label' => [
                                     'text' => __d('user', 'user.champService'),
                                     'class' => 'col-md-4 control-label'
@@ -273,7 +304,7 @@
                                     ],
                                     'between' => '<div class="col-md-8">',
                                     'after' => '</div>',
-                                'multiple' => 'multiple'
+                                    //'multiple' => 'multiple',
                                 ]);
                         } else {
                             echo $this->Form->input('Role.role_ida.' . $datas['infos']['id'], [
@@ -286,7 +317,7 @@
                                     ],
                                     'between' => '<div class="col-md-8">',
                                     'after' => '</div>',
-                                'multiple' => 'multiple'
+                                    //'multiple' => 'multiple',
                                 ]);
                         }
                     } else {
@@ -322,20 +353,16 @@
     </div>
 </div>
 
-<?php
-echo $this->Html->script('users.js');
-?>
-
 <script type="text/javascript">
 
     $(document).ready(function () {
         $("#deroulant").select2({
-            placeholder: "Selectionnez une ou plusieurs entitées",
+            placeholder: "Sélectionnez une ou plusieurs entitées",
             allowClear: true
         });
 
-        $(".deroulantservice").select2({
-            placeholder: "Selectionnez un ou plusieurs service",
+        $("#deroulantservice").select2({
+            placeholder: "Sélectionnez un ou plusieurs service",
             allowClear: true
         });
     });
