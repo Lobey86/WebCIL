@@ -1,0 +1,20 @@
+# Traductions de validation.po
+# @license: CeCiLL V2 (http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html)
+#
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+# ==============================================================================
+
+msgid "Validate::inList"
+msgstr "Veuillez entrer une valeur parmi %s"
+
+msgid "Validate::inclusiveRange"
+msgstr "Veuillez entrer une valeur comprise entre %s et %s (bornes comprises)"
+
+msgid "Validate::phone"
+msgstr "Veuillez entrer un numéro de téléphone valide"

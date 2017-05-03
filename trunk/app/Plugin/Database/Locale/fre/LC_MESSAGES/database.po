@@ -1,0 +1,128 @@
+# Traductions de database.po
+# @license: CeCiLL V2 (http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html)
+#
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+# ==============================================================================
+# CakePHP validation rules for 2.x
+# @see http://book.cakephp.org/2.0/en/models/data-validation.html#core-validation-rules
+# ==============================================================================
+
+msgid "Validate::alphaNumeric"
+msgstr "Veuillez entrer une valeur contenant uniquement des lettres et des chiffres"
+
+# INFO: Deprecated since version 2.6.0
+msgid "Validate::between"
+msgstr "Veuillez entrer une chaîne comprise entre %d et %d caractères"
+
+# INFO: Introduced in version 2.6.0
+msgid "Validate::lengthBetween"
+msgstr "Veuillez entrer une chaîne comprise entre %d et %d caractères"
+
+msgid "Validate::blank"
+msgstr "Veuillez entrer une valeur vide"
+
+msgid "Validate::boolean"
+msgstr "Veuillez entrer une valeur booléenne"
+
+msgid "Validate::cc"
+msgstr "Veuillez entrer un numéro de carte de crédit valide"
+
+msgid "Validate::comparison"
+msgstr "Veuillez entrer une valeur %s %s"
+
+msgid "Validate::date"
+msgstr "Veuillez entrer une date valide"
+
+msgid "Validate::datetime"
+msgstr "Veuillez entrer une date et une heure valide"
+
+msgid "Validate::decimal"
+msgstr "Veuillez entrer un nombre décimal valide"
+
+msgid "Validate::email"
+msgstr "Veuillez saisir une adresse de courrier électronique valide"
+
+msgid "Validate::equalTo"
+msgstr "Veuillez entrer une valeur égale à %s"
+
+msgid "Validate::extension"
+msgstr "Veuillez fournir un fichier ayant une extension valide (%s)"
+
+msgid "Validate::fileSize"
+msgstr "Veuillez fournir un fichier ayant une taille %s %s"
+
+msgid "Validate::ip"
+msgstr "Veuillez entrer une adresse IP valide"
+
+msgid "Validate::inList"
+msgstr "Veuillez entrer une valeur parmi %s"
+
+msgid "Validate::isUnique"
+msgstr "Valeur déjà utilisée"
+
+msgid "Validate::luhn"
+msgstr "Veuillez entrer une valeur dont la somme de contrôle est vérifiée par l'algorithme de Luhn"
+
+msgid "Validate::maxLength"
+msgstr "Veuillez entrer %d caractères maximum"
+
+msgid "Validate::mimeType"
+msgstr "Veuillez fournir un fichier ayant un type MIME valide (%s)"
+
+msgid "Validate::minLength"
+msgstr "Veuillez entrer %d caractères minimum"
+
+msgid "Validate::money"
+msgstr "Veuillez entrer un montant valide"
+
+# INFO: Deprecated since version 2.7.0
+msgid "Validate::notEmpty"
+msgstr "Champ obligatoire"
+
+# INFO: Introduced in version 2.7.0
+msgid "Validate::notBlank"
+msgstr "Champ obligatoire"
+
+msgid "Validate::numeric"
+msgstr "Veuillez entrer une valeur numérique valide"
+
+msgid "Validate::naturalNumber"
+msgstr "Veuillez entrer un nombre naturel valide"
+
+msgid "Validate::phone"
+msgstr "Veuillez entrer un numéro de téléphone valide"
+
+msgid "Validate::postal"
+msgstr "Veuillez entrer un code postal valide"
+
+msgid "Validate::range"
+msgstr "Veuillez entrer compris entre %s et %s"
+
+msgid "Validate::ssn"
+msgstr "Veuillez entrer un numéro de sécurité sociale valide"
+
+msgid "Validate::time"
+msgstr "Veuillez entrer une heure valide"
+
+msgid "Validate::uploadError"
+msgstr "Erreur lors de l'envoi du fichier"
+
+msgid "Validate::url"
+msgstr "Veuillez entrer une URL valide"
+
+msgid "Validate::uuid"
+msgstr "Veuillez entrer un UUID valide"
+
+# ==============================================================================
+# DatabaseAutovalidateBehavior validation rules for 2.x
+# @see DatabaseAutovalidateBehavior::integer
+# ==============================================================================
+
+msgid "Validate::integer"
+msgstr "Veuillez entrer an integer value"
