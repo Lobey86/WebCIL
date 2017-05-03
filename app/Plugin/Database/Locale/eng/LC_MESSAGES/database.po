@@ -1,0 +1,128 @@
+# Traductions de database.po
+# @license: CeCiLL V2 (http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html)
+#
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+# ==============================================================================
+# CakePHP validation rules for 2.x
+# @see http://book.cakephp.org/2.0/en/models/data-validation.html#core-validation-rules
+# ==============================================================================
+
+msgid "Validate::alphaNumeric"
+msgstr "Please enter a value that contains only letters and numbers"
+
+# INFO: Deprecated since version 2.6.0
+msgid "Validate::between"
+msgstr "Please enter a value that is between %d and %d characters long"
+
+# INFO: Introduced in version 2.6.0
+msgid "Validate::lengthBetween"
+msgstr "Please enter a value that is between %d and %d characters long"
+
+msgid "Validate::blank"
+msgstr "Please enter a blank value"
+
+msgid "Validate::boolean"
+msgstr "Please enter a boolean value"
+
+msgid "Validate::cc"
+msgstr "Please enter a valid credit card number"
+
+msgid "Validate::comparison"
+msgstr "Please enter a value %s %s"
+
+msgid "Validate::date"
+msgstr "Please enter a valid date"
+
+msgid "Validate::datetime"
+msgstr "Please enter a valid date and hour"
+
+msgid "Validate::decimal"
+msgstr "Please enter a valid decimal number"
+
+msgid "Validate::email"
+msgstr "Please enter a valid email adress"
+
+msgid "Validate::equalTo"
+msgstr "Please enter a value equal to %s"
+
+msgid "Validate::extension"
+msgstr "Please supply a file with a valid extension (%s)"
+
+msgid "Validate::fileSize"
+msgstr "Please supply a file with a size %s %s"
+
+msgid "Validate::ip"
+msgstr "Please enter a valid IP adress"
+
+msgid "Validate::inList"
+msgstr "Please enter a value amongst %s"
+
+msgid "Validate::isUnique"
+msgstr "Value already used"
+
+msgid "Validate::luhn"
+msgstr "Please enter a value whose checksum complies to Luhn's algorithm"
+
+msgid "Validate::maxLength"
+msgstr "Please enter %d characters maximum"
+
+msgid "Validate::mimeType"
+msgstr "Please supply a file of a valid MIME type (%s)"
+
+msgid "Validate::minLength"
+msgstr "Please enter %d characters minimum"
+
+msgid "Validate::money"
+msgstr "Please enter a valid monetary amount"
+
+# INFO: Deprecated since version 2.7.
+msgid "Validate::notEmpty"
+msgstr "Mandatory field"
+
+# INFO: Introduced in version 2.7.
+msgid "Validate::notBlank"
+msgstr "Mandatory field"
+
+msgid "Validate::numeric"
+msgstr "Please enter a numeric value"
+
+msgid "Validate::naturalNumber"
+msgstr "Please enter a valid natural number"
+
+msgid "Validate::phone"
+msgstr "Please enter a valid phone number"
+
+msgid "Validate::postal"
+msgstr "Please enter a valid postal code"
+
+msgid "Validate::range"
+msgstr "Please enter a number between %s and %s"
+
+msgid "Validate::ssn"
+msgstr "Please enter a valid social security number"
+
+msgid "Validate::time"
+msgstr "Please enter a valid hour"
+
+msgid "Validate::uploadError"
+msgstr "Error uploading file"
+
+msgid "Validate::url"
+msgstr "Please enter a valid URL"
+
+msgid "Validate::uuid"
+msgstr "Please enter a valid UUID value"
+
+# ==============================================================================
+# DatabaseAutovalidateBehavior validation rules for 2.x
+# @see DatabaseAutovalidateBehavior::integer
+# ==============================================================================
+
+msgid "Validate::integer"
+msgstr "Please enter an integer value"

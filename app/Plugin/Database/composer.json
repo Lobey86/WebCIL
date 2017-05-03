@@ -1,0 +1,28 @@
+{
+    "name": "cakephp/Database",
+    "version": "1.0.0",
+    "description": "Manager for Database for CakePhp",
+    "authors": [
+        {
+            "name": "Christian BUFFIN",
+            "homepage": "http://www.adullact-projet.coop",
+            "email": "christian.buffin@adullact-projet.coop",
+            "role": "Developer"
+        },
+        {
+            "name": "Sébastien PLAZA",
+            "homepage": "http://www.adullact-projet.coop",
+            "email": "sebastien.plaza@adullact-projet.coop",
+            "role": "Developer"
+        }
+    ],
+    "type": "cakephp-plugin",
+    "homepage": "http://adullact.net/projects/plugins-cakephp/",
+    "license": "CECILL-2.0",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "config": {
+        "vendor-dir": "Vendor/"
+    }
+}
