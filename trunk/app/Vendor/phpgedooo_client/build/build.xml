@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="phpgedooo_client" default="build" basedir=".">
+	<property name="dir.src" value="${basedir}/src" />
+	<property name="dir.ant.build" value="${basedir}/build" />
+    <property name="file.phpcs.ruleset" value="${basedir}/contrib/phpcs/ruleset.xml" />
+
+	<!-- High level targets -->
+	<target name="quality" depends="clean,lint,phploc,phpdoc,phpcs,pdepend,phpcb"/>
+	<target name="build" depends="lint"/>
+	<target name="lint" depends="bash-lint,xml-lint,php-lint,js-lint,css-lint"/>
+
+	<!-- Log and tmp folders cleanup -->
+	<target name="clear">
+        <delete dir="${dir.ant.build}" verbose="true" />
+	</target>
+
+	<!-- Log folders creation -->
+	<target name="clean" depends="clear">
+		<mkdir dir="${dir.ant.build}" />
+		<mkdir dir="${dir.ant.build}/api" />
+		<mkdir dir="${dir.ant.build}/artifacts" />
+		<mkdir dir="${dir.ant.build}/logs" />
+		<mkdir dir="${dir.ant.build}/coverage" />
+		<mkdir dir="${dir.ant.build}/php-code-browser" />
+	</target>
+
+	<!-- Vérification de la syntaxe des fichiers .sh -->
+	<target name="bash-lint">
+		<apply executable="bash" dir="${dir.src}" failonerror="on" logerror="on">
+			<arg line="-n"/>
+			<fileset
+				dir="${dir.src}"
+				includes="**/*.sh" />
+		</apply>
+	</target>
+
+	<!-- Vérification de la syntaxe des fichiers .xml et .xsl -->
+	<target name="xml-lint">
+		<apply executable="xmllint" dir="${dir.src}" failonerror="on" logerror="on">
+			<arg line="--noout"/>
+			<fileset
+				dir="${dir.src}"
+				includes="**/*.xml,**/*.xsl" />
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .php, .ctp, .pkg and .inc-dist files -->
+	<target name="php-lint">
+		<apply executable="php" dir="${dir.src}" failonerror="on" logerror="on">
+			<arg line="-l"/>
+			<fileset
+				dir="${dir.src}"
+				includes="**/*.php,**/*.ctp,**/*.pkg,**/*.inc-dist"
+				excludes="" />
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .sql files (PostgreSQL) -->
+	<target name="sql-lint">
+		<exec executable="bash" failonerror="on" logerror="on">
+		  <arg value="-c"/>
+		  <arg value="find ${dir.src} -name '*.sql' | xargs pgsanity"/>
+		</exec>
+	</target>
+
+	<!-- Syntax checking for .po files -->
+	<target name="po-lint">
+		<apply executable="msgfmt" dir="${dir.src}" failonerror="on" logerror="on">
+			<arg line="-v"/>
+			<arg line="-C"/>
+			<arg line="-o /dev/null"/>
+			<fileset
+				dir="${dir.src}"
+				includes="**/*.po"
+				excludes="" />
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .js files -->
+	<target name="js-lint">
+		<apply executable="esvalidate" dir="${dir.src}" failonerror="on" logerror="on">
+			<fileset dir="${dir.src}" includes="**/**.js"/>
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .css files -->
+	<target name="css-lint">
+		<apply executable="csslint" dir="${dir.src}" failonerror="on" logerror="on">
+			<arg line="--format=compact"/>
+			<arg line="--warnings=display-property-grouping,duplicate-properties,empty-rules,known-properties"/>
+			<fileset dir="${dir.src}" includes="**/**.css"/>
+		</apply>
+	</target>
+
+	<!-- Code metrics (files, classes, etc) -->
+	<target name="phploc" depends="clean,php-lint">
+		<exec executable="phploc">
+			<arg value="--log-csv" />
+			<arg value="${dir.ant.build}/logs/phploc.csv" />
+			<arg path="${dir.src}" />
+		</exec>
+	</target>
+
+	<!-- Documentation -->
+	<target name="phpdoc" depends="clean,php-lint">
+		<exec executable="phpdoc" dir="${dir.src}" failonerror="false" logerror="on">
+			<arg line="--title '${ant.project.name}'
+				-t ${dir.ant.build}/api
+				-d ."/>
+			</exec>
+	</target>
+
+	<!-- Checkstyle -->
+	<target name="phpcs" depends="clean,php-lint">
+		<exec executable="phpcs"
+			  dir="${basedir}"
+			  failonerror="false">
+			<arg line="--standard=${file.phpcs.ruleset}
+                       --extensions=php,ctp,pkg,inc-dist
+                       --runtime-set testVersion 5.3-7.0
+                       --report-checkstyle=${dir.ant.build}/logs/phpcs.xml
+                       ${dir.src}" />
+		</exec>
+	</target>
+
+	<!-- Dépendences -->
+	<!-- @fixme ? -->
+	<target name="pdepend" depends="clean,php-lint">
+		<exec executable="pdepend"
+			dir="${dir.src}"
+			failonerror="false">
+			<arg line="--jdepend-xml=${dir.ant.build}/logs/jdepend.xml
+				--jdepend-chart=${dir.ant.build}/artifacts/10-dependencies.svg
+				--overview-pyramid=${dir.ant.build}/artifacts/11-overview.svg
+				." />
+		</exec>
+	</target>
+
+	<!-- Code browser -->
+	<target name="phpcb" depends="clean,php-lint">
+		<exec executable="phpcb"
+			dir="${dir.src}"
+			failonerror="false">
+			<arg line="--log ${dir.ant.build}/logs
+				--source ${dir.src}
+				-E /\/(Vendor)\//
+				--output ${dir.ant.build}/php-code-browser
+				--crapThreshold=10
+			." />
+		</exec>
+	</target>
+</project>
