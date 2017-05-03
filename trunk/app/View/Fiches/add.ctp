@@ -697,11 +697,6 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
         'div' => 'form-group'
     ]);
     ?>
-
-<div id="dropfile">
-    <input type="file" multiple="multiple" name="data[annexe]">
-</div>
-    -->
 </div>
 
 <div class="row">
