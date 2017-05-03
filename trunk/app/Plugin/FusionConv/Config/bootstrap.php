@@ -1,18 +1,34 @@
 <?php
+
 /**
- * Boostrap du plugin Gedooo2.
+ * File bootstrap
  *
- * PHP 5.3
+ * phpgedooo_client : Client php pour l'utilisation du serveur gedooo
+ * Copyright (c) Libriciel SCOP <http://www.libriciel.fr>
  *
- * @package Gedooo2
- * @subpackage Config
- * @license CeCiLL V2 (http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html)
+ * Licensed under The CeCiLL V2 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Libriciel SCOP <http://www.libriciel.fr>
+ * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
+ * @version     2.0.0
+ * 
  */
+
 if( !defined( 'GEDOOO_PLUGIN_DIR' ) ) {
         define( 'GEDOOO_PLUGIN_DIR', dirname( __FILE__ ).DS.'..'.DS );
 }
 if( !defined( 'GEDOOO_WSDL' ) ) {
         define( 'GEDOOO_WSDL', Configure::read( 'FusionConv.Gedooo.wsdl' ) );
+}
+if( !defined( 'GEDOOO_REST' ) ) {
+    if (!empty(Configure::read('FusionConv.Gedooo.rest'))) {
+        define('GEDOOO_REST', Configure::read('FusionConv.Gedooo.rest'));
+    }
+}
+if( !defined( 'GEDOOO_URL' ) ) {
+    define( 'GEDOOO_URL', Configure::read( 'FusionConv.Gedooo.url' ) );
 }
 
 if( !defined( 'PLUGIN_TESTS' ) ) {
@@ -25,50 +41,4 @@ if( !defined( 'PLUGIN_TESTS_MODELE_DIR' ) ) {
 
 if( !defined( 'PLUGIN_TESTS_VARIABLES_DIR' ) ) {
         define( 'PLUGIN_TESTS_VARIABLES_DIR', GEDOOO_PLUGIN_DIR.'Test'.DS.'Data'.DS.'variables'.DS );
-}
-
-if( !defined( 'PHPGEDOOO_DIR' ) ) {
-        switch( Configure::read( 'FusionConv.method' ) ) {
-                case 'GedoooCloudooo':
-                    define( 'PHPGEDOOO_DIR', GEDOOO_PLUGIN_DIR.'Vendor'.DS.'Gedooo'.DS );
-                    libGedoooNew();
-                    break;
-                case 'classic':
-                        define( 'PHPGEDOOO_DIR', GEDOOO_PLUGIN_DIR.'Vendor'.DS.'phpgedooo_ancien'.DS );
-                    libGedooolast();
-                        break;
-                case 'cloudooo':
-                case 'unoconv':
-                default:
-                    define( 'PHPGEDOOO_DIR', GEDOOO_PLUGIN_DIR.'Vendor'.DS.'phpgedooo_nouveau'.DS );
-                    libGedooolast();
-                    
-                    
-        }
-}
-
-function libGedooolast()
-{
-    require_once( PHPGEDOOO_DIR.'GDO_Utility.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_FieldType.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_ContentType.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_IterationType.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_PartType.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_FusionType.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_MatrixType.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_MatrixRowType.class' );
-    require_once( PHPGEDOOO_DIR.'GDO_AxisTitleType.class' );
-}
-
-function libGedoooNew()
-{
-    require_once( PHPGEDOOO_DIR.'GDO_Utility.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_FieldType.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_ContentType.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_IterationType.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_PartType.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_FusionType.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_MatrixType.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_MatrixRowType.php' );
-    require_once( PHPGEDOOO_DIR.'GDO_AxisTitleType.php' );
 }

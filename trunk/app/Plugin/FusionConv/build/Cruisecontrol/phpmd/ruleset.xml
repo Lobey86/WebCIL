@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+	@see /usr/lib/php/data/PHP_PMD/resources/rulesets
+	@link http://phpmd.org/rules/index.html
+-->
+<ruleset name="Custom ruleset"
+	xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd"
+	xsi:noNamespaceSchemaLocation="http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+
+	<description>Configuration de phpmd pour le plugin Validation2</description>
+
+	<!-- Codesize -->
+	<rule ref="rulesets/codesize.xml" />
+
+	<!--
+		Controversial moins CamelCasePropertyName, CamelCaseMethodName,
+		CamelCaseParameterName, CamelCaseVariableName à cause des conventions
+		de CakePHP.
+	-->
+	<rule ref="rulesets/controversial.xml/Superglobals" />
+	<rule ref="rulesets/controversial.xml/CamelCaseClassName" />
+
+	<!-- Design -->
+	<rule ref="rulesets/design.xml" />
+
+	<!-- Naming -->
+	<rule ref="rulesets/naming.xml" />
+
+	<!-- Unusedcode -->
+	<rule ref="rulesets/unusedcode.xml" />
+</ruleset>
