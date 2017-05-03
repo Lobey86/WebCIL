@@ -136,7 +136,7 @@
                                     ), __d('formulaire', 'formulaire.confirmationSupprimerFormulaire')
                             );
                         } else {
-                            //Bouton dupliqué le formulaire
+                            // Bouton dupliqué le formulaire
                             ?> 
                             <button type="button" class="btn btn-default-default btn-sm my-tooltip btn_duplicate" 
                                     data-toggle="modal" data-target="#modalDupliquer" value="<?php echo $data['Formulaire']['id']; ?>"
@@ -269,7 +269,7 @@
                     ?>
                 </div>
 
-                <div class="row form-group">';
+                <div class="row form-group">
                     <?php
                     // Champ Description
                     echo $this->Form->input('description', array(
