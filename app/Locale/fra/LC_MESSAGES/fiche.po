@@ -28,6 +28,9 @@ msgstr "modifie le traitement enregistré au registre"
 msgid "fiche.flasherrorPasAccesTraitement"
 msgstr "Vous n'avez pas accès à ce traitement"
 
+msgid "fiche.flasherrorRecuperationModele"
+msgstr "Une erreur est survenue lors de la récupération du modèle"
+
 msgid "fiche.flashsuccessTraitementSupprimer"
 msgstr "Le traitement a bien été supprimé"
 
@@ -42,6 +45,9 @@ msgstr "Le traitement a été enregistré"
 
 msgid "fiche.flasherrorErreurContacterAdministrateur"
 msgstr "Une erreur est survenue lors de l'enregistrement. Merci de contacter votre administrateur"
+
+msgid "fiche.flasherrorErreurPDF"
+msgstr "Une erreur est survenue lors de la récupération du PDF. Merci de contacter votre administrateur"
 
 ###############################################################
 
@@ -73,6 +79,9 @@ msgstr "Seuls les fichiers au format ".odt" et ".pdf" sont acceptés"
 
 msgid "fiche.textAjouterPieceJointe"
 msgstr "Ajouter une pièce jointe"
+
+msgid "fiche.champServiceDeclaration"
+msgstr "Service de la déclaration du traitement"
 
 ###############################################################################
 

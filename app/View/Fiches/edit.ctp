@@ -1,4 +1,5 @@
 <?php
+
 $col = 1;
 $line = 1;
 
@@ -8,8 +9,9 @@ unset($_SESSION['nameController']);
 unset($_SESSION['nameView']);
 
 echo $this->Form->create('Fiche', [
-    'class' => 'form-horizontal',
     'type' => 'file',
+    'autocomplete' => 'off',
+    'class' => 'form-horizontal',
     'novalidate' => 'novalidate'
 ]);
 ?>
@@ -134,6 +136,7 @@ echo $this->Form->create('Fiche', [
     </div>
     <div class="col-md-6">
         <?php
+        // Champ Nom et prénom *
         echo $this->Form->input('declarantpersonnenom', [
             'label' => [
                 'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
@@ -150,6 +153,7 @@ echo $this->Form->create('Fiche', [
     </div>
     <div class="col-md-6">
         <?php
+        // Champ E-mail *
         echo $this->Form->input('declarantpersonneemail', [
             'label' => [
                 'text' => __d('default', 'default.champE-mail') . '<span class="obligatoire">*</span>',
@@ -164,61 +168,120 @@ echo $this->Form->create('Fiche', [
         ]);
         ?>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-md-6">
-        <?php
-        echo $this->Form->input('outilnom', [
-            'label' => [
-                'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'div' => 'form-group',
-            'required' => 'required'
-        ]);
-        
-        if ($this->Autorisation->authorized('5', $this->Session->read('Droit.liste'))) {
-            $readonly = '';
-        } else {
-            $readonly = 'readonly';
-        }
-            
-        //Champ type de déclaration * , à remplire par le CIL
-        echo $this->Form->input('typedeclaration', [
-            'label' => [
-                'text' => __d('default', 'Type de déclaration '),
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'div' => 'form-group',
-            'readonly' => $readonly,
-        ]);
-        
-        ?>
-    </div>
     
     <div class="col-md-6">
         <?php
-        echo $this->Form->input('finaliteprincipale', [
-            'label' => [
-                'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'div' => 'form-group',
-            'type' => 'textarea'
-        ]);
+        $countService = count($this->Session->read('User.service'));
+
+        // Champ Service *
+        if ($countService >= 2) {
+            foreach ($this->Session->read('User.service') as $service) {
+                $listeUserService[$service] = $service;
+            }
+            
+            echo $this->Form->input('declarantservice', [
+                'options' => $listeUserService,
+                'div' => 'input-group inputsForm',
+                'class' => 'form-control usersDeroulant',
+                'empty' => __d('fiche', 'fiche.champServiceDeclaration'),
+                'required' => true,
+                'label' => [
+                    'text' => __d('fiche', 'fiche.champServiceDeclaration') . '<span class="requis"> *</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+            ]);
+        } else {
+            echo $this->Form->input('declarantservice', [
+                'label' => [
+                    'text' => 'Service',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+                'div' => 'form-group',
+                'value' => $this->Session->read('User.service')
+            ]);
+        }
         ?>
     </div>
 </div>
+
+<!-- Champs concernant le traitement -->
+<div class="row">
+    <div class="col-md-12">
+        <span class='labelFormulaire'>
+                <?php
+                // Texte
+                echo __d('fiche', 'fiche.textInfoTraitement');
+                ?>
+        </span>
+        <div class="row row35"></div>
+    </div>
+
+    <!-- Champs des informations du traitement -->
+    <div class="row">
+        <!-- Colonne de gauche -->
+        <div class="col-md-6">
+                <?php
+                // Champ Nom du traitement * 
+                echo $this->Form->input('outilnom', [
+                    'label' => [
+                        'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
+                    'div' => 'form-group',
+                    'required' => 'required'
+                ]);
+
+                if ($this->Autorisation->authorized('5', $this->Session->read('Droit.liste'))) {
+                    $readonly = '';
+                } else {
+                    $readonly = 'readonly';
+                }
+                
+                //Champ type de déclaration * , à remplire par le CIL
+                echo $this->Form->input('typedeclaration', [
+                    'label' => [
+                        'text' => __d('default', 'Type de déclaration '),
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
+                    'div' => 'form-group',
+                    'readonly' => $readonly,
+                ]);
+                ?>
+        </div>
+
+        <!-- Colonne de droite -->
+        <div class="col-md-6">
+                <?php
+                // Champ Finalité *
+                echo $this->Form->input('finaliteprincipale', array(
+                    'label' => array(
+                        'text' => __d('default', 'default.champFinalite') . '<span class="obligatoire">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'class' => 'form-control',
+                    'div' => 'form-group',
+                    'type' => 'textarea'
+                ));
+                ?>
+        </div>
+    </div>
+</div>
+
+<!-- Champs du formulaire -->
 <div class="row">
     <div class="row row35"></div> 
 
@@ -230,8 +293,8 @@ echo $this->Form->create('Fiche', [
         foreach ($champs as $value) {
             if ($value['Champ']['colonne'] > $col) {
                 ?>
-            </div>
-            <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
                 <?php
                 $line = 1;
                 $col++;
@@ -240,7 +303,7 @@ echo $this->Form->create('Fiche', [
             if ($value['Champ']['ligne'] > $line) {
                 for ($i = $line; $i < $value['Champ']['ligne']; $i++) {
                     ?>
-                    <div class="row row35"></div>
+        <div class="row row35"></div>
                     <?php
                 }
                 $line = $value['Champ']['ligne'];
@@ -254,8 +317,8 @@ echo $this->Form->create('Fiche', [
                 $afficherObligation = '<span class="obligatoire"> *</span>';
             }
             ?>
-            <div class="row row35">
-                <div class="col-md-12">
+        <div class="row row35">
+            <div class="col-md-12">
                     <?php
                     switch ($value['Champ']['type']) {
                         case 'input':
@@ -271,7 +334,7 @@ echo $this->Form->create('Fiche', [
                                 'placeholder' => $options['placeholder'],
                                 'required' => $options['obligatoire']
                             ]);
-                            break;
+                        break;
 
                         case 'textarea':
                             echo $this->Form->input($options['name'], [
@@ -287,7 +350,7 @@ echo $this->Form->create('Fiche', [
                                 'required' => $options['obligatoire'],
                                 'type' => 'textarea'
                             ]);
-                            break;
+                        break;
 
                         case 'date':
                             echo $this->Form->input($options['name'], [
@@ -304,7 +367,7 @@ echo $this->Form->create('Fiche', [
                                 'required' => $options['obligatoire'],
                             ]);
                             $incrementation_id ++;
-                            break;
+                        break;
 
                         case 'title':
                             ?>
@@ -313,20 +376,20 @@ echo $this->Form->create('Fiche', [
                                     <?php echo $options['content']; ?>
                                 </h1>
                             </div>
-                            <?php
-                            break;
+                        <?php
+                        break;
 
                         case 'texte':
                             ?>
                             <div class="form-group">
                                 <div class="container">
                                     <h5 class="col-md-4 control-label">
-                                        <?php echo $options['content']; ?>
+                                                    <?php echo $options['content']; ?>
                                     </h5>
                                 </div>
                             </div>
-                            <?php
-                            break;
+                        <?php
+                        break;
 
                         case 'help':
                             ?>
@@ -335,17 +398,17 @@ echo $this->Form->create('Fiche', [
                                     <i class="fa fa-fw fa-info-circle fa-2x"></i>
                                 </div>
                                 <div class="col-md-12">
-                                    <?php echo $options['content']; ?>
+                                                <?php echo $options['content']; ?>
                                 </div>
                             </div>
-                            <?php
-                            break;
+                        <?php
+                        break;
 
                         case 'checkboxes':
                             ?>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
-                                    <?php echo $options['label']; ?>
+                                                <?php echo $options['label']; ?>
                                 </label>
                                 <div class="col-md-8">
                                     <?php
@@ -358,8 +421,8 @@ echo $this->Form->create('Fiche', [
                                     ?>
                                 </div>
                             </div>
-                            <?php
-                            break;
+                        <?php
+                        break;
 
                         case 'deroulant':
                             ?>
@@ -376,14 +439,14 @@ echo $this->Form->create('Fiche', [
                                     ?>
                                 </div>
                             </div>
-                            <?php
-                            break;
+                        <?php
+                        break;
 
                         case 'radios':
                             ?>
                             <div class="form-group">
                                 <label class="col-md-4 control-label">
-                                    <?php echo $options['label']; ?>
+                                                <?php echo $options['label']; ?>
                                 </label>
                                 <div class="col-md-8">
                                     <?php
@@ -395,13 +458,13 @@ echo $this->Form->create('Fiche', [
                                     ?>
                                 </div>
                             </div>
-                            <?php
-                            break;
+                        <?php
+                        break;
                     }
                     $line++;
                     ?>
-                </div>
             </div>
+        </div>
             <?php
         }
         ?>
@@ -415,7 +478,7 @@ if (!empty($files)) {
     ?>
     <div class="col-md-12 top30">
         <h4>
-            <?php echo __d('fiche', 'fiche.textInfoPieceJointe'); ?>
+                <?php echo __d('fiche', 'fiche.textInfoPieceJointe'); ?>
         </h4>
         <table>
             <tbody>
@@ -427,7 +490,7 @@ if (!empty($files)) {
                             <i class="fa fa-file-text-o fa-lg"></i>
                         </td>
                         <td class="col-md-9 tdleft">
-                            <?php echo $val['Fichier']['nom']; ?>
+                                    <?php echo $val['Fichier']['nom']; ?>
                         </td>
                         <td class="col-md-2 boutonsFile boutonsFile"<?php echo $val['Fichier']['id']; ?>>
                             <?php
@@ -451,16 +514,16 @@ if (!empty($files)) {
                             ]);
                             ?>
                         </td>
-        <!--                        <td class="boutonsFileHide boutonsFileHide"<?php //echo $val['Fichier']['id'];     ?>>
-                        <?php
-//                            echo $this->Form->button('<span class="glyphicon glyphicon-arrow-left"></span> Annuler la suppression', [
-//                                'type' => 'button',
-//                                'class' => 'btn btn-default-default btn-sm my-tooltip left5 btn-cancel-file',
-//                                'title' => 'Annuler la suppression',
-//                                'escapeTitle' => false,
-//                                'data' => $val['Fichier']['id']
-//                            ]);
-                        ?>
+        <!--                        <td class="boutonsFileHide boutonsFileHide"<?php echo $val['Fichier']['id'];     ?>>
+                                <?php
+        //                            echo $this->Form->button('<span class="glyphicon glyphicon-arrow-left"></span> Annuler la suppression', [
+        //                                'type' => 'button',
+        //                                'class' => 'btn btn-default-default btn-sm my-tooltip left5 btn-cancel-file',
+        //                                'title' => 'Annuler la suppression',
+        //                                'escapeTitle' => false,
+        //                                'data' => $val['Fichier']['id']
+        //                            ]);
+                                ?>
                         </td>-->
                     </tr>
                     <?php
@@ -486,6 +549,7 @@ if (!empty($files)) {
     <?php
     echo $this->Form->input('fichiers.', [
         'type' => 'file',
+        'multiple',
         'id' => 'fileAnnexe',
         'label' => [
             'text' => __d('fiche', 'fiche.textAjouterFichier'),
@@ -495,12 +559,11 @@ if (!empty($files)) {
         'after' => '</div>',
         'class' => 'filestyle fichiers draggable',
         'required' => false,
-        'div' => 'form-group',
-        'accept' => ".odt",
-        'multiple'
+        'div' => 'form-group'
     ]);
     ?>
 </div>
+    
 <div class="row hiddenfields">
     <?php
     echo $this->Form->hidden('id', ['value' => $id]);
@@ -527,7 +590,7 @@ if (!empty($files)) {
         </div>
     </div>
 </div>
-    
+
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -543,7 +606,7 @@ if (!empty($files)) {
         }
 
         verificationExtension();
-        
+
     });
 
 </script>

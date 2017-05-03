@@ -1,7 +1,11 @@
 $(document).ready(function () {
     $('#modalNotif').modal();
 
-    $(".usersDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width: '100%'});
+    $(".usersDeroulant").chosen({
+        no_results_text: "Aucun résultat trouvé pour", 
+        width: '100%'
+    });
+    
     $('.my-tooltip').tooltip({
         delay: {"show": 800, "hide": 0},
         container: "body"
@@ -24,6 +28,7 @@ $(document).ready(function () {
         var new_element = jQuery('<input type="hidden" class="hiddenFile' + value + '" name="delfiles[]" value="' + value + '"/>');
         $('.hiddenfields').append(new_element);
     });
+    
     $('.btn-cancel-file').click(function () {
         var value = $(this).attr('data');
         $('.tr-file-' + value).css('color', '#000000');
@@ -32,6 +37,7 @@ $(document).ready(function () {
         $('.hiddenFile' + value).remove();
 
     });
+    
     $('.btn-edit-registre').click(function () {
         var id = $(this).attr('data');
         $('#idEditRegistre').val(id);
@@ -70,36 +76,23 @@ function openTarget(idFicheNotification) {
 
 function verificationExtension() {
     $('#fileAnnexe').change(function () {
-        var tmpName = $(this).val();
-        if (tmpName !== '' /*&& $('#newProjet').val() == ''*/) {
+    var annexes = this.files;
 
+    for (var i = 0; i< annexes.length; i++ ) {
+        var tmpName = annexes[i]['name'];
+
+        if (tmpName !== '') {
             //suppression du fakepath ajouter par webkit
             tmpName = tmpName.replace("C:\\fakepath\\", "");
 
-            //verification de l'extension odt
+            //verification de l'extension odt OU pdf
             var ctrlName = tmpName.split('.');
+
             if (ctrlName[ctrlName.length - 1] !== 'odt' && ctrlName[ctrlName.length - 1] !== 'pdf') {
                 $(this).val("");
                 $('#errorExtentionAnnexe').modal('show');
             } 
-//            else {
-//                alert(tmpName);
-//                
-//                tmpName = tmpName.replace(/ /g, '_');
-//                
-//                alert(tmpName);
-//                
-//                $(this).val(tmpName);
-//                
-//            }
-//                } else {
-//                    var newName = "";
-//                    for (var i = 0, ln = ctrlName.length - 1; i < ln; i++) {
-//                        newName += (i === 0 ? '' : ' ') + ctrlName[i];
-//                    }
-//                    var newName = newName.replace(/_/g, ' ');
-//                    $('#newProjet').val((newName[0].toUpperCase() + newName.substring(1)).trim());
-//                }
         }
-    });
+    }
+});
 }

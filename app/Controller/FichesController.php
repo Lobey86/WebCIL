@@ -76,6 +76,7 @@ class FichesController extends AppController {
         'declarantsiret',
         'declarantape',
         'declaranttelephone',
+        'declarantservice',
         'personneresponsable',
         'fonctionresponsable',
         'emailresponsable',
@@ -177,7 +178,7 @@ class FichesController extends AppController {
 
                     $this->Historique->create([
                         'Historique' => [
-                            'content' => 'Création de la fiche par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
+                            'content' => 'Création du traitement par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
                             'fiche_id' => $last
                         ]
                     ]);
@@ -221,7 +222,7 @@ class FichesController extends AppController {
      */
     public function delete($id = null) {
         if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT) && $this->Droits->isOwner($id)) {
-            if (!$this->Droits->isdeletable($id)) {
+            if (!$this->Droits->isDeletable($id)) {
                 $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
                 $this->redirect([
                     'controller' => 'pannel',
@@ -327,33 +328,49 @@ class FichesController extends AppController {
                             ]
                     ) !== false;
 
-            $success = $success && $this->EtatFiche->updateAll([
-                        'actif' => false
-                            ], [
-                        'fiche_id' => $id,
-                        'etat_id' => [5, 9],
-                        'actif' => true
-                            ]
-                    ) !== false;
+//            $success = $success && $this->EtatFiche->updateAll([
+//                        'actif' => false
+//                            ], [
+//                        'fiche_id' => $id,
+//                        'etat_id' => [5, 9],
+//                        'actif' => true
+//                    ]) !== false;
 
+            // On récupère les infos des fichier déjà présent avant de les supprimer
+            $files = $this->Valeur->find('first', [
+                'conditions' => [
+                    'fiche_id' => $id,
+                    'champ_name' => 'fichiers'
+                ]
+            ]);
+
+            $file = json_decode($files['Valeur']['valeur']);
+
+            foreach ($this->request->data('Fiche.fichiers') as $newFiles) {
+                $file[] = $newFiles;
+            }
 
             foreach ($this->request->data['Fiche'] as $key => $value) {
                 $idsToDelete = array_keys($this->Valeur->find('list', [
-                            'conditions' => [
-                                'champ_name' => $key,
-                                'fiche_id' => $id
-                            ],
-                            'contain' => false
+                    'conditions' => [
+                        'champ_name' => $key,
+                        'fiche_id' => $id
+                    ],
+                    'contain' => false
                 ]));
 
                 if (empty($idsToDelete) == false) {
                     $success = $success && $this->Valeur->deleteAll([
-                                'Valeur.id' => $idsToDelete
+                        'Valeur.id' => $idsToDelete
                     ]);
                 }
 
                 if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
                     if (is_array($value)) {
+                        if ($key == 'fichiers') {
+                            $value = $file;
+                        }
+                        
                         $value = json_encode($value);
                     }
 
@@ -520,25 +537,43 @@ class FichesController extends AppController {
      * @created 04/01/2016
      * @version V1.0.0
      */
-    public function downloadFileTraitement($fiche_id, $numeroRegistre) {
-        $data = $this->Valeur->find('all', [
-            'conditions' => [
-                'fiche_id' => $fiche_id]
+    public function downloadFileTraitement($fiche_id) {
+        $fiche = $this->Fiche->find('first', [
+           'conditions' => ['id' => $fiche_id] 
         ]);
-
+        
+        $nameTraiment = $this->Valeur->find('first', [
+            'conditions' => [
+                'fiche_id' => $fiche_id,
+                'champ_name' => 'outilnom'
+            ]
+        ]);
+        
         $pdf = $this->TraitementRegistre->find('first', [
             'conditions' => ['fiche_id' => $fiche_id],
             'fields' => ['data']
         ]);
+        
+        if (empty($pdf)) {
+            $this->Session->setFlash(__d('fiche', 'fiche.flasherrorErreurPDF'), 'flasherror');
+            $this->redirect([
+                'controller' => 'registres',
+                'action' => 'index'
+            ]);
+        }
 
         header("content-type: application/pdf");
-        header('Content-Disposition: attachment; filename="Traitement_' . $data[17]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf"');
+        header('Content-Disposition: attachment; filename="Traitement_' . $nameTraiment['Valeur']['valeur'] . '_' . $fiche['Fiche']['numero'] . '.pdf"');
 
         echo($pdf['TraitementRegistre']['data']);
     }
 
     /**
      * Téléchargement de l'extrait de registre verrouiller
+     * 
+     * Si aucun fiche_id n'est passé en paramètre, un message d'erreur est 
+     * stocké en session et on est redirigé vers l'écran de visualisation
+     * des registres.
      * 
      * @param type $fiche_id
      * @param type $numeroRegistre
@@ -548,27 +583,116 @@ class FichesController extends AppController {
      * @version V1.0.0
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
-    public function downloadFileExtrait($fiche_id, $numeroRegistre) {
-        $data = $this->Valeur->find('all', [
-            'conditions' => [
-                'fiche_id' => $fiche_id]
-        ]);
+    public function downloadFileExtrait($fiche_id) {
+        // On vérifie que $fiche_id n'est pas vide
+        if (empty($fiche_id)) {
+            $this->Session->setFlash(__d('registre', 'registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
 
+            $this->redirect(array(
+                'controller' => 'registres',
+                'action' => 'index'
+            ));
+        }
+        
+        $fiche = $this->Fiche->find('first', [
+           'conditions' => ['id' => $fiche_id] 
+        ]);
+        
+        $nameTraiment = $this->Valeur->find('first', [
+            'conditions' => [
+                'fiche_id' => $fiche_id,
+                'champ_name' => 'outilnom'
+            ]
+        ]);
+        
         $pdf = $this->ExtraitRegistre->find('first', [
             'conditions' => ['fiche_id' => $fiche_id],
             'fields' => ['data']
         ]);
+        
+        if (empty($pdf)) {
+            $this->Session->setFlash(__d('fiche', 'fiche.flasherrorErreurPDF'), 'flasherror');
+            $this->redirect([
+                'controller' => 'registres',
+                'action' => 'index'
+            ]);
+        }
 
         header("content-type: application/pdf");
-        header('Content-Disposition: attachment; filename="Extrait_' . $data[17]['Valeur']['valeur'] . '_' . $numeroRegistre . '.pdf"');
+        header('Content-Disposition: attachment; filename="Extrait_' . $nameTraiment['Valeur']['valeur'] . '_' . $fiche['Fiche']['numero'] . '.pdf"');
         echo($pdf['ExtraitRegistre']['data']);
+    }
+
+    /**
+     * Retourne le PDF du traitement dont l'id est passé en paramètres.
+     * 
+     * Si aucun id n'est passé en paramètre, un message d'erreur est stocké en
+     * session et on est redirigé vers l'écran de visualisation des registres.
+     * 
+     * On supprime également la notification concernant le traitement.
+     * 
+     * @param json $tabId
+     * @return string
+     * 
+     * @access public
+     * @created 07/04/2017
+     * @version V1.0.0
+     * @author Christian BUFFIN <christian.buffin@libriciel.coop>
+     */
+    protected function _genereTraitement($tabId) {
+        $id = json_decode($tabId);
+        
+        // On vérifie que $tadId n'est pas vide
+        if (empty($id)) {
+            $this->Session->setFlash(__d('registre', 'registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
+
+            $this->redirect(array(
+                'controller' => 'registres',
+                'action' => 'index'
+            ));
+        }
+
+        $fiche = $this->Fiche->find('first', [
+            'conditions' => [
+                'id' => $id
+            ]
+        ]);
+
+        // On récupére le modèle de l'extrait de registre
+        $modele = ClassRegistry::init('Modele')->find('first', [
+            'conditions' => [
+                'formulaires_id' => $fiche['Fiche']['form_id']
+            ]
+        ]);
+
+        // On vérifie que les infos du modèle existe bien 
+        if (!empty($modele)) {
+            $file = $modele['Modele']['fichier'];
+        } else {
+            $file = '1.odt';
+        }
+
+        $pdf = $this->Fiche->preparationGeneration(
+            $tabId,
+            $file,
+            CHEMIN_MODELES,
+            $this->Session->read('Organisation.id'),
+            true
+        );
+
+        $this->requestAction(array(
+            'controller' => 'pannel',
+            'action' => 'supprimerLaNotif',
+            (int) $id
+        ));
+        
+        return $pdf;
     }
 
     /**
      * Genere le traitement de registre
      * 
-     * @param int $id
-     * @param char $numeroRegistre
+     * @param type $tabId
      * @return data
      * 
      * @access public
@@ -576,56 +700,186 @@ class FichesController extends AppController {
      * @version V1.0.0
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
-    public function genereTraitement($id, $numeroRegistre) {
-        $pdf = $this->Fiche->genereTraitement($id, $numeroRegistre);
+    public function genereTraitement($tabId) {
+        $pdf = $this->_genereTraitement($tabId);
 
         $this->response->disableCache();
         $this->response->body($pdf);
         $this->response->type('application/pdf');
-        $this->response->download('Traitement_' . $numeroRegistre . '.pdf');
-
-        $this->requestAction(array(
-            'controller' => 'pannel',
-            'action' => 'supprimerLaNotif',
-            $id
-        ));
+        $this->response->download('Traitement.pdf');
 
         return $this->response;
     }
 
     /**
-     * Genere l'extrait de registre
+     * Retourne le PDF des extraits de registre dont les id sont passés en
+     * paramètres.
      * 
-     * @param int $id
-     * @param char $numeroRegistre
-     * @return data
+     * Si aucun id n'est passé en paramètre, un message d'erreur est stocké en
+     * session et on est redirigé vers l'écran de visualisation des registres.
+     * 
+     * @param json $tabId
+     * @return string
      * 
      * @access public
-     * @created 09/01/2017
+     * @created 07/04/2017
      * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
+     * @author Christian BUFFIN <christian.buffin@libriciel.coop>
      */
-    public function genereExtrait($id, $numeroRegistre) {
+    protected function _genereExtraitRegistre($tabId = null) {
+        // On vérifie que $tadId n'est pas vide
+        if (empty(json_decode($tabId))) {
+            $this->Session->setFlash(__d('registre', 'registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
+
+            $this->redirect(array(
+                'controller' => 'registres',
+                'action' => 'index'
+            ));
+        }
+
+        // On récupére le modèle de l'extrait de registre
         $modele = $this->ModeleExtraitRegistre->find('first', [
             'conditions' => [
                 'organisations_id' => $this->Session->read('Organisation.id')
             ]
         ]);
 
-        $pdf = $this->Fiche->genereExtrait($id, $numeroRegistre, $modele);
+        // On vérifie que les infos du modèle existe bien 
+        if (!empty($modele)) {
+            $file = $modele['ModeleExtraitRegistre']['fichier'];
+        } else {
+            $this->Session->setFlash(__d('fiche', 'fiche.flasherrorRecuperationModele'), 'flasherror');
+            $this->redirect(array(
+                'controller' => 'registres',
+                'action' => 'index'
+            ));
+        }
+
+        // On appelle la fonction dans le modèle Fiche
+        return $this->Fiche->preparationGeneration(
+            $tabId, 
+            $file,
+            CHEMIN_MODELES_EXTRAIT,
+            $this->Session->read('Organisation.id')
+        );
+    }
+
+    /**
+     * Genere l'extrait de registre
+     * 
+     * @param json $tabId
+     * @return data
+     * 
+     * @access public
+     * @created 09/01/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
+     */
+    public function genereExtraitRegistre($tabId) {
+        $pdf = $this->_genereExtraitRegistre($tabId);
 
         $this->response->disableCache();
         $this->response->body($pdf);
         $this->response->type('application/pdf');
-        $this->response->download('Extrait_' . $numeroRegistre . '.pdf');
-
-        $this->requestAction(array(
-            'controller' => 'pannel',
-            'action' => 'supprimerLaNotif',
-            $id
-        ));
+        $this->response->download('ExtraitRegistre.pdf');
 
         return $this->response;
     }
 
+    /**
+     * Gère l'archivage des fiches
+     * 
+     * @param int $id
+     * 
+     * @access public
+     * @created 29/04/2015
+     * @version V1.0.0
+     */
+    public function archive($id) {
+        if (empty($id)) {
+            $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
+
+            $this->redirect([
+                'controller' => 'registres',
+                'action' => 'index'
+            ]);
+        }
+        
+        $success = true;
+        $this->Fiche->begin();
+
+        $pdfTraitement = $this->_genereTraitement(json_encode($id));
+        
+        // Si la génération n'est pas vide on enregistre les data du Traitement en base de données
+        if (!empty($pdfTraitement)) {
+            $this->TraitementRegistre->create([
+                'fiche_id' => $id,
+                'data' => $pdfTraitement
+            ]);
+            $success = $success && false !== $this->TraitementRegistre->save();
+        } else {
+            $success = false;
+        }
+
+        if ($success == true) {
+            $pdfExtrait = $this->_genereExtraitRegistre(json_encode($id));
+
+            // Si la génération n'est pas vide on enregistre les data de l'Extrait de registre en base de données
+            if (!empty($pdfExtrait)) {
+                $this->ExtraitRegistre->create([
+                    'fiche_id' => $id,
+                    'data' => $pdfExtrait
+                ]);
+                $success = $success && false !== $this->ExtraitRegistre->save();
+            } else {
+                $success = false;
+            }
+
+            if ($success == true) {
+                $success = $success && $this->Fiche->EtatFiche->updateAll([
+                            'actif' => false
+                                ], [
+                            'fiche_id' => $id,
+                            'etat_id' => [5, 9],
+                            'actif' => true
+                                ]
+                        ) !== false;
+
+                if ($success == true) {
+                    $this->Fiche->EtatFiche->create([
+                        'EtatFiche' => [
+                            'fiche_id' => $id,
+                            'etat_id' => 7,
+                            'previous_user_id' => $this->Auth->user('id'),
+                            'user_id' => $this->Auth->user('id')
+                        ]
+                    ]);
+                    $success = $success && false !== $this->Fiche->EtatFiche->save();
+
+                    if ($success == true) {
+                        $this->Historique->create([
+                            'Historique' => [
+                                'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' archive la fiche',
+                                'fiche_id' => $id
+                            ]
+                        ]);
+                        $success = $success && false !== $this->Historique->save();
+                    }
+                }
+            }
+        }
+
+        if ($success == true) {
+            $this->Fiche->commit();
+            $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementArchiver'), 'flashsuccess');
+        } else {
+            $this->Fiche->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+        }
+
+        $this->redirect(array(
+            'controller' => 'registres',
+            'action' => 'index'
+        ));
+    }
 }

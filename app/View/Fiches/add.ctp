@@ -353,19 +353,41 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
 
     <div class="col-md-6">
         <?php
-        // Champ Service
-        echo $this->Form->input('declarantservice', [
-            'label' => [
-                'text' => 'Service',
-                'class' => 'col-md-4 control-label'
-            ],
-            'between' => '<div class="col-md-8">',
-            'after' => '</div>',
-            'class' => 'form-control',
-            'readonly' => 'readonly',
-            'div' => 'form-group',
-            'value' => $this->Session->read('User.service')
-        ]);
+        $countService = count($this->Session->read('User.service'));
+
+        // Champ Service *
+        if ($countService >= 2) {
+            foreach ($this->Session->read('User.service') as $service) {
+                $listeUserService[$service] = $service;
+            }
+            
+            echo $this->Form->input('declarantservice', [
+                'options' => $listeUserService,
+                'div' => 'input-group inputsForm',
+                'class' => 'form-control usersDeroulant',
+                'empty' => __d('fiche', 'fiche.champServiceDeclaration'),
+                'required' => true,
+                'label' => [
+                    'text' => __d('fiche', 'fiche.champServiceDeclaration') . '<span class="requis"> *</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+            ]);
+        } else {
+            echo $this->Form->input('declarantservice', [
+                'label' => [
+                    'text' => 'Service',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+                'div' => 'form-group',
+                'value' => $this->Session->read('User.service')
+            ]);
+        }
         ?>
     </div>
 </div>
@@ -661,7 +683,8 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
     <?php
     // Gestion fichier
     echo $this->Form->input('fichiers.', [
-        'type' => 'file',
+        'type' =>'file',
+        'multiple',
         'id' => 'fileAnnexe',
         'label' => [
             'text' => __d('fiche', 'fiche.champFichier'),
@@ -671,10 +694,14 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
         'after' => '</div>',
         'class' => 'filestyle fichiers draggable',
         'required' => false,
-        'div' => 'form-group',
-        'multiple'
+        'div' => 'form-group'
     ]);
     ?>
+
+<div id="dropfile">
+    <input type="file" multiple="multiple" name="data[annexe]">
+</div>
+    -->
 </div>
 
 <div class="row">
