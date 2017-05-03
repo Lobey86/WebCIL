@@ -1,0 +1,23 @@
+{
+    "name": "gedooo/phpgedooo_client",
+    "description": "Client php pour l'utilisation du serveur gedooo",
+    "version": "2.0.0",
+    "authors": [
+        {
+            "name": "Sébastien PLAZA",
+            "email": "sebastien.plaza@libriciel.coop",
+            "homepage": "http://www.libriciel.fr",
+            "role": "Developer"
+        }
+    ],
+    "license": "CeCiLL V2",
+    "require": {
+        "php": ">=7.0.0",
+        "composer/installers": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "phpgedooo_client\\"     : "src/"
+        }
+    }
+}
