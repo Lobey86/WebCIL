@@ -58,7 +58,7 @@
                 </div>
                 <div id="footer" class="container-fluid-custom">
                     <div class="text-center versioning">
-                        <?php echo "Web-CIL v" . VERSION . " - Libriciel SCOP"; ?>
+                        <?php echo "Web-CIL v" . VERSION . " - ";?> <a href="https://www.libriciel.fr/" target="_blank">Libriciel SCOP</a>
                     </div>
                 </div>
             </div>
