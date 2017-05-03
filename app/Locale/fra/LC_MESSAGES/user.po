@@ -152,7 +152,19 @@ msgid "user.champProfil"
 msgstr "Profil : "
 
 msgid "user.champProfilEntite"
-msgstr "Profils au sein de : "
+msgstr "Profil de l'utilisateur : "
+
+msgid "user.textTelephoneFixe"
+msgstr "Téléphone fixe"
+
+msgid "user.placeholderTelephoneFixe"
+msgstr "Téléphone fixe de l'utilisateur"
+
+msgid "user.textTelephonePortable"
+msgstr "Téléphone portable"
+
+msgid "user.placeholderTelephonePortable"
+msgstr "Téléphone portable de l'utilisateur"
 
 ###############################################################################
 

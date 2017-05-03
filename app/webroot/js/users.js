@@ -19,10 +19,11 @@ $(document).ready(function () {
     $(".multiDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width: '100%'});
 
     $("#deroulant").change(function () {
-        $('.droitsVille').hide();
+        $('.droitsVille').css("visibility", "hidden");
         $("#deroulant option:selected").each(function () {
             var clickedOptionValue = $(this).attr('value');
-            $('#droitsVille' + clickedOptionValue).show();
+            $('#droitsVille' + clickedOptionValue).css("visibility", "visible");
+ 
         });
     }).trigger("change");
 
