@@ -39,7 +39,7 @@ class CompositionsController extends CakeflowAppController {
             $canAdd = $this->Composition->Etape->canAdd($etape_id);
             $this->set(compact('compositions', 'etape', 'canAdd'));
         } else {
-            $this->Session->setFlash('Etape introuvable', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorEtapeIntrouvable'), 'flasherror');
             $this->redirect($this->referer());
         }
     }
@@ -53,14 +53,18 @@ class CompositionsController extends CakeflowAppController {
             'contain' => array('Etape.id', 'Etape.nom', 'Etape.Circuit.nom'),
             'conditions' => array('Composition.id' => $id)));
         if (empty($this->data)) {
-            $this->Session->setFlash(__('Invalide id pour la', true) . ' ' . __('composition', true) . ' : ' . __('affichage de la vue impossible.', true), 'flasherror', array('type' => 'important'));
+            $this->Session->setFlash(__(__d('composition','composition.flasherrorInvalideID'), true) . ' ' . __(__d('composition','composition.flasherrorComposition'), true) . ' : ' . __(__d('composition','composition.flasherrorAffichageVueImpossible'), true), 'flasherror', array('type' => 'important'));
             $this->redirect(array('action' => 'index'));
         } else {
-            $this->pageTitle = Configure::read('appName') . ' : ' . __('Composition des Circuits de traitement', true) . ' : ' . __('vue détaillée', true);
+            $this->pageTitle = Configure::read('appName') . ' : ' . __(__d('composition','composition.readCompositionCircuitTraitement'), true) . ' : ' . __(__d('composition','composition.readVueDetailler'), true);
 
             // préparation des informations à afficher dans la vue détaillée
-            $maVue = new $this->VueDetaillee(
-                    'Vue détaillée de la composition de l\'étape "' . $this->data['Etape']['nom'] . '" du circuit "' . $this->data['Etape']['Circuit']['nom'] . '"', __('Retour à la liste des compositions', true), array('action' => 'index', $this->data['Etape']['id']));
+            $maVue = new $this->VueDetaillee(__d('composition','composition.newVueDetaillerCompositionEtape') 
+                    . $this->data['Etape']['nom'] 
+                    . __d('composition','composition.newDuCircuit') 
+                    . $this->data['Etape']['Circuit']['nom'] 
+                    . __(__d('composition','composition.newRetourListeComposition'), true), array('action' => 'index', $this->data['Etape']['id']));
+            
             $maVue->ajouteSection(__('Informations principales', true));
             $maVue->ajouteLigne(__('Identifiant interne (id)', true), $this->data[$this->modelClass]['id']);
             if ($this->data[$this->modelClass]['trigger_id'] == -1) {
@@ -112,10 +116,10 @@ class CompositionsController extends CakeflowAppController {
             $this->Composition->create($this->request->data);
             if ($this->Composition->validates($this->request->data)) {
                 if ($this->Composition->save()) {
-                    $this->Session->setFlash(__('Enregistrement effectué.', true), 'flashsuccess');
+                    $this->Session->setFlash(__(__d('default','default.flashsuccessEnregistrementEffectuer'), true), 'flashsuccess');
                     return $this->redirect(array('action' => 'index', $this->data['Composition']['etape_id']));
                 } else {
-                    $this->Session->setFlash('Erreur lors de l\'enregistrement.', 'flasherror');
+                    $this->Session->setFlash(__d('default','default.flasherrorErreurEnregistrement'), 'flasherror');
                 }
             }
             $etape_id = $this->data['Composition']['etape_id'];
@@ -126,7 +130,7 @@ class CompositionsController extends CakeflowAppController {
         } else if ($this->action == 'add') {
             $canAdd = $this->Composition->Etape->canAdd($id);
             if (!$canAdd) {
-                $this->Session->setFlash('Impossible d\'ajouter une composition à cette étape', 'flasherror');
+                $this->Session->setFlash(__d('composition','composition.flasherrorAjouterCompositionImpossibleEtape'), 'flasherror');
                 return $this->redirect($this->referer());
             }
             $this->request->data['Composition']['etape_id'] = $id;
@@ -156,9 +160,9 @@ class CompositionsController extends CakeflowAppController {
      */
     function delete($id = null) {
         if ($this->Composition->delete($id)) {
-            $this->Session->setFlash(__('Suppression effectuée', true), 'flashsuccess');
+            $this->Session->setFlash(__(__d('default','default.flashsuccessSuppressionEffectuer'), true), 'flashsuccess');
         } else {
-            $this->Session->setFlash('Erreur lors de la suppression');
+            $this->Session->setFlash(__d('default','default.flasherrorErreurSuppression'), "flasherror");
         }
         return $this->redirect($this->referer());
     }
