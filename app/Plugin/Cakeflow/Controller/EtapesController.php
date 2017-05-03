@@ -1,20 +1,59 @@
 <?php
 
+/**
+ * EtapesController
+ *
+ * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
+ * 
+ * Copyright (c) Adullact (http://www.adullact.org)
+ *
+ * Licensed under The CeCiLL V2 License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @copyright   Copyright (c) Adullact (http://www.adullact.org)
+ * @link        https://adullact.net/projects/webcil/
+ * @since       webcil v0.9.0
+ * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
+ * @version     v0.9.0
+ * @package     App.Controller
+ */
 class EtapesController extends CakeflowAppController {
 
-    public $components = array('Cakeflow.VueDetaillee', 'Paginator');
-    public $helpers = array('Text', 'Cakeflow.Myhtml');
-    public $uses = array('Cakeflow.Circuit', 'Cakeflow.Etape', 'Cakeflow.Visa', 'Cakeflow.Composition', 'Cakeflow.Traitement');
-
+    public $components = array(
+        'Cakeflow.VueDetaillee', 
+        'Paginator'
+    );
+    
+    public $helpers = array(
+        'Text',
+        'Cakeflow.Myhtml'
+    );
+    
+    public $uses = array(
+        'Cakeflow.Circuit',
+        'Cakeflow.Etape',
+        'Cakeflow.Visa',
+        'Cakeflow.Composition',
+        'Cakeflow.Traitement'
+    );
+    
     // Gestion des droits
     public $aucunDroit;
 
     /**
-     * @param integer $circuit_id
+     * @param integer|null $circuit_id
      * @return render|redirect
+     * 
+     * @created 24/10/2014
+     * @version V0.9.0
      */
     function index($circuit_id = null) { // FIXME: Circuit.service_id
         $this->Etape->Circuit->id = $circuit_id;
+        
         if ($this->Etape->Circuit->exists($circuit_id)) {
             $this->set('circuit', $this->Etape->Circuit->field('nom'));
             $this->Etape->Behaviors->attach('Containable');
@@ -30,38 +69,52 @@ class EtapesController extends CakeflowAppController {
                 'contain' => array('Composition.trigger_id'),
                 'order' => array('Etape.ordre' => 'ASC')
             );
+            
             $etapes = $this->Paginator->paginate('Etape', array('Etape.circuit_id' => $circuit_id));
+            
             //Si le circuit est vide, rediriger vers la vue d'ajout d'étape
-            if (empty($etapes) && stripos($this->previous, 'etapes/add') === false)
+            if (empty($etapes) && stripos($this->previous, 'etapes/add') === false){
                 $this->redirect(array('action' => 'add', $circuit_id));
+            }
 
             // Mise en forme pour chaque ligne
             foreach ($etapes as &$etape) {
                 $etape['ListeActions']['delete'] = $this->Etape->isDeletable($etape['Etape']['id']);
                 $etape['Etape']['libelleType'] = $this->Etape->types[$etape['Etape']['type']];
                 $etape['Etape']['libelleSousType'] = '';
+                
                 foreach ($etape['Composition'] as &$composition) {
                     $composition['libelleTrigger'] = $this->formatLinkedModel('Trigger', $composition['trigger_id']);
                 }
             }
+            
             $nbrEtapes = $this->Etape->find('count', array('conditions' => array('Etape.circuit_id' => $circuit_id)));
             $this->set(compact('etapes', 'nbrEtapes'));
-        }else{
-            $this->Session->setFlash('Circuit introuvable, id erroné', 'flasherror');
-            return $this->redirect(array('controller'=>'circuit', 'action'=>'index'));
+        } else {
+            $this->Session->setFlash(__d('etape', 'etape.flasherrorCircuitIntrouvable'), 'flasherror');
+
+            return $this->redirect(array(
+                        'controller' => 'circuit',
+                        'action' => 'index'
+            ));
         }
     }
 
     /**
      * @param integer $id
      * @return render|redirect
+     * 
+     * @created 24/10/2014
+     * @version V0.9.0
      */
     function view($id = null) {
         $this->request->data = $this->Etape->find('first', array(
             'conditions' => array('id' => $id),
-            'recursive' => -1));
+            'recursive' => -1
+        ));
+        
         if (empty($this->data)) {
-            $this->Session->setFlash(__('Invalide id pour l\'', true) . ' ' . __('étape', true) . ' : ' . __('affichage de la vue impossible.', true), 'flasherror', array('type' => 'important'));
+            $this->Session->setFlash(__(__d('etape', 'etape.flasherrorInvalideID'), true) . ' ' . __('étape', true) . ' : ' . __(__d('etape', 'etape.flasherrorAfficherVueImpossible'), true), 'flasherror', array('type' => 'important'));
             return $this->redirect(array('action' => 'index'));
         } else {
             $this->pageTitle = Configure::read('appName') . ' : ' . __('Etapes des circuits de traitement', true) . ' : ' . __('vue d&eacute;taill&eacute;e', true);
@@ -91,8 +144,10 @@ class EtapesController extends CakeflowAppController {
                 'conditions' => array('Composition.etape_id' => $id),
                 'fields' => array('Composition.trigger_id', 'Composition.type_validation')
             ));
-            If (!empty($compositions)) {
+            
+            if (!empty($compositions)) {
                 $maVue->ajouteSection(__('Composition de l\'étape', true));
+                
                 foreach ($compositions as $composition) {
                     $maVue->ajouteLigne($this->formatLinkedModel('Trigger', $composition['Composition']['trigger_id']), $this->Etape->Composition->libelleTypeValidation($composition['Composition']['type_validation']));
                 }
@@ -104,55 +159,77 @@ class EtapesController extends CakeflowAppController {
     /**
      * @param integer $circuit_id
      * @return redirect|render
+     * 
+     * @created 24/10/2014
+     * @version V0.9.0
      */
-    function add($circuit_id = null)
-    {
-        if (empty($circuit_id) || !$this->Etape->Circuit->exists($circuit_id)){
-            $this->Session->setFlash('Circuit introuvable.', 'flasherror');
-            return $this->redirect(array('controller'=>'circuits', 'action' => 'index'));
+    function add($circuit_id = null) {
+        if (empty($circuit_id) || !$this->Etape->Circuit->exists($circuit_id)) {
+            $this->Session->setFlash(__d('etape', 'etape.flasherrorCircuitIntrouvable'), 'flasherror');
+            return $this->redirect(array(
+                'controller' => 'circuits',
+                'action' => 'index'
+            ));
         }
+        
         $nbrEtapes = $this->Etape->find('count', array('conditions' => array('Etape.circuit_id' => $circuit_id)));
+        
         $etapeMinCptRetard = $this->Etape->find('first', array(
             'conditions' => array('Etape.circuit_id' => $circuit_id),
             'fields' => array('MIN(Etape.cpt_retard) as retardmax')
         ));
+        
         $retardMax = $etapeMinCptRetard[0]['retardmax'];
         $this->set('retard_max', $retardMax);
+        
         if (!empty($this->data)) {
             //Vérification cpt_retard valide
-            if (!empty($retardMax) && $this->request->data['Etape']['cpt_retard'] > $retardMax){
-                $this->Session->setFlash('Erreur lors de l\'enregistrement : le compteur de retard a une valeur supèrieure à celui d\'une étape précédente', 'flasherror');
+            if (!empty($retardMax) && $this->request->data['Etape']['cpt_retard'] > $retardMax) {
+                $this->Session->setFlash(__d('etape', 'etape.flasherrorErreurEnregistrementCompteur'), 'flasherror');
             } else {
                 $this->request->data['Etape']['ordre'] = $nbrEtapes + 1;
                 $this->Etape->create();
                 $this->setCreatedModifiedUser($this->request->data, 'Etape');
+                
                 if ($this->Etape->save($this->request->data)) {
-                    $this->Session->setFlash('Enregistrement effectuée.', 'flashsuccess');
+                    $this->Session->setFlash(__d('default', 'default.flashsuccessEnregistrementEffectuer'), 'flashsuccess');
                     return $this->redirect(array('action' => 'index', $circuit_id));
                 } else {
-                    $this->Session->setFlash('Erreur lors de l\'enregistrement.', 'flasherror');
+                    $this->Session->setFlash(__d('default', 'default.flasherrorErreurEnregistrement'), 'flasherror');
                 }
             }
-        }else{
+        } else {
             $this->request->data['Etape']['circuit_id'] = $circuit_id;
         }
+        
         $this->set('types', $this->Etape->types);
         $this->render('add_edit');
     }
 
     /**
+     * 
+     * 
      * @param integer $id identifiant de l'étape à modifier
      * @return redirect | render
+     * 
+     * @created 24/10/2014
+     * @version V0.9.0
      */
     function edit($id = null) {
-        if (empty($id) || !$this->Etape->exists($id)){
-            $this->Session->setFlash('Etape introuvable.', 'flasherror');
-            return $this->redirect(array('controller'=>'circuits', 'action' => 'index'));
+        if (empty($id) || !$this->Etape->exists($id)) {
+            $this->Session->setFlash(__d('default','default.flasherrorEtapeIntrouvable'), 'flasherror');
+            
+            return $this->redirect(array(
+                'controller' => 'circuits',
+                'action' => 'index'
+            ));
         }
+
         $etape = $this->Etape->find('first', array(
             'recursive' => -1,
-            'conditions' => array('Etape.id'=>$id)
+            'conditions' => array('Etape.id' => $id)
         ));
+        
         $recordRetardMax = $this->Etape->find('first', array(
             'conditions' => array(
                 'Etape.circuit_id' => $etape['Etape']['circuit_id'],
@@ -161,7 +238,9 @@ class EtapesController extends CakeflowAppController {
             ),
             'fields' => array('MIN(Etape.cpt_retard) as retardmax')
         ));
+        
         $this->set('retard_max', $recordRetardMax[0]['retardmax']);
+        
         $recordRetardInf = $this->Etape->find('first', array(
             'conditions' => array(
                 'Etape.circuit_id' => $etape['Etape']['circuit_id'],
@@ -170,29 +249,31 @@ class EtapesController extends CakeflowAppController {
             ),
             'fields' => array('MAX(Etape.cpt_retard) as retardinf')
         ));
+        
         $this->set('retard_inf', $recordRetardInf[0]['retardinf']);
 
         if (!empty($this->data)) {
             //Vérification cpt_retard valide
-            if ($recordRetardMax[0]['retardmax'] != null && $this->request->data['Etape']['cpt_retard'] > $recordRetardMax[0]['retardmax']){
-                $this->Session->setFlash('Erreur lors de l\'enregistrement : le compteur de retard a une valeur supèrieure à celui d\'une étape précédente', 'flasherror');
+            if ($recordRetardMax[0]['retardmax'] != null && $this->request->data['Etape']['cpt_retard'] > $recordRetardMax[0]['retardmax']) {
+                $this->Session->setFlash(__d('etape','etape.flasherrorErreurEnregistrementCompteur'), 'flasherror');
             } else {
                 $this->Etape->begin();
-                try{
+                try {
                     // Si nouvelle affectation ou diminution de cpt_retard
-                    if ( $etape['Etape']['cpt_retard'] > $this->request->data['Etape']['cpt_retard']
-                        || (empty($etape['Etape']['cpt_retard']) && !empty($this->request->data['Etape']['cpt_retard']))){
+                    if ($etape['Etape']['cpt_retard'] > $this->request->data['Etape']['cpt_retard'] || (empty($etape['Etape']['cpt_retard']) && !empty($this->request->data['Etape']['cpt_retard']))) {
                         $etapeSuivante = $this->Etape->find('first', array(
                             'recursive' => -1,
                             'fields' => array('Etape.cpt_retard'),
                             'conditions' => array(
                                 'Etape.circuit_id' => $this->request->data['Etape']['circuit_id'],
-                                'Etape.ordre' => $this->request->data['Etape']['ordre']+1
+                                'Etape.ordre' => $this->request->data['Etape']['ordre'] + 1
                             )
                         ));
-                        if (!empty($etapeSuivante)){
+                        
+                        if (!empty($etapeSuivante)) {
                             $decalage = $etapeSuivante['Etape']['cpt_retard'] - $this->request->data['Etape']['cpt_retard'];
-                            if ($decalage > 0){
+                            
+                            if ($decalage > 0) {
                                 $etapesSuivante = $this->Etape->find('all', array(
                                     'recursive' => -1,
                                     'conditions' => array(
@@ -201,52 +282,67 @@ class EtapesController extends CakeflowAppController {
                                     ),
                                     'order' => 'Etape.ordre ASC'
                                 ));
-                                foreach($etapesSuivante as $etapeSuivante){
-                                    if (!empty($etapeSuivante['Etape']['cpt_retard'])){
+                                
+                                foreach ($etapesSuivante as $etapeSuivante) {
+                                    if (!empty($etapeSuivante['Etape']['cpt_retard'])) {
                                         $etapeSuivante['Etape']['cpt_retard'] -= $decalage;
-                                        if ($etapeSuivante['Etape']['cpt_retard'] < 0)
+                                        
+                                        if ($etapeSuivante['Etape']['cpt_retard'] < 0) {
                                             $etapeSuivante['Etape']['cpt_retard'] = 0;
+                                        }
+                                        
                                         $this->Etape->id = $etapeSuivante['Etape']['id'];
                                         $this->setCreatedModifiedUser($etapeSuivante, 'Etape');
-                                        if (!$this->Etape->save($etapeSuivante)){
-                                            throw new Exception('Erreur lors de la modification du compteur des étapes suivante.');
+                                        
+                                        if (!$this->Etape->save($etapeSuivante)) {
+                                            throw new Exception(__d('etape','etape.exceptionErreurModificationCompteur'));
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    
                     $this->Etape->id = $id;
                     $this->setCreatedModifiedUser($this->request->data, 'Etape');
+                    
                     if ($this->Etape->save($this->request->data)) {
                         $this->Etape->commit();
-                        $this->Session->setFlash('Enregistrement effectuée.', 'flashsuccess');
+                        $this->Session->setFlash(__d('default', 'default.flashsuccessEnregistrementEffectuer'), 'flashsuccess');
+                        
                         return $this->redirect(array('action' => 'index', $etape['Etape']['circuit_id']));
                     } else {
-                        throw new Exception('Erreur lors de l\'enregistrement de l\étape.');
+                        throw new Exception(__d('default', 'default.flasherrorErreurEnregistrement'));
                     }
-                }catch (Exception $e){
+                } catch (Exception $e) {
                     $this->Etape->rollback();
                     $this->Session->setFlash($e->getMessage(), 'flasherror');
                 }
             }
-        }else{
+        } else {
             $this->request->data = $etape;
         }
+        
         $this->set('types', $this->Etape->types);
         $this->render('add_edit');
     }
 
     /**
      * Supprimer une étape
+     * 
      * @param integer $id
      * @return redirect
+     * 
+     * @created 24/10/2014
+     * @version V0.9.0
      */
     function delete($id = null) {  // FIXME: !empty find + service_id
         $etape = $this->Etape->find('first', array(
             'conditions' => array('Etape.id' => $id),
             'recursive' => -1,
-            'fields' => array('Etape.circuit_id', 'Etape.ordre')));
+            'fields' => array('Etape.circuit_id', 'Etape.ordre')
+        ));
+        
         if ($this->Etape->delete($id)) {
             $etapes = $this->Etape->find('all', array(
                 'conditions' => array(
@@ -254,37 +350,50 @@ class EtapesController extends CakeflowAppController {
                     'Etape.ordre >' => $etape['Etape']['ordre']),
                 'fields' => array('Etape.id', 'Etape.ordre'),
                 'recursive' => -1));
+            
             foreach ($etapes as $etape) {
                 $this->Etape->id = $etape['Etape']['id'];
                 $this->Etape->saveField('ordre', $etape['Etape']['ordre'] - 1);
             }
-            $this->Session->setFlash('Suppression effectuée', 'flashsuccess');
+            
+            $this->Session->setFlash(__d('default','default.flashsuccessSuppressionEffectuer'), 'flashsuccess');
         } else {
-            $this->Session->setFlash('Erreur lors de la suppression', 'flasherror');
+            $this->Session->setFlash(__d('default','default.flasherrorErreurSuppression'), 'flasherror');
         }
         return $this->redirect($this->referer());
     }
 
     /**
      * Monter l'ordre d'une étape
+     * 
      * @param integer $id
      * @return redirect
+     * 
+     * @created 24/10/2014
+     * @version V0.9.0
      */
     function moveUp($id = null) {  // FIXME: !empty find + service_id
         if (!$this->Etape->moveUp($id)) {
-            $this->Session->setFlash('Impossible de changer l\'ordre des étapes', 'flasherror');
+            $this->Session->setFlash(__d('etape','etape.flasherrorImpossibleChangerOrdreEtape'), 'flasherror');
         }
+        
         return $this->redirect($this->referer());
     }
 
     /**
+     * Decendre l'ordre d'une étape
+     * 
      * @param integer $id
      * @return redirect
+     * 
+     * @created 24/10/2014
+     * @version V0.9.0
      */
     function moveDown($id = null) {  // FIXME: !empty find + service_id
         if (!$this->Etape->moveDown($id)) {
-            $this->Session->setFlash('Impossible de changer l\'ordre des étapes', 'flasherror');
+            $this->Session->setFlash(__d('etape','etape.flasherrorImpossibleChangerOrdreEtape'), 'flasherror');
         }
+        
         return $this->redirect($this->referer());
     }
 
