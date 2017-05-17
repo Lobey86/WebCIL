@@ -41,6 +41,9 @@ msgstr "Date de création : "
 msgid "registre.textTableauFinalitePrincipale"
 msgstr "Finalité principale : "
 
+msgid "registre.textTableauServiceDeclarant"
+msgstr "Service déclarant : "
+
 msgid "registre.textTableauNumeroEnregistrement"
 msgstr "Numéro : "
 
@@ -69,10 +72,10 @@ msgid "registre.btnFiltrerListe"
 msgstr " Filtrer la liste"
 
 msgid "registre.radioFicheVerouillee"
-msgstr "Uniquement les fiches verrouillées"
+msgstr "Uniquement les traitements verrouillées"
 
 msgid "registre.radioFicheNonVerouillee"
-msgstr "Uniquement les fiches non verrouillées"
+msgstr "Uniquement les traitements non verrouillées"
 
 msgid "registre.btnFiltre"
 msgstr "Filtrer"
@@ -85,6 +88,9 @@ msgstr "Nom du traitement"
 
 msgid "registre.placeholderSelectionnerUser"
 msgstr "Selectionnez un utilisateur"
+
+msgid "registre.placeholderSelectionnerService"
+msgstr "Selectionnez un service"
 
 msgid "registre.popupTitreEditionTraitementRegistre"
 msgstr "Edition d'un traitement du registre"
