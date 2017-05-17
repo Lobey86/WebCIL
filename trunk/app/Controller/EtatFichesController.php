@@ -398,7 +398,7 @@ class EtatFichesController extends AppController {
         $id = $idEncoursAnswer['EtatFiche']['previous_etat_id'];
 
         $success = $success && false !== $this->EtatFiche->delete($this->request->data['EtatFiche']['etatFiche']);
-        
+
         if ($success == true) {
             $this->Commentaire->create([
                 'Commentaire' => [
@@ -691,17 +691,17 @@ class EtatFichesController extends AppController {
         if (empty($id)) {
             throw new NotFoundException();
         }
-        
+
         if ($numero == null || $numero === 'null') {
             $numero = 'CIL' . $id;
         }
-        
+
         $success = true;
         $this->EtatFiche->begin();
 
         $this->Fiche->id = $id;
         $success = $success && false !== $this->Fiche->saveField('numero', $numero);
-        
+
         if ($typeDeclaration != null && $success == true) {
             $this->Valeur->create([
                 'champ_name' => 'typedeclaration',
@@ -711,7 +711,7 @@ class EtatFichesController extends AppController {
 
             $success = $success && false !== $this->Valeur->save();
         }
-        
+
         if ($success == true) {
             $idEncoursValid = $this->EtatFiche->find('first', [
                 'conditions' => [
@@ -773,104 +773,6 @@ class EtatFichesController extends AppController {
             'controller' => 'registres',
             'action' => 'index'
         ]);
-    }
-
-    /**
-     * Gère l'archivage des fiches
-     * 
-     * @param int $id
-     * 
-     * @access public
-     * @created 29/04/2015
-     * @version V1.0.0
-     */
-    public function archive($id, $numeroRegistre) {
-        if (empty($id)) {
-            $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
-
-            $this->redirect([
-                'controller' => 'registres',
-                'action' => 'index'
-            ]);
-        } else {
-            $success = true;
-            $this->EtatFiche->begin();
-
-            $pdfTraitement = $this->Fiche->genereTraitement($id, $numeroRegistre);
-
-            $modele = $this->ModeleExtraitRegistre->find('first', [
-                'conditions' => [
-                    'organisations_id' => $this->Session->read('Organisation.id')
-                ]
-            ]);
-            $pdfExtrait = $this->Fiche->genereExtrait($id, $numeroRegistre, $modele);
-
-            // Si la génération n'est pas vide on enregistre les data du Traitement en base de données
-            if (!empty($pdfTraitement)) {
-                $this->TraitementRegistre->create([
-                    'fiche_id' => $id,
-                    'data' => $pdfTraitement
-                ]);
-                $success = $success && false !== $this->TraitementRegistre->save();
-            }
-
-            if ($success == true) {
-                // Si la génération n'est pas vide on enregistre les data de l'Extrait de registre en base de données
-                if (!empty($pdfExtrait)) {
-                    $this->ExtraitRegistre->create([
-                        'fiche_id' => $id,
-                        'data' => $pdfExtrait
-                    ]);
-                    $success = $success && false !== $this->ExtraitRegistre->save();
-                }
-
-                if ($success == true) {
-                    $success = $success && $this->EtatFiche->updateAll([
-                                'actif' => false
-                                    ], [
-                                'fiche_id' => $id,
-                                'etat_id' => [5, 9],
-                                'actif' => true
-                                    ]
-                            ) !== false;
-
-                    if ($success == true) {
-                        $this->EtatFiche->create([
-                            'EtatFiche' => [
-                                'fiche_id' => $id,
-                                'etat_id' => 7,
-                                'previous_user_id' => $this->Auth->user('id'),
-                                'user_id' => $this->Auth->user('id')
-                            ]
-                        ]);
-                        $success = $success && false !== $this->EtatFiche->save();
-
-                        if ($success == true) {
-                            $this->Historique->create([
-                                'Historique' => [
-                                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' archive la fiche',
-                                    'fiche_id' => $id
-                                ]
-                            ]);
-                            $success = $success && false !== $this->Historique->save();
-                        }
-                    }
-                }
-            }
-
-            if ($success == true) {
-                $this->EtatFiche->commit();
-                $this->Session->setFlash(__d('etat_fiche', 'etat_fiche.flashsuccessTraitementArchiver'), 'flashsuccess');
-            } else {
-                $this->EtatFiche->rollback();
-                $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-            }
-
-            $this->redirect(array(
-                'controller' => 'registres',
-                'action' => 'index'
-            ));
-        }
     }
 
 }

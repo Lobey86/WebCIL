@@ -70,23 +70,39 @@ class RegistresController extends AppController {
         ];
 
         $search = false;
+        $conditionValeur = [];
+
+        // Filtre sur l'utilisateur à l'origine du traitement
         if (!empty($this->request->data['Registre']['user'])) {
             $condition['Fiche.user_id'] = $this->request->data['Registre']['user'];
             $search = true;
         }
 
-        $condition2 = null;
+        // Filtre sur le nom du traitement
         if (!empty($this->request->data['Registre']['outil'])) {
-            $condition2['valeur'] = [$this->request->data['Registre']['outil']];
-            //$condition['Fiche.outilnom'] = $this->request->data['Registre']['outil'];
+            $conditionValeur[] = [
+                'Valeur.champ_name' => 'outilnom',
+                'Valeur.valeur' => $this->request->data['Registre']['outil']
+            ];
             $search = true;
         }
 
+        // Filtre sur le service à l'origine du traitement
+        if (!empty($this->request->data['Registre']['service'])) {
+            $conditionValeur[] = [
+                'Valeur.champ_name' => 'declarantservice',
+                'Valeur.valeur' => $this->request->data['Registre']['service']
+            ];
+            $search = true;
+        }
+
+        // Filtre sur le traitement verrouillées
         if (isset($this->request->data['Registre']['archive']) && $this->request->data['Registre']['archive'] == 1) {
             $condition['EtatFiche.etat_id'] = EtatFiche::ARCHIVER;
             $search = true;
         }
 
+        // Filtre sur le traitement non verrouillées
         if (isset($this->request->data['Registre']['nonArchive']) && $this->request->data['Registre']['nonArchive'] == 1) {
             $condition['EtatFiche.etat_id'] = EtatFiche::VALIDER_CIL;
             $search = true;
@@ -98,7 +114,21 @@ class RegistresController extends AppController {
                     ListeDroit::MODIFIER_TRAITEMENT_REGISTRE
                 ])
         ) {
-            $fichesValid = $this->EtatFiche->find('all', [
+            if (false === empty($conditionValeur)) {
+                $subQuery = [
+                    'alias' => 'valeurs',
+                    'fields' => ['valeurs.fiche_id'],
+                    'conditions' => $conditionValeur,
+                    'contain' => false
+                ];
+
+                $sql = words_replace($this->Fiche->Valeur->sql($subQuery), [
+                    'Valeur' => 'valeurs'
+                ]);
+                $condition[] = "Fiche.id IN ( {$sql} )";
+            }
+
+            $query = [
                 'conditions' => $condition,
                 'contain' => [
                     'Fiche' => [
@@ -110,24 +140,25 @@ class RegistresController extends AppController {
                             'prenom'
                         ],
                         'Valeur' => [
-                            'conditions' => [
-                                'champ_name' => [
-                                    'outilnom',
-                                    'finaliteprincipale'
-                                ],
-                                $condition2,
-                            ],
                             'fields' => [
                                 'champ_name',
                                 'valeur'
+                            ],
+                            'conditions' => [
+                                'champ_name' => [
+                                    'outilnom',
+                                    'finaliteprincipale',
+                                    'declarantservice'
+                                ]
                             ]
-                        ],
+                        ]
                     ]
                 ]
-            ]);
+            ];
+            $fichesValid = $this->EtatFiche->find('all', $query);
 
             foreach ($fichesValid as $key => $value) {
-                if ($value['EtatFiche']['etat_id'] == 7) {
+                if ($value['EtatFiche']['etat_id'] == EtatFiche::ARCHIVER) {
                     $fichesValid[$key]['Readable'] = true;
                 } else {
                     $fichesValid[$key]['Readable'] = false;
@@ -156,8 +187,22 @@ class RegistresController extends AppController {
             foreach ($liste as $key => $value) {
                 $listeUsers[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
             }
-
             $this->set('listeUsers', $listeUsers);
+
+
+            // Listing des service de l'organisation
+            $services = $this->Service->find('all', [
+                'conditions' => [
+                    'organisation_id' => $this->Session->read('Organisation.id')
+                ]
+            ]);
+
+            // Service 
+            $listeServices = [];
+            foreach ($services as $key => $service) {
+                $listeServices[$service['Service']['libelle']] = $service['Service']['libelle'];
+            }
+            $this->set('listeServices', $listeServices);
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
@@ -168,7 +213,7 @@ class RegistresController extends AppController {
     }
 
     /**
-     * Permet la modification d'un traitement inséré dan sle registre
+     * Permet la modification d'un traitement inséré dans le registre
      * 
      * @param type $idFiche
      *
@@ -181,38 +226,41 @@ class RegistresController extends AppController {
         $this->Modification->begin();
 
         $success = $success && $this->EtatFiche->updateAll([
-                    'actif' => false
-                        ], [
+            'actif' => false
+                ], [
+            'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
+            'etat_id' => [EtatFiche::VALIDER_CIL, EtatFiche::MODIFICATION_TRAITEMENT_REGISTRE],
+            'actif' => true
+        ]) !== false;
+
+        if ($success == true) {
+            $this->EtatFiche->create([
+                'EtatFiche' => [
                     'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
-                    'etat_id' => [5, 9],
-                    'actif' => true
-                        ]
-                ) !== false;
+                    'etat_id' => EtatFiche::MODIFICATION_TRAITEMENT_REGISTRE,
+                    'previous_user_id' => $this->Auth->user('id'),
+                    'user_id' => $this->Auth->user('id')
+                ]
+            ]);
 
-        $this->EtatFiche->create([
-            'EtatFiche' => [
-                'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
-                'etat_id' => 9,
-                'previous_user_id' => $this->Auth->user('id'),
-                'user_id' => $this->Auth->user('id')
-            ]
-        ]);
+            $success = false !== $this->EtatFiche->save() && $success;
 
-        $success = false !== $this->EtatFiche->save() && $success;
+            if ($success == true) {
+                $idEtatFiche = $this->EtatFiche->find('first', [
+                    'conditions' => [
+                        'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
+                        'actif' => true
+                    ]
+                ]);
 
-        $idEtatFiche = $this->EtatFiche->find('first', [
-            'conditions' => [
-                'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
-                'actif' => true
-            ]
-        ]);
+                $this->Modification->create([
+                    'etat_fiches_id' => $idEtatFiche['EtatFiche']['id'],
+                    'modif' => $this->request->data['Registre']['motif']
+                ]);
 
-        $this->Modification->create([
-            'etat_fiches_id' => $idEtatFiche['EtatFiche']['id'],
-            'modif' => $this->request->data['Registre']['motif']
-        ]);
-
-        $success = false !== $this->Modification->save() && $success;
+                $success = false !== $this->Modification->save() && $success;
+            }
+        }
 
         if ($success == true) {
             $this->Modification->commit();
@@ -293,8 +341,11 @@ class RegistresController extends AppController {
                     'fields' => ['data']
                 ]);
 
-                //On cree un fichier .pdf avec le flux de donnee de la BDD 
-                //qu'on enregistre dans /var/www/webcil/app/tmp/imprimerRegistre
+                /**
+                 * On cree un fichier .pdf avec le flux de donnee de la BDD 
+                 * qu'on enregistre dans /var/www/webcil/app/tmp/imprimerRegistre
+                 *
+                 */
                 $monPDF = fopen($folder . DS . $ficheID . '.pdf', 'a');
                 fputs($monPDF, $pdf['TraitementRegistre']['data']);
                 fclose($monPDF);
@@ -303,8 +354,10 @@ class RegistresController extends AppController {
                 $files_concat .= $folder . DS . $ficheID . '.pdf ';
             }
 
-            //On concatene tout les PDFs qu'on a cree et on enregistre 
-            //la concatenation dans /var/www/webcil/app/files/registre
+            /** 
+             * On concatene tout les PDFs qu'on a cree et on enregistre 
+             * la concatenation dans /var/www/webcil/app/files/registre
+             */
             shell_exec('pdftk' . ' ' . $files_concat . 'cat output ' . CHEMIN_REGISTRE . 'Registre_' . $date . '.pdf');
 
             //On supprime de dossier imprimerRegistre dans /tmp
@@ -324,18 +377,6 @@ class RegistresController extends AppController {
                 'action' => 'index'
             ));
         }
-    }
-
-    /**
-     * 
-     * 
-     * @access public
-     * @created 07/03/2017
-     * @version V1.0.0
-     */
-    public function telechargeTousExtraitsRegistre() {
-        debug("En attende de modèle avec amélie");
-        die;
     }
 
 }
