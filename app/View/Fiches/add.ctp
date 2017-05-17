@@ -374,10 +374,23 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                 'between' => '<div class="col-md-8">',
                 'after' => '</div>',
             ]);
+        } else if ($countService == 0) {
+            echo $this->Form->input('declarantservice', [
+                'label' => [
+                    'text' => __d('fiche', 'fiche.champServiceDeclaration'),
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+                'div' => 'form-group',
+                'value' => 'Aucun service'
+            ]);
         } else {
             echo $this->Form->input('declarantservice', [
                 'label' => [
-                    'text' => 'Service',
+                    'text' =>__d('fiche', 'fiche.champServiceDeclaration'),
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -387,7 +400,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                 'div' => 'form-group',
                 'value' => $this->Session->read('User.service')
             ]);
-        }
+        } 
         ?>
     </div>
 </div>

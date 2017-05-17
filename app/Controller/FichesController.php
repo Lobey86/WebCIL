@@ -106,17 +106,7 @@ class FichesController extends AppController {
         $this->set('title', __d('fiche', 'fiche.titreCrationFiche'));
 
         //On récupére le CIL de la collectivité
-        $userCil = $this->User->find('first', [
-            'conditions' => [
-                'id' => $this->Session->read('Organisation.cil')
-            ],
-            'fields' => [
-                'nom',
-                'prenom',
-                'email'
-            ]
-        ]);
-        $this->set('userCil', $userCil);
+        $this->set('userCil', $this->_cilOrganisation());
 
         $champs = $this->Champ->find('all', [
             'conditions' => [
@@ -476,6 +466,9 @@ class FichesController extends AppController {
                 'action' => 'index'
             ]);
         }
+        
+        //On récupére le CIL de la collectivité
+        $this->set('userCil', $this->_cilOrganisation());
 
         $idForm = $this->Fiche->find('first', ['conditions' => ['id' => $id]]);
         $champs = $this->Champ->find('all', [
@@ -687,6 +680,31 @@ class FichesController extends AppController {
         ));
         
         return $pdf;
+    }
+    
+    /**
+     * On récupére le CIL de la collectivité
+     * 
+     * @return array()
+     * 
+     * @access public
+     * @created 17/05/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
+     */
+    protected function _cilOrganisation() {
+        $userCil = $this->User->find('first', [
+            'conditions' => [
+                'id' => $this->Session->read('Organisation.cil')
+            ],
+            'fields' => [
+                'nom',
+                'prenom',
+                'email'
+            ]
+        ]);
+        
+        return ($userCil);
     }
 
     /**
