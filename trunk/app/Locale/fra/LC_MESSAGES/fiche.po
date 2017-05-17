@@ -62,6 +62,9 @@ msgstr "Information sur l'entité :"
 msgid "fiche.textInfoResponsableEntite"
 msgstr "Information sur le responsable de l'entité :"
 
+msgid "fiche.textInfoOrganisation"
+msgstr "Information sur l'organisation :"
+
 msgid "fiche.textInfoContact"
 msgstr "Information sur le rédacteur :"
 
@@ -81,7 +84,7 @@ msgid "fiche.textAjouterPieceJointe"
 msgstr "Ajouter une pièce jointe"
 
 msgid "fiche.champServiceDeclaration"
-msgstr "Service de la déclaration du traitement"
+msgstr "Service de déclaration du traitement"
 
 ###############################################################################
 

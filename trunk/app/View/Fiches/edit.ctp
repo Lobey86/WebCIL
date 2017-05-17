@@ -192,10 +192,23 @@ echo $this->Form->create('Fiche', [
                 'between' => '<div class="col-md-8">',
                 'after' => '</div>',
             ]);
+        } else if ($countService == 0) {
+            echo $this->Form->input('declarantservice', [
+                'label' => [
+                    'text' => __d('fiche', 'fiche.champServiceDeclaration'),
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+                'div' => 'form-group',
+                'value' => 'Aucun service'
+            ]);
         } else {
             echo $this->Form->input('declarantservice', [
                 'label' => [
-                    'text' => 'Service',
+                    'text' => __d('fiche', 'fiche.champServiceDeclaration'),
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
@@ -571,6 +584,7 @@ if (!empty($files)) {
     <div class="col-md-12 top17 text-center">
         <div class="btn-group">
             <?php
+            // Bouton Annuler
             echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), [
                 'controller' => $nameController,
                 'action' => $nameView
@@ -579,6 +593,7 @@ if (!empty($files)) {
                 'escape' => false
             ]);
 
+            // Bouton Enregistrer
             echo $this->Form->button('<i class="fa fa-fw fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
                 'class' => 'btn btn-default-success',
                 'escape' => false,
