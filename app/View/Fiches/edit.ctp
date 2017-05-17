@@ -15,118 +15,7 @@ echo $this->Form->create('Fiche', [
     'novalidate' => 'novalidate'
 ]);
 ?>
-<!--<div class="row">
-    <div class="col-md-6">-->
-<?php
-//        echo $this->Form->input('declarantraisonsociale', [
-//            'label' => [
-//                'text' => 'Raison Sociale <span class="obligatoire">*</span>',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-//        echo $this->Form->input('declarantservice', [
-//            'label' => [
-//                'text' => 'Service',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-//        echo $this->Form->input('declarantadresse', [
-//            'label' => [
-//                'text' => 'Adresse <span class="obligatoire">*</span>',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'type' => 'textarea',
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-//        echo $this->Form->input('declarantemail', [
-//            'label' => [
-//                'text' => 'E-mail <span class="obligatoire">*</span>',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-?>
 
-<!--    </div>
-    <div class='col-md-6'>-->
-<?php
-//        echo $this->Form->input('declarantsigle', [
-//            'label' => [
-//                'text' => 'Sigle',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-//        echo $this->Form->input('declarantsiret', [
-//            'label' => [
-//                'text' => 'N° de SIRET <span class="obligatoire">*</span>',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-//        echo $this->Form->input('declarantape', [
-//            'label' => [
-//                'text' => 'Code APE <span class="obligatoire">*</span>',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-//        echo $this->Form->input('declaranttelephone', [
-//            'label' => [
-//                'text' => 'Téléphone <span class="obligatoire">*</span>',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-//        echo $this->Form->input('declarantfax', [
-//            'label' => [
-//                'text' => 'Fax',
-//                'class' => 'col-md-4 control-label'
-//            ],
-//            'between' => '<div class="col-md-8">',
-//            'after' => '</div>',
-//            'class' => 'form-control',
-//            'readonly' => 'readonly',
-//            'div' => 'form-group',
-//        ]);
-?>
-<!--    </div>
-</div>-->
-<div class="row row35"></div>
 <div class="row">
     <div class="col-md-12">
         <span class='labelFormulaire'>
@@ -134,6 +23,7 @@ echo $this->Form->create('Fiche', [
         </span>
         <div class="row row35"></div>
     </div>
+    
     <div class="col-md-6">
         <?php
         // Champ Nom et prénom *
@@ -151,6 +41,7 @@ echo $this->Form->create('Fiche', [
         ]);
         ?>
     </div>
+    
     <div class="col-md-6">
         <?php
         // Champ E-mail *
@@ -222,6 +113,8 @@ echo $this->Form->create('Fiche', [
         ?>
     </div>
 </div>
+
+<div class="row row35"></div>
 
 <!-- Champs concernant le traitement -->
 <div class="row">
