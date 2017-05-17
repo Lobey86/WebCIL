@@ -269,21 +269,12 @@ class UsersController extends AppController {
         $this->set('title', __d('user', 'user.titreAjouterUser'));
 
         $this->set('idUser', $this->Auth->user('id'));
-        
-        $listeServices = $this->Service->find('all', [
-            'fields' => [
-                'id',
-                'libelle',
-                'organisation_id'
-            ]
-        ]);
 
-        $listserv = [];
-        foreach ($listeServices as $key => $value) {
-            $listserv[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
-        }
-
-        $this->set('listeservices', $listserv);
+        /**
+         *  Récupération de la liste des services de l'utilisateur en question
+         *  sur l'entité en cours
+         */
+        $this->set('listeservices', $this->_listeServicesUser());
 
         if ($this->request->is('post')) {
             $success = true;
@@ -353,14 +344,15 @@ class UsersController extends AppController {
                 if ($success == true) {
                     $this->User->commit();
                     $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), 'flashsuccess');
+                    
+                    $this->redirect([
+                        'controller' => 'users',
+                        'action' => 'index'
+                    ]);
                 } else {
                     $this->User->rollback();
                     $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
                 }
-                $this->redirect([
-                    'controller' => 'users',
-                    'action' => 'index'
-                ]);
             } else {
                 $table = $this->_createTable();
                 $this->set('tableau', $table['tableau']);
@@ -397,38 +389,47 @@ class UsersController extends AppController {
         if (!$this->User->exists()) {
             throw new NotFoundException('User Invalide');
         }
-
-        // Récupération de la liste des services de l'utilisateur en question sur l'entité en cours
-        $listeServices = $this->Service->find('all', [
-            'fields' => [
-                'id',
-                'libelle',
-                'organisation_id'
-            ]
-        ]);
-
-        $listserv = [];
-        foreach ($listeServices as $key => $value) {
-            $listserv[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
-        }
-        $this->set('listeservices', $listserv);
         
-//        debug("123");
-
+        /**
+         *  Récupération de la liste des services de l'utilisateur en question
+         *  sur l'entité en cours
+         */
+        $this->set('listeservices', $this->_listeServicesUser());
+        
         if ($this->request->is('post') || $this->request->is('put')) {
             $success = true;
             $this->User->begin();
 
-            // Si le nouveau mot de passe = verification du nouveau mot de passe
-            if ($this->request->data['User']['new_password'] != $this->request->data['User']['new_passwd']) {
-                $success = false;
+            $message = __d('user', 'user.flasherrorErreurEnregistrementUser');
+            
+            /**
+             * Si le nouveau mot de passe est remplie on vérifie que le nouveau
+             * mot de passe correspond bien à la vérification.
+             * Si cela est le cas on va enregistré le nouveau mot de passe
+             */
+            if ($this->request->data['User']['new_password'] != "") {
+                if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) { 
+                    if ($this->request->data['User']['new_password'] != "") {
+                        $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+                    } 
+                } else {
+                    $success = false;
+                    $message = __d('user', 'user.flasherrorErreurNewPassword');
+                }
+            } else {
+                unset($this->request->data['User']['password']);
             }
+            
+            // Si le nouveau mot de passe = verification du nouveau mot de passe
+//            if ($this->request->data['User']['new_password'] != $this->request->data['User']['new_passwd']) {
+//                $success = false;
+//            }
 
             if ($success == true) {
                 // Si le nouveau mot de passe est différent d'une chaine de caractère vide
-                if ($this->request->data['User']['new_password'] != '') {
-                    $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-                }
+//                if ($this->request->data['User']['new_password'] != '') {
+//                    $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
+//                }
 
                 //$success = false !== $this->_validateEntiteProfil() && $success;
 
@@ -441,7 +442,7 @@ class UsersController extends AppController {
                             'user_id' => $id
                         ]
                     ]);
-                    
+
                     if ($countUserOrganistations >= 2) {
                         // L'utilisateur est présent dans plusieurs entité
                         // Récupération des l'id des entités ou l'utilisateur appartient
@@ -543,10 +544,9 @@ class UsersController extends AppController {
                         ]);
                     }
                 }
-
-
+                
                 $success = false !== $this->User->save($this->request->data) && $success;
-
+                
                 if ($success == true) {
                     foreach ($orgas as $value) {
                         if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {
@@ -562,8 +562,8 @@ class UsersController extends AppController {
                              * et de l'organisation en cours.
                              */
                             $success = $success && false !== $this->OrganisationUser->deleteAll([
-                                        'user_id' => $id,
-                                        'organisation_id' => $value['Organisation']['id']
+                                'user_id' => $id,
+                                'organisation_id' => $value['Organisation']['id']
                             ]);
 
                             /* On supprime dans la table 
@@ -571,7 +571,7 @@ class UsersController extends AppController {
                              *  le role de l'utilisateur en question.
                              */
                             $success = $success && false !== $this->OrganisationUserRole->deleteAll([
-                                        'organisation_user_id' => $id_user
+                                'organisation_user_id' => $id_user
                             ]);
 
                             /* On supprime dans la table "droits" en base 
@@ -579,7 +579,7 @@ class UsersController extends AppController {
                              * question en fonction de son id de l'organisation
                              */
                             $success = $success && false !== $this->Droit->deleteAll([
-                                        'organisation_user_id' => $id_user
+                                'organisation_user_id' => $id_user
                             ]);
 
                             /* On supprime dans la table 
@@ -588,12 +588,10 @@ class UsersController extends AppController {
                              * en fonction de son id de l'organisation
                              */
                             $success = $success && false !== $this->OrganisationUserService->deleteAll([
-                                        'organisation_user_id' => $id_user
+                                'organisation_user_id' => $id_user
                             ]);
 
                             if ($success == false) {
-                                debug('lala');
-                                die;
                                 $this->User->rollback();
                                 $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
 
@@ -638,42 +636,42 @@ class UsersController extends AppController {
                                     if ($success == true) {
                                         $donnee = $this->request->data['Role']['role_ida'][$value['Organisation']['id']];
                                         //foreach ($this->request->data['Role']['role_ida'][$value['Organisation']['id']] as $key => $donnee) {
-                                            if ($this->Role->find('count', [
-                                                        'conditions' => [
-                                                            'Role.organisation_id' => $value['Organisation']['id'],
-                                                            'Role.id' => $donnee
-                                                        ]
-                                                    ]) > 0
-                                            ) {
-                                                $this->OrganisationUserRole->create([
-                                                    'organisation_user_id' => $organisationUserId,
-                                                    'role_id' => $donnee
+                                        if ($this->Role->find('count', [
+                                                    'conditions' => [
+                                                        'Role.organisation_id' => $value['Organisation']['id'],
+                                                        'Role.id' => $donnee
+                                                    ]
+                                                ]) > 0
+                                        ) {
+                                            $this->OrganisationUserRole->create([
+                                                'organisation_user_id' => $organisationUserId,
+                                                'role_id' => $donnee
+                                            ]);
+                                            $success = false !== $this->OrganisationUserRole->save() && $success;
+
+                                            if ($success == true) {
+                                                $droits = $this->RoleDroit->find('all', [
+                                                    'conditions' => [
+                                                        'role_id' => $donnee
+                                                    ]
                                                 ]);
-                                                $success = false !== $this->OrganisationUserRole->save() && $success;
 
-                                                if ($success == true) {
-                                                    $droits = $this->RoleDroit->find('all', [
-                                                        'conditions' => [
-                                                            'role_id' => $donnee
-                                                        ]
-                                                    ]);
-
-                                                    foreach ($droits as $val) {
-                                                        if (empty($this->Droit->find('first', [
-                                                                            'conditions' => [
-                                                                                'organisation_user_id' => $organisationUserId,
-                                                                                'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
-                                                            ]]))
-                                                        ) {
-                                                            $this->Droit->create([
-                                                                'organisation_user_id' => $organisationUserId,
-                                                                'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
-                                                            ]);
-                                                            $success = false !== $this->Droit->save() && $success;
-                                                        }
+                                                foreach ($droits as $val) {
+                                                    if (empty($this->Droit->find('first', [
+                                                                        'conditions' => [
+                                                                            'organisation_user_id' => $organisationUserId,
+                                                                            'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                        ]]))
+                                                    ) {
+                                                        $this->Droit->create([
+                                                            'organisation_user_id' => $organisationUserId,
+                                                            'liste_droit_id' => $val['RoleDroit']['liste_droit_id']
+                                                        ]);
+                                                        $success = false !== $this->Droit->save() && $success;
                                                     }
                                                 }
                                             }
+                                        }
                                         //}
                                     }
                                 }
@@ -706,10 +704,9 @@ class UsersController extends AppController {
                 ]);
             } else {
                 $this->User->rollback();
-                $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
-                
-//                debug("LOULOU");die;
-                
+                //$this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
+                $this->Session->setFlash($message, "flasherror");
+
                 $table = $this->_createTable();
                 $this->set('tableau', $table['tableau']);
                 $this->set('listedroits', $table['listedroits']);
@@ -722,7 +719,33 @@ class UsersController extends AppController {
 
         $this->set('options', $this->User->enums());
     }
+    
+    /**
+     * Récupération de la liste des services de l'utilisateur en question sur 
+     * l'entité en cours
+     * 
+     * @access protected
+     * @created 16/05/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
+     */
+    protected function _listeServicesUser() {
+        $listeServices = $this->Service->find('all', [
+            'fields' => [
+                'id',
+                'libelle',
+                'organisation_id'
+            ]
+        ]);
 
+        $listeServicesUser = [];
+        foreach ($listeServices as $value) {
+            $listeServicesUser[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
+        }
+        
+        return ($listeServicesUser);
+    }
+    
     /**
      * Modification du mot de passe par un utilisateur connecté
      * 
@@ -736,76 +759,77 @@ class UsersController extends AppController {
     public function changepassword($id = null) {
         $this->set('title', __d('user', 'user.titreModificationInfoUser'));
 
-        if ($id == $this->Auth->user('id')) {
-            $this->User->id = $id;
+        if ($id != $this->Auth->user('id')) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
 
-            if (!$this->User->exists()) {
-                throw new NotFoundException('User Invalide');
-            }
+        $this->User->id = $id;
 
-            $infoUser = $this->User->find('first', array(
-                'conditions' => array('id' => $id)
-            ));
+        if (!$this->User->exists()) {
+            throw new NotFoundException('User Invalide');
+        }
 
-            if ($this->request->is('post') || $this->request->is('put')) {
+        $infoUser = $this->User->find('first', [
+            'conditions' => ['id' => $id]
+        ]);
 
-                if ($this->request->data['User']['old_password'] != "" && $this->request->data['User']['new_passwd'] != "" && $this->request->data['User']['new_password'] != "") {
-                    if (AuthComponent::password($this->request->data['User']['old_password']) == $infoUser['User']['password']) {
-                        if ($this->request->data['User']['new_password'] != "") {
-                            if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
-                                if ($this->request->data['User']['new_password'] != '') {
-                                    $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-                                }
-                            } else {
-                                $this->Session->setFlash(__d('user', 'user.flasherrorErreurNewPassword'), "flasherror");
-                                $this->redirect([
-                                    'controller' => 'users',
-                                    'action' => 'changepassword',
-                                    $id
-                                ]);
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $success = true;
+            $this->User->begin();
+
+            $message = __d('user', 'user.flasherrorErreurEnregistrementUser');
+
+            /**
+             * Si l'ancien mot de passe est vide on enregistre les
+             * nouvelle valeur. 
+             * Sinon on vérifie que le mot de passe soit égale au mot de passe
+             * présent en base de données, si cela correspond on vérifie à la 
+             * suite que le nouveau mot de passe soit égale à la vérification 
+             * du nouveau mot de passe.
+             */
+            if ($this->request->data['User']['old_password'] != "") {
+                if (AuthComponent::password($this->request->data['User']['old_password']) == $infoUser['User']['password']) {
+                    if ($this->request->data['User']['new_password'] != "") {
+                        if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
+                            if ($this->request->data['User']['new_password'] != "") {
+                                $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
                             }
                         } else {
-                            $this->Session->setFlash(__d('user', 'user.flasherrorNewPasswordVide'), "flasherror");
-                            $this->redirect([
-                                'controller' => 'users',
-                                'action' => 'changepassword',
-                                $id
-                            ]);
+                            $success = false;
+                            $message = __d('user', 'user.flasherrorErreurNewPassword');
                         }
                     } else {
-                        $this->Session->setFlash(__d('user', 'user.flasherrorPasswordInvalide'), "flasherror");
-                        $this->redirect([
-                            'controller' => 'users',
-                            'action' => 'changepassword',
-                            $id
-                        ]);
+                        $success = false;
+                        $message = __d('user', 'user.flasherrorNewPasswordVide');
                     }
-                }
-
-                if ($this->User->save($this->request->data)) {
-                    $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrerReconnecter'), "flashsuccess");
-                    $this->redirect([
-                        'controller' => 'users',
-                        'action' => 'logout'
-                    ]);
                 } else {
-                    $this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
-                    $this->redirect([
-                        'controller' => 'pannel',
-                        'action' => 'index'
-                    ]);
+                    $success = false;
+                    $message = __d('user', 'user.flasherrorPasswordInvalide');
                 }
+            }
+
+            if ($success == true) {
+                $success = false !== $this->User->save($this->request->data) && $success;
+            }
+
+            if ($success == true) {
+                $this->User->commit();
+                $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrerReconnecter'), "flashsuccess");
+
+                $this->redirect([
+                    'controller' => 'users',
+                    'action' => 'logout'
+                ]);
             } else {
-                $table = $this->_createTable($id);
-                $this->set('tableau', $table['tableau']);
+                $this->User->rollback();
+                $this->Session->setFlash($message, "flasherror");
             }
         } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $table = $this->_createTable($id);
+            $this->set('tableau', $table['tableau']);
         }
+
+        $this->set('options', $this->User->enums());
     }
 
     /**

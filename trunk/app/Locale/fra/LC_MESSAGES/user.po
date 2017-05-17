@@ -40,6 +40,9 @@ msgstr "Le nouveau mot de passe ne peut pas être vide"
 msgid "user.flasherrorPasswordInvalide"
 msgstr "Le mot de passe actuelle est invalide. Merci de ressayer"
 
+msgid "user.flasherrorNewPasswordInexistant"
+msgstr "Vous n'avez pas rentrez de nouveau mot de passe"
+
 msgid "user.flashsuccessUserEnregistrerReconnecter"
 msgstr "L'utilisateur a été enregistré. Reconnectez-vous avec vos nouvelles informations"
 

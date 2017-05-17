@@ -32,16 +32,9 @@
     ]);
     ?>
     
-    <div class="row">
-        <div class="col-md-6">
+    <div class="col-md-6">
+        <div class="form-group">
             <?php
-            // Erreur sur le champ Login *
-            if (empty($this->validationErrors['User']['username'])) {
-                echo '<div class="form-group">';
-            } else {
-                echo '<div class="form-group has-error">';
-            }
-
             // Champs Login *
             echo $this->Form->input('username', [
                 'class' => 'form-control',
@@ -65,6 +58,14 @@
             <!-- Champs Nouveau mot de passe * -->
             <div class="form-group">
                 <?php
+                // Champ caché pour éviter l'autocomplete du navigateur pour le mot de passe
+                echo $this->Form->input('password1', [
+                    'style' => 'display: none;',
+                    'type' => 'password',
+                    'label' => false,
+                    'id' => false
+                ]);
+                
                 echo $this->Form->input('new_password', [
                     'class' => 'form-control',
                     'placeholder' => __d('user', 'user.placeholderChampNouveauMotDePasse'),
@@ -332,12 +333,17 @@
     </div>
 </div>
 
+</div>
+
 <!-- Groupe de bouton -->
 <div class="text-center">
     <div class="btn-group send">
         <?php
         //Bouton Annuler
-        echo $this->Html->link('<i class="fa fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), $referer, [
+        echo $this->Html->link('<i class="fa fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), [
+            'controller' => 'users',
+            'action' => 'index'
+        ], [
             'class' => 'btn btn-default-default',
             'escape' => false
         ]);
@@ -347,8 +353,6 @@
             'type' => 'submit',
             'class' => 'btn btn-default-success'
         ]);
-
-        echo '</div>';
         ?>
     </div>
 </div>
