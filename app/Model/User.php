@@ -41,6 +41,7 @@ class User extends AppModel {
     public $validate = array(
         'password' => array(
             array(
+                'allowEmpty' => true,
                 'rule' => array('minLength', '5'),
                 'message' => 'Un mot de passe est requis avec minimum 5 caractères'
             )
@@ -54,6 +55,22 @@ class User extends AppModel {
                 'rule' => array(
                     'comparePassword',
                     'password'
+                ),
+                'message' => 'Les mots de passe ne sont pas identiques'
+            )
+        ),
+        'new_password' => array(
+            array(
+                'allowEmpty' => true,
+                'rule' => array('minLength', '5'),
+                'message' => 'Le nouveau mot de passe est requis avec minimum 5 caractères'
+            )
+        ),
+        'new_passwd' => array(
+            array(
+                'rule' => array(
+                    'comparePassword',
+                    'new_password'
                 ),
                 'message' => 'Les mots de passe ne sont pas identiques'
             )
