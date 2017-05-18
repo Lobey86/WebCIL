@@ -24,7 +24,7 @@ INSERT INTO liste_droits (libelle, value, created, modified) VALUES
 ('Viser une fiche', 3, NOW(), NOW()),
 ('Consulter le registre', 4, NOW(), NOW()),
 ('Insérer une fiche dans le registre', 5, NOW(), NOW()),
-('modifier une fiche du registre', 6, NOW(), NOW()),
+('Modifier une fiche du registre', 6, NOW(), NOW()),
 ('Télécharger une fiche du registre', 7, NOW(), NOW()),
 ('Créer un utilisateur', 8, NOW(), NOW()),
 ('Modifier un utilisateur', 9, NOW(), NOW()),
