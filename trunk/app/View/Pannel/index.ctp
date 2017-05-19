@@ -98,7 +98,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 <td class='tdleft'>
                                     <div class="btn-group">
                                         <?php
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'show',
                                             $donnee['Fiche']['id']
@@ -106,7 +106,9 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                             'escapeTitle' => false,
                                             'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
-                                        ]) . $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
+                                        ]);
+                                        
+                                        echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'edit',
                                             $donnee['Fiche']['id']
@@ -222,7 +224,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>'. __d('default', 'default.btnAnnuler'), array(
+                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>'. __d('default', 'default.btnAnnuler'), array(
                                         'type' => 'button',
                                         'class' => 'btn btn-default-default sendCancel',
                                     ));
@@ -251,7 +253,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>'. __d('default', 'default.btnAnnuler'), array(
+                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>'. __d('default', 'default.btnAnnuler'), array(
                                         'type' => 'button',
                                         'class' => 'btn btn-default-default sendCancel',
                                     ));
@@ -375,7 +377,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 <td class='tdcent col-md-2 col-md-offset-10'>
                                     <div class="btn-group">
                                         <?php
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'show',
                                             $donnee['Fiche']['id']
@@ -447,7 +449,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>'. __d('default', 'default.btnAnnuler'), array(
+                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>'. __d('default', 'default.btnAnnuler'), array(
                                         'type' => 'button',
                                         'class' => 'btn btn-default-default sendCancel',
                                     ));
@@ -559,7 +561,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 <td class='tdcent col-md-2 col-md-offset-10'>
                                     <div class="btn-group">
                                         <?php
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'show',
                                             $donnee['Fiche']['id']
@@ -731,7 +733,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                             <td class='tdleft col-md-2 col-md-offset-10'>
                                 <div class="btn-group">
                                     <?php
-                                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                    echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'show',
                                         $donnee['Fiche']['id']
@@ -855,7 +857,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default sendCancel',
                                 ));
@@ -884,7 +886,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default sendCancel'
                                 ));
@@ -913,7 +915,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default refusCancel top5'
                                 ));
@@ -1027,7 +1029,7 @@ if ($this->Autorisation->authorized(3, $droits)) {
                             <td class='tdcent col-md-2 col-md-offset-10'>
                                 <div class="btn-group">
                                     <?php
-                                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                    echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'show',
                                         $donnee['Fiche']['id']
@@ -1064,7 +1066,7 @@ if ($this->Autorisation->authorized(3, $droits)) {
                                 echo $this->Form->hidden('previousUserId', ['value' => $donnee['EtatFiche']['previous_user_id']]);
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default repondreCancel',
                                 ));
@@ -1180,7 +1182,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                             <td class='tdcent col-md-2 col-md-offset-10'>
                                 <div class="btn-group">
                                     <?php
-                                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                    echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'show',
                                         $donnee['Fiche']['id']
@@ -1188,7 +1190,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                         'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
                                         'escapeTitle' => false
-                                    ]) . $this->Html->link('<span class="glyphicon glyphicon-file"></span>', [
+                                    ]) . $this->Html->link('<span class="fa fa-download fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'genereFusion',
                                         $donnee['Fiche']['id']
@@ -1360,7 +1362,7 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
                             <td class='tdcent col-md-2 col-md-offset-10'>
                                 <div class="btn-group">
                                     <?php
-                                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                    echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'show',
                                         $donnee['Fiche']['id']
@@ -1450,7 +1452,7 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
                                 echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                 echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                 echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), array(
+                                echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
                                     'type' => 'button',
                                     'class' => 'btn btn-default-default sendCancel',
                                 ));

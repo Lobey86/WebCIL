@@ -100,14 +100,14 @@ if (!empty($fichesValid)) {
     <br/>
     <?php
     if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
-        echo $this->Form->button('<span class="fa fa-upload"></span>' . __d('registre', 'registre.btnImprimerExtraitRegistrePDF'), [
+        echo $this->Form->button('<span class="fa fa-download fa-lg"></span>' . __d('registre', 'registre.btnImprimerExtraitRegistrePDF'), [
             'onclick' => "sendDataExtrait()",
             'class' => 'btn btn-default-primary pull-left'
         ]);
     }
     
     if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
-        echo $this->Form->button(__d('registre', 'registre.btnImprimerTraitementRegistrePDF'), [
+        echo $this->Form->button('<span class="fa fa-download fa-lg"></span>' . __d('registre', 'registre.btnImprimerTraitementRegistrePDF'), [
             'onclick' => "sendData()",
             'class' => 'btn btn-default-primary pull-right'
         ]);
@@ -265,7 +265,7 @@ if (!empty($fichesValid)) {
                                 }
 
                                 // Bouton pour visualiser le traitement
-                                echo $this->Html->link('<span class="fa fa-search fa-lg"></span>', [
+                                echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                     'controller' => 'fiches',
                                     'action' => 'show',
                                     $value['Fiche']['id']

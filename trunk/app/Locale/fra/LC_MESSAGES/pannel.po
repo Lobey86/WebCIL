@@ -183,7 +183,7 @@ msgid "pannel.motDerniereModification"
 msgstr "Dernière modification le : "
 
 msgid "pannel.commentaireVoirTraitement"
-msgstr "Voir le traitement"
+msgstr "Visualiser le traitement"
 
 msgid "pannel.commentaireModifierTraitement"
 msgstr "Modifier le traitement"

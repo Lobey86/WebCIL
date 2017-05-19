@@ -260,7 +260,7 @@ echo $this->Html->css(array(
         <div class="btn-group">
             <?php
             // Bouton Revenir
-            echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>' . __d('fiche', 'fiche.btnRevenir'), array(
+            echo $this->Html->link('<i class="fa fa-arrow-left fa-lg"></i>' . __d('fiche', 'fiche.btnRevenir'), array(
                 'controller' => 'formulaires',
                 'action' => 'index'
                     ), array(

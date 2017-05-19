@@ -29,11 +29,11 @@ echo '<div class="text-center">';
 
 
 echo '<div class="btn-group send">';
-echo $this->Html->link('<i class="fa fa-arrow-left"></i>'.__d('default','default.btnAnnuler'), $referer, array(
+echo $this->Html->link('<i class="fa fa-times-circle fa-lg"></i>'.__d('default','default.btnAnnuler'), $referer, array(
     'class' => 'btn btn-default-default',
     'escape' => false
 ));
-echo $this->Form->button('<i class="fa fa-check"></i>'.__d('default','default.btnEnregistrer'), array(
+echo $this->Form->button('<i class="fa fa-floppy-o fa-lg"></i>'.__d('default','default.btnEnregistrer'), array(
     'type' => 'submit',
     'class' => 'btn btn-default-success'
 ));
