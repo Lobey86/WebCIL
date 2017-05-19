@@ -478,7 +478,7 @@ if (!empty($files)) {
         <div class="btn-group">
             <?php
             // Bouton Annuler
-            echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), [
+            echo $this->Html->link('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), [
                 'controller' => $nameController,
                 'action' => $nameView
                     ], [
@@ -487,7 +487,7 @@ if (!empty($files)) {
             ]);
 
             // Bouton Enregistrer
-            echo $this->Form->button('<i class="fa fa-fw fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
+            echo $this->Form->button('<i class="fa fa-floppy-o fa-lg"></i>' . __d('default', 'default.btnEnregistrer'), [
                 'class' => 'btn btn-default-success',
                 'escape' => false,
                 'type' => 'submit'

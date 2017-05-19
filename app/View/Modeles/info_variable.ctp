@@ -444,7 +444,7 @@ if (!empty($variables)) {
     <div class="col-md-12 top17 text-center">
         <div class="btn-group">
             <?php
-            echo $this->Html->link('<i class="fa fa-fw fa-arrow-left"></i>' . __d('fiche', 'fiche.btnRevenir'), array(
+            echo $this->Html->link('<i class="fa fa-arrow-left fa-lg"></i>' . __d('fiche', 'fiche.btnRevenir'), array(
                 'controller' => 'Modeles',
                 'action' => 'index'
                     ), array(
