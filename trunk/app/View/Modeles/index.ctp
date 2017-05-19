@@ -127,10 +127,10 @@ if (!empty($modeles)) {
             <div class="modal-footer">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
-                            class="fa fa-arrow-left"></i><?php echo __d('default', 'default.btnAnnuler'); ?>
+                            class="fa fa-times-circle fa-lg"></i><?php echo __d('default', 'default.btnAnnuler'); ?>
                     </button>
                     <?php
-                    echo $this->Form->button("<i class='fa fa-check'></i>" . __d('modele', 'modele.btnEnregistrerModele'), array(
+                    echo $this->Form->button("<i class='fa fa-floppy-o fa-lg'></i>" . __d('modele', 'modele.btnEnregistrerModele'), array(
                         'type' => 'submit',
                         'class' => 'btn btn-default-success',
                         'escape' => false
