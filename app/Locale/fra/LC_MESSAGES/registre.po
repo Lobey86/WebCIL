@@ -107,6 +107,9 @@ msgstr "Modifier le traitement"
 msgid "registre.textAucunTraitementFiltre"
 msgstr "Il n'y a aucun traitement pour ces filtres"
 
+msgid "registre.textAucunTraitementRegistre"
+msgstr "Il n'y a aucun traitement dans le registre"
+
 msgid "registre.lienAnnulerFiltres"
 msgstr "Cliquez ici pour annuler les filtres"
 
