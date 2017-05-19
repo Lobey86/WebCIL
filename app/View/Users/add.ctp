@@ -303,7 +303,7 @@
     <div class="btn-group send">
         <?php
         //Bouton Annuler
-        echo $this->Html->link('<i class="fa fa-arrow-left"></i>' . __d('default', 'default.btnAnnuler'), [
+        echo $this->Html->link('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), [
             'controller' => 'users',
             'action' => 'index'
         ], [
@@ -312,7 +312,7 @@
         ]);
 
         //Bouton Enregistrer
-        echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnregistrer'), [
+        echo $this->Form->button('<i class="fa fa-floppy-o fa-lg"></i>' . __d('default', 'default.btnEnregistrer'), [
             'type' => 'submit',
             'class' => 'btn btn-default-success'
         ]);

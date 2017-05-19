@@ -108,6 +108,6 @@ msgstr "Pièces jointes"
 ############################: View/Fiches/show.ctp ############################
 
 msgid "fiche.btnRevenir"
-msgstr " Revenir"
+msgstr " Retour"
 
 ###############################################################################

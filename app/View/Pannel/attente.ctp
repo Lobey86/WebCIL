@@ -142,7 +142,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
                                     echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
                                     echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-fw fa-arrow-left"></i>'. __d('default', 'default.btnAnnuler'), array(
+                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>'. __d('default', 'default.btnAnnuler'), array(
                                         'type' => 'button',
                                         'class' => 'btn btn-default-default sendCancel',
                                     ));

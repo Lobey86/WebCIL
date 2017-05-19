@@ -395,7 +395,7 @@ $cakeDescription = 'Web-CIL';
                                                                 ], ['escapeTitle' => false]);
                                                         ?></li>
                                                 <li><?php
-                                                        echo $this->Html->link('<i class="fa fa-lock fa-fw"></i>' . __d('default', 'default.sousTitreDeconnexion'), [
+                                                        echo $this->Html->link('<i class="fa fa-sign-out fa-fw"></i>' . __d('default', 'default.sousTitreDeconnexion'), [
                                                             'controller' => 'users',
                                                             'action' => 'logout'
                                                                 ], ['escapeTitle' => false]);
@@ -574,7 +574,7 @@ $cakeDescription = 'Web-CIL';
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default-default" data-dismiss="modal"><i
-                                        class="fa fa-fw fa-arrow-left"></i>
+                                        class="fa fa-times-circle fa-lg"></i>
                                         <?php echo(__d('default', 'default.btnAnnuler')); ?>
                                 </button>
                             </div>

@@ -66,7 +66,7 @@ msgid "formulaire.textTableauDescription"
 msgstr "Description : "
 
 msgid "formulaire.commentaireVoirFormulaire"
-msgstr "Voir le formulaire"
+msgstr "Visualiser le formulaire"
 
 msgid "formulaire.commentaireDesactiverFormulaire"
 msgstr "Desactiver le formulaire"
@@ -107,6 +107,12 @@ msgstr "Description"
 msgid "formulaire.popupPlaceholderDescription"
 msgstr "Description du formulaire (facultatif)"
 
+msgid "formulaire.popupChampEntiteCible"
+msgstr "Entité cible pour la duplication du formulaire "
+
+msgid "formulaire.popupPlaceholderChampEntiteCible"
+msgstr "Entité cible (requis)"
+
 msgid "formulaire.textStatutActif"
 msgstr "Actif"
 
@@ -118,6 +124,12 @@ msgstr "Dupliquer le formulaire"
 
 msgid "formulaire.popupInfoGeneraleFormulaireDuplication"
 msgstr "Informations générales du formulaire pour la duplication"
+
+msgid "formulaire.popupInfoGeneraleFormulaireDuplicationOrganisation"
+msgstr "Informations générales du formulaire pour la duplication dans une autre organisation"
+
+msgid "formulaire.placeholderDupliquerFormulaireOrganisation"
+msgstr "Dupliquer le formulaire dans une autre organisation"
 
 ###############################################################################
 
