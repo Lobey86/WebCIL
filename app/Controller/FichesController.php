@@ -719,6 +719,10 @@ class FichesController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function genereTraitement($tabId) {
+        if (true !== $this->Droits->authorized(ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $pdf = $this->_genereTraitement($tabId);
 
         $this->response->disableCache();
@@ -794,6 +798,10 @@ class FichesController extends AppController {
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     public function genereExtraitRegistre($tabId) {
+        if (true !== $this->Droits->authorized(ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $pdf = $this->_genereExtraitRegistre($tabId);
 
         $this->response->disableCache();
