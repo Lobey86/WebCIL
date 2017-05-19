@@ -45,7 +45,9 @@ class RolesController extends AppController {
         $this->set('title', __d('role', 'role.titreListeProfil'));
         
         $roles = $this->Role->find('all', [
-            'conditions' => ['organisation_id' => $this->Session->read('Organisation.id')]
+            'conditions' => [
+                'organisation_id' => $this->Session->read('Organisation.id')
+            ]
         ]);
 
         foreach ($roles as $key => $value) {
@@ -185,7 +187,7 @@ class RolesController extends AppController {
             }
 
             $role = $this->Role->findById($id);
-
+            
             if (!$role) {
                 throw new NotFoundException('Ce profil n\'existe pas');
             }
@@ -232,15 +234,28 @@ class RolesController extends AppController {
                     'action' => 'index'
                 ]);
             } else {
-                $this->set('listedroit', $this->ListeDroit->find('all', ['conditions' => ['NOT' => ['ListeDroit.id' => ['11']]]]));
+                $this->set('listedroit', $this->ListeDroit->find('all', [
+                    'conditions' => [
+                        'NOT' => [
+                            'ListeDroit.id' => [
+                                ListeDroit::INSERER_TRAITEMENT_REGISTRE,
+                                ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
+                                ListeDroit::CREER_ORGANISATION
+                            ]
+                        ]
+                    ]
+                ]));
+                
                 $resultat = $this->RoleDroit->find('all', [
                     'conditions' => ['role_id' => $id],
                     'fields' => 'liste_droit_id'
                 ]);
+                
                 $result = [];
                 foreach ($resultat as $donnee) {
                     array_push($result, $donnee['RoleDroit']['liste_droit_id']);
                 }
+                
                 $this->set('tableDroits', $result);
             }
 
