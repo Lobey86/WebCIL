@@ -74,7 +74,7 @@
                 <div class="row text-center">
                     <div class="btn-group text-center">
                         <button type="button" class="btn btn-default-default" data-dismiss="modal">
-                            <i class="fa fa-arrow-left"></i>
+                            <i class="fa fa-times-circle fa-lg"></i>
                                 <?php echo __d('default','default.btnAnnuler');?>
                         </button>
                         <button type="submit" class="btn btn-default-success">
