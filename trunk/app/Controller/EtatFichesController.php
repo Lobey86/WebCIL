@@ -691,6 +691,10 @@ class EtatFichesController extends AppController {
         if (empty($id)) {
             throw new NotFoundException();
         }
+        
+        if (true !== $this->Droits->authorized($this->Droits->isCil())) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
 
         if ($numero == null || $numero === 'null') {
             $numero = 'CIL' . $id;
