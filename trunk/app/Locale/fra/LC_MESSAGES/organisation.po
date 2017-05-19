@@ -48,6 +48,10 @@ msgstr "Vous n'avez pas de droit sur cette entité"
 
 ###############################################################
 
+
+####################: View/Organisations/edit.ctp + add.ctp ####################
+msgid "organisation.commentaireVIsualiserEntite"
+msgstr "Visualiser les informations"
 ###############################################################################
 
 
