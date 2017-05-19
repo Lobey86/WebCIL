@@ -29,6 +29,7 @@ class OrganisationsController extends AppController {
     public $uses = [
         'Organisation',
         'OrganisationUser',
+        'OrganisationUserRoles',
         'Droit',
         'User',
         'Role',
@@ -298,6 +299,10 @@ class OrganisationsController extends AppController {
 
             //$success = $success && false !== $this->Organisation->saveAddEditForm($this->request->data, $id);
             $success = $success && false !== $this->Organisation->save($this->request->data, $id);
+            
+            if ($success == true){
+                $success = $this->_attributionRoleCIL($this->request->data('Organisation.cil'), $id);
+            }
 
             if ($success == true) {
                 $this->Organisation->commit();
@@ -312,95 +317,76 @@ class OrganisationsController extends AppController {
             }
         }
     }
-//    public function edit($id = null) {
-//        if (true !== ($this->Droits->authorized(ListeDroit::MODIFIER_ORGANISATION) || $this->Droits->isSu())) {
-//            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
-//        }
-//
-//        if ($id == $this->Session->read('Organisation.id')) {
-//            $this->set('title', __d('organisation', 'organisation.titreInfoGenerales') . $this->Session->read('Organisation.raisonsociale'));
-//        } else {
-//            $this->set('title', 'Editer une entité');
-//        }
-//
-//        if (!$id) {
-//            $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
-//            $this->redirect([
-//                'controller' => 'organisations',
-//                'action' => 'index'
-//            ]);
-//        } else {
-//            $organisation = $this->Organisation->findById($id);
-//            $users = $this->OrganisationUser->find('all', [
-//                'conditions' => [
-//                    'OrganisationUser.organisation_id' => $id
-//                ],
-//                'contain' => [
-//                    'User' => [
-//                        'id',
-//                        'nom',
-//                        'prenom'
-//                    ]
-//                ]
-//            ]);
-//
-//            // Construction de la liste déroulante avec les utilisateurs de l'entitée
-//            $array_users = [];
-//            $idUsers = [];
-//            foreach ($users as $key => $value) {
-//                $array_users[$value['User']['id']] = $value['User']['prenom'] . " " . $value['User']['nom'];
-//                $idUsers[] = $value['User']['id'];
-//            }
-//            $this->set('users', $array_users);
-//
-//            // On récupére en BDD tout les utilisateurs qui sont présent dans l'entitée
-//            $informationsUsers = $this->User->find('all', [
-//                'conditions' => [
-//                    'id' => $idUsers
-//                ],
-//                'fields' => [
-//                    'id',
-//                    'nom',
-//                    'prenom',
-//                    'email'
-//                ]
-//            ]);
-//
-//            // On reformate le tableau
-//            $result = Hash::combine($informationsUsers, '{n}.User.id', '{n}.User');
-//            $result = Hash::remove($result, '{n}.id');
-//            $this->set('informationsUsers', $result);
-//
-//            if (!$organisation) {
-//                $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
-//
-//                $this->redirect([
-//                    'controller' => 'organisations',
-//                    'action' => 'index'
-//                ]);
-//            } else {
-//                if ($this->request->is([
-//                            'post',
-//                            'put'
-//                        ])
-//                ) {
-//                    $this->Organisation->id = $id;
-//                    if ($this->Organisation->saveAddEditForm($this->request->data, $id)) {
-//                        $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteModifier'), 'flashsuccess');
-//                        $this->redirect([
-//                            'controller' => 'pannel',
-//                            'action' => 'index'
-//                        ]);
-//                    } else {
-//                        $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurMoficationEntite'), 'flasherror');
-//                    }
-//                }
-//            }
-//        }
-//        if (!$this->request->data) {
-//            $this->request->data = $organisation;
-//        }
-//    }
+    
+    private function _attributionRoleCIL($idCIL, $idOrganisation) {
+        $droitsCIL = [
+            ListeDroit::REDIGER_TRAITEMENT,
+            ListeDroit::VALIDER_TRAITEMENT,
+            ListeDroit::VISER_TRAITEMENT,
+            ListeDroit::CONSULTER_REGISTRE,
+            ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE,
+            ListeDroit::CREER_UTILISATEUR,
+            ListeDroit::MODIFIER_UTILISATEUR,
+            ListeDroit::SUPPRIMER_UTILISATEUR,
+            ListeDroit::MODIFIER_ORGANISATION,
+            ListeDroit::CREER_PROFIL,
+            ListeDroit::MODIFIER_PROFIL,
+            ListeDroit::SUPPRIMER_PROFIL
+        ];
+        
+        $success = true;
+        $this->Organisation->begin();
+        
+        // On récupére l'id du nouveau CIL dans l'organisation
+        $idOrganisationUser = $this->OrganisationUser->find('first', [
+            'conditions' => [
+                'user_id' => $idCIL
+            ],
+            'fields' => [
+                'id'
+            ]
+        ]);
+        
+        // On supprime tout les droits du nouveau CIL
+        $success = $success &&  $this->Droit->deleteAll([
+            'organisation_user_id' => $idOrganisationUser['OrganisationUser']['id']
+        ]);
+        
+        // ON lui attribue de nouveau droits 'administrateur'
+        foreach ($droitsCIL as $droitCIL) {
+            $this->Droit->create([
+                'Droit' => [
+                    'organisation_user_id' => $idOrganisationUser['OrganisationUser']['id'],
+                    'liste_droit_id' => $droitCIL
+                ]
+            ]);
+            $success = $success && false !== $this->Droit->save();
+        }
+        
+        if ($success == true) {
+            // On supprime l'ancien role du nouveau CIL
+            $success = $success &&  $this->OrganisationUserRoles->deleteAll([
+                'organisation_user_id' => $idOrganisationUser['OrganisationUser']['id']
+            ]);
+
+            // On lui attribut un nouveau role "administrateur'
+            $this->OrganisationUserRoles->create([
+                'OrganisationUserRoles' => [
+                    'organisation_user_id' => $idOrganisationUser['OrganisationUser']['id'],
+                    'role_id' => 4
+                ]
+            ]);
+            $success = $success && false !== $this->OrganisationUserRoles->save();
+        }
+        
+        if ($success == true) {
+            $this->Organisation->commit();
+        } else {
+            $this->Organisation->rollback();
+        }
+        
+        return ($success);
+    }
 
     /**
      * Change l'organisation si besoin et redirige vers la bonne view
@@ -586,8 +572,7 @@ class OrganisationsController extends AppController {
                     ],
                     'Droit' => [
                         ListeDroit::VISER_TRAITEMENT,
-                        ListeDroit::CONSULTER_REGISTRE,
-                        ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE
+                        ListeDroit::CONSULTER_REGISTRE
                     ]
                 ],
                     [
@@ -600,8 +585,6 @@ class OrganisationsController extends AppController {
                         ListeDroit::VALIDER_TRAITEMENT,
                         ListeDroit::VISER_TRAITEMENT,
                         ListeDroit::CONSULTER_REGISTRE,
-                        ListeDroit::INSERER_TRAITEMENT_REGISTRE,
-                        ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
                         ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE,
                         ListeDroit::CREER_UTILISATEUR,
                         ListeDroit::MODIFIER_UTILISATEUR,
