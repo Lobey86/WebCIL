@@ -45,11 +45,17 @@ class FormulairesController extends AppController {
 
         $this->set('title', __d('formulaire', 'formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
         
-        $all = $this->FormGen->getAll(array('organisations_id' => $this->Session->read('Organisation.id')));
+        $all = $this->FormGen->getAll([
+            'organisations_id' => $this->Session->read('Organisation.id')
+        ]);
         
         $valid = array();
         foreach ($all as $key => $value) {
-            $verif = $this->Fiche->find('count', array('conditions' => array('form_id' => $value['Formulaire']['id'])));
+            $verif = $this->Fiche->find('count', [
+                'conditions' => [
+                    'form_id' => $value['Formulaire']['id']
+                ]
+            ]);
             
             if ($verif == 0) {
                 $valid[$value['Formulaire']['id']] = true;
@@ -60,6 +66,39 @@ class FormulairesController extends AppController {
         
         $this->set(compact('valid'));
         $this->set('formulaires', $all);
+        
+        $nbOrganisationsUser = $this->OrganisationUser->find('count', [
+            'conditions' => [
+                'user_id' => $this->Session->read('Auth.User.id')
+            ]
+        ]);
+
+        if ($nbOrganisationsUser >= 2) {
+            $organisationsUser = $this->OrganisationUser->find('all', [
+                'conditions' => [
+                    'user_id' => $this->Session->read('Auth.User.id'),
+                    'NOT' => [
+                        'organisation_id' => $this->Session->read('Organisation.id')
+                    ]
+                ]
+            ]);
+            
+            $listeOrganisations = [];
+            foreach ($organisationsUser as $organisationUser) {
+                $organisations = $this->Organisation->find('first', [
+                   'conditions' => [
+                       'id' => $organisationUser['OrganisationUser']['organisation_id']
+                    ], 
+                    'fields' => [
+                        'id',
+                        'raisonsociale'
+                    ]
+                ]);
+                
+                $listeOrganisations[$organisations['Organisation']['id']] = $organisations['Organisation']['raisonsociale'];
+            }
+            $this->set('listeOrganisations', $listeOrganisations);
+        }
     }
 
     /**
@@ -67,7 +106,7 @@ class FormulairesController extends AppController {
      * 
      * @access public
      * @created 26/04/2016
-     * @version V1.0.2
+     * @version V1.0.0
      */
     public function dupliquer() {
         $success = true;
@@ -127,6 +166,78 @@ class FormulairesController extends AppController {
                     //on enregistre le champ
                     $success = $success && false !== $this->Champ->save();
                 }
+            }
+        }
+
+        if ($success == true) {
+            $this->Formulaire->commit();
+            $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireDupliquer'), 'flashsuccess');
+        } else {
+            $this->Formulaire->rollback();
+            $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+        }
+
+        $this->redirect(array(
+            'controller' => 'Formulaires',
+            'action' => 'index'
+        ));
+    }
+    
+    /**
+     * Dupliquer un formulaire d'un organisation à une autre en tant que CIL
+     * dans une collectivité ou on a les droits.
+     * 
+     * @access public
+     * @created 18/05/2017
+     * @version V1.0.0
+     * @author Théo GUILLON <theo.guillon@libriciel.coop>
+     */
+    public function dupliquerOrganisation() {
+        $success = true;
+        $this->Formulaire->begin();
+
+        debug($this->request->data);
+        
+        $id = $this->request->data['Formulaire']['id'];
+        
+        // C'est un nouveau formulaire en renseignant les infos
+        $this->Formulaire->create(array(
+            'organisations_id' => $this->request->data['Formulaire']['organisationCible'],
+            'libelle' => $this->request->data['Formulaire']['libelle'],
+            'description' => $this->request->data['Formulaire']['description'],
+            'active' => false
+        ));
+        
+        //on enregistre le formualire
+        unset($this->Formulaire->validate['active']['notEmpty']); //@FIXME christian
+        $success = $success && false !== $this->Formulaire->save();
+
+        if ($success == true) {
+            // On recupere l'id du formulaire qu'on vien d'enregistré
+            $idForm = $this->Formulaire->getLastInsertId();
+
+            // On recupere en BDD tout les champs qui corresponde a $id
+            $champs = $this->Champ->find('all', array(
+                'conditions' => array(
+                    'formulaires_id' => $id
+                )
+            ));
+
+            foreach ($champs as $key => $champ) {
+                // On decode pour récupere les info
+                $array = json_decode($champ['Champ']['details'], true);
+
+                // On cree un nouveau champs avec l'id du nouveau formulaire qu'on a cree et les info qu'on a décodé
+                $this->Champ->create(array(
+                    'formulaires_id' => $idForm,
+                    'type' => $champ['Champ']['type'],
+                    'ligne' => $champ['Champ']['ligne'],
+                    'colonne' => $champ['Champ']['colonne'],
+                    'details' => $champ['Champ']['details']
+                ));
+
+                // On enregistre le champ
+                $success = $success && false !== $this->Champ->save();
             }
         }
 
