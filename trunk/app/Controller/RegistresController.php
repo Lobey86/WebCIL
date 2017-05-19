@@ -44,6 +44,10 @@ class RegistresController extends AppController {
      * @version V1.0.0
      */
     public function index() {
+        if (true !== $this->Droits->authorized(ListeDroit::CONSULTER_REGISTRE)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+
         $this->Session->write('nameController', "registres");
         $this->Session->write('nameView', "index");
 
@@ -108,108 +112,95 @@ class RegistresController extends AppController {
             $search = true;
         }
 
-        if ($this->Droits->authorized([
-                    ListeDroit::CONSULTER_REGISTRE,
-                    ListeDroit::INSERER_TRAITEMENT_REGISTRE,
-                    ListeDroit::MODIFIER_TRAITEMENT_REGISTRE
-                ])
-        ) {
-            if (false === empty($conditionValeur)) {
-                $subQuery = [
-                    'alias' => 'valeurs',
-                    'fields' => ['valeurs.fiche_id'],
-                    'conditions' => $conditionValeur,
-                    'contain' => false
-                ];
+        if (false === empty($conditionValeur)) {
+            $subQuery = [
+                'alias' => 'valeurs',
+                'fields' => ['valeurs.fiche_id'],
+                'conditions' => $conditionValeur,
+                'contain' => false
+            ];
 
-                $sql = words_replace($this->Fiche->Valeur->sql($subQuery), [
-                    'Valeur' => 'valeurs'
-                ]);
-                $condition[] = "Fiche.id IN ( {$sql} )";
-            }
+            $sql = words_replace($this->Fiche->Valeur->sql($subQuery), [
+                'Valeur' => 'valeurs'
+            ]);
+            $condition[] = "Fiche.id IN ( {$sql} )";
+        }
 
-            $query = [
-                'conditions' => $condition,
-                'contain' => [
-                    'Fiche' => [
-                        'id',
-                        'created',
-                        'numero',
-                        'User' => [
-                            'nom',
-                            'prenom'
+        $query = [
+            'conditions' => $condition,
+            'contain' => [
+                'Fiche' => [
+                    'id',
+                    'created',
+                    'numero',
+                    'User' => [
+                        'nom',
+                        'prenom'
+                    ],
+                    'Valeur' => [
+                        'fields' => [
+                            'champ_name',
+                            'valeur'
                         ],
-                        'Valeur' => [
-                            'fields' => [
-                                'champ_name',
-                                'valeur'
-                            ],
-                            'conditions' => [
-                                'champ_name' => [
-                                    'outilnom',
-                                    'finaliteprincipale',
-                                    'declarantservice'
-                                ]
+                        'conditions' => [
+                            'champ_name' => [
+                                'outilnom',
+                                'finaliteprincipale',
+                                'declarantservice'
                             ]
                         ]
                     ]
                 ]
-            ];
-            $fichesValid = $this->EtatFiche->find('all', $query);
+            ]
+        ];
+        $fichesValid = $this->EtatFiche->find('all', $query);
 
-            foreach ($fichesValid as $key => $value) {
-                if ($value['EtatFiche']['etat_id'] == EtatFiche::ARCHIVER) {
-                    $fichesValid[$key]['Readable'] = true;
-                } else {
-                    $fichesValid[$key]['Readable'] = false;
-                }
+        foreach ($fichesValid as $key => $value) {
+            if ($value['EtatFiche']['etat_id'] == EtatFiche::ARCHIVER) {
+                $fichesValid[$key]['Readable'] = true;
+            } else {
+                $fichesValid[$key]['Readable'] = false;
             }
-
-            $this->set('search', $search);
-            $this->set('fichesValid', $fichesValid);
-
-
-            // Listing des utilisateurs de l'organisation
-            $liste = $this->OrganisationUser->find('all', [
-                'conditions' => [
-                    'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
-                ],
-                'contain' => [
-                    'User' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ]);
-
-            $listeUsers = [];
-            foreach ($liste as $key => $value) {
-                $listeUsers[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
-            }
-            $this->set('listeUsers', $listeUsers);
-
-
-            // Listing des service de l'organisation
-            $services = $this->Service->find('all', [
-                'conditions' => [
-                    'organisation_id' => $this->Session->read('Organisation.id')
-                ]
-            ]);
-
-            // Service 
-            $listeServices = [];
-            foreach ($services as $key => $service) {
-                $listeServices[$service['Service']['libelle']] = $service['Service']['libelle'];
-            }
-            $this->set('listeServices', $listeServices);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
         }
+
+        $this->set('search', $search);
+        $this->set('fichesValid', $fichesValid);
+
+
+        // Listing des utilisateurs de l'organisation
+        $liste = $this->OrganisationUser->find('all', [
+            'conditions' => [
+                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
+            ],
+            'contain' => [
+                'User' => [
+                    'id',
+                    'nom',
+                    'prenom'
+                ]
+            ]
+        ]);
+
+        $listeUsers = [];
+        foreach ($liste as $key => $value) {
+            $listeUsers[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
+        }
+        $this->set('listeUsers', $listeUsers);
+
+
+        // Listing des service de l'organisation
+        $services = $this->Service->find('all', [
+            'conditions' => [
+                'organisation_id' => $this->Session->read('Organisation.id')
+            ]
+        ]);
+
+        // Service 
+        $listeServices = [];
+        foreach ($services as $key => $service) {
+            $listeServices[$service['Service']['libelle']] = $service['Service']['libelle'];
+        }
+        $this->set('listeServices', $listeServices);
     }
 
     /**
@@ -226,12 +217,12 @@ class RegistresController extends AppController {
         $this->Modification->begin();
 
         $success = $success && $this->EtatFiche->updateAll([
-            'actif' => false
-                ], [
-            'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
-            'etat_id' => [EtatFiche::VALIDER_CIL, EtatFiche::MODIFICATION_TRAITEMENT_REGISTRE],
-            'actif' => true
-        ]) !== false;
+                    'actif' => false
+                        ], [
+                    'fiche_id' => $this->request->data['Registre']['idEditRegistre'],
+                    'etat_id' => [EtatFiche::VALIDER_CIL, EtatFiche::MODIFICATION_TRAITEMENT_REGISTRE],
+                    'actif' => true
+                ]) !== false;
 
         if ($success == true) {
             $this->EtatFiche->create([
@@ -288,6 +279,10 @@ class RegistresController extends AppController {
      * @version V1.0.0
      */
     public function add() {
+        if (true !== $this->Droits->authorized($this->Droits->isCil())) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->redirect([
             'controller' => 'etat_fiches',
             'action' => 'insertRegistre',
@@ -309,6 +304,10 @@ class RegistresController extends AppController {
      * @version V1.0.0
      */
     public function imprimer($tabId = null) {
+        if (true !== $this->Droits->authorized(ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $tabId = json_decode($tabId);
 
         if ($tabId != null) {
@@ -354,7 +353,7 @@ class RegistresController extends AppController {
                 $files_concat .= $folder . DS . $ficheID . '.pdf ';
             }
 
-            /** 
+            /**
              * On concatene tout les PDFs qu'on a cree et on enregistre 
              * la concatenation dans /var/www/webcil/app/files/registre
              */
