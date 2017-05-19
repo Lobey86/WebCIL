@@ -407,7 +407,7 @@ if (!empty($fichesValid)) {
         ?>
     <div class='text-center'>
         <h3>
-            <?php echo __d('registre', 'registre.textAucunTraitementFiltre'); ?>
+            <?php echo __d('registre', 'registre.textAucunTraitementRegistre'); ?>
         </h3>
     </div>
     <?php
