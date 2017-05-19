@@ -90,7 +90,7 @@ msgid "user.textTableauAucuneEntite"
 msgstr "L'utilisateur n'est dans aucune entité"
 
 msgid "user.textTableauLogin"
-msgstr "Login : "
+msgstr "Identifiant : "
 
 msgid "user.commentaireModifierUser"
 msgstr "Modifier l'utilisateur"
@@ -113,7 +113,7 @@ msgid "user.btnAjouterUser"
 msgstr " Ajouter un utilisateur"
 
 msgid "user.champLogin"
-msgstr "Login "
+msgstr "Identifiant "
 
 msgid "user.placeholderChampLogin"
 msgstr "Identifiant (requis)"
