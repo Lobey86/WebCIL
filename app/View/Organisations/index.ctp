@@ -22,13 +22,13 @@ echo $this->Html->script('organisations.js');
                 </td>
                 <td class="tdleft">
                     <div class="btn-group">
-                        <?php echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', array(
+                        <?php echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', array(
                             'controller' => 'organisations',
                             'action' => 'show',
                             $donnees[ 'Organisation' ][ 'id' ]
                         ), array(
                             'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                            'title' => 'Voir les informations',
+                            'title' => __d('organisation','organisation.commentaireVIsualiserEntite'),
                             'escapeTitle' => false
                         ));
                         if ( $this->Autorisation->authorized(12, $droits) ) {
