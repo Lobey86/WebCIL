@@ -191,13 +191,17 @@ $cakeDescription = 'Web-CIL';
                                                 <?php
                                             }
                                             ?>
-                                        <li><?php
+                                        <li>
+                                            <?php
+                                            if ($this->Autorisation->authorized('4', $this->Session->read('Droit.liste'))) {
                                                 echo $this->Html->link(__d('default', 'default.titreRegistre'), [
                                                     'plugin' => '',
                                                     'controller' => 'registres',
                                                     'action' => 'index'
                                                 ]);
-                                                ?></li>
+                                            }
+                                            ?>
+                                        </li>
 
                                             <?php
                                             if ($this->Autorisation->authorized([

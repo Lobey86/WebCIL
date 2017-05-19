@@ -99,10 +99,12 @@ if (!empty($fichesValid)) {
     <br/>
     <br/>
     <?php
-    echo $this->Form->button('<span class="fa fa-upload"></span>' . __d('registre', 'registre.btnImprimerExtraitRegistrePDF'), [
-        'onclick' => "sendDataExtrait()",
-        'class' => 'btn btn-default-primary pull-left'
-    ]);
+    if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
+        echo $this->Form->button('<span class="fa fa-upload"></span>' . __d('registre', 'registre.btnImprimerExtraitRegistrePDF'), [
+            'onclick' => "sendDataExtrait()",
+            'class' => 'btn btn-default-primary pull-left'
+        ]);
+    }
     
     if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
         echo $this->Form->button(__d('registre', 'registre.btnImprimerTraitementRegistrePDF'), [
@@ -115,7 +117,7 @@ if (!empty($fichesValid)) {
     <table class="table">
         <thead>
             <?php
-            if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
+            if ($this->Autorisation->isCil()) {
                 ?>
                 <!-- checkbox extrait registre -->
                 <th class="thleft col-md-1">
@@ -144,11 +146,15 @@ if (!empty($fichesValid)) {
                 
                 <?php
             } else {
+                if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
+                    ?>
+                    <!-- checkbox traitement -->
+                    <th class="thleft col-md-1">
+                        <input id="extraitRegistreCheckbox" type="checkbox" class = "extraitRegistreCheckbox_checkbox" />
+                    </th>
+                    <?php
+                }
                 ?>
-                <!-- checkbox traitement -->
-                <th class="thleft col-md-1">
-                    <input id="extraitRegistreCheckbox" type="checkbox" class = "extraitRegistreCheckbox_checkbox" />
-                </th>
                 
                 <!-- Nom du traitement -->
                 <th class="thleft col-md-3">
@@ -188,11 +194,16 @@ if (!empty($fichesValid)) {
                 if ($value['Fiche']['Valeur'] != null) {
                     ?>
                     <tr>
-                        <!-- Casse à coché pour télécharger les extraits de registre -->
-                        <td class="tdleft">
-                            <input type="checkbox" class="extraitRegistreCheckbox" id="<?php echo $value['Fiche']['id']; ?>" >
-                        </td>
-                        
+                        <?php
+                        if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
+                            ?>
+                            <!-- Casse à coché pour télécharger les extraits de registre -->
+                            <td class="tdleft">
+                                <input type="checkbox" class="extraitRegistreCheckbox" id="<?php echo $value['Fiche']['id']; ?>" >
+                            </td>
+                            <?php
+                        }
+                        ?>
                         <td class="tdleft">
                             <?php
                             echo $value['Fiche']['Valeur'][1]['valeur']; 
@@ -239,17 +250,19 @@ if (!empty($fichesValid)) {
                         <td class="tdleft">
                             <div id='<?php echo $value['Fiche']['id']; ?>' class="btn-group">
                                 <?php
-                                // Bouton de téléchargement du traitement en PDF
-                                echo $this->Html->link('<i class="fa fa-file-pdf-o fa-lg"></i>', [
-                                    'controller' => 'fiches',
-                                    'action' => $DlOrGenerate,
-                                    $idExtrait
-                                    ], [
-                                        'escape' => false,
-                                        'class' => 'btn btn-default-default btn-sm my-tooltip',
-                                        'title' => __d('registre', 'registre.commentaireTelechargeRegistrePDF')
-                                    ]
-                                );
+                                if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
+                                    // Bouton de téléchargement du traitement en PDF
+                                    echo $this->Html->link('<i class="fa fa-file-pdf-o fa-lg"></i>', [
+                                        'controller' => 'fiches',
+                                        'action' => $DlOrGenerate,
+                                        $idExtrait
+                                        ], [
+                                            'escape' => false,
+                                            'class' => 'btn btn-default-default btn-sm my-tooltip',
+                                            'title' => __d('registre', 'registre.commentaireTelechargeRegistrePDF')
+                                        ]
+                                    );
+                                }
 
                                 // Bouton pour visualiser le traitement
                                 echo $this->Html->link('<span class="fa fa-search fa-lg"></span>', [
@@ -274,17 +287,19 @@ if (!empty($fichesValid)) {
                                 </button>
                                 
                                 <?php
-                                // Bouton de téléchargement de l'extrait de registre en PDF
-                                echo $this->Html->link('<span class="fa fa-child fa-lg"></span>', [
-                                    'controller' => 'fiches',
-                                    'action' => $docExtrait,
-                                    $idExtrait
-                                        ], [
-                                        'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                                        'title' => 'Télécharger extrait de registre',
-                                        'escapeTitle' => false
-                                    ]
-                                );
+                                if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
+                                    // Bouton de téléchargement de l'extrait de registre en PDF
+                                    echo $this->Html->link('<span class="fa fa-child fa-lg"></span>', [
+                                        'controller' => 'fiches',
+                                        'action' => $docExtrait,
+                                        $idExtrait
+                                            ], [
+                                            'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                                            'title' => 'Télécharger extrait de registre',
+                                            'escapeTitle' => false
+                                        ]
+                                    );
+                                }
                                 
                                 if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] != 7) {
                                     // Bouton de modification du traitement
