@@ -19,13 +19,13 @@ NOW()
 -- Insertion de valeur dans la table liste_droits
 --
 INSERT INTO liste_droits (libelle, value, created, modified) VALUES
-('Rédiger une fiche', 1, NOW(), NOW()),
-('Valider une fiche', 2, NOW(), NOW()),
-('Viser une fiche', 3, NOW(), NOW()),
+('Rédiger un traitement', 1, NOW(), NOW()),
+('Valider un traitement', 2, NOW(), NOW()),
+('Viser un traitement', 3, NOW(), NOW()),
 ('Consulter le registre', 4, NOW(), NOW()),
-('Insérer une fiche dans le registre', 5, NOW(), NOW()),
-('Modifier une fiche du registre', 6, NOW(), NOW()),
-('Télécharger une fiche du registre', 7, NOW(), NOW()),
+('Insérer un traitement dans le registre', 5, NOW(), NOW()),
+('Modifier un traitement du registre', 6, NOW(), NOW()),
+('Télécharger un traitement du registre', 7, NOW(), NOW()),
 ('Créer un utilisateur', 8, NOW(), NOW()),
 ('Modifier un utilisateur', 9, NOW(), NOW()),
 ('Supprimer un utilisateur', 10, NOW(), NOW()),
