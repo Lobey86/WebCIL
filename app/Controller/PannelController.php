@@ -182,6 +182,11 @@ class PannelController extends AppController {
         if (true !== $this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+        
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementEnCoursRedaction'));
 
@@ -238,6 +243,11 @@ class PannelController extends AppController {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->set('title', __d('pannel', 'pannel.titreTraitementEnAttente'));
 
         $limiteTraitementRecupere = 0;
@@ -263,6 +273,11 @@ class PannelController extends AppController {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->set('title', __d('pannel', 'pannel.titreTraitementRefuser'));
 
         $limiteTraitementRecupere = 0;
@@ -293,6 +308,11 @@ class PannelController extends AppController {
         if (true !== $this->Droits->authorized(ListeDroit::VALIDER_TRAITEMENT)) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+        
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementRecuValidation'));
 
@@ -316,6 +336,11 @@ class PannelController extends AppController {
      */
     public function recuConsultation() {
         if (true !== $this->Droits->authorized(ListeDroit::VISER_TRAITEMENT)) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
@@ -343,6 +368,11 @@ class PannelController extends AppController {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->Session->write('nameController', "pannel");
         $this->Session->write('nameView', "archives");
 
@@ -418,6 +448,11 @@ class PannelController extends AppController {
      */
     public function consulte() {
         if (true !== $this->Droits->authorized([ListeDroit::VALIDER_TRAITEMENT, ListeDroit::VISER_TRAITEMENT])) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
         
