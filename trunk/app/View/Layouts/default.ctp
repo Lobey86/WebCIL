@@ -87,108 +87,109 @@ $cakeDescription = 'Web-CIL';
                                         ?>
                                     <ul class="nav navbar-nav">
                                             <?php
-                                            if ($this->Autorisation->authorized([
-                                                        '1',
-                                                        '2',
-                                                        '3',
-                                                        '5'
-                                                            ], $this->Session->read('Droit.liste'))
-                                            ) {
-                                                ?>
-                                        <li class="dropdown">
-                                            <a href="#" class="dropdown-toggle"
-                                               data-toggle="dropdown"> <?php echo __d('default', 'default.titreTraitement'); ?>
-                                                <span class="caret"></span>
-                                            </a>
-                                            <ul class="dropdown-menu" role="menu">
-                                                        <?php
-                                                        echo '<li>' . $this->Html->link('<i class="fa fa-files-o fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitement'), [
-                                                            'controller' => 'pannel',
-                                                            'action' => 'index'
-                                                            ], ['escape' => false]) . '</li>';
-                                                        
-                                                        if ($this->Autorisation->authorized([
-                                                                    '1'
-                                                                        ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-pencil-square-o fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementEnCoursRedaction'), [
-                                                                'controller' => 'pannel',
-                                                                'action' => 'encours_redaction'
-                                                                    ], ['escape' => false]) . '</li>';
-                                                        }
-                                                        
-                                                        if ($this->Autorisation->authorized([
-                                                                    '1'
-                                                                        ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementEnAttente'), [
-                                                                'controller' => 'pannel',
-                                                                'action' => 'attente'
-                                                                    ], ['escape' => false]) . '</li>';
-                                                        }
-                                                        
-                                                        if ($this->Autorisation->authorized([
-                                                                    '1'
-                                                                        ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-times fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRefuser'), [
-                                                                'controller' => 'pannel',
-                                                                'action' => 'refuser'
-                                                                    ], ['escape' => false]) . '</li>';
-                                                        }
-                                                        
-                                                        if ($this->Autorisation->authorized([
-                                                                    '2'
-                                                                        ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-pause fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRecuValidation'), [
-                                                                'controller' => 'pannel',
-                                                                'action' => 'recuValidation'
-                                                                    ], ['escape' => false]) . '</li>';
-                                                        }
-                                                        
-                                                        if ($this->Autorisation->authorized([
-                                                                    '3'
-                                                            ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-inbox fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRecuConsultation'), [
-                                                                'controller' => 'pannel',
-                                                                'action' => 'recuConsultation'
-                                                                    ], ['escape' => false]) . '</li>';
-                                                        }
-                                                        
-                                                        if ($this->Autorisation->authorized([
+                                            if (!$this->Session->read('Su')) {
+                                                if ($this->Autorisation->authorized([
+                                                            '1',
                                                             '2',
-                                                            '3'
-                                                            ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-eye fa-fw"></i>' . __d('default', 'default.sousTitreTraitementVu'), [
+                                                            '3',
+                                                            '5'
+                                                                ], $this->Session->read('Droit.liste'))
+                                                ) {
+                                                    ?>
+                                                    <li class="dropdown">
+                                                        <a href="#" class="dropdown-toggle"
+                                                           data-toggle="dropdown"> <?php echo __d('default', 'default.titreTraitement'); ?>
+                                                            <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <?php
+                                                            echo '<li>' . $this->Html->link('<i class="fa fa-files-o fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitement'), [
                                                                 'controller' => 'pannel',
-                                                                'action' => 'consulte'
-                                                                 ], ['escape' => false]) . '</li>';
-                                                        }
-                                                        
-                                                        if ($this->Autorisation->authorized([
-                                                                    '1'
-                                                                        ], $this->Session->read('Droit.liste'))
-                                                        ) {
+                                                                'action' => 'index'
+                                                                ], ['escape' => false]) . '</li>';
 
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-check fa-fw"></i>' . __d('default', 'default.sousTitreTraitementValidees'), [
-                                                                'controller' => 'pannel',
-                                                                'action' => 'archives'
-                                                                    ], ['escape' => false]) . '</li>';
-                                                            echo '<li class="divider"></li>';
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-plus fa-fw"></i>' . __d('pannel', 'pannel.btnCreerTraitement'), ['#' => '#'], [
-                                                                'escape' => false,
-                                                                'data-toggle' => 'modal',
-                                                                'data-target' => '#myModal'
-                                                            ]) . '</li>';
-                                                        }
-                                                        ?>
-                                            </ul>
-                                        </li>
+                                                            if ($this->Autorisation->authorized([
+                                                                        '1'
+                                                                            ], $this->Session->read('Droit.liste'))
+                                                            ) {
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-pencil-square-o fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementEnCoursRedaction'), [
+                                                                    'controller' => 'pannel',
+                                                                    'action' => 'encours_redaction'
+                                                                        ], ['escape' => false]) . '</li>';
+                                                            }
 
-                                                <?php
+                                                            if ($this->Autorisation->authorized([
+                                                                        '1'
+                                                                            ], $this->Session->read('Droit.liste'))
+                                                            ) {
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementEnAttente'), [
+                                                                    'controller' => 'pannel',
+                                                                    'action' => 'attente'
+                                                                        ], ['escape' => false]) . '</li>';
+                                                            }
+
+                                                            if ($this->Autorisation->authorized([
+                                                                        '1'
+                                                                            ], $this->Session->read('Droit.liste'))
+                                                            ) {
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-times fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRefuser'), [
+                                                                    'controller' => 'pannel',
+                                                                    'action' => 'refuser'
+                                                                        ], ['escape' => false]) . '</li>';
+                                                            }
+
+                                                            if ($this->Autorisation->authorized([
+                                                                        '2'
+                                                                            ], $this->Session->read('Droit.liste'))
+                                                            ) {
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-pause fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRecuValidation'), [
+                                                                    'controller' => 'pannel',
+                                                                    'action' => 'recuValidation'
+                                                                        ], ['escape' => false]) . '</li>';
+                                                            }
+
+                                                            if ($this->Autorisation->authorized([
+                                                                        '3'
+                                                                ], $this->Session->read('Droit.liste'))
+                                                            ) {
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-inbox fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRecuConsultation'), [
+                                                                    'controller' => 'pannel',
+                                                                    'action' => 'recuConsultation'
+                                                                        ], ['escape' => false]) . '</li>';
+                                                            }
+
+                                                            if ($this->Autorisation->authorized([
+                                                                '2',
+                                                                '3'
+                                                                ], $this->Session->read('Droit.liste'))
+                                                            ) {
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-eye fa-fw"></i>' . __d('default', 'default.sousTitreTraitementVu'), [
+                                                                    'controller' => 'pannel',
+                                                                    'action' => 'consulte'
+                                                                     ], ['escape' => false]) . '</li>';
+                                                            }
+
+                                                            if ($this->Autorisation->authorized([
+                                                                        '1'
+                                                                            ], $this->Session->read('Droit.liste'))
+                                                            ) {
+
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-check fa-fw"></i>' . __d('default', 'default.sousTitreTraitementValidees'), [
+                                                                    'controller' => 'pannel',
+                                                                    'action' => 'archives'
+                                                                        ], ['escape' => false]) . '</li>';
+                                                                echo '<li class="divider"></li>';
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-plus fa-fw"></i>' . __d('pannel', 'pannel.btnCreerTraitement'), ['#' => '#'], [
+                                                                    'escape' => false,
+                                                                    'data-toggle' => 'modal',
+                                                                    'data-target' => '#myModal'
+                                                                ]) . '</li>';
+                                                            }
+                                                            ?>
+                                                        </ul>
+                                                    </li>
+                                                    <?php
+                                                }
                                             }
                                             ?>
                                         <li>
@@ -217,56 +218,58 @@ $cakeDescription = 'Web-CIL';
                                                 <span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu" role="menu">
-                                                        <?php
-                                                        if ($this->Autorisation->authorized([
-                                                                    '12',
-                                                                    '11'
-                                                                        ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i>' . __d('default', 'default.sousTitreInfoGenerale'), [
-                                                                'controller' => 'organisations',
-                                                                'action' => 'edit',
-                                                                $this->Session->read('Organisation.id')
-                                                                    ], ['escape' => false]) . '</li>';
-                                                        }
+                                                <?php
+                                                if ($this->Autorisation->authorized([
+                                                    '12',
+                                                    '11'
+                                                        ], $this->Session->read('Droit.liste'))
+                                                ) {
+                                                    echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i>' . __d('default', 'default.sousTitreInfoGenerale'), [
+                                                        'controller' => 'organisations',
+                                                        'action' => 'edit',
+                                                        $this->Session->read('Organisation.id')
+                                                            ], ['escape' => false]) . '</li>';
+                                                }
 
-                                                        if ($this->Autorisation->authorized([
-                                                                    '12'
-                                                                        ], $this->Session->read('Droit.liste'))
-                                                        ) {
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-check-square-o fa-fw"></i>' . __d('default', 'default.sousTitreFormulaire'), [
-                                                                'controller' => 'Formulaires',
-                                                                'action' => 'index'
-                                                                    ], ['escape' => false]) . '</li>';
-                                                            ?>
-                                                <li class="dropdown-submenu">
-                                                    <a href="#" >
-                                                        Mes modèles
-                                                    </a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                        <li>
-                                                            <a href="#" title="Modèles pour les formulaires">
-                                                                            <?php
-                                                                             echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleFormulaire'), [
-                                                                                'controller' => 'modeles',
-                                                                                'action' => 'index'
-                                                                                    ], ['escape' => false]) . '</li>';
-                                                                            ?>
-                                                            </a>
-                                                            <a href="#" title="Modèle pour l'extrait de registre">
-                                                                            <?php
-                                                                             echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleExtraitRegistre'), [
-                                                                                'controller' => 'modeleExtraitRegistres',
-                                                                                'action' => 'index'
-                                                                                    ], ['escape' => false]) . '</li>';
-                                                                            ?>
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                            <?php
-                                                        }
+                                                if (!$this->Session->read('Su')) {
+                                                    if ($this->Autorisation->authorized([
+                                                        '12'
+                                                    ], $this->Session->read('Droit.liste'))
+                                                    ) {
+                                                        echo '<li>' . $this->Html->link('<i class="fa fa-check-square-o fa-fw"></i>' . __d('default', 'default.sousTitreFormulaire'), [
+                                                            'controller' => 'Formulaires',
+                                                            'action' => 'index'
+                                                                ], ['escape' => false]) . '</li>';
                                                         ?>
+                                                        <li class="dropdown-submenu">
+                                                            <a href="#" >
+                                                                Mes modèles
+                                                            </a>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li>
+                                                                    <a href="#" title="Modèles pour les formulaires">
+                                                                        <?php
+                                                                         echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleFormulaire'), [
+                                                                            'controller' => 'modeles',
+                                                                            'action' => 'index'
+                                                                                ], ['escape' => false]) . '</li>';
+                                                                        ?>
+                                                                    </a>
+                                                                    <a href="#" title="Modèle pour l'extrait de registre">
+                                                                        <?php
+                                                                         echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleExtraitRegistre'), [
+                                                                            'controller' => 'modeleExtraitRegistres',
+                                                                            'action' => 'index'
+                                                                                ], ['escape' => false]) . '</li>';
+                                                                        ?>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
                                             </ul>
                                         </li>
                                                 <?php
