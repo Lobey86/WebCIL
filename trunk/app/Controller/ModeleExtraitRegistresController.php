@@ -102,6 +102,11 @@ class ModeleExtraitRegistresController extends AppController {
     }
     
     public function index() {
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->set('title', __d('modele', 'modele.titreModeleExtraitRegistre'));
 
         $modelesExtrait = $this->ModeleExtraitRegistre->find('all', [

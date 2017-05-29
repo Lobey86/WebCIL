@@ -42,6 +42,11 @@ class ModelesController extends AppController {
      * @version V1.0.0
      */
     public function index() {
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->set('title', __d('modele', 'modele.titreListeModele'));
         $modeles = $this->Formulaire->find('all', array(
             'contain' => array('Modele'),
@@ -56,6 +61,11 @@ class ModelesController extends AppController {
      * @version V1.0.0
      */
     public function add() {
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $saveFile = $this->Modele->saveFile($this->request->data, $this->request->data['Modele']['idUploadModele']);
 
         if ($saveFile == 0) {
@@ -101,6 +111,7 @@ class ModelesController extends AppController {
         $modeles = $this->Modele->find('all', array(
             'conditions' => array('fichier' => $file)
         ));
+        
         if ($modeles) {
             $isDeleted = $this->Modele->deleteAll(array(
                 'fichier' => $file

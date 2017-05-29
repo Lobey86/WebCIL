@@ -42,6 +42,11 @@ class FormulairesController extends AppController {
         if (true !== $this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR, ListeDroit::CREER_ORGANISATION, ListeDroit::MODIFIER_ORGANISATION, ListeDroit::CREER_PROFIL, ListeDroit::MODIFIER_PROFIL, ListeDroit::SUPPRIMER_PROFIL])) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+        
+        // Superadmin non autorisé
+        if ($this->Droits->isSu() == true) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
 
         $this->set('title', __d('formulaire', 'formulaire.titreListeFormulaire') . $this->Session->read('Organisation.raisonsociale'));
         
