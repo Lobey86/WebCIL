@@ -30,7 +30,6 @@ BEGIN;
 * @source http://andreas.scherbaum.la/blog/archives/346-create-language-if-not-exist.html
 */
 
-/*
 CREATE OR REPLACE FUNCTION create_plpgsql_language () RETURNS TEXT AS
 $$
 		CREATE LANGUAGE 'plpgsql';
@@ -44,7 +43,6 @@ SELECT CASE WHEN ( SELECT true::BOOLEAN FROM pg_language WHERE lanname='plpgsql'
 END;
 
 DROP FUNCTION create_plpgsql_language ();
-*/
 
 -- -----------------------------------------------------------------------------
 
