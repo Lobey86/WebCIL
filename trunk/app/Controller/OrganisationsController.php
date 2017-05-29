@@ -297,8 +297,8 @@ class OrganisationsController extends AppController {
 
             $this->Organisation->id = $id;
 
-            //$success = $success && false !== $this->Organisation->saveAddEditForm($this->request->data, $id);
-            $success = $success && false !== $this->Organisation->save($this->request->data, $id);
+            $success = $success && false !== $this->Organisation->saveAddEditForm($this->request->data, $id);
+            //$success = $success && false !== $this->Organisation->save($this->request->data, $id);
             
             if ($success == true && !empty($this->request->data('Organisation.cil'))) {
                 $success = $this->_attributionRoleCIL($this->request->data('Organisation.cil'), $id);
