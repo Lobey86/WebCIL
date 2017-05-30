@@ -19,9 +19,10 @@ $(document).ready(function () {
     $(".multiDeroulant").chosen({no_results_text: "Aucun résultat trouvé pour", width: '100%'});
 
     $("#deroulant").change(function () {
-        $('.droitsVille').css("visibility", "hidden");
+        $('.droitsVille').css("display", "none");
         $("#deroulant option:selected").each(function () {
             var clickedOptionValue = $(this).attr('value');
+            $('#droitsVille' + clickedOptionValue).css("display", "");
             $('#droitsVille' + clickedOptionValue).css("visibility", "visible");
  
         });
