@@ -410,7 +410,7 @@ $cakeDescription = 'Web-CIL';
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle"
                                                data-toggle="dropdown">
-                                                <span class="glyphicon glyphicon-envelope"></span>
+                                                <span class="fa fa-bell"></span>
                                             </a>
                                             <ul class="info_notification dropdown-menu" role="menu">
                                                     <?php
