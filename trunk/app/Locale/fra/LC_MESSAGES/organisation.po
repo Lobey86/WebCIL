@@ -159,4 +159,7 @@ msgstr "E-mail du CIL "
 msgid "organisation.btnLogo"
 msgstr "Changer le logo"
 
+msgid "organisation.champOrganisationId"
+msgstr "Entité"
+
 ###############################################################################

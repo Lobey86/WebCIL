@@ -113,6 +113,12 @@ msgstr "Effacer les notifications"
 
 ###################### Utiliser dans toute l'application ######################
 
+msgid "default.btnSave"
+msgstr " Enregistrer"
+
+msgid "default.btnCancel"
+msgstr " Annuler"
+
 msgid "default.btnAnnuler"
 msgstr " Annuler"
 

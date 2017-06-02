@@ -112,26 +112,29 @@ msgstr " Ajouter un utilisateur"
 msgid "user.btnAjouterUser"
 msgstr " Ajouter un utilisateur"
 
-msgid "user.champLogin"
+msgid "user.champUsername"
 msgstr "Identifiant "
 
-msgid "user.placeholderChampLogin"
+msgid "user.placeholderChampUsername"
 msgstr "Identifiant (requis)"
 
-msgid "user.champMotDePasse"
+msgid "user.champPassword"
 msgstr "Mot de passe "
 
 msgid "user.placeholderChampMotDePasse"
 msgstr "Mininum 5 caractères (requis)"
 
-msgid "user.champVerifMotDePasse"
+msgid "user.champPasswd"
 msgstr "Vérification du mot de passe "
 
-msgid "user.placeholderChampVerifMotDePasse"
+msgid "user.placeholderChampPasswd"
 msgstr "Vérification du mot de passe (requis)"
 
 msgid "user.champCivilite"
 msgstr "Civilité "
+
+msgid "user.champNom"
+msgstr "Nom "
 
 msgid "user.placeholderChampNom"
 msgstr "Nom (requis)"
@@ -142,7 +145,10 @@ msgstr "Prénom "
 msgid "user.placeholderChampPrenom"
 msgstr "Prénom (requis)"
 
-msgid "user.placeholderChampE-mail"
+msgid "user.champEmail"
+msgstr "E-mail "
+
+msgid "user.placeholderChampEmail"
 msgstr "exemple@exemple.fr (requis)"
 
 msgid "user.champEntite"
@@ -157,16 +163,16 @@ msgstr "Profil : "
 msgid "user.champProfilEntite"
 msgstr "Profil de l'utilisateur : "
 
-msgid "user.textTelephoneFixe"
+msgid "user.champTelephonefixe"
 msgstr "Téléphone fixe"
 
-msgid "user.placeholderTelephoneFixe"
+msgid "user.placeholderChampTelephonefixe"
 msgstr "Téléphone fixe de l'utilisateur"
 
-msgid "user.textTelephonePortable"
+msgid "user.champTelephoneportable"
 msgstr "Téléphone portable"
 
-msgid "user.placeholderTelephonePortable"
+msgid "user.placeholderChampTelephoneportable"
 msgstr "Téléphone portable de l'utilisateur"
 
 ###############################################################################

@@ -17,6 +17,7 @@
  */
 App::uses('Controller', 'Controller');
 App::uses('CakeEmail', 'Network/Email');
+App::uses('WebcilTranslator', 'Utility');
 
 /**
  * Application Controller
@@ -51,7 +52,13 @@ class AppController extends Controller
                 'action' => 'display',
                 'home'
             ]
+        ],
+        'Translator.TranslatorAutoload' => [
+            'translatorClass' => 'WebcilTranslator'
         ]
+    ];
+    public $helpers = [
+        'WebcilForm'
     ];
 
     /**
