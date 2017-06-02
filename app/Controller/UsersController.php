@@ -277,6 +277,10 @@ class UsersController extends AppController {
         $this->set('listeservices', $this->_listeServicesUser());
 
         if ($this->request->is('post')) {
+            if('Cancel' === Hash::get($this->request->data, 'submit')) {
+                $this->redirect(array('action' => 'index'));
+            }
+
             $success = true;
             $this->User->begin();
 
@@ -364,7 +368,13 @@ class UsersController extends AppController {
             $this->set('listedroits', $table['listedroits']);
         }
 
-        $this->set('options', $this->User->enums());
+        $options = $this->User->enums();
+        $options['Organisation']['Organisation_id'] = [];
+        foreach ($this->viewVars['tableau']['Organisation'] as $key => $datas) {
+            $options['Organisation']['Organisation_id'][$datas['infos']['id']] = $datas['infos']['raisonsociale'];
+        }
+
+        $this->set(compact('options'));
     }
 
     /**

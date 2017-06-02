@@ -1,0 +1,27 @@
+# Traductions de tests.po
+# @license: Expression license is undefined on line 3, column 15 in Templates/CakePHP/CakePHP locale.po.
+#
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+# ==============================================================================
+
+msgid "test1"
+msgstr "traduction domain1/test1"
+
+msgid "test5"
+msgid_plural "tests5"
+msgstr[0] "traduction domain1/test5"
+msgstr[1] "traduction domain1/test5 pluriel"
+
+msgid "test6"
+msgstr "traduction avec %d %s"
+
+msgid "test7"
+msgid_plural "tests7"
+msgstr[0] "traduction avec %d %s"
+msgstr[1] "traduction avec %d %s au pluriel"

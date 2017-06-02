@@ -1,0 +1,27 @@
+{
+    "name": "cakephp/Translator",
+    "version": "1.0.0",
+    "description": "Plugin CakePHP 2.x pour faciliter les traductions se trouvant sur plusieurs domaines",
+    "authors": [
+        {
+            "name": "Christian BUFFIN",
+            "homepage": "http://www.adullact-projet.coop",
+            "email": "christian.buffin@adullact-projet.coop",
+            "role": "Developer"
+        },
+        {
+            "name": "Ludovic GANEE",
+            "homepage": "http://www.ledepartement66.fr/",
+            "email": "ludovic.ganee@cd66.fr",
+            "role": "Developer"
+        }
+    ],
+    "type": "cakephp-plugin",
+    "license": "CECILL-2.0",
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "config": {
+        "vendor-dir": "Vendor/"
+    }
+}

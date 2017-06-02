@@ -89,6 +89,10 @@ CakePlugin::loadAll(array(
         'bootstrap' => true,
         'routes' => false
     ),
+    'Translator' => array(
+        'bootstrap' => true,
+        'routes' => false
+    ),
 ));
 
 /**

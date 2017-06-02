@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	colors="true"
+	processIsolation="false"
+	stopOnFailure="true"
+	syntaxCheck="false"
+	timeoutForSmallTests="1"
+	timeoutForMediumTests="10"
+	timeoutForLargeTests="60"
+	>
+	<php>
+		<ini name="memory_limit" value="-1"/>
+		<ini name="apc.enable_cli" value="1"/>
+	</php>
+
+	<!-- Setup which files get code coverage -->
+	<filter>
+		<whitelist>
+			<directory>../../..</directory>
+			<exclude>
+				<directory>../../../Test</directory>
+			</exclude>
+		</whitelist>
+	</filter>
+</phpunit>
