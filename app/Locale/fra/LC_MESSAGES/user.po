@@ -115,6 +115,9 @@ msgstr " Ajouter un utilisateur"
 msgid "user.champUsername"
 msgstr "Identifiant "
 
+msgid "user.placeholderChampLogin"
+msgstr "Identifiant (requis)"
+
 msgid "user.placeholderChampUsername"
 msgstr "Identifiant (requis)"
 

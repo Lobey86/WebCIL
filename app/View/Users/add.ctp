@@ -50,15 +50,29 @@
 
     <div class="col-md-6">
         <!-- Champs Entité * -->
-        <?php
-            echo $this->WebcilForm->input('Organisation.Organisation_id', [
-                'options' => $options['Organisation']['Organisation_id'],
+        <div class="form-group">
+            <?php
+            $listeOrganisations = [];
+            foreach ($tableau['Organisation'] as $key => $datas) {
+                $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
+            }
+
+            echo $this->Form->input('Organisation.Organisation_id', [
+                'options' => $listeOrganisations,
+                'class' => 'form-control',
                 'id' => 'deroulant',
+                'label' => [
+                    'text' => __d('user', 'user.champEntite') . '<span class="requis">*</span>',
+                    'class' => 'col-md-4 control-label'
+                ],
+                'between' => '<div class="col-md-8">',
+                'after' => '</div>',
                 'multiple' => 'multiple',
                 'required' => true
             ]);
-        ?>
-        
+            ?>
+        </div>
+
         <?php
         foreach ($tableau['Organisation'] as $key => $datas) {
             $listeroles = [];
@@ -79,33 +93,48 @@
                     <h4><?php echo $datas['infos']['raisonsociale']; ?></h4>
                 </div>
 
-                <?php
+                <div class="form-group">
+                    <?php
                     //Si des service existe on affiche le champs de selection d'un service
                     if (!empty($listeservices[$datas['infos']['id']])) {
-                        echo $this->WebcilForm->input('Service.' . $datas['infos']['id'], [
+                        //Champ Service
+                        echo $this->Form->input('Service.' . $datas['infos']['id'], [
+                            'options' => $listeservices[$datas['infos']['id']],
+                            'class' => 'form-control',
+                            'id' => 'deroulantservice',
                             'label' => [
                                 'text' => __d('user', 'user.champService'),
+                                'class' => 'col-md-4 control-label'
                             ],
-                            'options' => $listeservices[$datas['infos']['id']],
-                            'id' => 'deroulantservice',
-                            'multiple' => 'multiple',
-                            'required' => true
+                            'between' => '<div class="col-md-8">',
+                            'after' => '</div>',
+                            'multiple' => 'multiple'
                         ]);
                     }
-                ?>
+                    ?>
+                </div>
 
                 <?php
                 if (!empty($listeroles)) {
                     //Champ Profils au sein de  *
-                        echo $this->WebcilForm->input('Role.' . $datas['infos']['id'], [
+                    ?>
+                    <div class="form-group">
+                        <?php
+                        //Champ Profils au sein de  *
+                        echo $this->Form->input('Role.' . $datas['infos']['id'], [
+                            'class' => 'form-control',
                             'label' => [
-                                'text' => __d('user', 'user.champProfilEntite')
+                                'text' => __d('user', 'user.champProfilEntite') . ' <span class="requis">*</span>',
+                                'class' => 'col-md-4 control-label'
                             ],
                             'options' => $listeroles,
                             'empty' => true,
+                            'between' => '<div class="col-md-8">',
+                            'after' => '</div>',
                             'required' => true
                         ]);
-                    ?>
+                        ?>
+                    </div>
                     <?php
                 } else {
                     echo "Aucun profil n'a été créé pour cette entité";
