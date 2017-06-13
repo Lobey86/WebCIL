@@ -33,25 +33,25 @@ msgid "pannel.btnCreerTraitement"
 msgstr " Créer un traitement"
 
 msgid "pannel.btnVoirTraitementEnCoursRedaction"
-msgstr " Voir tous les traitements en cours de rédaction"
+msgstr " Visualiser tous les traitements en cours de rédaction"
 
 msgid "pannel.btnVoirTraitementEnAttente"
-msgstr " Voir tous les traitements en attente"
+msgstr " Visualiser tous les traitements en attente"
 
 msgid "pannel.btnVoirTraitementRefuser"
-msgstr " Voir tous les traitements refusés"
+msgstr " Visualiser tous les traitements refusés"
 
 msgid "pannel.btnVoirTraitementRecuValidation"
-msgstr " Voir tous les traitements reçus pour validation"
+msgstr " Visualiser tous les traitements reçus pour validation"
 
 msgid "pannel.btnVoirTraitementRecuConsultation"
-msgstr " Voir tous les traitements reçus pour consultation"
+msgstr " Visualiser tous les traitements reçus pour consultation"
 
 msgid "pannel.btnVoirTraitementArchiver"
-msgstr " Voir tous mes traitements validés et insérés au registre"
+msgstr " Visualiser tous mes traitements validés et insérés au registre"
 
 msgid "pannel.btnVoirTraitementPasserPossession"
-msgstr " Voir tous les traitements passés en ma possession"
+msgstr " Visualiser tous les traitements passés en ma possession"
 
 msgid "pannel.commentaireSupprimerTraitement"
 msgstr "Supprimer le traitement"
