@@ -259,19 +259,20 @@ echo $this->Html->css(array(
             </div>
         </div>
     </div>
-    <div class="col-md-8 form-oblig form-horizontal">
+    
+<!--    <div class="col-md-8 form-oblig form-horizontal">
         <?php
-        echo $this->Form->input('file', array(
-            'type' => 'file',
-            'label' => __d('formulaire','formulaire.champFichier'),
-            'multiple',
-            'class' => 'filestyle fichiers draggable',
-            'data-buttonText' => __d('default','default.btnParcourir'),
-            'data-buttonName' => "btn-primary",
-            'data-buttonBefore' => "true"
-        ));
+//        echo $this->Form->input('file', array(
+//            'type' => 'file',
+//            'label' => __d('formulaire','formulaire.champFichier'),
+//            'multiple',
+//            'class' => 'filestyle fichiers draggable',
+//            'data-buttonText' => __d('default','default.btnParcourir'),
+//            'data-buttonName' => "btn-primary",
+//            'data-buttonBefore' => "true"
+//        ));
         ?>
-    </div>
+    </div>-->
 
     <div class="top30 btn-group col-md-12">
         <button class="btn btn-default-success" id="successForm"><i class="fa fa-fw fa-check"></i>

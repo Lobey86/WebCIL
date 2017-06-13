@@ -459,19 +459,19 @@ echo $this->Html->css(array(
 </div>
 
 <!-- Ajout d'un fichier -->
-<div class="col-md-8 form-oblig form-horizontal">
+<!--<div class="col-md-8 form-oblig form-horizontal">
     <?php
-    echo $this->Form->input('file', array(
-        'type' => 'file',
-        'label' => __d('formulaire', 'formulaire.champFichier'),
-        'multiple',
-        'class' => 'filestyle fichiers draggable',
-        'data-buttonText' => __d('default', 'default.btnParcourir'),
-        'data-buttonName' => "btn-primary",
-        'data-buttonBefore' => "true"
-    ));
+//    echo $this->Form->input('file', array(
+//        'type' => 'file',
+//        'label' => __d('formulaire', 'formulaire.champFichier'),
+//        'multiple',
+//        'class' => 'filestyle fichiers draggable',
+//        'data-buttonText' => __d('default', 'default.btnParcourir'),
+//        'data-buttonName' => "btn-primary",
+//        'data-buttonBefore' => "true"
+//    ));
     ?>
-</div>
+</div>-->
 
 <!-- Bouton Enregistrer ce formulaire -->
 <div class="top30 btn-group col-md-12">
