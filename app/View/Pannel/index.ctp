@@ -20,7 +20,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                         ?>
                             <span class="pull-right">
                                 <?php
-                                echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementEnCoursRedaction'), [
+                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementEnCoursRedaction'), [
                                         'controller' => 'pannel',
                                         'action' => 'encours_redaction',
                                             ], [
@@ -311,7 +311,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                         ?>
                             <span class="pull-right">
                                 <?php
-                                echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementEnAttente'), [
+                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementEnAttente'), [
                                     'controller' => 'pannel',
                                     'action' => 'attente',
                                         ], [
@@ -495,7 +495,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                         ?>
                             <span class="pull-right">
                                 <?php
-                                echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementRefuser'), [
+                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementRefuser'), [
                                     'controller' => 'pannel',
                                     'action' => 'refuser',
                                         ], [
@@ -667,7 +667,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                         ?>
                         <span class="pull-right">
                             <?php
-                            echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementRecuValidation'), [
+                            echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementRecuValidation'), [
                                 'controller' => 'pannel',
                                 'action' => 'recuValidation',
                                     ], [
@@ -963,7 +963,7 @@ if ($this->Autorisation->authorized(3, $droits)) {
                     ?>
                         <span class="pull-right">
                                 <?php
-                                echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementRecuConsultation'), [
+                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementRecuConsultation'), [
                                         'controller' => 'pannel',
                                         'action' => 'recuConsultation',
                                             ], [
@@ -1116,7 +1116,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                     ?>
                         <span class="pull-right">
                            <?php
-                            echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementArchiver'), [
+                            echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementArchiver'), [
                                 'controller' => 'pannel',
                                 'action' => 'archives',
                                     ], [
@@ -1273,7 +1273,7 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
                     ?>
                         <span class="pull-right">
                                <?php
-                                echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnVoirTraitementPasserPossession'), [
+                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementPasserPossession'), [
                                     'controller' => 'pannel',
                                     'action' => 'consulte',
                                         ], [
