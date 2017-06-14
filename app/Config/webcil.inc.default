@@ -36,4 +36,4 @@ define('FORMAT_DATE', '%e-%m-%Y');
 define('FORMAT_DATE_HEURE', '%e-%m-%Y à %H:%M');
 
 //Validation champs Nom, Prenom etc...
-define('REGEXP_ALPHA_FR', '/^[a-zA-Z\-ÂÀâàÇçÉÊÈËéêèëÎÏîïÔÖôöÛÙûù]*$/i');
+define('REGEXP_ALPHA_FR', '/^[a-zA-Z\-ÂÀâàÇçÉÊÈËéêèëÎÏîïÔÖôöÛÙûù ]*$/i');
