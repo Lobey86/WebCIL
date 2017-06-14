@@ -74,6 +74,9 @@ msgstr "Modifier le profil"
 msgid "role.commentaireSupprimerProfil"
 msgstr "Supprimer le profil"
 
+msgid "role.commentaireActualiserDroitsUtilisateurs"
+msgstr "Actualiser tous les droits des utilisateurs"
+
 msgid "role.confirmationSupprimerProfil"
 msgstr "Voulez vous vraiment supprimer le profil : "
 
