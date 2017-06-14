@@ -1,37 +1,44 @@
 <?php
+use phpgedooo_client\GDO_PartType;
+use phpgedooo_client\GDO_FusionType;
+use phpgedooo_client\GDO_ContentType;
+
+App::uses('FusionConvBuilder', 'FusionConv.Utility');
+App::uses('CakeTime', 'Utility');
 
 /**
- * Model OdtFusionBehavior
- * 
- * Centralise les fonctions de fusion des modèles odt avec les données des modèles
- * Callbacks :
- *  - getModelTemplateId($this->_id, $this->_modelOptions) : le modèle doit posséder cette méthode qui retourne l'id du modeltemplate à utiliser
- *  - beforeFusion($this->_id, $this->_modelOptions) : le modèle doit posséder cette méthode pour l'initialisation des variables gedooo avant de faire la fusion
- * Variables du modèle appellant initialisées dynamiquement
- *  - odtFusionResult : le résultat de la fusion est stocké dans la variable odtFusionResult du modèle appelent
- *  - modelTemplateOdtInfos : instance de la librairie ModelOdtValidator.Lib.phpOdtApi de manipulation des odt
+ * OdtFusion behavior class.
  *
- * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
- * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ * Centralise les fonctions de fusion des modèles odt avec les données des modèles
+ *
+ * Callbacks :
+ *  - getModelTemplateId($this->_id, $this->_modelOptions) : le modèle doit
+ *      posséder cette méthode qui retourne l'id du modeltemplate à utiliser
+ *  - beforeFusion($this->_id, $this->_modelOptions) : le modèle doit posséder
+ *      cette méthode pour l'initialisation des variables gedooo avant de faire
+ *      la fusion
+ *
+ * Variables du modèle appellant initialisées dynamiquement :
+ *  - odtFusionResult : le résultat de la fusion est stocké dans la variable
+ *      odtFusionResult du modèle appelent
+ *  - modelTemplateOdtInfos : instance de la librairie ModelOdtValidator.Lib.phpOdtApi
+ *      de manipulation des odt
+ *
+ *
+ * web-delib : Application de gestion des actes administratifs
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
- * @link        https://adullact.net/projects/webcil/
- * @since       webcil v0.9.0
+ * @link        https://adullact.net/projects/webdelib web-delib Project
+ * @since       web-delib v4.3
  * @license     http://www.cecill.info/licences/Licence_CeCILL_V2-fr.html CeCiLL V2 License
- * @version     v0.9.0
- * @package     ModelBehavior
+ * @version     v4.3
+ * @package     app.Model.Behavior
  */
-//App::import( 'Behavior', 'FusionConv.' );
-App::uses('CakeTime', 'Utility');
-
 class OdtFusionBehavior extends ModelBehavior {
 
     // id de l'occurence en base de données à fusionner
@@ -56,27 +63,27 @@ class OdtFusionBehavior extends ModelBehavior {
      *  'modelTemplateId' : id du template à utiliser
      *  'modelOptions' : options gérées par la classe appelante
      * @throws Exception
-     * 
-     * @access public
-     * @created 18/06/2015
-     * @version V0.9.0
+     * @return void
      */
     public function setup(Model $model, $options = array()) {
         // initialisations des options
         $this->_setupOptions($options);
 
         // chargement du modèle template
-        if (empty($this->_modelTemplateId))
+        if (empty($this->_modelTemplateId)) {
             $this->_modelTemplateId = $model->getModelTemplateId($this->_id, $this->_modelOptions);
-        if (empty($this->_modelTemplateId))
+        }
+        if (empty($this->_modelTemplateId)) {
             throw new Exception('identifiant du modèle d\'édition non trouvé pour id:' . $this->_id . ' du model de données ' . $model->alias);
+        }
         $myModeltemplate = ClassRegistry::init('ModelOdtValidator.Modeltemplate');
         $modelTemplate = $myModeltemplate->find('first', array(
             'recursive' => -1,
             'fields' => array('name', 'content'),
             'conditions' => array('id' => $this->_modelTemplateId)));
-        if (empty($modelTemplate))
+        if (empty($modelTemplate)) {
             throw new Exception('modèle d\'édition non trouvé en base de données id:' . $this->_id);
+        }
         $this->_modelTemplateName = $modelTemplate['Modeltemplate']['name'];
         $this->_modelTemplateContent = $modelTemplate['Modeltemplate']['content'];
 
@@ -91,23 +98,17 @@ class OdtFusionBehavior extends ModelBehavior {
 
     /**
      * Retour la Fusion dans le format demandé
-     * 
-     * @param Model $model
-     * @param string|'pdf' $mimeType
+     * @param string $mimeType
      * @return string
-     * 
-     * @access public
-     * @created 18/06/2015
-     * @version V0.9.0
      */
-    function getOdtFusionResult(Model &$model, $mimeType = 'pdf') {
+    public function getOdtFusionResult(Model &$model, $mimeType = 'pdf') {
         App::uses('ConversionComponent', 'Controller/Component');
         App::uses('Component', 'Controller');
         // initialisations
         $collection = new ComponentCollection();
         $this->Conversion = new ConversionComponent($collection);
         try {
-            $content = $this->Conversion->convertirFlux($model->odtFusionResult->content->binary, 'odt', $mimeType);
+            $content = $this->Conversion->convertirFlux($model->odtFusionResult->binary, 'odt', $mimeType);
         } catch (ErrorException $e) {
             $this->log('Erreur lors de la conversion : ' . $e->getCode(), 'error');
         }
@@ -117,27 +118,23 @@ class OdtFusionBehavior extends ModelBehavior {
 
     /**
      * Suppression en mémoire du retour de la fusion
-     * 
+     *
      * @param Model $model
-     * 
-     * @access public
-     * @created 18/06/2015
-     * @version V0.9.0
      */
     public function deleteOdtFusionResult(Model &$model) {
-        unset($model->odtFusionResult->content->binary);
+        unset($model->odtFusionResult->binary);
     }
 
     /**
      * initialisation des variables du behavior
-     * 
-     * @param type $options
-     * 
-     * @access public
-     * @created 18/06/2015
-     * @version V0.9.0
+     * @param array $options liste des options formatée comme suit :
+     *  'id' => id de l'occurence du modèle sujet à la fusion
+     *  'fileNameSuffixe' : suffixe du nom de la fusion (défaut : $id)
+     *  'modelTemplateId' : id du template à utiliser
+     *  'modelOptions' : options gérées par la classe appelante
+     * @return void
      */
-    public function _setupOptions($options) {
+    private function _setupOptions($options) {
         // initialisations
         $defaultOptions = array(
             'id' => $this->_id,
@@ -146,8 +143,9 @@ class OdtFusionBehavior extends ModelBehavior {
             'modelOptions' => $this->_modelOptions
         );
 
-        if (!empty($options['modelOptions']) && !empty($this->_modelOptions))
+        if (!empty($options['modelOptions']) && !empty($this->_modelOptions)) {
             $options['modelOptions'] = array_merge($this->_modelOptions, $options['modelOptions']);
+        }
         $options = array_merge($defaultOptions, $options);
 
         // affectation des variables de la classe
@@ -158,9 +156,9 @@ class OdtFusionBehavior extends ModelBehavior {
     }
 
     /**
-     * Retourne un nom pour la fusion qui est constitué du nom (liellé) du modèle odt échapé, suivi de '_'.$suffix.
+     * Retourne un nom pour la fusion qui est constitué du nom (liellé)
+     * du modèle odt échapé, suivi de '_'.$suffix.
      * Génère une exception en cas d'erreur
-     * 
      * @param Model $model modele du comportement
      * @param array $options tableau des parmètres optionnels :
      *    'id' : identifiant de l'occurence en base de données (défaut : $this->_id)
@@ -168,17 +166,13 @@ class OdtFusionBehavior extends ModelBehavior {
      *  'modelOptions' : options gérées par la classe appelante
      * @return string
      * @throws Exception en cas d'erreur
-     * 
-     * @access public
-     * @created 18/06/2015
-     * @version V0.9.0
      */
     public function fusionName(Model &$model, $options = array()) {
         // initialisations
         $this->_setupOptions($options);
-        if (empty($this->_modelTemplateId))
+        if (empty($this->_modelTemplateId)) {
             throw new Exception('détermination du nom de la fusion -> modèle d\'édition indéterminé');
-
+        }
         // contitution du nom
         $fusionName = str_replace(array(' ', 'é', 'è', 'ê', 'ë', 'à'), array('_', 'e', 'e', 'e', 'e', 'a'), $this->_modelTemplateName);
         return preg_replace('/[^a-zA-Z0-9-_\.]/', '', $fusionName) . (empty($this->_fileNameSuffixe) ? '' : '_') . $this->_fileNameSuffixe;
@@ -186,76 +180,78 @@ class OdtFusionBehavior extends ModelBehavior {
 
     /**
      * Fonction de fusion du modèle odt et des données.
-     * Le résultat de la fusion est un odt dont le contenu est stocké dans la variable du model odtFusionResult
-     * 
+     * Le résultat de la fusion est un odt dont le contenu est stocké dans
+     * la variable du model odtFusionResult
      * @param Model $model modele du comportement
      * @param array $options tableau des parmètres optionnels :
      *      'id' : identifiant de l'occurence en base de données (fusionNamedéfaut : $this->_id)
      *      'modelOptions' : options gérées par la classe appelante
+     * @return void
      * @throws Exception en cas d'erreur
-     * 
-     * @access public
-     * @created 18/06/2015
-     * @version V0.9.0
      */
     public function odtFusion(Model &$model, $options = array()) {
         // initialisations
         $this->_setupOptions($options);
-        if (empty($this->_modelTemplateId))
+        if (empty($this->_modelTemplateId)) {
             throw new Exception('détermination du nom de la fusion -> modèle d\'édition indéterminé');
+        }
 
         // initialisation des datas
         $aData = array();
-
+        
         // initialisation des variables communes
         $this->_setVariablesCommunesFusion($model, $aData);
 
         // initialisation des variables du model de données
         $model->beforeFusion($aData, $model->modelTemplateOdtInfos, $this->_id, $this->_modelOptions);
 
-        App::uses('FusionConvBuilder', 'FusionConv.Utility');
         $MainPart = new GDO_PartType();
-        $correspondances = $types = $data = array();
-        $this->_format($MainPart, $aData, $data, $types);
-        unset($aData);
-
-        $Document = FusionConvBuilder::main($MainPart, $data, $types);
-
-        $sMimeType = 'application/vnd.oasis.opendocument.text';
-
-        $Template = new GDO_ContentType("", $this->_modelTemplateName, "application/vnd.oasis.opendocument.text", "binary", $this->_modelTemplateContent);
-        $Fusion = new GDO_FusionType($Template, $sMimeType, $Document);
-
+        $correspondances = array();
+        $types = array();
+        $data = array();
+        //echo '<pre>'.var_export($aData, true).'</pre>';exit;
+        $this->_format($MainPart, $aData, $data, $types, $correspondances);
+        //echo '<pre>'.var_export(FusionConvBuilder::main($MainPart, $data, $types, $correspondances), true).'</pre>';
+        //exit;
+        
+        $Fusion = new GDO_FusionType(
+            new GDO_ContentType(
+                "",
+                $this->_modelTemplateName,
+                "application/vnd.oasis.opendocument.text",
+                "binary",
+                $this->_modelTemplateContent
+            ),
+            'application/vnd.oasis.opendocument.text',
+            FusionConvBuilder::main($MainPart, $data, $types, $correspondances)
+        );
+        //file_put_contents('/tmp/Fusion', serialize($Fusion));
         $Fusion->process();
 
         $model->odtFusionResult = $Fusion->getContent();
 
-        if (is_array($model->odtFusionResult))
+        if (is_array($model->odtFusionResult)) {
             throw new Exception($model->odtFusionResult['Message']);
-
+        }
         // libération explicite de la mémoire
         unset($aData);
     }
 
     /**
-     * Fonction de fusion des variables communes : collectivité et dates
+     * fonction de fusion des variables communes : collectivité et dates
      * génère une exception en cas d'erreur
-     * 
+     * @param GDO_PartType $oMainPart variable Gedooo de type maintPart du document à fusionner
      * @param Model $model modele du comportement
-     * @param type $aData
-     * 
-     * @access private
-     * @created 18/06/2015
-     * @version V0.9.0
      */
     private function _setVariablesCommunesFusion(Model &$model, &$aData) {
         // variables des dates du jour
         if ($model->modelTemplateOdtInfos->hasUserFieldDeclared('date_jour_courant')) {
-            $//myDate = new DateComponent;
-                    $aData['date_jour_courant'] = CakeTime::i18nFormat(date('Y-m-d H:i:s'), '%A %d %B %G à %k:%M');
+            //myDate = new DateComponent;
+            $aData['date_jour_courant'] = array('value' => CakeTime::i18nFormat(date('Y-m-d H:i:s'), '%A %d %B %G') . ' à ' . CakeTime::i18nFormat(date('Y-m-d H:i:s'), '%k:%M'), 'type' => 'text');
         }
-        if ($model->modelTemplateOdtInfos->hasUserFieldDeclared('date_du_jour'))
-            $aData['date_du_jour'] = date("d/m/Y", strtotime("now"));
+        if ($model->modelTemplateOdtInfos->hasUserFieldDeclared('date_du_jour')) {
+            $aData['date_du_jour'] = array('value' => date("d/m/Y", strtotime("now")), 'type' => 'date');
+        }
 
         // variables de la collectivité
         $myCollectivite = ClassRegistry::init('Collectivite');
@@ -263,25 +259,73 @@ class OdtFusionBehavior extends ModelBehavior {
     }
 
     /**
-     * @param GDO_PartType $MainPart
+     *
+     * @param type $MainPart
      * @param type $aData
      * @param type $data
      * @param type $types
-     * 
-     * @access private
-     * @created 18/06/2015
-     * @version V0.9.0
+     * @param type $correspondances
      */
-    private function _format(&$MainPart, &$aData, &$data, &$types) {
-        foreach ($aData as $key => $value) {
-            if (ctype_digit($key)) {
-                $this->_format($data, $dataIteration, $typesIteration);
-                $MainPart = new GDO_PartType();
-                $result = FusionConvBuilder::iteration($MainPart, 'IterationName', $dataIteration, $typesIteration, null);
+    private function _format(&$MainPart, &$aData, &$data, &$types, &$correspondances) {
+        if (!empty($aData)) {
+            foreach ($aData as $key => $value) {
+                if (is_array($value) && !empty($value[0])) {
+                    $this->_formatIteration($MainPart, $key, $value);
+                } elseif (isset($value['value']) && isset($value['type'])) {
+                    $data[$key] = $value['value'];
+                    $types[$key] = $value['type'];
+                    $correspondances[$key] = $key;
+                }
             }
-            $data[$key] = $value['value'];
-            $types[$key] = $value['type'];
         }
     }
 
+    /**
+     *
+     * @param type $MainPart
+     * @param type $iteration
+     * @param type $aData
+     */
+    private function _formatIteration(&$MainPart, $iteration, &$aData) {
+        foreach ($aData as $key => $value) {
+            $dataIteration = array();
+            foreach ($value as $keyIteration => $valueIteration) {
+                if (isset($valueIteration[0])) {
+                    $this->_formatIterationChild($dataIteration, $keyIteration, $valueIteration, $typesIteration, $correspondancesIteration);
+                } elseif (isset($valueIteration['type'])) {
+                    $dataIteration[$keyIteration] = $valueIteration['value'];
+                    $typesIteration[$iteration . '.' . $keyIteration] = $valueIteration['type'];
+                    $correspondancesIteration[$iteration . '.' . $keyIteration] = $keyIteration;
+                }
+            }
+
+            $aDataIteration[$iteration][] = $dataIteration;
+        }
+
+        FusionConvBuilder::iteration($MainPart, $iteration, $aDataIteration, $typesIteration, $correspondancesIteration);
+    }
+
+    /**
+     *
+     * @param type $dataIteration
+     * @param type $iteration
+     * @param type $aData
+     * @param type $typesIteration
+     * @param type $correspondancesIteration
+     */
+    private function _formatIterationChild(&$dataIteration, $iteration, $aData, &$typesIteration, &$correspondancesIteration) {
+        foreach ($aData as $key => $value) {
+            $dataIterationchild = array();
+            foreach ($value as $keyIteration => $valueIteration) {
+                if (isset($valueIteration[0])) {
+                    $this->_formatIterationChild($dataIterationchild, $keyIteration, $valueIteration, $typesIteration, $correspondancesIteration);
+                } elseif (isset($valueIteration['type'])) {
+                    $dataIterationchild[$keyIteration] = $valueIteration['value'];
+                    $typesIteration[$iteration . '.' . $keyIteration] = $valueIteration['type'];
+                    $correspondancesIteration[$iteration . '.' . $keyIteration] = $keyIteration;
+                }
+            }
+            $dataIteration[$iteration][] = $dataIterationchild;
+        }
+    }
 }
