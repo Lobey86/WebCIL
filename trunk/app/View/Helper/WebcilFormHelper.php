@@ -32,6 +32,9 @@ class WebcilFormHelper extends FormHelper {
         }
 
         $defaults = [
+            'id' => null,
+            'name' => null,
+            'div' => false,
             'class' => 'form-control',
             'placeholder' => null,
             'label' => [
@@ -43,7 +46,15 @@ class WebcilFormHelper extends FormHelper {
             'required' => false
         ];
         $options = $this->_options($defaults, $options);
-
+        
+        if ($options['id'] === null) {
+            $options['id'] = $modelName . ucfirst($fieldName);
+        }
+        
+        if ($options['name'] === null) {
+            $options['name'] = 'data['.$modelName.']['.$fieldName.']';
+        }
+        
         if (null === $options['placeholder']) {
             $options['placeholder'] = __m(Inflector::underscore($modelName) . '.placeholderChamp' . Inflector::camelize($fieldName));
         }
@@ -57,6 +68,10 @@ class WebcilFormHelper extends FormHelper {
             $options['label']['text'] .= ' <span class="requis">*</span>';
         }
 
+        if (isset($this->validationErrors['User'][$fieldName]) && !empty($this->validationErrors['User'][$fieldName])) {
+            $options['after'] .= '<div class="error-message">' . $this->validationErrors['User'][$fieldName][0] . '</div>';
+        }
+        
         return $this->Html->tag('div', parent::input($fieldName, $options), ['class' => 'form-group']);
     }
 

@@ -33,31 +33,17 @@
     ?>
     
     <div class="col-md-6">
-        <div class="form-group">
-            <?php
-            // Champs Login *
-            echo $this->Form->input('username', [
-                'class' => 'form-control',
-                'placeholder' => __d('user', 'user.placeholderChampLogin'),
-                'label' => [
-                    'text' => __d('user', 'user.champLogin') . '<span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'autocomplete' => 'off',
-                'required' => true
+        <?php
+            echo $this->WebcilForm->inputs([
+                'username' => ['autocomplete' => 'off', 'required' => true, 'value' => $this->request->data('User.username')]
             ]);
-            ?>
-        </div>
+        ?>
         
         <!-- Encadré bleu -->
         <div class="alert alert-info">
-            <?php echo __d('user', 'user.textInfoMotDePasse'); ?>
+            <?php 
+                echo __d('user', 'user.textInfoMotDePasse'); 
             
-            <!-- Champs Nouveau mot de passe * -->
-            <div class="form-group">
-                <?php
                 // Champ caché pour éviter l'autocomplete du navigateur pour le mot de passe
                 echo $this->Form->input('password1', [
                     'style' => 'display: none;',
@@ -66,142 +52,25 @@
                     'id' => false
                 ]);
                 
-                echo $this->Form->input('new_password', [
-                    'class' => 'form-control',
-                    'placeholder' => __d('user', 'user.placeholderChampNouveauMotDePasse'),
-                    'label' => [
-                        'text' => __d('user', 'user.champNouveauMotDePasse') . '<span class="requis">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ],
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'type' => 'password',
-                    'autocomplete' => 'off'
+                echo $this->WebcilForm->inputs([
+                    'new_password' => ['type' => 'password', 'autocomplete' => 'off', 'required' => true, 'value' => $this->request->data('User.new_password')],
+                    'new_passwd' => ['type' => 'password', 'autocomplete' => 'off', 'required' => true, 'value' => $this->request->data('User.new_passwd')],
                 ]);
-                ?>
-            </div>
-            
-            <!-- Champs Vérification du nouveau mot de passe * -->
-            <div class="form-group">
-                <?php
-                echo $this->Form->input('new_passwd', [
-                    'class' => 'form-control',
-                    'placeholder' => __d('user', 'user.placeholderChampVerifNouveauMotDePasse'),
-                    'label' => [
-                        'text' => __d('user', 'user.champVerifNouveauMotDePasse') . '<span class="requis">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ],
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>',
-                    'type' => 'password',
-                    'autocomplete' => 'off'
-                ]);
-                ?>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <?php
-            //Champ Civilité *
-            echo $this->Form->input('civilite', [
-                'class' => 'form-control',
-                'label' => [
-                    'text' => __d('user', 'user.champCivilite') . '<span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'options' => $options['User']['civilite'],
-                'empty' => true,
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'required' => true
-            ]);
             ?>
         </div>
 
-        <!-- Champs Nom * -->
-        <div class="form-group">
-            <?php
-            echo $this->Form->input('nom', [
-                'class' => 'form-control',
-                'placeholder' => __d('user', 'user.placeholderChampNom'),
-                'label' => [
-                    'text' => __d('default', 'default.champNom') . '<span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'required' => true
+        <?php
+            echo $this->WebcilForm->inputs([
+                'civilite' => ['options' => $options['User']['civilite'], 'empty' => false, 'required' => true, 'selected' => $this->request->data('User.civilite')],
+                'nom' => ['value' => $this->request->data('User.nom'), 'required' => true],
+                'prenom' => ['value' => $this->request->data('User.prenom'), 'required' => true],
+                'email' => ['value' => $this->request->data('User.email'), 'required' => true],
+                'telephonefixe' => ['value' => $this->request->data('User.telephonefixe')],
+                'telephoneportable' => ['value' => $this->request->data('User.telephoneportable')]
             ]);
-            ?>
-        </div>
-        
-        <!-- Champs Prénom * -->
-        <div class="form-group">
-            <?php
-            echo $this->Form->input('prenom', [
-                'class' => 'form-control',
-                'placeholder' => __d('user', 'user.placeholderChampPrenom'),
-                'label' => [
-                    'text' => __d('user', 'user.champPrenom') . '<span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'required' => true
-            ]);
-            ?>
-        </div>
-        
-        <!-- Champs E-mail * -->
-        <div class="form-group">
-            <?php
-            echo $this->Form->input('email', [
-                'class' => 'form-control',
-                'placeholder' => __d('user', 'user.placeholderChampE-mail'),
-                'label' => [
-                    'text' => __d('default', 'default.champE-mail') . '<span class="requis">*</span>',
-                    'class' => 'col-md-4 control-label'
-                ],
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>',
-                'required' => true
-            ]);
-            ?>
-        </div>
-        
-        <div class="form-group">
-            <?php
-            // Champ Téléphone fixe
-            echo $this->Form->input('telephonefixe', array(
-                'class' => 'form-control',
-                'placeholder' => __d('user', 'user.placeholderTelephoneFixe'),
-                'label' => array(
-                    'text' => __d('user', 'user.textTelephoneFixe'),
-                    'class' => 'col-md-4 control-label'
-                ),
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>'
-            ));
-            ?>
-        </div>
-
-        <div class="form-group">
-            <?php
-            // Champ Téléphone portable
-            echo $this->Form->input('telephoneportable', array(
-                'class' => 'form-control',
-                'placeholder' => __d('user', 'user.placeholderTelephonePortable'),
-                'label' => array(
-                    'text' => __d('user', 'user.textTelephonePortable'),
-                    'class' => 'col-md-4 control-label'
-                ),
-                'between' => '<div class="col-md-8">',
-                'after' => '</div>'
-            ));
-            ?>
-        </div>
+        ?>
     </div>
-
+    
     <div class="col-md-6">
         <!-- Champs Entité * -->
         <div class="form-group">
@@ -335,27 +204,12 @@
 
 </div>
 
-<!-- Groupe de bouton -->
-<div class="text-center">
-    <div class="btn-group send">
-        <?php
-        //Bouton Annuler
-        echo $this->Html->link('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), [
-            'controller' => 'users',
-            'action' => 'index'
-        ], [
-            'class' => 'btn btn-default-default',
-            'escape' => false
-        ]);
+<?php
+    // Groupe de boutons
+    echo $this->WebcilForm->buttons( array( 'Cancel', 'Save' ) );
 
-        //Bouton Enregistrer
-        echo $this->Form->button('<i class="fa fa-floppy-o fa-lg"></i>' . __d('default', 'default.btnEnregistrer'), [
-            'type' => 'submit',
-            'class' => 'btn btn-default-success'
-        ]);
-        ?>
-    </div>
-</div>
+    echo $this->Form->end();
+?>
 
 <script type="text/javascript">
 

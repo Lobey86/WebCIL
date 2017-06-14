@@ -35,15 +35,15 @@
     <div class="col-md-6">
         <?php
             echo $this->WebcilForm->inputs([
-                'username' => ['autocomplete' => 'off', 'required' => true],
-                'password' => ['autocomplete' => 'off', 'required' => true],
-                'passwd' => ['autocomplete' => 'off', 'required' => true],
-                'civilite' => ['options' => $options['User']['civilite'], 'empty' => true, 'required' => true],
-                'nom' => ['required' => true],
-                'prenom' => ['required' => true],
-                'email' => ['required' => true],
-                'telephonefixe' => ['required' => true],
-                'telephoneportable' => ['required' => true]
+                'username' => ['autocomplete' => 'off', 'required' => true, 'value' => $this->request->data('User.username')],
+                'password' => ['autocomplete' => 'off', 'required' => true, 'value' => $this->request->data('User.password')],
+                'passwd' => ['autocomplete' => 'off', 'required' => true, 'value' => $this->request->data('User.passwd')],
+                'civilite' => ['options' => $options['User']['civilite'], 'empty' => true, 'required' => true, 'value' => $this->request->data('User.civilite')],
+                'nom' => ['required' => true, 'value' => $this->request->data('User.nom')],
+                'prenom' => ['required' => true, 'value' => $this->request->data('User.prenom')],
+                'email' => ['required' => true, 'value' => $this->request->data('User.email')],
+                'telephonefixe' => ['value' => $this->request->data('User.telephonefixe')],
+                'telephoneportable' => ['value' => $this->request->data('User.telephoneportable')]
             ]);
         ?>
     </div>

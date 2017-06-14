@@ -112,6 +112,9 @@ msgstr " Ajouter un utilisateur"
 msgid "user.btnAjouterUser"
 msgstr " Ajouter un utilisateur"
 
+msgid "user.champLogin"
+msgstr "Identifiant "
+
 msgid "user.champUsername"
 msgstr "Identifiant "
 
@@ -186,6 +189,13 @@ msgstr "Téléphone portable de l'utilisateur"
 msgid "user.textChangerInfoMotDePasse"
 msgstr "Si vous ne voulez pas modifier votre mot de passe laissez les 3 champs vides :"
 
+msgid "user.champOldPassword"
+msgstr "Votre mot de passe actuel "
+
+msgid "user.placeholderChampOldPassword"
+msgstr "Votre mot de passe actuel (requis)"
+
+
 msgid "user.champMotDePasseActuel"
 msgstr "Votre mot de passe actuel "
 
@@ -213,6 +223,18 @@ msgid "user.champVerifNouveauMotDePasse"
 msgstr "Vérification du nouveau mot de passe "
 
 msgid "user.placeholderChampVerifNouveauMotDePasse"
+msgstr "Vérification du nouveau mot de passe (requis)"
+
+msgid "user.champNewPassword"
+msgstr "Nouveau mot de passe "
+
+msgid "user.placeholderChampNewPassword"
+msgstr "Nouveau mot de passe avec minimum 5 caractères"
+
+msgid "user.champNewPasswd"
+msgstr "Vérification du nouveau mot de passe "
+
+msgid "user.placeholderChampNewPasswd"
 msgstr "Vérification du nouveau mot de passe (requis)"
 
 ###############################################################################

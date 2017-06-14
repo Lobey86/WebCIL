@@ -407,6 +407,10 @@ class UsersController extends AppController {
         $this->set('listeservices', $this->_listeServicesUser());
         
         if ($this->request->is('post') || $this->request->is('put')) {
+            if('Cancel' === Hash::get($this->request->data, 'submit')) {
+                $this->redirect(array('action' => 'index'));
+            }
+            
             $success = true;
             $this->User->begin();
 
@@ -784,6 +788,13 @@ class UsersController extends AppController {
         ]);
 
         if ($this->request->is('post') || $this->request->is('put')) {
+            if (Hash::get($this->request->data, 'submit') === 'Cancel') {
+                $this->redirect([
+                    'controller' => 'pannel',
+                    'action' => 'index'
+                ]);
+            }
+            
             $success = true;
             $this->User->begin();
 
@@ -821,7 +832,7 @@ class UsersController extends AppController {
             if ($success == true) {
                 $success = false !== $this->User->save($this->request->data) && $success;
             }
-
+            
             if ($success == true) {
                 $this->User->commit();
                 $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrerReconnecter'), "flashsuccess");
