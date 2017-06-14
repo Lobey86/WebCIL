@@ -82,7 +82,7 @@ if (!empty($roles)) {
                                     $donnees['Role']['id']
                                         ), array(
                                     'class' => 'btn btn-default-default btn-sm my-tooltip',
-                                    'title' => 'ré-appliqué tout les droit au utilisateur',
+                                    'title' => __d('role','commentaireActualiserDroitsUtilisateurs'),
                                     'escapeTitle' => false
                                 ));
                             }
