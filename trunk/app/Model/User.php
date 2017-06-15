@@ -87,6 +87,12 @@ class User extends AppModel {
                 'message' => 'Seulement des lettres sont accepté'
             )
         ),
+        'email' => array(
+            array(
+                'rule' => array('custom', REGEXP_EMAIL_FR),
+                'message' => 'L\'adresse email n\'est pas valide'
+            )
+        )
     );
 
     /**
