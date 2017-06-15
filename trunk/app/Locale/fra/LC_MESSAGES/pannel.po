@@ -189,7 +189,7 @@ msgid "pannel.commentaireModifierTraitement"
 msgstr "Modifier le traitement"
 
 msgid "pannel.commentaireVoirParcours"
-msgstr "Voir le parcours"
+msgstr "Historique du traitement"
 
 msgid "pannel.textEnvoyerConsultation"
 msgstr "Envoyer pour consultation"

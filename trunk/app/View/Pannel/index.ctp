@@ -108,7 +108,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
                                         ]);
                                         
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
+                                        echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'edit',
                                             $donnee['Fiche']['id']
@@ -123,7 +123,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                                 id='<?php echo $donnee['Fiche']['id']; ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                            <span class='glyphicon glyphicon-list-alt'></span>
+                                            <span class='fa fa-history fa-lg'></span>
                                         </button>
 
                                         <button
@@ -131,7 +131,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             type='button'
                                             id='dropdownMenu1' data-toggle='dropdown'
                                             title='<?php echo __d('pannel', 'pannel.commentaireEnvoyerTraitement'); ?>'>
-                                            <span class='glyphicon glyphicon-send'></span>
+                                            <span class='fa fa-paper-plane fa-lg'></span>
                                             <span class='caret'></span>
                                         </button>
                                         <ul class='dropdown-menu' role='menu'
@@ -166,7 +166,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         </ul>
                                     </div>
                                     <?php
-                                    echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                                    echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'delete',
                                         $donnee['Fiche']['id']
@@ -392,7 +392,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                                 id='<?php echo $donnee['Fiche']['id']; ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                            <span class='glyphicon glyphicon-list-alt'></span>
+                                            <span class='fa fa-history fa-lg'></span>
                                         </button>
                                         <button type='button'
                                                 class='btn btn-default-default boutonReorienter btn-sm my-tooltip'
@@ -585,10 +585,10 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                                 id='<?php echo $donnee['Fiche']['id']; ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                            <span class='glyphicon glyphicon-list-alt'></span>
+                                            <span class='fa fa-history fa-lg'></span>
                                         </button>
                                         <?php
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                                        echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'delete',
                                             $donnee['Fiche']['id']
@@ -741,7 +741,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                         'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                         'escapeTitle' => false,
                                         'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
-                                    ]) . $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
+                                    ]) . $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'edit',
                                         $donnee['Fiche']['id']
@@ -756,14 +756,14 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                             title= '<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                             id='<?php echo $donnee['Fiche']['id']; ?>'
                                             value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='glyphicon glyphicon-list-alt'></span>
+                                        <span class='fa fa-history fa-lg'></span>
                                     </button>
                                     <button
                                         class='btn btn-default-success dropdown-toggle boutonValider btn-sm my-tooltip'
                                         type='button'
                                         title= '<?php echo __d('pannel', 'pannel.commentaireValiderTraitement'); ?>'
                                         id='dropdownMenuValider' data-toggle='dropdown'>
-                                        <span class='glyphicon glyphicon-ok'></span>
+                                        <span class='fa fa-check fa-lg'></span>
                                         <span class='caret'></span>
                                     </button>
                                     <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenuValider'>
@@ -808,7 +808,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                         class='btn btn-default-danger boutonRefuser btn-sm my-tooltip'
                                         title='<?php echo __d('pannel','pannel.commentaireRefuserTraitement'); ?>'
                                         value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                    <span class='glyphicon glyphicon-remove'></span>
+                                    <span class='fa fa-times fa-lg'></span>
                                 </button>
 
                             </td>
@@ -1205,7 +1205,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                             id='<?php echo $donnee['Fiche']['id']; ?>'
                                             value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='glyphicon glyphicon-list-alt'></span>
+                                        <span class='fa fa-history fa-lg'></span>
                                     </button>
                                 </div>
                             </td>
@@ -1377,7 +1377,7 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
                                             title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                             id='<?php echo $donnee['Fiche']['id']; ?>'
                                             value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='glyphicon glyphicon-list-alt'></span>
+                                        <span class='fa fa-history fa-lg'></span>
                                     </button>
                                     <?php
                                     if ($donnee['EtatFiche']['etat_id'] == 2 && $donnee['EtatFiche']['user_id_actuel'] != $donnee['EtatFiche']['user_id']) {
