@@ -47,7 +47,7 @@ class WebcilFormHelper extends FormHelper {
             'value' => null
         ];
         $options = $this->_options($defaults, $options);
-        
+
         if ($options['id'] === null) {
             $options['id'] = $modelName . ucfirst($fieldName);
         }
@@ -74,7 +74,7 @@ class WebcilFormHelper extends FormHelper {
         }
 
         if (isset($this->validationErrors['User'][$fieldName]) && !empty($this->validationErrors['User'][$fieldName])) {
-            $options['after'] .= '<div class="error-message">' . $this->validationErrors['User'][$fieldName][0] . '</div>';
+            $options['after'] .= '<div class="error-message">' . $this->validationErrors[$modelName][$fieldName][0] . '</div>';
         }
         
         return $this->Html->tag('div', parent::input($fieldName, $options), ['class' => 'form-group']);
