@@ -75,6 +75,18 @@ class Organisation extends AppModel {
                 'message' => 'Le numéro de SIRET n\'est pas valide'
             ]
         ],
+        'email' => array(
+            array(
+                'rule' => array('custom', REGEXP_EMAIL_FR),
+                'message' => 'L\'adresse email n\'est pas valide'
+            )
+        ),
+        'emailresponsable' => array(
+            array(
+                'rule' => array('custom', REGEXP_EMAIL_FR),
+                'message' => 'L\'adresse email n\'est pas valide'
+            )
+        ),
         'numerocil' => [
             'notEmpty' => [
                 'rule' => [ 'notEmpty' ],
