@@ -35,7 +35,7 @@
         
         <?php
             echo $this->WebcilForm->inputs([
-                'username' => ['autocomplete' => 'off', 'required' => true, 'value' => $this->request->data('User.username')]
+                'username' => ['autocomplete' => 'off', 'required' => true]
             ]);
         ?>
         
@@ -65,12 +65,12 @@
 
         <?php
             echo $this->WebcilForm->inputs([
-                'civilite' => ['options' => $options['User']['civilite'], 'empty' => false, 'required' => true, 'selected' => $this->request->data('User.civilite')],
-                'nom' => ['value' => $this->request->data('User.nom'), 'required' => true],
-                'prenom' => ['value' => $this->request->data('User.prenom'), 'required' => true],
-                'email' => ['value' => $this->request->data('User.email'), 'required' => true],
-                'telephonefixe' => ['value' => $this->request->data('User.telephonefixe')],
-                'telephoneportable' => ['value' => $this->request->data('User.telephoneportable')]
+                'civilite' => ['options' => $options['User']['civilite'], 'empty' => false, 'required' => true],
+                'nom' => ['required' => true],
+                'prenom' => ['required' => true],
+                'email' => ['required' => true],
+                'telephonefixe' => [],
+                'telephoneportable' => []
             ]);
         ?>
     </div>

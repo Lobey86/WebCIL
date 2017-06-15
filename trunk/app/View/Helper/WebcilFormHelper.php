@@ -30,7 +30,7 @@ class WebcilFormHelper extends FormHelper {
         } else {
             list($modelName, $fieldName) = explode('.', $fieldName);
         }
-
+        
         $defaults = [
             'id' => null,
             'name' => null,
@@ -43,7 +43,8 @@ class WebcilFormHelper extends FormHelper {
             ],
             'between' => '<div class="col-md-8">',
             'after' => '</div>',
-            'required' => false
+            'required' => false,
+            'value' => null
         ];
         $options = $this->_options($defaults, $options);
         
@@ -66,6 +67,10 @@ class WebcilFormHelper extends FormHelper {
         if (true === $options['required']) {
             //$options['label']['text'] .= ' <abbr class="requis" title="Champ obligatoire">*</abbr>';
             $options['label']['text'] .= ' <span class="requis">*</span>';
+        }
+        
+        if ($options['value'] === null) {
+            $options['value'] = $this->request->data($modelName.'.'.$fieldName);
         }
 
         if (isset($this->validationErrors['User'][$fieldName]) && !empty($this->validationErrors['User'][$fieldName])) {
