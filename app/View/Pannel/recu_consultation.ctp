@@ -69,7 +69,7 @@ if ($this->Autorisation->authorized(3, $droits)) {
                             <td class='tdcent col-md-2 col-md-offset-10'>
                                 <div class="btn-group">
                                     <?php
-                                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                    echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'show',
                                         $donnee['Fiche']['id']

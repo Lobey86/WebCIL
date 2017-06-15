@@ -69,7 +69,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                             <td class='tdleft col-md-2 col-md-offset-10'>
                                 <div class="btn-group">
                                     <?php
-                                    echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                    echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'show',
                                         $donnee['Fiche']['id']
@@ -77,7 +77,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                         'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                         'escapeTitle' => false,
                                         'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
-                                    ]) . $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
+                                    ]) . $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'edit',
                                         $donnee['Fiche']['id']
@@ -92,14 +92,14 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                             title= '<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                             id='<?php echo $donnee['Fiche']['id']; ?>'
                                             value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='glyphicon glyphicon-list-alt'></span>
+                                        <span class='fa fa-history fa-lg'></span>
                                     </button>
                                     <button
                                         class='btn btn-default-success dropdown-toggle boutonValider btn-sm my-tooltip'
                                         type='button'
                                         title= '<?php echo __d('pannel', 'pannel.commentaireValiderTraitement'); ?>'
                                         id='dropdownMenuValider' data-toggle='dropdown'>
-                                        <span class='glyphicon glyphicon-ok'></span>
+                                        <span class='fa fa-check fa-lg'></span>
                                         <span class='caret'></span>
                                     </button>
                                     <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenuValider'>
@@ -144,7 +144,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                         class='btn btn-default-danger boutonRefuser btn-sm my-tooltip'
                                         title='<?php echo __d('pannel','pannel.commentaireRefuserTraitement'); ?>'
                                         value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                    <span class='glyphicon glyphicon-remove'></span>
+                                    <span class='fa fa-times fa-lg'></span>
                                 </button>
 
                             </td>

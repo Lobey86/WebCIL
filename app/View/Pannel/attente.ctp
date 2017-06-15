@@ -70,7 +70,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                 <td class='tdcent col-md-2 col-md-offset-10'>
                                     <div class="btn-group">
                                         <?php
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-search"></span>', [
+                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'show',
                                             $donnee['Fiche']['id']
@@ -85,7 +85,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                                 id='<?php echo $donnee['Fiche']['id']; ?>'
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                            <span class='glyphicon glyphicon-list-alt'></span>
+                                            <span class='fa fa-history fa-lg'></span>
                                         </button>
                                         <button type='button'
                                                 class='btn btn-default-default boutonReorienter btn-sm my-tooltip'
