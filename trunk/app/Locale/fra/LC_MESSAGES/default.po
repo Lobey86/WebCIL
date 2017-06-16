@@ -25,22 +25,22 @@ msgid "default.sousTitreMesTraitementEnAttente"
 msgstr "Mes déclarations en attente"
 
 msgid "default.sousTitreMesTraitementRefuser"
-msgstr "Mes déclarations refusés"
+msgstr "Mes déclarations refusées"
 
 msgid "default.sousTitreMesTraitementRecuValidation"
-msgstr "Mes déclarations reçus pour validation"
+msgstr "Mes déclarations reçues pour validation"
 
 msgid "default.sousTitreMesTraitementRecuConsultation"
-msgstr "Mes déclarations reçus pour consultation"
+msgstr "Mes déclarations reçues pour consultation"
 
 msgid "default.sousTitreTraitementRecues"
 msgstr "Les déclarations reçus"
 
 msgid "default.sousTitreTraitementValidees"
-msgstr "Mes déclarations validés"
+msgstr "Mes déclarations validées"
 
 msgid "default.sousTitreTraitementVu"
-msgstr "Mes déclarations vus"
+msgstr "Mes déclarations vues"
 
 msgid "default.titreRegistre"
 msgstr "Registre"

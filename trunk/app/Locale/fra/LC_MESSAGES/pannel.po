@@ -18,7 +18,7 @@ msgid "pannel.traitementEnAttente"
 msgstr "Mes déclarations en attente ("
 
 msgid "pannel.traitementRefusees"
-msgstr "Mes déclarations refusés ("
+msgstr "Mes déclarations refusées ("
 
 msgid "pannel.aucunTraitementEnCours"
 msgstr "Vous n'avez aucun traitement en cours"
@@ -84,7 +84,7 @@ msgid "pannel.titreTraitementRecue"
 msgstr "Mes déclarations reçus"
 
 msgid "pannel.titreTraitementValidee"
-msgstr "Mes déclarations validés"
+msgstr "Mes déclarations validées"
 
 msgid "pannel.titreTraitementEnCoursRedaction"
 msgstr "Mes déclarations en cours de rédaction"
@@ -93,13 +93,13 @@ msgid "pannel.titreTraitementEnAttente"
 msgstr "Mes déclarations en attente"
 
 msgid "pannel.titreTraitementRefuser"
-msgstr "Mes déclarations refusés"
+msgstr "Mes déclarations refusées"
 
 msgid "pannel.titreTraitementRecuValidation"
-msgstr "Mes déclarations reçus pour validation"
+msgstr "Mes déclarations reçues pour validation"
 
 msgid "pannel.titreTraitementConsultation"
-msgstr "Mes déclarations reçus pour consultation"
+msgstr "Mes déclarations reçues pour consultation"
 
 msgid "pannel.titreTraitementVu"
 msgstr "Tous les traitements en ma connaissance"
