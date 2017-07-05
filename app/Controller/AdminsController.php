@@ -66,42 +66,102 @@ class AdminsController extends AppController {
      * @created 17/06/2015
      * @version V1.0.0
      */
+//    public function add() {
+//        if ($this->request->data['Admin']['user'] != '') {
+//            $success = true;
+//            $this->Admin->begin();
+//
+//            $this->Admin->create([
+//                'user_id' => $this->request->data['Admin']['user']
+//            ]);
+//
+//            $count = $this->Admin->find('count', [
+//                'conditions' => [
+//                    'user_id' => $this->request->data['Admin']['user']
+//                ]
+//            ]);
+//
+//            if (!$count) {
+//                $success = $success && false !== $this->Admin->save();
+//
+//                if ($success == true) {
+//                    $this->Admin->commit();
+//                    $this->Session->setFlash(__d('admin', 'admin.flashsuccessUserRecuPrivilege'), 'flashsuccess');
+//                } else {
+//                    $this->EtatFiche->rollback();
+//                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
+//                }
+//            } else {
+//                $this->Session->setFlash(__d('amin', 'admin.flasherrorUserDejaAdmin'), 'flasherror');
+//            }
+//        } else {
+//            $this->Session->setFlash(__d('admin', 'admin.flasherrorUserNonSelectionne'), 'flasherror');
+//        }
+//
+//        $this->redirect([
+//            'controller' => 'admins',
+//            'action' => 'index'
+//        ]);
+//    }
+    
+    /**
+     * Affiche le formulaire d'ajout d'utilisateur, ou enregistre l'utilisateur et ses droits
+     * 
+     * @access public
+     * @created 17/06/2015
+     * @version V1.0.0
+     */
     public function add() {
-        if ($this->request->data['Admin']['user'] != '') {
+        if (true !== ($this->Droits->isSu())) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+
+        $this->set('title', __d('admin', 'admin.titreAjouterSuperAdmin'));
+
+        $options = [
+            'M.' => 'Monsieur',
+            'Mme.' => 'Madame'
+        ];
+        $this->set('options', $options);
+        
+        if ($this->request->is('post')) {
+            if('Cancel' === Hash::get($this->request->data, 'submit')) {
+                $this->redirect(array('action' => 'index'));
+            }
+            
+            debug($this->request->data);
+
             $success = true;
             $this->Admin->begin();
 
-            $this->Admin->create([
-                'user_id' => $this->request->data['Admin']['user']
-            ]);
+            $this->User->create($this->request->data['Admin']);
 
-            $count = $this->Admin->find('count', [
-                'conditions' => [
-                    'user_id' => $this->request->data['Admin']['user']
-                ]
-            ]);
-
-            if (!$count) {
+            $success = false !== $this->User->save() && $success;
+            
+            if ($success == true) {
+                $userId = $this->User->getInsertID();
+                
+                $this->Admin->create([
+                    'Admin' => [
+                        'user_id' => $userId
+                    ]
+                ]);
                 $success = $success && false !== $this->Admin->save();
-
-                if ($success == true) {
-                    $this->Admin->commit();
-                    $this->Session->setFlash(__d('admin', 'admin.flashsuccessUserRecuPrivilege'), 'flashsuccess');
-                } else {
-                    $this->EtatFiche->rollback();
-                    $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
-                }
-            } else {
-                $this->Session->setFlash(__d('amin', 'admin.flasherrorUserDejaAdmin'), 'flasherror');
             }
-        } else {
-            $this->Session->setFlash(__d('admin', 'admin.flasherrorUserNonSelectionne'), 'flasherror');
+            
+            if ($success == true) {
+                $this->Admin->commit();
+                $this->Session->setFlash(__d('admin', 'admin.flashsuccessSuperAdminEnregistrer'), 'flashsuccess');
+                    
+                $this->redirect([
+                    'controller' => 'admins',
+                    'action' => 'index'
+                ]);
+            } else {
+                $this->Admin->rollback();
+                $this->Session->setFlash(__d('admin', 'admin.flasherrorErreurSuperAdminEnregistrer'), 'flasherror');
+            }
         }
-
-        $this->redirect([
-            'controller' => 'admins',
-            'action' => 'index'
-        ]);
     }
 
     /**
@@ -109,12 +169,16 @@ class AdminsController extends AppController {
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function delete($id) {
-        if ($this->Admin->exists($id)) {
+    public function delete($idAdmin, $idUser) {
+        if ($this->Admin->exists($idAdmin)) {
             $success = true;
             $this->Admin->begin();
 
-            $success = $success && false !== $this->Admin->delete($id);
+            $success = $success && false !== $this->Admin->delete($idAdmin);
+            
+            if ($success == true) {
+                $success = $success && false !== $this->User->delete($idUser);
+            }
 
             if ($success == true) {
                 $this->Admin->commit();
