@@ -71,7 +71,7 @@ echo $this->Html->script('pannel.js');
                                         'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                         'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
                                         'escapeTitle' => false
-                                    ]) . $this->Html->link('<span class="glyphicon glyphicon-file"></span>', [
+                                    ]) . $this->Html->link('<span class="fa fa-download fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'genereFusion',
                                         $donnee['Fiche']['id']
