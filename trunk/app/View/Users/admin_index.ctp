@@ -1,11 +1,10 @@
 <?php
-
 echo $this->Html->script('users.js');
 
 // Filtrer les utilisateur que pour le Superadmin
 if ($this->Autorisation->isSu()) {
     // Bouton du filtre des utilisateurs
-    echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span> Filtrer les utilisateurs', $options = [
+    echo $this->Form->button('<span class="fa fa-filter fa-lg"></span> Filtrer les utilisateurs', $options = [
         'type' => 'button',
         'class' => 'btn btn-default-default pull-right',
         'id' => 'filtrageUsers'
@@ -18,7 +17,7 @@ if ($this->Autorisation->isSu()) {
     }
     ?>
 
-<div class="row">
+    <div class="row">
         <?php
         echo $this->Form->create('users', [
             'action' => 'index'
@@ -44,11 +43,11 @@ if ($this->Autorisation->isSu()) {
             'after' => '</div>'
         ]);
         ?>
-</div>
+    </div>
 
-<!-- Groupe de bouton -->
-<div class="row top30">
-    <div class="col-md-4 col-md-offset-5 btn-group">
+    <!-- Groupe de bouton -->
+    <div class="row top30">
+        <div class="col-md-4 col-md-offset-5 btn-group">
             <?php
             // Bouton Réinitialiser le filtre
             echo $this->Html->link('Réinitialiser', [
@@ -63,9 +62,9 @@ if ($this->Autorisation->isSu()) {
                 'class' => 'btn btn-default-success'
             ]);
             ?>
+        </div>
     </div>
-</div>
-</div>
+    </div>
     <?php
 }
 

@@ -283,7 +283,7 @@ if (!empty($fichesValid)) {
                                     title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
                                     id='<?php echo $value['Fiche']['id']; ?>'
                                     value='<?php echo $value['Fiche']['id']; ?>'>
-                                    <span class='glyphicon glyphicon-list-alt'></span>
+                                    <span class='fa fa-history fa-lg'></span>
                                 </button>
                                 
                                 <?php
