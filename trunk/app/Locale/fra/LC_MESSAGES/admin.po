@@ -14,10 +14,27 @@
 msgid "admin.titreSuperAdministrateur"
 msgstr "Super-administrateurs"
 
-###################### Session->setFlash ######################
+msgid "admin.titreAjouterSuperAdmin"
+msgstr "Ajouter un Super-administrateurs"
+
+###############################################################################
+
+
+######################### Session->setFlash->success ##########################
 
 msgid "admin.flashsuccessUserRecuPrivilege"
 msgstr "L'utilisateur a reçu les privilèges"
+
+msgid "admin.flashsuccessPrivilegeRetire"
+msgstr "Les privilèges ont été retirés"
+
+msgid "admin.flashsuccessSuperAdminEnregistrer"
+msgstr "L'utilisateur super-admin a été crée"
+
+###############################################################################
+
+
+########################## Session->setFlash->error ##########################
 
 msgid "admin.flasherrorUserDejaAdmin"
 msgstr "Cet utilisateur possède déjà les privilèges administrateur"
@@ -25,13 +42,11 @@ msgstr "Cet utilisateur possède déjà les privilèges administrateur"
 msgid "admin.flasherrorUserNonSelectionne"
 msgstr "Aucun utilisateur n'a été séléctionné"
 
-msgid "admin.flashsuccessPrivilegeRetire"
-msgstr "Les privilèges ont été retirés"
-
 msgid "admin.flasherrorUserInexistant"
 msgstr "Cet utilisateur n'existe pas"
 
-###############################################################
+msgid "admin.flasherrorErreurSuperAdminEnregistrer"
+msgstr "Une erreur est survenue lors de l'enregistrement de l'utilisateur super-admin."
 
 ###############################################################################
 
@@ -41,8 +56,8 @@ msgstr "Cet utilisateur n'existe pas"
 msgid "admin.commentaireRetirerPrivilege"
 msgstr "Retirer les privilèges"
 
-msgid "admin.btnAjouterPrivilege"
-msgstr "Ajouter un privilège"
+msgid "admin.btnAjouterSuperAdmin"
+msgstr " Ajouter un super-administrateur"
 
 msgid "admin.popupTitreAjouterPrivilegeSuperAdmin"
 msgstr "Ajouter un privilège super administrateur"
@@ -58,5 +73,70 @@ msgstr "Selectionner un utilisateur"
 
 msgid "admin.confirmationSupprimerPrivilegeUser"
 msgstr "Voulez vous supprimer les privilèges de l'utilisateur"
+
+msgid "admin.textSuperadministrateur"
+msgstr "super-administrateur"
+
+msgid "admin.champProfil"
+msgstr "Profil : "
+
+msgid "admin.textTableauLogin"
+msgstr "Identifiant : "
+
+###############################################################################
+
+
+############################ View/Admins/index.ctp ############################
+
+msgid "admin.champUsername"
+msgstr "Identifiant "
+
+msgid "admin.placeholderChampUsername"
+msgstr "Identifiant (requis)"
+
+msgid "admin.champPassword"
+msgstr "Mot de passe "
+
+msgid "admin.placeholderChampPassword"
+msgstr "Mot de passe (requis)"
+
+msgid "admin.champPasswd"
+msgstr "Vérification du mot de passe "
+
+msgid "admin.placeholderChampPasswd"
+msgstr "Vérification du mot de passe (requis)"
+
+msgid "admin.champCivilite"
+msgstr "Civilité "
+
+msgid "admin.champNom"
+msgstr "Nom "
+
+msgid "admin.placeholderChampNom"
+msgstr "Nom (requis)"
+
+msgid "admin.champPrenom"
+msgstr "Prénom "
+
+msgid "admin.placeholderChampPrenom"
+msgstr "Prénom (requis)"
+
+msgid "admin.champEmail"
+msgstr "E-mail "
+
+msgid "admin.placeholderChampEmail"
+msgstr "exemple@exemple.fr (requis)"
+
+msgid "admin.champTelephonefixe"
+msgstr "Téléphone fixe"
+
+msgid "admin.placeholderChampTelephonefixe"
+msgstr "Téléphone fixe de l'utilisateur"
+
+msgid "admin.champTelephoneportable"
+msgstr "Téléphone portable"
+
+msgid "admin.placeholderChampTelephoneportable"
+msgstr "Téléphone portable de l'utilisateur"
 
 ###############################################################################
