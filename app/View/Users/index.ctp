@@ -4,7 +4,7 @@ echo $this->Html->script('users.js');
 // Filtrer les utilisateur que pour le Superadmin
 if ($this->Autorisation->isSu()) {
     // Bouton du filtre des utilisateurs
-    echo $this->Form->button('<span class="glyphicon glyphicon-filter"></span> Filtrer les utilisateurs', $options = [
+    echo $this->Form->button('<span class="fa fa-filter fa-lg"></span> Filtrer les utilisateurs', $options = [
         'type' => 'button',
         'class' => 'btn btn-default-default pull-right',
         'id' => 'filtrageUsers'

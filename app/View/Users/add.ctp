@@ -88,7 +88,7 @@
             echo "</script>";
             ?>
 
-            <div class="form-group droitsVille " id="droitsVille<?php echo $key; ?>">
+            <div class="form-group droitsVille" id="droitsVille<?php echo $key; ?>">
                 <div class="titreDiv text-center">
                     <h4><?php echo $datas['infos']['raisonsociale']; ?></h4>
                 </div>
