@@ -71,6 +71,15 @@ msgstr "Envoyer le traitement"
 msgid "pannel.textEnvoyerCIL"
 msgstr "Envoyer au CIL"
 
+msgid "pannel.textValiderEnvoyerCIL"
+msgstr "Valider et envoyer au CIL"
+
+msgid "pannel.popupEnvoyerTraitementConsultation"
+msgstr "Envoyer le traitement pour consultation"
+
+msgid "pannel.popupEnvoyerTraitementValidation"
+msgstr "Envoyer le traitement pour validation"
+
 
 ###############################################################################
 
@@ -197,11 +206,23 @@ msgstr "Envoyer pour consultation"
 msgid "pannel.textEnvoyerValidation"
 msgstr "Envoyer pour validation"
 
+msgid "pannel.textValiderEnvoyerValidation"
+msgstr "Valider et envoyer pour validation"
+
 msgid "pannel.textSelectUser"
-msgstr "Selectionnez un utilisateur"
+msgstr "Sélectionnez un utilisateur"
+
+msgid "pannel.textSelectUserValideur"
+msgstr "Sélectionnez un valideur "
+
+msgid "pannel.textSelectUserConsultant"
+msgstr "Sélectionnez un consultant "
 
 msgid "pannel.btnVoirHistoriqueComplet"
 msgstr "Visualiser l'historique complet"
+
+msgid "pannel.popupReorienterTraitement"
+msgstr "Réorienter le traitement"
 
 ###############################################################################
 
