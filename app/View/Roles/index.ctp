@@ -103,7 +103,7 @@ if (!empty($roles)) {
 //Si les droits de l'utilisateur le permet, affichage du bouton "+ Ajouter un profil"
 if ($this->Autorisation->authorized(13, $droits)) {
     echo '<div class="text-center">';
-    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('role', 'role.btnAjouterProfil'), array(
+    echo $this->Html->link('<span class="fa fa-plus-circle fa-lg"></span>' . __d('role', 'role.btnAjouterProfil'), array(
         'controller' => 'roles',
         'action' => 'add'
             ), array(
