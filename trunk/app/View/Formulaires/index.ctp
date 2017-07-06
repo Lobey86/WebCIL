@@ -37,12 +37,12 @@
         <?php
         foreach ($formulaires as $data) {
             if ($data['Formulaire']['active'] == true) {
-                $iconClass = 'fa fa-toggle-off fa-3x fa-success';
+                $iconClass = 'fa fa-toggle-on fa-3x fa-success';
                 $statut = __d('formulaire', 'formulaire.textStatutActif');
                 $statutClass = 'fa-success';
             } else {
                 $statut = __d('formulaire', 'formulaire.textStatutInactif');
-                $iconClass = 'fa fa-toggle-on fa-3x fa-danger';
+                $iconClass = 'fa fa-toggle-off fa-3x fa-danger';
                 $statutClass = 'fa-danger';
             }
             ?>
@@ -102,7 +102,7 @@
 
                         if ($data['Formulaire']['active'] == true) {
                             // Bouton désactivé le formulaire
-                            $lien = $this->Html->link('<span class="fa fa-toggle-off fa-lg"></span>', array(
+                            $lien = $this->Html->link('<span class="fa fa-toggle-on fa-lg"></span>', array(
                                 'controller' => 'formulaires',
                                 'action' => 'toggle',
                                 $data['Formulaire']['id'],
@@ -114,7 +114,7 @@
                             ));
                         } else {
                             // Bouton activé le formulaire
-                            $lien = $this->Html->link('<span class="fa fa-toggle-on fa-lg"></span>', array(
+                            $lien = $this->Html->link('<span class="fa fa-toggle-off fa-lg"></span>', array(
                                 'controller' => 'formulaires',
                                 'action' => 'toggle',
                                 $data['Formulaire']['id'],
