@@ -4,7 +4,7 @@
         <?php echo __d('service', 'service.titreTableauNomService'); ?>
     </th>
     <th class="thleft col-md-8">
-        <?php echo __d('service', 'service.titreTableauSynthèse'); ?>
+        <?php echo __d('service', 'service.textTableauOrganisation'); ?>
     </th>
     <th class="thleft col-md-2">
         <?php echo __d('service', 'service.titreTableauAction'); ?>
@@ -26,10 +26,7 @@
             <td class="tdleft col-md-8">
                 <div class="row">
                     <div class="col-md-6">
-                        <strong>
-                            <?php echo __d('service','service.textTableauOrganisation');?>
-                        </strong>
-                            <?php echo $this->Session->read('Organisation.raisonsociale');?>
+                        <?php echo $this->Session->read('Organisation.raisonsociale');?>
                     </div>
                     <div class="col-md-6">
                         <strong>

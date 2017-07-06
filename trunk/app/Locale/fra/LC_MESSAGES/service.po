@@ -51,7 +51,7 @@ msgid "service.titreTableauAction"
 msgstr "Actions"
 
 msgid "service.textTableauOrganisation"
-msgstr "Organisation : "
+msgstr "Organisation"
 
 msgid "service.textTableauMembre"
 msgstr "Membre"
