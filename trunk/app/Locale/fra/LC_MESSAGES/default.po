@@ -82,10 +82,10 @@ msgid "default.sousTitreCompte"
 msgstr "Mon compte"
 
 msgid "default.sousTitreModifCompte"
-msgstr "Modifier mon compte"
+msgstr " Préférences"
 
 msgid "default.sousTitreDeconnexion"
-msgstr "Se déconnecter"
+msgstr " Se déconnecter"
 
 msgid "default.popupChoisirFormulaire"
 msgstr "Choisir un formulaire"

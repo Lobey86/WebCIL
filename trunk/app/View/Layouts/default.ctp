@@ -391,14 +391,14 @@ $cakeDescription = 'Web-CIL';
                                                 <li class="divider"></li>
                                                 <li class="dropdown-header"><?php echo __d('default', 'default.sousTitreCompte'); ?></li>
                                                 <li><?php
-                                                        echo $this->Html->link('<i class="fa fa-cog fa-fw"></i>' . __d('default', 'default.sousTitreModifCompte'), [
+                                                        echo $this->Html->link('<i class="fa fa-cogs fa-lg"></i>' . __d('default', 'default.sousTitreModifCompte'), [
                                                             'controller' => 'users',
                                                             'action' => 'changepassword',
                                                             $userId
                                                                 ], ['escapeTitle' => false]);
                                                         ?></li>
                                                 <li><?php
-                                                        echo $this->Html->link('<i class="fa fa-sign-out fa-fw"></i>' . __d('default', 'default.sousTitreDeconnexion'), [
+                                                        echo $this->Html->link('<i class="fa fa-sign-out fa-lg"></i>' . __d('default', 'default.sousTitreDeconnexion'), [
                                                             'controller' => 'users',
                                                             'action' => 'logout'
                                                                 ], ['escapeTitle' => false]);
