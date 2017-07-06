@@ -17,6 +17,9 @@ msgstr "Les services de : "
 msgid "service.titreAjouterService"
 msgstr "Ajouter un service"
 
+msgid "service.titreModifierrService"
+msgstr "Modifier un service"
+
 ###################### Session->setFlash ######################
 
 msgid "service.flashsuccessServiceEnregistrer"

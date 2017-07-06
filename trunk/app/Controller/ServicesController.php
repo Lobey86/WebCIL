@@ -101,7 +101,7 @@ class ServicesController extends AppController {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
-        $this->set('title', 'Modification d\'un service');
+        $this->set('title', __d('service', 'service.titreModifierrService'));
         $this->Service->id = $id;
         $servi = $this->Service->findById($id);
 
