@@ -122,7 +122,7 @@ $cakeDescription = 'Web-CIL';
                                                                         '1'
                                                                             ], $this->Session->read('Droit.liste'))
                                                             ) {
-                                                                echo '<li>' . $this->Html->link('<i class="fa fa-info fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementEnAttente'), [
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-pause fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementEnAttente'), [
                                                                     'controller' => 'pannel',
                                                                     'action' => 'attente'
                                                                         ], ['escape' => false]) . '</li>';
@@ -142,7 +142,7 @@ $cakeDescription = 'Web-CIL';
                                                                         '2'
                                                                             ], $this->Session->read('Droit.liste'))
                                                             ) {
-                                                                echo '<li>' . $this->Html->link('<i class="fa fa-pause fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRecuValidation'), [
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-check-square-o fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitementRecuValidation'), [
                                                                     'controller' => 'pannel',
                                                                     'action' => 'recuValidation'
                                                                         ], ['escape' => false]) . '</li>';
