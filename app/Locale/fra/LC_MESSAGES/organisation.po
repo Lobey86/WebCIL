@@ -55,6 +55,20 @@ msgstr "Visualiser les informations"
 ###############################################################################
 
 
+########################: View/Organisations/index.ctp ########################
+
+msgid "organisation.titreTableauEntite"
+msgstr "Entité"
+
+msgid "organisation.titreTableauOrganisation"
+msgstr "Organisation"
+
+msgid "organisation.titreTableauActions"
+msgstr "Actions"
+
+###############################################################################
+
+
 ####################: View/Organisations/edit.ctp + add.ctp ####################
 
 msgid "organisation.textEntite"

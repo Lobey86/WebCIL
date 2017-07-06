@@ -3,9 +3,20 @@ echo $this->Html->script('organisations.js');
 ?>
     <table class="table ">
         <thead>
-        <th class="thleft col-md-2">Entité</th>
-        <th class="thleft col-md-8">Synthèse</th>
-        <th class='thleft col-md-2'>Actions</th>
+            <!-- Entité -->
+            <th class="thleft col-md-2">
+                <?php echo __d('organisation', 'organisation.titreTableauEntite'); ?>
+            </th>
+            
+            <!-- Organisation -->
+            <th class="thleft col-md-8">
+                <?php echo __d('organisation', 'organisation.titreTableauOrganisation'); ?>
+            </th>
+            
+            <!-- Actions -->
+            <th class="thleft col-md-2">
+                <?php echo __d('organisation', 'organisation.titreTableauActions'); ?>
+            </th>
         </thead>
         <tbody>
         <?php
@@ -32,7 +43,7 @@ echo $this->Html->script('organisations.js');
                             'escapeTitle' => false
                         ));
                         if ( $this->Autorisation->authorized(12, $droits) ) {
-                            echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
+                            echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', array(
                                 'controller' => 'organisations',
                                 'action' => 'edit',
                                 $donnees[ 'Organisation' ][ 'id' ]
@@ -43,7 +54,7 @@ echo $this->Html->script('organisations.js');
                             ));
                         }
                         if ( $this->Autorisation->isSu() ) {
-                            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                            echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', array(
                                 'controller' => 'organisations',
                                 'action' => 'delete',
                                 $donnees[ 'Organisation' ][ 'id' ]
@@ -62,14 +73,17 @@ echo $this->Html->script('organisations.js');
         ?>
         </tbody>
     </table>
-<?php
-if ( $this->Autorisation->isSu() ) {
-    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> Ajouter une entité', array(
-        'controller' => 'organisations',
-        'action' => 'add'
-    ), array(
-        'class' => 'btn btn-default-primary pull-right sender',
-        'escapeTitle' => false
-    ));
-}
-?>
+
+<div class="text-center">
+    <?php
+        if ( $this->Autorisation->isSu() ) {
+            echo $this->Html->link('<span class="fa fa-plus-circle fa-lg"></span> Ajouter une entité', array(
+                'controller' => 'organisations',
+                'action' => 'add'
+            ), array(
+                'class' => 'btn btn-default-primary sender',
+                'escapeTitle' => false
+            ));
+        }
+    ?>
+</div>
