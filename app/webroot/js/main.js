@@ -55,6 +55,30 @@ $(document).ready(function () {
         
     })
     
+    $('.btn_envoyerValideur').click(function () {
+        var id = $(this).attr('data-id');
+        $('#ficheNumVal').val(id);
+
+        var fiche = $(this).attr('data-fiche');
+        $('#etatFicheVal').val(fiche);
+    })
+    
+    $('.btn_envoyerConsultation').click(function () {
+        var id = $(this).attr('data-id');
+        $('#ficheNumCons').val(id);
+
+        var fiche = $(this).attr('data-fiche');
+        $('#etatFicheCons').val(fiche);
+    })
+    
+    $('.btn_ReorienterTraitement').click(function () {
+        var id = $(this).attr('data-id');
+        $('#ficheNumReo').val(id);
+
+        var fiche = $(this).attr('data-fiche');
+        $('#etatFicheReo').val(fiche);
+    })
+    
     $('.btn-upload-modele').click(function () {
         var id = $(this).attr('data');
         $('#idUploadModele').val(id);

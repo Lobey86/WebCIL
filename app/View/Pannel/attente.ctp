@@ -87,13 +87,18 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
                                             <span class='fa fa-history fa-lg'></span>
                                         </button>
-                                        <button type='button'
-                                                class='btn btn-default-default boutonReorienter btn-sm my-tooltip'
-                                                title='<?php echo __d('pannel', 'pannel.commentaireReorienterTraitement'); ?>'
-                                                value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                            <span class='glyphicon glyphicon-transfer'></span>
-                                        </button>
 
+                                        <?php
+                                            echo $this->Html->link('<span class="glyphicon glyphicon-transfer"></span>', ['#' => '#'], [
+                                                'data-id' => $donnee['Fiche']['id'],
+                                                'data-fiche' => $donnee['EtatFiche']['id'],
+                                                'escape' => false,
+                                                'data-toggle' => 'modal',
+                                                'data-target' => '#modalReorienter',
+                                                'class' => 'btn btn-default-default btn_ReorienterTraitement  btn-sm my-tooltip',
+                                                'title' => __d('pannel', 'pannel.commentaireReorienterTraitement')
+                                            ]);
+                                        ?>
                                     </div>
                                 </td>
                             </tr>
@@ -126,35 +131,6 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     ?>
                                 </td>
                             </tr>
-                            <tr class='selectDestTrans<?php echo $donnee['Fiche']['id']; ?>'>
-                                <td></td>
-                                <td></td>
-                                <td colspan='2' class='tdleft'>
-                                    <?php
-                                    echo $this->Form->create('EtatFiche', $options = ['action' => 'reorientation']);
-                                    echo $this->Form->input('destinataire', [
-                                        'options' => $validants,
-                                        'class' => 'usersDeroulant transformSelect form-control bottom5',
-                                        'empty' => __d('pannel', 'pannel.textSelectUser'),
-                                        'required' => true,
-                                        'label' => false
-                                    ]);
-                                    echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
-                                    echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
-                                    echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>'. __d('default', 'default.btnAnnuler'), array(
-                                        'type' => 'button',
-                                        'class' => 'btn btn-default-default sendCancel',
-                                    ));
-                                    echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
-                                        'type' => 'submit',
-                                        'class' => 'btn btn-default-success pull-right'
-                                    ]);
-                                    echo '</div>';
-                                    echo $this->Form->end();
-                                    ?>
-                                </td>
-                            </tr>
                             <?php
                         }
                         ?>
@@ -180,6 +156,70 @@ if ($this->Autorisation->authorized(1, $droits)) {
     <?php
 }
 ?>  
+
+<!-- Pop-up reorientation du traitement -->
+<div class="modal fade" id="modalReorienter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <h4 class="modal-title" id="myModalLabel">
+                    <?php echo __d('pannel', 'pannel.popupReorienterTraitement'); ?>
+                </h4>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <?php 
+
+                    echo $this->Form->create('EtatFiche', array('action' => 'reorientation'));
+
+                    echo $this->Form->input('destinataire', [
+                        'class' => 'form-control usersDeroulant transformSelect form-control bottom5',
+                        'label' => [
+                            'text' => __d('pannel', 'pannel.textSelectUserValideur') . '<span class="requis">*</span>',
+                            'class' => 'col-md-4 control-label'
+                        ],
+                        'options' => $validants,
+                        'empty' => __d('pannel', 'pannel.textSelectUserValideur'),
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>',
+                        'required' => true,
+                        'autocomplete' => 'off'
+                    ]);
+
+                    echo $this->Form->hidden('ficheNum', ['id' => 'ficheNumReo']);
+                    echo $this->Form->hidden('etatFiche', ['id' => 'etatFicheReo']);
+                    ?>
+                </div>
+            </div>
+            
+            </hr>
+            
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default-default" data-dismiss="modal">
+                        <i class="fa fa-times-circle fa-lg"></i>
+                        <?php echo __d('default', 'default.btnAnnuler'); ?>
+                    </button>
+                    <?php
+                    echo $this->Form->button("<i class='fa fa-send fa-lg'></i>" . __d('default', 'default.btnEnvoyer'), array(
+                        'type' => 'submit',
+                        'class' => 'btn btn-default-success',
+                        'escape' => false
+                    ));
+                    ?>
+                </div>
+                <?php
+                echo $this->Form->end();
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
 
