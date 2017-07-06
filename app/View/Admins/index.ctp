@@ -89,7 +89,7 @@
 <div class="row bottom10">
     <div class="col-md-12 text-center">
         <?php
-            echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>'. __d('admin','admin.btnAjouterSuperAdmin'), array(
+            echo $this->Html->link('<span class="fa fa-plus-circle fa-lg"></span>'. __d('admin','admin.btnAjouterSuperAdmin'), array(
                 'controller' => 'admins',
                 'action' => 'add'
                     ), array(
