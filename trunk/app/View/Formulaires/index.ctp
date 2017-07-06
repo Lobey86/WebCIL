@@ -2,34 +2,34 @@
 <table class="table">
     <!-- Titre tableau -->
     <thead>
-            <!-- Statut -->
-        <th class="col-md-1">
-            <?php echo __d('formulaire', 'formulaire.titreTableauStatut'); ?>
-        </th>
+            <!-- Etat -->
+            <th class="col-md-1">
+                <?php echo __d('formulaire', 'formulaire.titreTableauEtat'); ?>
+            </th>
 
-        <!-- Nom -->
-        <th class="col-md-3">
-            <?php echo __d('user', 'user.titreTableauNomDuFormulaire'); ?>
-        </th>
-        
-        <!-- Description -->
-        <th class="col-md-4">
-            <?php echo __d('user', 'user.titreTableauDescription'); ?>
-        </th>
-        
-        <!-- Date de création -->
-        <th class="col-md-2">
-            <?php echo __d('user', 'user.titreTableauDateCreation'); ?>
-        </th>
+            <!-- Nom -->
+            <th class="col-md-3">
+                <?php echo __d('user', 'user.titreTableauNomDuFormulaire'); ?>
+            </th>
 
-        <!-- Actions -->
-        <th class="col-md-2">
-            <?php echo __d('user', 'user.titreTableauAction'); ?>
-        </th>
-        
-        <!-- checkbox traitement -->
-        <th class="thleft col-md-1">
-        </th>
+            <!-- Description -->
+            <th class="col-md-4">
+                <?php echo __d('user', 'user.titreTableauDescription'); ?>
+            </th>
+
+            <!-- Date de création -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauDateCreation'); ?>
+            </th>
+
+            <!-- Actions -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauAction'); ?>
+            </th>
+
+            <!-- Duplication formulaire autre organisation -->
+            <th class="thleft col-md-1">
+            </th>
     </thead>
     
     <!-- Info tableau -->
@@ -37,12 +37,12 @@
         <?php
         foreach ($formulaires as $data) {
             if ($data['Formulaire']['active'] == true) {
-                $iconClass = 'fa fa-check-square-o fa-3x fa-success';
+                $iconClass = 'fa fa-toggle-off fa-3x fa-success';
                 $statut = __d('formulaire', 'formulaire.textStatutActif');
                 $statutClass = 'fa-success';
             } else {
                 $statut = __d('formulaire', 'formulaire.textStatutInactif');
-                $iconClass = 'fa fa-close fa-3x fa-danger';
+                $iconClass = 'fa fa-toggle-on fa-3x fa-danger';
                 $statutClass = 'fa-danger';
             }
             ?>
@@ -102,7 +102,7 @@
 
                         if ($data['Formulaire']['active'] == true) {
                             // Bouton désactivé le formulaire
-                            $lien = $this->Html->link('<span class="fa fa-times fa-lg"></span>', array(
+                            $lien = $this->Html->link('<span class="fa fa-toggle-off fa-lg"></span>', array(
                                 'controller' => 'formulaires',
                                 'action' => 'toggle',
                                 $data['Formulaire']['id'],
@@ -114,7 +114,7 @@
                             ));
                         } else {
                             // Bouton activé le formulaire
-                            $lien = $this->Html->link('<span class="fa fa-check-square-o fa-lg"></span>', array(
+                            $lien = $this->Html->link('<span class="fa fa-toggle-on fa-lg"></span>', array(
                                 'controller' => 'formulaires',
                                 'action' => 'toggle',
                                 $data['Formulaire']['id'],
