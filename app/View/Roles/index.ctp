@@ -51,7 +51,7 @@ if (!empty($roles)) {
                             <?php
                             if ($this->Autorisation->authorized(14, $droits)) {
                                 //Bouton de modification (stylo)
-                                echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
+                                echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', array(
                                     'controller' => 'roles',
                                     'action' => 'edit',
                                     $donnees['Role']['id']
@@ -64,7 +64,7 @@ if (!empty($roles)) {
                             
                             if ($this->Autorisation->authorized(15, $droits)) {
                                 //Bouton de suppression (poubelle)
-                                echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                                echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', array(
                                     'controller' => 'roles',
                                     'action' => 'delete',
                                     $donnees['Role']['id']
@@ -76,13 +76,13 @@ if (!empty($roles)) {
                                 );
 
                                 //Bouton permettant de recharger les droits sur tous les utilisateurs de l'entité concernée
-                                echo $this->Html->link('<span class="glyphicon glyphicon-refresh"></span>', array(
+                                echo $this->Html->link('<span class="fa fa-refresh fa-lg"></span>', array(
                                     'controller' => 'roles',
                                     'action' => 'reattributionRoles',
                                     $donnees['Role']['id']
                                         ), array(
                                     'class' => 'btn btn-default-default btn-sm my-tooltip',
-                                    'title' => __d('role','commentaireActualiserDroitsUtilisateurs'),
+                                    'title' => __d('role','role.commentaireActualiserDroitsUtilisateurs'),
                                     'escapeTitle' => false
                                 ));
                             }
