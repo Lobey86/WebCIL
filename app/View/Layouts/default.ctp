@@ -103,7 +103,7 @@ $cakeDescription = 'Web-CIL';
                                                         </a>
                                                         <ul class="dropdown-menu" role="menu">
                                                             <?php
-                                                            echo '<li>' . $this->Html->link('<i class="fa fa-files-o fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitement'), [
+                                                            echo '<li>' . $this->Html->link('<i class="fa fa-list-ul fa-fw"></i>' . __d('default', 'default.sousTitreMesTraitement'), [
                                                                 'controller' => 'pannel',
                                                                 'action' => 'index'
                                                                 ], ['escape' => false]) . '</li>';
