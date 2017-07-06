@@ -47,8 +47,8 @@ msgstr "Le formulaire a été enregistré"
 
 #########################: View/Formulaires/index.ctp#########################
 
-msgid "formulaire.titreTableauStatut"
-msgstr "Statut"
+msgid "formulaire.titreTableauEtat"
+msgstr "Etat"
 
 msgid "formulaire.titreTableauSynthese"
 msgstr "Synthèse"
