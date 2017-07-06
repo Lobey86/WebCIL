@@ -41,7 +41,7 @@
                 <div class="btn-group">
                     <?php
                     if ( $this->Autorisation->authorized(14, $droits) ) {
-                        echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', array(
+                        echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', array(
                             'controller' => 'services',
                             'action' => 'edit',
                             $value['Service']['id']
@@ -52,7 +52,7 @@
                         ));
                     }
                     if ($this->Autorisation->authorized(15, $droits) && $value['count'] == 0) {
-                        echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', array(
+                        echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', array(
                             'controller' => 'services',
                             'action' => 'delete',
                             $value['Service']['id']
@@ -73,7 +73,7 @@
 </table>
 <?php
 echo '<div class="text-center">';
-echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>'. __d('service','service.btnAjouterService'), array(
+echo $this->Html->link('<span class="fa fa-plus-circle fa-lg"></span>'. __d('service','service.btnAjouterService'), array(
     'controller' => 'services',
     'action' => 'add'
         ), array(
