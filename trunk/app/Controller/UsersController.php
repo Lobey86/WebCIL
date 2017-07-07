@@ -159,6 +159,15 @@ class UsersController extends AppController {
                 ]);
                 $users[$key]['OrganisationUserService'][] = $orgaService;
             }
+
+            $servicesExiste = $this->Service->find('count');
+            if ($servicesExiste != 0) {
+                $existeService = true;
+            } else {
+                $existeService = false;
+            }
+            
+            $this->set('servicesExiste', $servicesExiste);
         }
         $this->set('users', $users);
 
@@ -1182,5 +1191,5 @@ class UsersController extends AppController {
         $this->set(compact('title', 'users'));
 //        $this->view = 'index';
     }
-
-}
+    
+        }
