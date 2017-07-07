@@ -172,7 +172,7 @@
 <div class="row bottom10">
     <div class="col-md-12 text-center">
         <button type="button" class="btn btn-default-primary" data-toggle="modal" data-target="#modalAddForm">
-            <span class="glyphicon glyphicon-plus"></span>
+            <span class="fa fa-plus fa-lg"></span>
             <?php echo __d('formulaire', 'formulaire.btnCreerFormulaire'); ?>
         </button>
     </div>
