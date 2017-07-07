@@ -1,0 +1,56 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?dakd6e');
+  src:  url('../fonts/icomoon.eot?dakd6e#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?dakd6e') format('truetype'),
+    url('../fonts/icomoon.woff?dakd6e') format('woff'),
+    url('../fonts/icomoon.svg?dakd6e#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-icone_modele_black:before {
+  content: "\e909";
+}
+.icon-WebCil:before {
+  content: "\e901";
+}
+.icon-S2low:before {
+  content: "\e902";
+}
+.icon-Pastell:before {
+  content: "\e903";
+}
+.icon-Asalae:before {
+  content: "\e904";
+}
+.icon-cachet_filled_black:before {
+  content: "\e905";
+}
+.icon-cachet_outline_black:before {
+  content: "\e906";
+}
+.icon-signature_filled_black:before {
+  content: "\e907";
+}
+.icon-signature_outline_black:before {
+  content: "\e908";
+}
+.icon-fusion_black:before {
+  content: "\e900";
+}
