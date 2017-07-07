@@ -236,7 +236,7 @@ $cakeDescription = 'Web-CIL';
                                                         '12'
                                                     ], $this->Session->read('Droit.liste'))
                                                     ) {
-                                                        echo '<li>' . $this->Html->link('<i class="fa fa-check-square-o fa-fw"></i>' . __d('default', 'default.sousTitreFormulaire'), [
+                                                        echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreFormulaire'), [
                                                             'controller' => 'Formulaires',
                                                             'action' => 'index'
                                                                 ], ['escape' => false]) . '</li>';
