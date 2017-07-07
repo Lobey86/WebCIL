@@ -73,36 +73,68 @@ if ($this->Autorisation->isSu()) {
 <table class="table">
     <!-- Titre tableau -->
     <thead>
-        <!-- Utilisateur -->
-        <th class="col-md-2" colspan="2">
-            <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
-        </th>
-        
-        <!-- Entité -->
-        <th class="col-md-2">
-            <?php echo __d('user', 'user.titreTableauEntite'); ?>
-        </th>
-        
-        <!-- Identifiant -->
-        <th class="col-md-2">
-            <?php echo __d('user', 'user.titreTableauIdentifiant'); ?>
-        </th>
-        
-        <!-- Profil -->
-        <th class="col-md-2">
-            <?php echo __d('user', 'user.titreTableauProfil'); ?>
-        </th>
+        <?php
+            if ($servicesExiste != 0) {
+            ?>
+            <!-- Utilisateur -->
+            <th class="col-md-2" colspan="2">
+                <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
+            </th>
 
-        <!-- Service -->
-        <th class="col-md-2">
-            <?php echo __d('user', 'user.titreTableauService'); ?>
-        </th>
+            <!-- Entité -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauEntite'); ?>
+            </th>
 
-        <!-- Actions -->
-        <th class="col-md-2">
-            <?php echo __d('user', 'user.titreTableauAction'); ?>
-        </th>
+            <!-- Identifiant -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauIdentifiant'); ?>
+            </th>
 
+            <!-- Profil -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauProfil'); ?>
+            </th>
+
+            <!-- Service -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauService'); ?>
+            </th>
+
+            <!-- Actions -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauAction'); ?>
+            </th>
+            <?php
+        } else {
+             ?>
+            <!-- Utilisateur -->
+            <th class="col-md-2" colspan="2">
+                <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
+            </th>
+
+            <!-- Entité -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauEntite'); ?>
+            </th>
+
+            <!-- Identifiant -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauIdentifiant'); ?>
+            </th>
+
+            <!-- Profil -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauProfil'); ?>
+            </th>
+
+            <!-- Actions -->
+            <th class="col-md-2">
+                <?php echo __d('user', 'user.titreTableauAction'); ?>
+            </th>
+            <?php
+        }
+        ?>
     </thead>
 
     <!-- Info tableau -->
@@ -166,29 +198,35 @@ if ($this->Autorisation->isSu()) {
                     </div>
                 </td>
                 
-                <td class="tdleft">
-                    <!-- Service(s) de l'utilisateur -->
-                    <?php
-                    if (!empty($services)) {
-                        ?>
-                        <div class="col-md-3">
-                            <ul>
-                                <?php
-                                if (!empty($donnees['OrganisationUserService'])) {
-                                    foreach ($donnees['OrganisationUserService'] as $value) {
-                                        $libelleService = Hash::get($value, 'Service.libelle');
-                                        echo '<li>' . $libelleService . '</li>';
-                                    }
-                                } else {
-                                    echo '<li> Aucun service</li>';
-                                }
-                                ?>
-                            </ul>
-                        </div>
-                        <?php
-                    }
+                <?php
+                if ($servicesExiste != 0) {
                     ?>
-                </td>
+                    <td class="tdleft">
+                        <!-- Service(s) de l'utilisateur -->
+                        <?php
+                        if (!empty($services)) {
+                            ?>
+                            <div class="col-md-3">
+                                <ul>
+                                    <?php
+                                    if (!empty($donnees['OrganisationUserService'])) {
+                                        foreach ($donnees['OrganisationUserService'] as $value) {
+                                            $libelleService = Hash::get($value, 'Service.libelle');
+                                            echo '<li>' . $libelleService . '</li>';
+                                        }
+                                    } else {
+                                        echo '<li> Aucun service</li>';
+                                    }
+                                    ?>
+                                </ul>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </td>
+                    <?php
+                }
+                ?>
 
                 <!-- Action possible d'effectuer en fonction des droits de l'utilisateur -->
                 <td class="tdleft">
