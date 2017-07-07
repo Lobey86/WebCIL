@@ -104,6 +104,18 @@ msgstr "Voulez vous supprimer l'utilisateur : "
 msgid "user.btnAjouterUser"
 msgstr " Ajouter un utilisateur"
 
+msgid "user.titreTableauEntite"
+msgstr "Entité"
+
+msgid "user.titreTableauIdentifiant"
+msgstr "Identifiant"
+
+msgid "user.titreTableauProfil"
+msgstr "Profil"
+
+msgid "user.titreTableauService"
+msgstr "Service"
+
 ###############################################################################
 
 

@@ -87,6 +87,7 @@ class UsersController extends AppController {
                 'User' => [
                     'id',
                     'username',
+                    'civilite',
                     'nom',
                     'prenom',
                     'created'
