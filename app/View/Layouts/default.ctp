@@ -44,6 +44,7 @@ $cakeDescription = 'Web-CIL';
         echo $this->Html->css('main.css');
         echo $this->Html->css('jquery-ui.css');
         echo $this->Html->css('font-awesome.min.css');
+        echo $this->Html->css('style.css');
         echo $this->Html->css('bootstrap-datetimepicker.min');
         echo $this->Html->css('/js/select2-4.0.2/dist/css/select2.min.css');
 
@@ -249,7 +250,7 @@ $cakeDescription = 'Web-CIL';
                                                                 <li>
                                                                     <a href="#" title="Modèles pour les formulaires">
                                                                         <?php
-                                                                         echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleFormulaire'), [
+                                                                         echo '<li>' . $this->Html->link('<i class="fa icon-icone_modele_black fa-fw+"></i>' . __d('default', 'default.sousTitreModeleFormulaire'), [
                                                                             'controller' => 'modeles',
                                                                             'action' => 'index'
                                                                                 ], ['escape' => false]) . '</li>';
@@ -257,7 +258,7 @@ $cakeDescription = 'Web-CIL';
                                                                     </a>
                                                                     <a href="#" title="Modèle pour l'extrait de registre">
                                                                         <?php
-                                                                         echo '<li>' . $this->Html->link('<i class="fa fa-file-text-o fa-fw"></i>' . __d('default', 'default.sousTitreModeleExtraitRegistre'), [
+                                                                         echo '<li>' . $this->Html->link('<i class="fa icon-icone_modele_black fa-fw"></i>' . __d('default', 'default.sousTitreModeleExtraitRegistre'), [
                                                                             'controller' => 'modeleExtraitRegistres',
                                                                             'action' => 'index'
                                                                                 ], ['escape' => false]) . '</li>';
