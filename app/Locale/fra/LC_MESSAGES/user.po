@@ -21,7 +21,7 @@ msgid "user.titreEditerUser"
 msgstr "Editer un utilisateur"
 
 msgid "user.titreModificationInfoUser"
-msgstr "Modification de mes informations personnelles"
+msgstr "Modifier mes informations personnelles"
 
 msgid "user.titreUsersApplication"
 msgstr "Tous les utilisateurs de l'application"
