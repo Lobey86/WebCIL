@@ -15,7 +15,7 @@ msgid "organisation.titreInfoGenerales"
 msgstr "Informations générales - "
 
 msgid "organisation.titreModifiactionEntite"
-msgstr "Modification de l'entité : "
+msgstr "Modifier l'entité : "
 
 ###################### Session->setFlash ######################
 
