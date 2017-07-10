@@ -217,32 +217,54 @@ class OrganisationsController extends AppController {
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function edit($id = null) {
+    public function edit($id) {
         if (true !== ($this->Droits->authorized(ListeDroit::MODIFIER_ORGANISATION) || $this->Droits->isSu())) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
-        if (!$id) {
-            $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
-            $this->redirect([
-                'controller' => 'organisations',
-                'action' => 'index'
-            ]);
+
+        if ($this->request->is(['post', 'put'])) {
+            $success = true;
+            $this->Organisation->begin();
+
+            $this->Organisation->id = $id;
+            $data = $this->request->data;
+            $data['Organisation']['id'] = $id;
+
+            $success = false !== $this->Organisation->saveAddEditForm($data) && $success;
+            //$success = false !== $this->Organisation->save($this->request->data, $id) && $success;
+            
+            if (false === empty($this->request->data('Organisation.cil'))) {
+                $success = $this->_attributionRoleCIL($this->request->data('Organisation.cil'), $id) && $success;
+            }
+
+            if ($success == true) {
+                $this->Organisation->commit();
+                $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteModifier'), 'flashsuccess');
+                $this->redirect([
+                    'controller' => 'pannel',
+                    'action' => 'index'
+                ]);
+            } else {
+                $this->Organisation->rollback();
+                $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurMoficationEntite'), 'flasherror');
+            }
+        } else {
+            $this->request->data = $this->Organisation->findById($id);
+
+            if(true === empty($this->request->data)) {
+                $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
+
+                $this->redirect([
+                    'controller' => 'organisations',
+                    'action' => 'index'
+                ]);
+            }
         }
 
-        $organisationEdit = $this->Organisation->findById($id);
-        $this->set('organisation', $organisationEdit);
-
-        if (!$organisationEdit) {
-            $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
-
-            $this->redirect([
-                'controller' => 'organisations',
-                'action' => 'index'
-            ]);
-        }
-
-        $this->set('title', __d('organisation', 'organisation.titreModifiactionEntite') . $organisationEdit['Organisation']['raisonsociale']);
+        // @info: nom original de l'organisation + id et extension pour le logo
+        $organisation = $this->Organisation->findById($id);
+        $this->set('title', __d('organisation', 'organisation.titreModifiactionEntite') . $organisation['Organisation']['raisonsociale']);
+        $this->set(compact('organisation'));
 
         $users = $this->OrganisationUser->find('all', [
             'conditions' => [
@@ -290,32 +312,6 @@ class OrganisationsController extends AppController {
         $result = Hash::remove($result, '{n}.id');
 
         $this->set('informationsUsers', $result);
-
-        if ($this->request->is(['post', 'put'])) {
-            $success = true;
-            $this->Organisation->begin();
-
-            $this->Organisation->id = $id;
-
-            //$success = $success && false !== $this->Organisation->saveAddEditForm($this->request->data, $id);
-            $success = $success && false !== $this->Organisation->save($this->request->data, $id);
-            
-            if ($success == true && !empty($this->request->data('Organisation.cil'))) {
-                $success = $this->_attributionRoleCIL($this->request->data('Organisation.cil'), $id);
-            }
-            
-            if ($success == true) {
-                $this->Organisation->commit();
-                $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteModifier'), 'flashsuccess');
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
-            } else {
-                $this->Organisation->rollback();
-                $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurMoficationEntite'), 'flasherror');
-            }
-        }
     }
     
     private function _attributionRoleCIL($idCIL, $idOrganisation) {
@@ -335,7 +331,6 @@ class OrganisationsController extends AppController {
         ];
         
         $success = true;
-        $this->Organisation->begin();
         
         // On récupére l'id du nouveau CIL dans l'organisation
         $idOrganisationUser = $this->OrganisationUser->find('first', [
@@ -378,14 +373,8 @@ class OrganisationsController extends AppController {
             ]);
             $success = $success && false !== $this->OrganisationUserRoles->save();
         }
-        
-        if ($success == true) {
-            $this->Organisation->commit();
-        } else {
-            $this->Organisation->rollback();
-        }
-        
-        return ($success);
+      
+        return $success;
     }
 
     /**

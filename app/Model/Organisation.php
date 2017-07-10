@@ -27,6 +27,18 @@ class Organisation extends AppModel {
 
     public $name = 'Organisation';
 
+    public $actsAs = array(
+        'Database.DatabaseFormattable' => array(
+            'Database.DatabaseDefaultFormatter' => array(
+                'formatTrim' => array( 'NOT' => array( 'binary' ) ),
+                'formatNull' => true,
+                'formatNumeric' => array( 'float', 'integer' ),
+                'formatSuffix'  => '/_id$/',
+                'formatStripNotAlnum' => '/^(telephone|fax|telephoneresponsable)$/'
+            )
+        )
+    );
+
     /**
      * validate associations
      *
@@ -127,9 +139,8 @@ class Organisation extends AppModel {
      * @version V0.9.0
      */
     public function saveAddEditForm($data) {
-        $this->begin();
-        $success = $this->save($data);
-        $errors = $this->validationErrors;
+        $this->create($data);
+        $success = $this->save();
 
         if ($success) {
             if (isset($data[$this->alias]['logo_file']['tmp_name'])) {
@@ -158,15 +169,8 @@ class Organisation extends AppModel {
                 }
             }
         }
-        if ($success) {
-            $this->commit();
-
-            return TRUE;
-        } else {
-            $this->rollback();
-
-            return $errors;
-        }
+        
+        return $success;
     }
 
     /**
@@ -242,5 +246,62 @@ class Organisation extends AppModel {
         //'order'      => ''
         ]
     ];
+    
+    public function saveFile($data, $id = null) {
+        if (isset($data['Modele']['modele']) && !empty($data['Modele']['modele'])) {
+            $file = $data['Modele']['modele'];
+            $success = true;
+
+            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+            if ($extension == 'odt') {
+                if (!empty($file['name'])) {
+                    $this->begin();
+
+                    // On verifie si le dossier file existe. Si c'est pas le cas on le cree
+                    if (!file_exists(APP . FICHIER)) {
+                        mkdir(APP . FICHIER, 0777, true);
+                        mkdir(APP . FICHIER . PIECE_JOINT, 0777, true);
+                        mkdir(APP . FICHIER . MODELES, 0777, true);
+                        mkdir(APP . FICHIER . REGISTRE, 0777, true);
+                    } else {
+                        if (!file_exists(APP . FICHIER . MODELES)) {
+                            mkdir(APP . FICHIER . MODELES, 0777, true);
+                        }
+                    }
+
+                    if (!empty($file['tmp_name'])) {
+                        $url = time();
+                        $success = $success && move_uploaded_file($file['tmp_name'], CHEMIN_MODELES . $url . '.' . $extension);
+                        if ($success) {
+                            $this->deleteAll(array('formulaires_id' => $id));
+                            $this->create(array(
+                                'fichier' => $url . '.' . $extension,
+                                'formulaires_id' => $id,
+                                'name_modele' => $file['name']
+                            ));
+                            $success = $success && $this->save();
+                        }
+                    } else {
+                        $success = false;
+                    }
+                } else {
+                    $success = false;
+                }
+
+                if ($success) {
+                    $this->commit();
+                    return (0);
+                } else {
+                    $this->rollback();
+                    return (1);
+                }
+            } else {
+                return (2);
+            }
+        }
+
+        return (3);
+    }
 
 }
