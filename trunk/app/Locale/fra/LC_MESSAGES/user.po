@@ -24,7 +24,7 @@ msgid "user.titreModificationInfoUser"
 msgstr "Modifier mes informations personnelles"
 
 msgid "user.titreUsersApplication"
-msgstr "Tous les utilisateurs de l'application"
+msgstr "Liste des utilisateurs de l'application"
 
 ###################### Session->setFlash ######################
 
@@ -118,6 +118,9 @@ msgstr "Profil"
 
 msgid "user.titreTableauService"
 msgstr "Service"
+
+msgid "user.textAucunUserCollectiviter"
+msgstr "Il n'y a aucun utilisateur dans cette organisation "
 
 ###############################################################################
 
