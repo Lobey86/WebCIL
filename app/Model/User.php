@@ -27,7 +27,18 @@ App::uses('SimplePasswordHasher', 'Controller/Component/Auth');
 class User extends AppModel {
 
     public $name = 'User';
-    public $actAs = array('Password');
+    public $actsAs = array(
+        'Database.DatabaseFormattable' => array(
+            'Database.DatabaseDefaultFormatter' => array(
+                'formatTrim' => array( 'NOT' => array( 'binary' ) ),
+                'formatNull' => true,
+                'formatNumeric' => array( 'float', 'integer' ),
+                'formatSuffix'  => '/_id$/',
+                'formatStripNotAlnum' => '/^(telephonefixe|telephoneportable)$/'
+            )
+        )/*,
+        'Password'*/
+    );
 
     /**
      * validate associations
