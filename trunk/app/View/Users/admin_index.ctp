@@ -87,9 +87,19 @@ echo $paginationBlock;
             <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
         </th>
 
-        <!-- Synthèse -->
-        <th class="col-md-8">
-            <?php echo __d('user', 'user.titreTableauSynthese'); ?>
+        <!-- Entité -->
+        <th class="col-md-2">
+            <?php echo __d('user', 'user.titreTableauEntite'); ?>
+        </th>
+
+        <!-- Identifiant -->
+        <th class="col-md-2">
+            <?php echo __d('user', 'user.titreTableauIdentifiant'); ?>
+        </th>
+
+        <!-- Profil -->
+        <th class="col-md-2">
+            <?php echo __d('user', 'user.titreTableauProfil'); ?>
         </th>
 
         <!-- Actions -->
@@ -113,57 +123,43 @@ echo $paginationBlock;
 
                 <!-- Entitée(s) de l'utilisateur -->
                 <td class="tdleft">
-                    <div class="col-md-3">
-                        <strong>
-                            <?php 
-                                // Entités
-                                if (!empty($donnees['Organisation'])) {
-                                    echo __d('user', 'user.textTableauEntite');
-                                } else {
-                                    echo __d('user', 'user.textTableauAucuneEntite');
-                                }
-                            ?>
-                        </strong>
-                        <ul>
-                            <?php
-                                // Nom de la ou des entitée(s) de l'utilisateur
-                                foreach ($donnees['Organisation'] as $key => $value) {
-                                    echo '<li>' . $value['raisonsociale'] . '</li>';
-                                }
-                            ?>
-                        </ul>
-                    </div>
-
-                    <!-- Login de l'utilisateur -->
-                    <div class="col-md-3">
-                        <strong>
-                            <?php
-                                // Login
-                                echo __d('user', 'user.textTableauLogin');
-                            ?>
-                        </strong>
-                            <?php
-                            //Libelle du login de l'utilisateur
-                            echo $donnees['User']['username'];
-                            ?>
-                    </div>
-
-                    <!-- Profil de l'utilisateur -->
-                    <div class="col-md-3">
-                        <strong>
-                            <?php echo __d('user', 'user.champProfil'); ?>
-                        </strong>
-
-                        <?php
-                            $libelleRole = Hash::get($donnees, 'OrganisationUserRole.Role.libelle');
-                            
-                            if (!empty($libelleRole)){
-                                echo $libelleRole;
-                            } else {
-                                echo "Super-administrateur";
+                    <strong>
+                        <?php 
+                            // Entités
+                            if (empty($donnees['Organisation'])) {
+                                echo __d('user', 'user.textTableauAucuneEntite');
                             }
                         ?>
-                    </div>
+                    </strong>
+                    <ul>
+                        <?php
+                            // Nom de la ou des entitée(s) de l'utilisateur
+                            foreach ($donnees['Organisation'] as $key => $value) {
+                                echo '<li>' . $value['raisonsociale'] . '</li>';
+                            }
+                        ?>
+                    </ul>
+                </td>
+
+                <td class="tdleft">
+                    <!-- Login de l'utilisateur -->
+                    <?php
+                        //Libelle du login de l'utilisateur
+                        echo $donnees['User']['username'];
+                    ?>
+                </td>
+                
+                <td class="tdleft">
+                    <!-- Profil de l'utilisateur -->
+                    <?php
+                        $libelleRole = Hash::get($donnees, 'OrganisationUserRole.Role.libelle');
+
+                        if (!empty($libelleRole)){
+                            echo $libelleRole;
+                        } else {
+                            echo "Super-administrateur";
+                        }
+                    ?>
                 </td>
 
                 <!-- Action possible d'effectuer en fonction des droits de l'utilisateur -->
