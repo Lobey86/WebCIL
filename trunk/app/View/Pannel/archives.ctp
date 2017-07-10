@@ -37,9 +37,27 @@ echo $this->Html->script('pannel.js');
                         ?>
                         <tr>
                             <td class='tdleft col-md-1'>
-                                <div class="etatIcone">
-                                    <i class="fa fa-check fa-3x fa-success"></i>
-                                </div>
+                                <?php
+                                if ($donnee['EtatFiche']['etat_id'] == 5){
+                                    $action = 'genereTraitement';
+                                    $icone = '<span class="fa fa-cog fa-lg"></span>';
+                                    $titre = __d('pannel', 'pannel.commentaireGenererTraitement');
+                                    ?>
+                                    <div class="etatIcone">
+                                        <i class="fa fa-check fa-3x fa-success"></i>
+                                    </div>
+                                <?php
+                                } else if ($donnee['EtatFiche']['etat_id'] == 7) {
+                                    $action = 'downloadFileTraitement';
+                                    $icone = '<span class="fa fa-download fa-lg"></span>';
+                                    $titre = __d('pannel', 'pannel.commentaireTelechargerTraitement');
+                                    ?>
+                                    <div class="etatIcone">
+                                        <i class="fa fa-lock fa-3x fa-success"></i>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                             </td>
                             <td class='tdleft col-md-9 col-md-offset-1'>
                                 <div class="row">
@@ -71,13 +89,15 @@ echo $this->Html->script('pannel.js');
                                         'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                         'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
                                         'escapeTitle' => false
-                                    ]) . $this->Html->link('<span class="fa fa-download fa-lg"></span>', [
+                                    ]);
+                                    
+                                    echo $this->Html->link($icone, [
                                         'controller' => 'fiches',
-                                        'action' => 'genereFusion',
+                                        'action' => $action,
                                         $donnee['Fiche']['id']
                                             ], [
                                         'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
-                                        'title' => __d('pannel', 'pannel.commentaireTelechargeRegistre'),
+                                        'title' => $titre,
                                         'escapeTitle' => false
                                     ]);
                                     ?>

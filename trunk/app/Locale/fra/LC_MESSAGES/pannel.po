@@ -165,6 +165,12 @@ msgstr "Vous n'avez aucun traitement validé et inséré au registre"
 msgid "pannel.commentaireTelechargeRegistre"
 msgstr "Télécharger l'extrait de registre"
 
+msgid "pannel.commentaireGenererTraitement"
+msgstr "Générer le traitement"
+
+msgid "pannel.commentaireTelechargerTraitement"
+msgstr "Télécharger le traitement"
+
 ###############################################################################
 
 
