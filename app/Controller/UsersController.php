@@ -1138,8 +1138,10 @@ class UsersController extends AppController {
         if (true !== $this->Droits->isSu()) { // @fixme
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+        
+        $this->set('title', __d('user', 'user.titreUsersApplication'));
 
-        $this->paginate = [
+        $query = [
             'fields' => [
                 'id',
                 'civilite',
@@ -1156,9 +1158,30 @@ class UsersController extends AppController {
                     ]
                 ]
             ],
-            'limit' => 20,
+            'limit' => 20
         ];
 
+        if ($this->request->is('post')) {
+            if ($this->request->data['users']['organisation'] != '') {
+                $subQuery = array(
+                    'alias' => 'organisations_users',
+                    'fields' => array('organisations_users.user_id'),
+                    'conditions' => array(
+                        'organisations_users.organisation_id' => $this->request->data['users']['organisation']
+                    ),
+                    'contain' => false
+                );
+                $sql = $this->User->OrganisationUser->sql($subQuery);
+                $query['conditions'][] = array( "User.id IN ( {$sql} )" );
+            }
+
+            if ($this->request->data['users']['nom'] != '') {
+                $query['conditions']['User.id'] = $this->request->data['users']['nom'];
+                $query['limit'] = 1;
+            }
+        }
+        
+        $this->paginate = $query;
         $users = $this->paginate('User');
 
         foreach ($users as $key => $user) {
@@ -1186,10 +1209,54 @@ class UsersController extends AppController {
             }
         }
 
-        $title = 'Tous les utilisateurs de l\'application';
-
         $this->set(compact('title', 'users'));
+        
+        $this->set('orgas', $this->_filtrerOrganisations());
+
+        $this->set('utilisateurs', $this->_filtrerUtilisateurs());
+        
+//        $this->set('profils', $this->_filtrerProfils());
 //        $this->view = 'index';
     }
     
+    protected function _filtrerOrganisations() {
+        $orgas = $this->Organisation->find('all', [
+            'fields' => [
+                'Organisation.raisonsociale',
+                'id'
+            ]
+        ]);
+        
+        $organisations = [];
+        foreach ($orgas as $value) {
+            $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
         }
+        
+        return ($organisations);
+    }
+    
+    protected function _filtrerUtilisateurs() {
+        $utils = $this->User->find('all', [
+            'fields' => [
+                'id',
+                'civilite',
+                'nom',
+                'prenom'
+            ]
+        ]);
+        
+        $utilisateurs = Hash::combine($utils, '{n}.User.id', array('%s %s %s', '{n}.User.civilite', '{n}.User.prenom', '{n}.User.nom'));
+        
+        return ($utilisateurs);
+    }
+    
+//    protected function _filtrerProfils() {
+//        $profils = $this->Role->find('all', [
+//            'recursive' => -1,
+//        ]);
+//        
+//        debug($profils);
+//        die;
+//    }    
+
+}
