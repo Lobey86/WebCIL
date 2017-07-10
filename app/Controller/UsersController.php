@@ -159,17 +159,16 @@ class UsersController extends AppController {
                 ]);
                 $users[$key]['OrganisationUserService'][] = $orgaService;
             }
-
-            $servicesExiste = $this->Service->find('count');
-            if ($servicesExiste != 0) {
-                $existeService = true;
-            } else {
-                $existeService = false;
-            }
-            
-            $this->set('servicesExiste', $servicesExiste);
         }
         $this->set('users', $users);
+        
+        $servicesExiste = $this->Service->find('count');
+        if ($servicesExiste != 0) {
+            $existeService = true;
+        } else {
+            $existeService = false;
+        }
+        $this->set('servicesExiste', $servicesExiste);
 
         //On récupére tout les services de l'entitée utilisé à l'instant T
         $services = $this->Service->find('all', [
