@@ -114,10 +114,10 @@ msgid "formulaire.popupPlaceholderChampEntiteCible"
 msgstr "Entité cible (requis)"
 
 msgid "formulaire.textStatutActif"
-msgstr "Actif"
+msgstr "Activé"
 
 msgid "formulaire.textStatutInactif"
-msgstr "Inactif"
+msgstr "Désactivé"
 
 msgid "formulaire.commentaireDupliquerFormulaire"
 msgstr "Dupliquer le formulaire"
