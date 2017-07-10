@@ -93,5 +93,19 @@
 
 			return $value;
 		}
+                
+                /**
+                * Retourne une chaîne dans laquelle tous les caractères non alpha-numériques
+                * ont été supprimés.
+                *
+                * @param mixed $value
+                * @param string $separator
+                * @return string
+                */
+               public static function formatStripNotAlnum( $value ) {
+                   return null === $value
+                       ? null
+                       : preg_replace( '/[^[:alnum:]]/u', '', $value );
+               }
 	}
 ?>
