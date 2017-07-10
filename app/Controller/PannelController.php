@@ -1259,7 +1259,11 @@ class PannelController extends AppController {
     protected function _traitementArchives($limiteTraitementRecupere) {
         $traitementArchives = $this->EtatFiche->find('all', [
             'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::VALIDER_CIL,
+                'EtatFiche.etat_id' => [
+                    EtatFiche::VALIDER_CIL ,
+                    EtatFiche::ARCHIVER
+                ],
+                'EtatFiche.actif' => true,
                 'Fiche.user_id' => $this->Auth->user('id'),
                 'Fiche.organisation_id' => $this->Session->read('Organisation.id')
             ],
