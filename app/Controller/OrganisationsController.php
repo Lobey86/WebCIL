@@ -85,7 +85,7 @@ class OrganisationsController extends AppController {
 
                 $recup = $this->Organisation->saveAddEditForm($this->request->data);
 
-                if (!is_array($recup)) {
+                if (is_array($recup)) {
                     $success = $this->_insertRoles($this->Organisation->getInsertID());
                 }
 
