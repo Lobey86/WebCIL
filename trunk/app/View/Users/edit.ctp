@@ -215,7 +215,7 @@
 
     $(document).ready(function () {
         $("#deroulant").select2({
-            placeholder: "Sélectionnez une ou plusieurs entitées",
+            placeholder: "Sélectionnez une ou plusieurs entités",
             allowClear: true
         });
 
