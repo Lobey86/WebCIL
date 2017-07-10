@@ -109,7 +109,7 @@ if ($this->Autorisation->isSu()) {
         } else {
              ?>
             <!-- Utilisateur -->
-            <th class="col-md-2" colspan="2">
+            <th class="col-md-3" colspan="2">
                 <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
             </th>
 
@@ -129,7 +129,7 @@ if ($this->Autorisation->isSu()) {
             </th>
 
             <!-- Actions -->
-            <th class="col-md-2">
+            <th class="col-md-1">
                 <?php echo __d('user', 'user.titreTableauAction'); ?>
             </th>
             <?php
@@ -166,36 +166,30 @@ if ($this->Autorisation->isSu()) {
 
                 <!-- Entitée(s) de l'utilisateur -->
                 <td class="tdleft">
-                    <div class="col-md-3">
-                        <ul>
-                            <?php
-                            //Nom de la ou des entitée(s) de l'utilisateur
-                            foreach ($donnees['Organisations'] as $key => $value) {
-                                echo '<li>' . $value['Organisation']['raisonsociale'] . '</li>';
-                            }
-                            ?>
-                        </ul>
-                    </div>
+                    <ul>
+                        <?php
+                        //Nom de la ou des entitée(s) de l'utilisateur
+                        foreach ($donnees['Organisations'] as $key => $value) {
+                            echo '<li>' . $value['Organisation']['raisonsociale'] . '</li>';
+                        }
+                        ?>
+                    </ul>
                 </td>
 
                 <td class="tdleft">
                     <!-- Login de l'utilisateur -->
-                    <div class="col-md-3">
-                        <?php
+                    <?php
                         //Libelle du login de l'utilisateur
                         echo $donnees['User']['username'];
-                        ?>
-                    </div>
+                    ?>
                 </td>
                     
                 <td class="tdleft">
                     <!-- Profil de l'utilisateur -->
-                    <div class="col-md-3">
-                        <?php
+                    <?php
                         $libelleRole = Hash::get($donnees, 'OrganisationUserRole.0.Role.libelle');
                         echo $libelleRole;
-                        ?>
-                    </div>
+                    ?>
                 </td>
                 
                 <?php
