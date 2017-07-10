@@ -208,7 +208,7 @@ if ($this->Autorisation->authorized(8, $droits)) {
 <div class="row text-center">
         <?php
         //Bouton " + Ajouter un utilisateur
-        echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('user', 'user.btnAjouterUser'), [
+        echo $this->Html->link('<span class="fa fa-plus-circle fa-lg"></span>' . __d('user', 'user.btnAjouterUser'), [
             'controller' => 'users',
             'action' => 'add'
                 ], [
