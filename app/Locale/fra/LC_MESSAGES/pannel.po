@@ -221,6 +221,9 @@ msgstr "Sélectionnez un utilisateur"
 msgid "pannel.textSelectUserValideur"
 msgstr "Sélectionnez un valideur "
 
+msgid "pannel.textSelectReorienterValideur"
+msgstr "Réorienter vers un valideur "
+
 msgid "pannel.textSelectUserConsultant"
 msgstr "Sélectionnez un consultant "
 
