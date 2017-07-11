@@ -106,4 +106,25 @@ class Role extends AppModel {
         )
     );
 
+    /**
+     * Retourne un champ virtuel permettant de savoir s'il existe au moins une
+     * entrée dans la table organisation_user_roles pour le Role.id.
+     * 
+     * @param string $roleIdField | 'Role.id' --> Champ représentant le Role.id
+     * @param string $fieldName | 'linked_user' --> Nom du champ virtuel
+     * @return string
+     */
+    public function vfLinkedUser($roleIdField = 'Role.id', $fieldName = 'linked_user') {
+        $subQuery = [
+            'alias' => 'organisation_user_roles',
+            'fields' => ['organisation_user_roles.id'],
+            'conditions' => [
+                "organisation_user_roles.role_id = {$roleIdField}"
+            ],
+            'contain' => false
+        ];
+        $sql = $this->OrganisationUserRole->sql($subQuery);
+        
+        return "EXISTS( {$sql} ) AS \"{$this->alias}__{$fieldName}\"";
+    }
 }
