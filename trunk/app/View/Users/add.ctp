@@ -35,15 +35,15 @@
     <div class="col-md-6">
         <?php
             echo $this->WebcilForm->inputs([
-                'username' => ['autocomplete' => 'off', 'required' => true],
-                'password' => ['autocomplete' => 'off', 'required' => true],
-                'passwd' => ['autocomplete' => 'off', 'required' => true],
-                'civilite' => ['options' => $options['User']['civilite'], 'empty' => true, 'required' => true],
-                'nom' => ['required' => true],
-                'prenom' => ['required' => true],
-                'email' => ['required' => true],
-                'telephonefixe' => [],
-                'telephoneportable' => []
+                'username' => ['id' => 'username', 'autocomplete' => 'off', 'required' => true],
+                'password' => ['id' => 'password', 'autocomplete' => 'off', 'required' => true],
+                'passwd' => ['id' => 'passwd', 'autocomplete' => 'off', 'required' => true],
+                'civilite' => ['id' => 'civilite', 'options' => $options['User']['civilite'], 'empty' => true, 'required' => true],
+                'nom' => ['id' => 'nom', 'required' => true],
+                'prenom' => ['id' => 'prenom', 'required' => true],
+                'email' => ['id' => 'email', 'required' => true],
+                'telephonefixe' => ['id' => 'telephonefixe'],
+                'telephoneportable' => ['id' => 'telephoneportable']
             ]);
         ?>
     </div>
