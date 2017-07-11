@@ -56,6 +56,7 @@
             <?php 
             echo $this->Form->input('password', [
                 'class' => 'form-control',
+                'id' => 'password',
                 'aria-describedby' => 'sizing-addon-password',
                 'label' => false
             ]); 
