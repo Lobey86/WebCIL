@@ -1464,14 +1464,14 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
 }
 ?>
 
-<div class="modal fade" id="modalValidCil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modalValidCil" tabindex="-1" role="dialog" aria-labelledby="myModalLabelValidCil">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="myModalLabel">Insertion au registre</h4>
+                <h4 class="modal-title" id="myModalLabelValidCil">Insertion au registre</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -1501,6 +1501,7 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
                             'after' => '</div>',
                             'class' => 'form-control',
                             'div' => 'form-group',
+                            'id' => 'numero'
                         ]);
                         
                         echo $this->Form->input('typedeclaration', [
@@ -1626,7 +1627,7 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
 ?>
 
 <!-- Pop-up envoie consultation -->
-<div class="modal fade" id="modalEnvoieConsultation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalEnvoieConsultation" tabindex="-1" role="dialog" aria-labelledby="myModalLabelEnvoieConsultation" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -1634,7 +1635,7 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title" id="myModalLabelEnvoieConsultation">
                     <?php echo __d('pannel', 'pannel.popupEnvoyerTraitementConsultation'); ?>
                 </h4>
             </div>
@@ -1656,7 +1657,8 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
                         'required' => true,
-                        'autocomplete' => 'off'
+                        'autocomplete' => 'off',
+                        'id' => 'destinataireCons'
                     ]);
 
                     echo $this->Form->hidden('ficheNum', ['id' => 'ficheNumCons']);
@@ -1690,7 +1692,7 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
 </div>
 
 <!-- Pop-up reorientation du traitement -->
-<div class="modal fade" id="modalReorienter" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalReorienter" tabindex="-1" role="dialog" aria-labelledby="myModalLabelReorienter" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -1698,7 +1700,7 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title" id="myModalLabelReorienter">
                     <?php echo __d('pannel', 'pannel.popupReorienterTraitement'); ?>
                 </h4>
             </div>
@@ -1712,15 +1714,16 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
                     echo $this->Form->input('destinataire', [
                         'class' => 'form-control usersDeroulant transformSelect form-control bottom5',
                         'label' => [
-                            'text' => __d('pannel', 'pannel.textSelectUserValideur') . '<span class="requis">*</span>',
+                            'text' => __d('pannel', 'pannel.textSelectReorienterValideur') . '<span class="requis">*</span>',
                             'class' => 'col-md-4 control-label'
                         ],
                         'options' => $validants,
-                        'empty' => __d('pannel', 'pannel.textSelectUserValideur'),
+                        'empty' => __d('pannel', 'pannel.textSelectReorienterValideur'),
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
                         'required' => true,
-                        'autocomplete' => 'off'
+                        'autocomplete' => 'off',
+                        'id' => 'destinataireReo'
                     ]);
 
                     echo $this->Form->hidden('ficheNum', ['id' => 'ficheNumReo']);
@@ -1754,7 +1757,7 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
 </div>
 
 <!-- Pop-up envoie validation -->
-<div class="modal fade" id="modalEnvoieValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalEnvoieValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabelEnvoieValidation" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -1762,7 +1765,7 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
                     <span aria-hidden="true">&times;</span>
                 </button>
 
-                <h4 class="modal-title" id="myModalLabel">
+                <h4 class="modal-title" id="myModalLabelEnvoieValidation">
                     <?php echo __d('pannel', 'pannel.popupEnvoyerTraitementValidation'); ?>
                 </h4>
             </div>
@@ -1783,7 +1786,8 @@ if (!empty($notifications) && !empty($arrayNotificationNotVuNotAfficher)) {
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
                         'required' => true,
-                        'autocomplete' => 'off'
+                        'autocomplete' => 'off',
+                        'id' => 'destinataireVal'
                     ]);
                     
                     echo $this->Form->hidden('ficheNum', ['id' => 'ficheNumVal']);
