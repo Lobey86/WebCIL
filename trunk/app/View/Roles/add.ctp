@@ -1,18 +1,22 @@
 <div class="role form">
-    <?php echo $this->Form->create('Role', array('autocomplete' => 'off')); ?>
+    <?php 
+        echo $this->Form->create('Role', array('autocomplete' => 'off')); 
+    ?>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <?php echo $this->Form->input('libelle', array(
-                    'class' => 'form-control',
-                    'placeholder' => __d('role','role.placeholderChampNomProfil'),
-                    'label' => array(
-                        'text' => __d('role','role.champNomProfil').'<span class="requis">*</span>',
-                        'class' => 'col-md-4 control-label'
-                    ),
-                    'between' => '<div class="col-md-8">',
-                    'after' => '</div>'
-                )); ?>
+                <?php 
+                    echo $this->Form->input('libelle', [
+                        'class' => 'form-control',
+                        'placeholder' => __d('role','role.placeholderChampNomProfil'),
+                        'label' => [
+                            'text' => __d('role','role.champNomProfil').'<span class="requis">*</span>',
+                            'class' => 'col-md-4 control-label'
+                        ],
+                        'between' => '<div class="col-md-8">',
+                        'after' => '</div>'
+                    ]);
+                ?>
             </div>
         </div>
 

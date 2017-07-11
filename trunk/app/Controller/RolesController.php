@@ -43,8 +43,14 @@ class RolesController extends AppController {
         }
 
         $this->set('title', __d('role', 'role.titreListeProfil'));
-        
+               
         $roles = $this->Role->find('all', [
+            'fields' => array_merge(
+                $this->Role->fields(),
+                array(
+                    $this->Role->vfLinkedUser()
+                )
+            ),
             'conditions' => [
                 'organisation_id' => $this->Session->read('Organisation.id')
             ]
@@ -69,56 +75,54 @@ class RolesController extends AppController {
      * @version V1.0.0
      */
     public function add() {
+        if (true !== ($this->Droits->authorized(ListeDroit::CREER_PROFIL) || $this->Droits->isSu())) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->set('title', __d('role', 'role.titreAjouterProfil'));
-        if ($this->Droits->authorized(ListeDroit::CREER_PROFIL) || $this->Droits->isSu()) {
-            if ($this->request->is('post')) {
-                $success = true;
-                $this->Role->begin();
+        
+        if ($this->request->is('post')) {
+            $this->request->data['Role']['organisation_id'] = $this->Session->read('Organisation.id');
+            
+            $success = true;
+            $this->Role->begin();
 
-                $this->Role->create($this->request->data);
-                $success = $success && false !== $this->Role->save();
+            $this->Role->create($this->request->data);
+            $success = $success && false !== $this->Role->save();
 
-                if ($success == true) {
-                    foreach ($this->request->data['Droits'] as $key => $donnee) {
-                        if ($success == true) {
-                            if ($donnee) {
-                                $this->RoleDroit->create([
-                                    'role_id' => $this->Role->getInsertID(),
-                                    'liste_droit_id' => $key
-                                ]);
+            if ($success == true) {
+                foreach ($this->request->data['Droits'] as $key => $donnee) {
+                    if ($success == true) {
+                        if ($donnee) {
+                            $this->RoleDroit->create([
+                                'role_id' => $this->Role->getInsertID(),
+                                'liste_droit_id' => $key
+                            ]);
 
-                                $success = $success && false !== $this->RoleDroit->save();
-                            }
+                            $success = $success && false !== $this->RoleDroit->save();
                         }
                     }
                 }
+            }
 
-                if ($success == true) {
-                    $this->Role->commit();
-                    $this->Session->setFlash(__d('profil', 'profil.flashsuccessProfilEnregistrer'), 'flashsuccess');
-                } else {
-                    $this->Role->rollback();
-                    $this->Session->setFlash(__d('profil', 'profil.flasherrorErreurEnregistrementProfil'), 'flasherror');
-                }
-
+            if ($success == true) {
+                $this->Role->commit();
+                $this->Session->setFlash(__d('profil', 'profil.flashsuccessProfilEnregistrer'), 'flashsuccess');
                 $this->redirect([
                     'controller' => 'roles',
                     'action' => 'index'
                 ]);
             } else {
-                $this->set('listedroit', $this->ListeDroit->find('all', [
-                            'conditions' => [
-                                'NOT' => ['ListeDroit.id' => ['11']]
-                            ],
-                            'order' => 'id'
-                ]));
+                $this->Role->rollback();
+                $this->Session->setFlash(__d('profil', 'profil.flasherrorErreurEnregistrementProfil'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->set('listedroit', $this->ListeDroit->find('all', [
+                        'conditions' => [
+                            'NOT' => ['ListeDroit.id' => ['11']]
+                        ],
+                        'order' => 'id'
+            ]));
         }
     }
 
@@ -282,36 +286,48 @@ class RolesController extends AppController {
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function delete($id = null) {
-        if (($this->Droits->authorized(ListeDroit::SUPPRIMER_PROFIL) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
-            if (!$this->Role->exists()) {
-                throw new NotFoundException(__d('profil', 'profil.exceptionProfilInexistant'));
-            }
-
-            $this->Role->id = $id;
-
-            $success = true;
-            $this->Role->begin();
-
-            $success = $success && false !== $this->Role->delete();
-
-            if ($success == true) {
-                $this->Role->commit();
-                $this->Session->setFlash(__d('profil', 'profil.flashsuccessProfilSupprimer'), 'flashsuccess');
-            } else {
-                $this->Role->rollback();
-                $this->Session->setFlash(__d('profil', 'profil.flasherrorErreurSupprimerProfil'), 'flasherror');
-            }
-
-            return $this->redirect(['action' => 'index']);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+    public function delete($id) {
+        if (true !== ($this->Droits->authorized(ListeDroit::SUPPRIMER_PROFIL) && $this->Droits->currentOrgaRole($id) || $this->Droits->isSu())) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+        
+        $role = $this->Role->find(
+            'first',
+            [
+                'fields' => array(
+                    'Role.id',
+                    $this->Role->vfLinkedUser()
+                ),
+                'conditions' => [
+                    'Role.id' => $id
+                ]
+            ]
+        );
+
+        if (true === empty($role)) {
+            throw new NotFoundException(__d('role', 'role.exceptionProfilInexistant'));
+        }
+
+        if (true === $role['Role']['linked_user']) {
+            throw new RuntimeException(__d('role', 'role.exceptionProfilNonSuppressible'), 500);
+        }
+
+        $this->Role->id = $id;
+
+        $success = true;
+        $this->Role->begin();
+
+        $success = $success && false !== $this->Role->delete();
+
+        if ($success == true) {
+            $this->Role->commit();
+            $this->Session->setFlash(__d('role', 'role.flashsuccessProfilSupprimer'), 'flashsuccess');
+        } else {
+            $this->Role->rollback();
+            $this->Session->setFlash(__d('role', 'role.flasherrorErreurSupprimerProfil'), 'flasherror');
+        }
+
+        return $this->redirect(['action' => 'index']);
     }
 
     /**

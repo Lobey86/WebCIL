@@ -37,6 +37,9 @@ msgstr "Une erreur s'est produite lors de la modification du profil"
 msgid "role.exceptionProfilInexistant"
 msgstr "Ce profil n'existe pas"
 
+msgid "role.exceptionProfilNonSuppressible"
+msgstr "Le profil sélectionnez ne peut pas être supprimé"
+
 msgid "role.flashsuccessProfilSupprimer"
 msgstr "Le profil a bien été supprimé"
 

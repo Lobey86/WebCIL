@@ -63,17 +63,19 @@ if (!empty($roles)) {
                             }
                             
                             if ($this->Autorisation->authorized(15, $droits)) {
-                                //Bouton de suppression (poubelle)
-                                echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', array(
-                                    'controller' => 'roles',
-                                    'action' => 'delete',
-                                    $donnees['Role']['id']
-                                        ), array(
-                                    'class' => 'btn btn-default-danger btn-sm my-tooltip',
-                                    'title' => __d('role', 'role.commentaireSupprimerProfil'),
-                                    'escape' => false
-                                        ), __d('role', 'role.confirmationSupprimerProfil') . $donnees['Role']['libelle'] . ' ?'
-                                );
+                                if ($donnees['Role']['linked_user'] == false) {
+                                    //Bouton de suppression
+                                    echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', array(
+                                        'controller' => 'roles',
+                                        'action' => 'delete',
+                                        $donnees['Role']['id']
+                                            ), array(
+                                        'class' => 'btn btn-default-danger btn-sm my-tooltip',
+                                        'title' => __d('role', 'role.commentaireSupprimerProfil'),
+                                        'escape' => false
+                                            ), __d('role', 'role.confirmationSupprimerProfil') . $donnees['Role']['libelle'] . ' ?'
+                                    );
+                                }
 
                                 //Bouton permettant de recharger les droits sur tous les utilisateurs de l'entité concernée
                                 echo $this->Html->link('<span class="fa fa-refresh fa-lg"></span>', array(
