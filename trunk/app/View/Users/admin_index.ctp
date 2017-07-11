@@ -26,7 +26,7 @@ if ($this->Autorisation->isSu()) {
             <?php
             // Filtrer par organisation
             echo $this->Form->input('organisation', [
-                'empty' => 'Choisissez une entité',
+                'empty' => __d('user','user.placeholderChoisirOrganisation'),
                 'class' => 'usersDeroulant transformSelect form-control',
                 'label' => 'Filtrer par organisation',
                 'options' => $orgas,
