@@ -7,9 +7,14 @@
         <?php echo __d('user', 'user.titreTableauUtilisateur'); ?>
     </th>
 
-    <!-- Synthèse -->
-    <th class="col-md-8">
-        <?php echo __d('user', 'user.titreTableauSynthese'); ?>
+    <!-- Identifiant -->
+    <th class="col-md-2">
+        <?php echo __d('user', 'user.titreTableauIdentifiant'); ?>
+    </th>
+
+    <!-- Profil -->
+    <th class="col-md-2">
+        <?php echo __d('user', 'user.titreTableauProfil'); ?>
     </th>
 
     <!-- Actions -->
@@ -35,28 +40,17 @@
             <!-- Entitée(s) de l'utilisateur -->
             <td class="tdleft">
                 <!-- Login de l'utilisateur -->
-                <div class="col-md-3">
-                    <strong>
-                        <?php
-                        //Login :
-                        echo __d('admin', 'admin.textTableauLogin');
-                        ?>
-                    </strong>
-                    <?php
+                <?php
                     //Libelle du login de l'utilisateur
                     echo $donnees['User']['username'];
-                    ?>
-                </div>
-
+                ?>
+            </td>
+                
+            <td class="tdleft">
                 <!-- Profil de l'utilisateur -->
-                <div class="col-md-3">
-                    <strong>
-                        <?php echo __d('admin', 'admin.champProfil'); ?>
-                    </strong>
-                    <?php
+                <?php
                     echo __d('admin', 'admin.textSuperadministrateur');
-                    ?>
-                </div>
+                ?>
             </td>
 
             <!-- Action possible d'effectuer en fonction des droits de l'utilisateur -->
