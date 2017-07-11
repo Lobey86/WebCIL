@@ -276,6 +276,9 @@ msgstr " Filtrer"
 msgid "user.btnReinitialiserFiltre"
 msgstr " Réinitialiser les filtres"
 
+msgid "user.placeholderChoisirOrganisation"
+msgstr "Choisir une organisation"
+
 ###############################################################################
 
 msgid "ENUM::CIVILITE::M."
