@@ -418,8 +418,8 @@ class UsersController extends AppController {
         if ($this->request->is('post') || $this->request->is('put')) {
             if('Cancel' === Hash::get($this->request->data, 'submit')) {
                 $this->redirect(array('action' => 'index'));
-            }
-            
+                }
+                
             $success = true;
             $this->User->begin();
 
@@ -1182,6 +1182,7 @@ class UsersController extends AppController {
         
         $this->paginate = $query;
         $users = $this->paginate('User');
+        $this->set('nbUserAppli', count($users));
 
         foreach ($users as $key => $user) {
             foreach ($user['Organisation'] as $userOrganisation) {

@@ -74,8 +74,10 @@ if ($this->Autorisation->isSu()) {
     <?php
 }
 
-$paginationBlock = $this->element('pagination');
-echo $paginationBlock;
+if ($nbUserAppli >= 20) {
+    $paginationBlock = $this->element('pagination');
+    echo $paginationBlock;
+}
 ?>
 
 <!-- Tableau -->
@@ -200,7 +202,9 @@ echo $paginationBlock;
 </table>
 
 <?php
+if ($nbUserAppli >= 20) {
     echo $paginationBlock;
+}
 
 // Ajout d'un nouveau utilisateur en fonction des droits de l'utilisateur connecté pour la création
 if ($this->Autorisation->authorized(8, $droits)) {
