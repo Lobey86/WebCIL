@@ -57,7 +57,7 @@ msgid "admin.commentaireRetirerPrivilege"
 msgstr "Retirer les privilèges"
 
 msgid "admin.btnAjouterSuperAdmin"
-msgstr " Ajouter un super-administrateur"
+msgstr " Ajouter un Super-administrateur"
 
 msgid "admin.popupTitreAjouterPrivilegeSuperAdmin"
 msgstr "Ajouter un privilège super administrateur"
@@ -75,7 +75,7 @@ msgid "admin.confirmationSupprimerPrivilegeUser"
 msgstr "Voulez vous supprimer les privilèges de l'utilisateur"
 
 msgid "admin.textSuperadministrateur"
-msgstr "super-administrateur"
+msgstr "Super-administrateur"
 
 msgid "admin.champProfil"
 msgstr "Profil : "

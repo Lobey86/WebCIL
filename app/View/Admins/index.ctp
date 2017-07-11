@@ -28,7 +28,7 @@
             <!-- Nom + prénom utilisateur -->
             <td class="tdleft">
                 <?php 
-                    echo $donnees['User']['civilite'] . ' ' .  ucfirst($donnees['User']['prenom']) . ' ' . strtoupper($donnees['User']['nom']); 
+                    echo $donnees['User']['civilite'] . ' ' .  $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']; 
                 ?>
             </td>
 
