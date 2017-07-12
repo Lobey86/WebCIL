@@ -153,9 +153,7 @@ CREATE UNIQUE INDEX liste_droits_value_idx ON liste_droits (value);
 CREATE TABLE role_droits(
     id SERIAL NOT NULL PRIMARY KEY,
     role_id INTEGER NOT NULL REFERENCES roles(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    liste_droit_id INTEGER NOT NULL REFERENCES liste_droits(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    created timestamp without time zone NOT NULL,
-    modified timestamp without time zone NOT NULL
+    liste_droit_id INTEGER NOT NULL REFERENCES liste_droits(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE UNIQUE INDEX role_droits_role_id_liste_droit_id_idx ON role_droits (role_id, liste_droit_id);

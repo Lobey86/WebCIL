@@ -1,11 +1,11 @@
 <div class="role form">
-    <?php 
-        echo $this->Form->create('Role', array('autocomplete' => 'off')); 
+    <?php
+        echo $this->Form->create('Role', array('autocomplete' => 'off'));
     ?>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <?php 
+                <?php
                     echo $this->Form->input('libelle', [
                         'class' => 'form-control',
                         'placeholder' => __d('role','role.placeholderChampNomProfil'),
@@ -22,13 +22,15 @@
 
         <div class="col-md-6 droitsDroits">
             <?php
-            foreach($listedroit as $value) {
-                echo $this->Form->input('Droits.' . $value['ListeDroit']['value'], array(
-                    'type' => 'checkbox',
-                    'label' => $value['ListeDroit']['libelle'],
-                    'class' => 'checkDroits'
-                ));
-            }
+                echo $this->Form->input(
+                    'ListeDroit.ListeDroit',
+                    [
+                        'type' => 'select',
+                        'multiple' => 'checkbox',
+                        'options' => $options['ListeDroit']['ListeDroit'],
+                        'label' => false
+                    ]
+                );
             ?>
         </div>
     </div>
