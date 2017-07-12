@@ -57,8 +57,7 @@ $cakeDescription = 'Web-CIL';
     <body>
         <div id="container">
             <div id="content">
-                <div class="container-fluid container-fluid-custom theme-showcase" id="relatif" role="main"
-                     style="margin-top: 60px;">
+                <div class="container-fluid container-fluid-custom theme-showcase" id="relatif" role="main">
                     <div id="unprintable_div">
                         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
                             <div class="container-fluid">
@@ -356,7 +355,7 @@ $cakeDescription = 'Web-CIL';
                                                             'controller' => 'admins',
                                                             'action' => 'index'
                                                                 ], ['escape' => false]) . '</li>';
-                                                        
+
                                                         echo '<li>' . $this->Html->link('<i class="fa fa-group fa-fw"></i> Gestion de tous les utilisateurs', [
                                                             'controller' => 'users',
                                                             'action' => 'admin_index'
@@ -538,7 +537,7 @@ $cakeDescription = 'Web-CIL';
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <h4 class="modal-title" id="myModalLabel">
-                                    <?php 
+                                    <?php
                                     echo __d('default', 'default.popupChoisirFormulaire'); ?>
                                 </h4>
                             </div>

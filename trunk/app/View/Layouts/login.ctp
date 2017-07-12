@@ -30,6 +30,9 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
         <style>
+			body {
+				margin: 51px 0 0 0;
+			}
 
             /*noinspection CssOptimizeSimilarProperties*/
             .libriciel-background {
@@ -51,7 +54,6 @@
                     linear-gradient(-1.3962rad, rgba(255, 255, 255, 0.5) 65%, transparent 70%);
                 display: flex;
                 align-items: center;
-                margin-top: 51px;
             }
 
             .login-block {
@@ -146,14 +148,14 @@
                 <!--src="https://gitlab.libriciel.fr/outils/charte-graphique/raw/develop/markdown_resources/logo_Montpellier.jpg">-->
                 <!--</div>-->
 
-                <?php 
+                <?php
                 echo $this->Session->flash();
-                echo $this->fetch('content'); 
+                echo $this->fetch('content');
                 ?>
             </div>
         </div>
 
-         Footer 
+         Footer
 
         <footer>
             <div class="navbar navbar-inverse navbar-fixed-bottom">
@@ -164,7 +166,7 @@
                           col-lg-4
                           navbar-left navbar-icons-buffer-top"
                           style="padding-left: 15px;">
-                        
+
                         <a data-toggle="tooltip"
                            title="asal@e"
                            target="_blank"
@@ -182,7 +184,7 @@
                             echo $this->Html->image('i-delibRE_white50_h24px.png');
                             ?>
                         </a>
-                        
+
                         <a data-toggle="tooltip"
                            title="iParapheur"
                            target="_blank"
@@ -211,7 +213,7 @@
                         </a>
 
                         <a data-toggle="tooltip"
-                           title="WebCil" 
+                           title="WebCil"
                            target="_blank"
                            href="https://www.libriciel.fr/web-cil">
                             <?php
