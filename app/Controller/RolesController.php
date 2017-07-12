@@ -51,22 +51,56 @@ class RolesController extends AppController {
                     $this->Role->vfLinkedUser()
                 )
             ),
+            'contain' => [
+                'ListeDroit' => [
+                    'fields' => ['ListeDroit.libelle'],
+                    'conditions' => [
+                        'NOT' => [
+                            'ListeDroit.id' => [
+                                ListeDroit::INSERER_TRAITEMENT_REGISTRE,
+                                ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
+                                ListeDroit::CREER_ORGANISATION
+                            ]
+                        ]
+                    ],
+                    'order' => 'ListeDroit.id ASC'
+                ]
+            ],
             'conditions' => [
                 'organisation_id' => $this->Session->read('Organisation.id')
             ]
         ]);
 
-        foreach ($roles as $key => $value) {
-            $test = $this->RoleDroit->find('all', [
-                'conditions' => ['role_id' => $value['Role']['id']],
-                'contain' => ['ListeDroit' => ['libelle']],
-                'fields' => 'id'
-            ]);
-
-            $roles[$key]['Droits'] = $test;
-        }
-
         $this->set('roles', $roles);
+    }
+
+    /**
+     * Retourne les options à envoyer à la vue dans les méthodes add et edit.
+     *
+     * return array
+     */
+    protected function _optionsAddEdit() {
+        $options = [
+            'ListeDroit' => [
+                'ListeDroit' => $this->ListeDroit->find(
+                    'list',
+                    [
+                        'conditions' => [
+                            'NOT' => [
+                                'ListeDroit.id' => [
+                                    ListeDroit::INSERER_TRAITEMENT_REGISTRE,
+                                    ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
+                                    ListeDroit::CREER_ORGANISATION
+                                ]
+                            ]
+                        ],
+                        'order' => 'id'
+                    ]
+                )
+            ]
+        ];
+
+        return $options;
     }
 
     /**
@@ -102,24 +136,7 @@ class RolesController extends AppController {
             }
         }
 
-        $options = [
-            'ListeDroit' => [
-                'ListeDroit' => $this->ListeDroit->find(
-                    'list',
-                    [
-                        'conditions' => [
-                            'NOT' => [
-                                'ListeDroit.id' => [
-                                    ListeDroit::CREER_ORGANISATION
-                                ]
-                            ]
-                        ],
-                        'order' => 'id'
-                    ]
-                )
-            ]
-        ];
-        $this->set(compact('options'));
+        $this->set('options', $this->_optionsAddEdit());
     }
 
     /**
@@ -143,24 +160,20 @@ class RolesController extends AppController {
             if (!$role) {
                 throw new NotFoundException('Ce profil n\'existe pas');
             }
-
-            $this->set('listedroit', $this->ListeDroit->find('all', ['conditions' => ['NOT' => ['ListeDroit.id' => ['11']]]]));
-            $resultat = $this->RoleDroit->find('all', [
-                'conditions' => ['role_id' => $id],
-                'fields' => 'liste_droit_id'
-            ]);
-
-            $result = [];
-
-            foreach ($resultat as $donnee) {
-                array_push($result, $donnee['RoleDroit']['liste_droit_id']);
-            }
-
-            $this->set('tableDroits', $result);
         }
 
         if (!$this->request->data) {
             $this->request->data = $role;
+            $this->request->data['ListeDroit']['ListeDroit'] = Hash::extract(
+                $this->RoleDroit->find(
+                    'all',
+                    [
+                        'fields' => 'liste_droit_id',
+                        'conditions' => ['role_id' => $id]
+                    ]
+                ),
+                '{n}.RoleDroit.liste_droit_id'
+            );
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
@@ -168,6 +181,8 @@ class RolesController extends AppController {
                 'action' => 'index'
             ]);
         }
+
+        $this->set('options', $this->_optionsAddEdit());
     }
 
     /**
@@ -229,25 +244,7 @@ class RolesController extends AppController {
             );
         }
 
-        $options = [
-            'ListeDroit' => [
-                'ListeDroit' => $this->ListeDroit->find(
-                    'list',
-                    [
-                        'conditions' => [
-                            'NOT' => [
-                                'ListeDroit.id' => [
-                                    ListeDroit::INSERER_TRAITEMENT_REGISTRE,
-                                    ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
-                                    ListeDroit::CREER_ORGANISATION
-                                ]
-                            ]
-                        ]
-                    ]
-                )
-            ]
-        ];
-        $this->set(compact('options'));
+        $this->set('options', $this->_optionsAddEdit());
     }
 
     /**

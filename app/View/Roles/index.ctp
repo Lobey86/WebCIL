@@ -12,18 +12,18 @@ if (!empty($roles)) {
             <th class="thleft col-md-2">
                 <?php echo __d('role', 'role.titreTableauProfil'); ?>
             </th>
-            
+
             <!-- Droits -->
             <th class="thleft col-md-8">
                 <?php echo __d('role', 'role.titreTableauDroit'); ?>
             </th>
-            
+
             <!-- Actions -->
             <th class='thleft col-md-2'>
                 <?php echo __d('role', 'role.titreTableauAction'); ?>
             </th>
         </thead>
-        
+
         <tbody>
             <?php
             foreach ($roles as $donnees) {
@@ -33,18 +33,18 @@ if (!empty($roles)) {
                     <td class="tdleft col-md-2">
                         <?php echo $donnees['Role']['libelle']; ?>
                     </td>
-                    
+
                     <!-- Droits accordé au profil -->
                     <td class="tdleft col-md-8">
                         <ul>
                             <?php
-                            foreach ($donnees['Droits'] as $key => $value) {
-                                echo '<li>' . $value['ListeDroit']['libelle'] . '</li>';
+                            foreach (Hash::extract($donnees, 'ListeDroit.{n}.libelle') as $key => $droit) {
+                                echo '<li>' . h($droit) . '</li>';
                             }
                             ?>
                         </ul>
                     </td>
-                    
+
                     <!-- Bouton -->
                     <td class="tdleft">
                         <div class="btn-group">
@@ -61,7 +61,7 @@ if (!empty($roles)) {
                                     'escapeTitle' => false
                                 ));
                             }
-                            
+
                             if ($this->Autorisation->authorized(15, $droits)) {
                                 if ($donnees['Role']['linked_user'] == false) {
                                     //Bouton de suppression
