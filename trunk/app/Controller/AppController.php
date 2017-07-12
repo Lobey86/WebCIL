@@ -55,7 +55,8 @@ class AppController extends Controller
         ],
         'Translator.TranslatorAutoload' => [
             'translatorClass' => 'WebcilTranslator'
-        ]
+        ],
+        'Referers'
     ];
     public $helpers = [
         'WebcilForm'
