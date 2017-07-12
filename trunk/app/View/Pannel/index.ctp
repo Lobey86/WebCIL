@@ -1,6 +1,6 @@
 <?php
 echo $this->Html->script('pannel.js');
-
+echo $this->Html->script('registre.js');
 // balise du scrollTo
 $idFicheNotification = $this->Session->read('idFicheNotification');
 unset($_SESSION['idFicheNotification']);
@@ -37,68 +37,77 @@ if ($this->Autorisation->authorized(1, $droits)) {
             </div>
         </div>
         
-        <!-- Tableau des déclarations en cours de rédaction -->
         <div class="panel-body panel-body-custom">
             <?php
             if (!empty($traitementEnCoursRedaction)) {
                 ?>
-                <table class="table  table-bordered">
+                <!-- Tableau des traitements en cours de rédaction -->
+                <table class="table">
+                    <!-- Titre tableau -->
                     <thead>
-                        <tr>
                             <!-- Etat -->
                             <th class="col-md-1">
                                 <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
-                            
-                            <!-- Synthèse -->
-                            <th class="col-md-9">
-                                <?php echo __d('pannel', 'pannel.motSynthese'); ?>
+
+                            <!-- Nom du traitement -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                             </th>
-                            
-                            <!-- Actions -->
+
+                            <!-- Créé par -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                            </th>
+
+                            <!-- Dernière modification le -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                            </th>
+
+                            <!-- Actions  -->
                             <th class="col-md-2">
                                 <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
-                        </tr>
                     </thead>
+
                     <tbody>
                         <?php
                         foreach ($traitementEnCoursRedaction as $donnee) {
                             ?>
                             <tr>
                                 <!-- Status du traitement -->
-                                <td class='tdleft col-md-1'>
+                                <td class='tdleft col-md-1'> <!-- style="border-right: 1px solid black;"-->
                                     <div class="etatIcone">
                                         <i class="fa fa-pencil-square-o fa-3x"></i>
+                                            <?php echo ("Rédaction"); ?>
                                     </div>
                                 </td>
-                                
+
+                                <!-- Nom du traitement -->
                                 <td class='tdleft'>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong>
-                                                <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                            </strong>
-                                            <span class="value"><?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?></span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row top15">
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                            </strong>
-                                            <span class="value"><?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?></span>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                            </strong>
-                                            <span class="value"><?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?></span>
-                                        </div>
-                                    </div>
+                                    <?php 
+                                        echo $donnee['Fiche']['Valeur'][0]['valeur'];
+                                    ?>
                                 </td>
-                                
+
+                                <!-- Créé par -->
+                                <td class="tdleft">
+                                    <?php 
+                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+
+                                <!-- Dernière modification le -->
+                                <td class="tdleft">
+                                    <?php 
+                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+
+                                <!-- Actions -->
                                 <td class='tdleft'>
-                                    <div class="btn-group">
+                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
                                         <?php
                                         echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
@@ -107,9 +116,10 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 ], [
                                             'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                             'escapeTitle' => false,
-                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
+                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
+                                            'id' => 'btnShow'. $donnee['Fiche']['id']
                                         ]);
-                                        
+
                                         echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'edit',
@@ -117,7 +127,8 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 ], [
                                             'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
                                             'escapeTitle' => false,
-                                            'title' => __d('pannel', 'pannel.commentaireModifierTraitement')
+                                            'title' => __d('pannel', 'pannel.commentaireModifierTraitement'),
+                                            'id' => 'btnEdit'. $donnee['Fiche']['id']
                                         ]);
                                         ?>
                                         <button type='button'
@@ -127,7 +138,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
                                             <span class='fa fa-history fa-lg'></span>
                                         </button>
-
+                                        
                                         <button
                                             class='btn btn-default-default dropdown-toggle boutonSend btn-sm my-tooltip'
                                             type='button'
@@ -136,7 +147,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             <span class='fa fa-paper-plane fa-lg'></span>
                                             <span class='caret'></span>
                                         </button>
-                                        
+
                                         <ul class='dropdown-menu' role='menu'
                                             aria-labelledby='dropdownMenu1'>
                                             <?php
@@ -180,7 +191,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 <?php
                                             }   
                                             ?>
-                                            
+
                                             <li role='presentation'>
                                                 <?php
                                                     echo $this->Html->link(__d('pannel', 'pannel.textEnvoyerCIL'), [
@@ -206,24 +217,27 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'title' => __d('pannel', 'pannel.commentaireSupprimerTraitement')
                                             ], __d('pannel', 'pannel.confirmationSupprimerTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . ' " ?');
                                     ?>
-
                                 </td>
                             </tr>
-                            <tr class='listeValidation'
-                                id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
+                            
+                            <!-- Liste de l'historique du traitement -->
+                            <tr class='listeValidation' id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
                                 <td></td>
-                                <td class='tdleft'>
+                                
+                                <td class='tdleft' colspan='3'>
                                     <?php
                                     $parcours = $this->requestAction([
                                         'controller' => 'Pannel',
                                         'action' => 'parcours',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('parcours', [
-                                        "parcours" => $parcours
+                                        'parcours' => $parcours
                                     ]);
                                     ?>
                                 </td>
+
                                 <td class="tdleft">
                                     <?php
                                     $historique = $this->requestAction([
@@ -231,12 +245,14 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'action' => 'getHistorique',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('historique', [
-                                        "historique" => $historique,
-                                        "id" => $donnee['Fiche']['id']
+                                        'historique' => $historique,
+                                        'id' => $donnee['Fiche']['id']
                                     ]);
                                     ?>
                                 </td>
+                                <td></td>
                             </tr>
                             
                             <tr class='completion'></tr>
@@ -245,21 +261,22 @@ if ($this->Autorisation->authorized(1, $droits)) {
                         ?>
                     </tbody>
                 </table>
-
-
                 <?php
             } else {
                 ?>
                 <div class='text-center'>
-                    <h3> <?php echo __d('pannel', 'pannel.aucunTraitementEnCours'); ?></h3>
+                    <h3> 
+                        <?php echo __d('pannel', 'pannel.aucunTraitementEnCours'); ?>
+                    </h3>
                 </div>
                 <?php
             }
             ?>
+
             <div class="row bottom10">
                 <div class="col-md-12 text-center">
                     <?php
-                    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span>' . __d('pannel', 'pannel.btnCreerTraitement'), ['#' => '#'], [
+                    echo $this->Html->link('<span class="fa fa-plus fa-lg"></span>' . __d('pannel', 'pannel.btnCreerTraitement'), ['#' => '#'], [
                         'escape' => false,
                         'data-toggle' => 'modal',
                         'data-target' => '#myModal',
@@ -300,54 +317,78 @@ if ($this->Autorisation->authorized(1, $droits)) {
                 </div>
             </div>
         </div>
+        
         <div class="panel-body panel-body-custom">
             <?php
             if (!empty($traitementEnCoursValidation)) {
                 ?>
-                <table class="table  table-bordered">
+                <!-- Tableau des traitements en cours de rédaction -->
+                <table class="table">
+                    <!-- Titre tableau -->
                     <thead>
-                        <tr>
-                            <th class="thleft col-md-1">
+                            <!-- Etat -->
+                            <th class="col-md-1">
                                 <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
-                            <th class="thleft col-md-9 col-md-offset-1">
-                                <?php echo __d('pannel', 'pannel.motSynthese'); ?>
+
+                            <!-- Nom du traitement -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                             </th>
-                            <th class="thleft col-md-2 col-md-offset-10">
+
+                            <!-- Créé par -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                            </th>
+
+                            <!-- Dernière modification le -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                            </th>
+
+                            <!-- Actions  -->
+                            <th class="col-md-2">
                                 <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
-                        </tr>
                     </thead>
                     <tbody>
                         <?php
                         foreach ($traitementEnCoursValidation as $donnee) {
                             ?>
                             <tr>
-                                <td class='tdleft col-md-1'>
+                                <!-- Etat du traitement -->
+                                <td class='tdleft col-md-1'> <!-- style="border-right: 1px solid black;"-->
                                     <div class="etatIcone">
                                         <i class="fa fa-clock-o fa-3x"></i>
+                                        </br>
+                                        <?php echo ("En attente"); ?>
                                     </div>
                                 </td>
-                                <td class='tdleft col-md-9 col-md-offset-1'>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
-                                        </div>
-                                    </div>
-                                    <div class="row top15">
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                            </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
-                                        </div>
-                                    </div>
+                                
+                                <!-- Nom du traitement -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $donnee['Fiche']['Valeur'][0]['valeur'];
+                                    ?>
                                 </td>
-                                <td class='tdcent col-md-2 col-md-offset-10'>
-                                    <div class="btn-group">
+                                
+                                <!-- Créé par -->
+                                <td class="tdleft">
+                                    <?php
+                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                
+                                <!-- Dernière modification le -->
+                                <td class="tdleft">
+                                    <?php 
+                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); 
+                                    ?>
+                                </td>
+                                
+                                <!-- Actions -->
+                                <td class='tdleft'>
+                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
                                         <?php
                                         echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
@@ -368,7 +409,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         </button>
 
                                         <?php
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-transfer"></span>', ['#' => '#'], [
+                                        echo $this->Html->link('<span class="fa fa-exchange fa-lg"></span>', ['#' => '#'], [
                                             'data-id' => $donnee['Fiche']['id'],
                                             'data-fiche' => $donnee['EtatFiche']['id'],
                                             'escape' => false,
@@ -381,21 +422,25 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                     </div>
                                 </td>
                             </tr>
-                            <tr class='listeValidation'
-                                id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
+                            
+                            <!-- Liste de l'historique du traitement -->
+                            <tr class='listeValidation' id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
                                 <td></td>
-                                <td class='tdleft'>
+                                
+                                <td class='tdleft' colspan='3'>
                                     <?php
                                     $parcours = $this->requestAction([
                                         'controller' => 'Pannel',
                                         'action' => 'parcours',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('parcours', [
-                                        "parcours" => $parcours
+                                        'parcours' => $parcours
                                     ]);
                                     ?>
                                 </td>
+
                                 <td class="tdleft">
                                     <?php
                                     $historique = $this->requestAction([
@@ -403,12 +448,14 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'action' => 'getHistorique',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('historique', [
-                                        "historique" => $historique,
-                                        "id" => $donnee['Fiche']['id']
+                                        'historique' => $historique,
+                                        'id' => $donnee['Fiche']['id']
                                     ]);
                                     ?>
                                 </td>
+                                <td></td>
                             </tr>
                             <?php
                         }
@@ -419,10 +466,8 @@ if ($this->Autorisation->authorized(1, $droits)) {
             } else {
                 ?>
                 <div class='text-center'>
-                    <h3>
-                        <?php 
-                        echo __d('pannel', 'pannel.aucunTraitementEnAttente'); 
-                        ?>
+                    <h3> 
+                        <?php echo __d('pannel', 'pannel.aucunTraitementEnAttente'); ?>
                     </h3>
                 </div>
                 <?php
@@ -430,7 +475,7 @@ if ($this->Autorisation->authorized(1, $droits)) {
             ?>
         </div>
     </div>
-
+    
     <!-- Banette des fiches refusées -->
     <div class="panel panel-primary">
         <div class="panel-heading">
@@ -459,56 +504,82 @@ if ($this->Autorisation->authorized(1, $droits)) {
                 </div>
             </div>
         </div>
+        
         <div class="panel-body panel-body-custom">
             <?php
             if (!empty($traitementRefuser)) {
                 ?>
-
-                <table class="table  table-bordered">
+                <!-- Tableau des traitements en cours de rédaction -->
+                <table class="table">
+                    <!-- Titre tableau -->
                     <thead>
-                        <tr>
-                            <th class="thleft col-md-1">
+                            <!-- Etat -->
+                            <th class="col-md-1">
                                 <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
-                            <th class="thleft col-md-9 col-md-offset-1">
-                                <?php echo __d('pannel', 'pannel.motSynthese'); ?>
+
+                            <!-- Nom du traitement -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                             </th>
-                            <th class="thleft col-md-2 col-md-offset-10">
+
+                            <!-- Créé par -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                            </th>
+
+                            <!-- Dernière modification le -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                            </th>
+
+                            <!-- Actions  -->
+                            <th class="col-md-2">
                                 <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
-                        </tr>
                     </thead>
                     <tbody>
                         <?php
                         foreach ($traitementRefuser as $donnee) {
                             ?>
                             <tr>
+                                <!-- Etat du traitement -->
                                 <td class='tdleft col-md-1'>
                                     <div class="etatIcone">
                                         <i class="fa fa-times fa-3x fa-danger"></i>
+                                        </br>
+                                        <span class="fa-danger">
+                                            <?php echo ("Refusé"); ?>
+                                        </span>
                                     </div>
                                 </td>
-                                <td class='tdleft col-md-9 col-md-offset-1'>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
-                                        </div>
-                                    </div>
-                                    <div class="row top15">
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                            </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
-                                        </div>
-                                    </div>
+
+                                <!-- Nom du traitement -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $donnee['Fiche']['Valeur'][0]['valeur'];
+                                    ?>
                                 </td>
-                                <td class='tdcent col-md-2 col-md-offset-10'>
-                                    <div class="btn-group">
+                                
+                                <!-- Créé par -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                    
+                                <!-- Dernière modification le -->
+                                <td class='tdleft'>
+                                    <?php
+                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                
+                                <!-- Actions -->
+                                <td class='tdleft'>
+                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
                                         <?php
+                                        // Visualiser le traitement
                                         echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'show',
@@ -518,7 +589,9 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             'escapeTitle' => false,
                                             'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
                                         ]);
-                                        echo $this->Html->link('<span class="glyphicon glyphicon-repeat"></span>', [
+                                        
+                                        // Replacer en rédaction
+                                        echo $this->Html->link('<span class="fa fa-reply fa-lg"></span>', [
                                             'controller' => 'EtatFiches',
                                             'action' => 'relaunch',
                                             $donnee['Fiche']['id']
@@ -528,6 +601,8 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             'escapeTitle' => false
                                         ]);
                                         ?>
+                                        
+                                        <!-- Historique -->
                                         <button type='button'
                                                 class='btn btn-default-default boutonList btn-sm my-tooltip boutonListRefusee'
                                                 title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
@@ -535,7 +610,9 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                                 value='<?php echo $donnee['Fiche']['id']; ?>'>
                                             <span class='fa fa-history fa-lg'></span>
                                         </button>
+                                        
                                         <?php
+                                        // Supprimer le traitement
                                         echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', [
                                             'controller' => 'fiches',
                                             'action' => 'delete',
@@ -546,24 +623,28 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                             'title' => __d('pannel', 'pannel.commentaireSupprimerTraitement')
                                                 ], __d('pannel', 'pannel.confirmationSupprimerTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . '?');
                                         ?>
-
                                     </div>
                                 </td>
                             </tr>
+                            
+                            <!-- Liste de l'historique du traitement -->
                             <tr class='listeRefusee' id='listeRefusee<?php echo $donnee['Fiche']['id']; ?>'>
                                 <td></td>
-                                <td class='tdleft'>
+                                
+                                <td class='tdleft' colspan='3'>
                                     <?php
                                     $parcours = $this->requestAction([
                                         'controller' => 'Pannel',
                                         'action' => 'parcours',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('parcours', [
-                                        "parcours" => $parcours
+                                        'parcours' => $parcours
                                     ]);
                                     ?>
                                 </td>
+
                                 <td class="tdleft">
                                     <?php
                                     $historique = $this->requestAction([
@@ -571,38 +652,39 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'action' => 'getHistorique',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('historique', [
-                                        "historique" => $historique,
-                                        "id" => $donnee['Fiche']['id']
+                                        'historique' => $historique,
+                                        'id' => $donnee['Fiche']['id']
                                     ]);
                                     ?>
                                 </td>
+                                <td></td>
                             </tr>
                             <?php
                         }
                         ?>
                     </tbody>
                 </table>
-
-
                 <?php
             } else {
                 ?>
                 <div class='text-center'>
-                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementRefusees'); ?></h3>
+                    <h3> 
+                        <?php echo __d('pannel', 'pannel.aucunTraitementRefusees'); ?>
+                    </h3>
                 </div>
                 <?php
             }
             ?>
         </div>
     </div>
-
     <?php
 }
 
 if ($this->Autorisation->authorized(2, $droits)) {
-?>    
-<!-- Fiches reçues en validation -->
+?>
+<!-- Banette reçues en validation -->
 <div class="panel panel-primary">
     <div class="panel-heading">
         <div class="row">
@@ -631,35 +713,56 @@ if ($this->Autorisation->authorized(2, $droits)) {
             </div>
         </div>
     </div>
+
     <div class="panel-body panel-body-custom">
         <?php
         if (!empty($traitementRecuEnValidation)) {
             ?>
-            <table class="table table-bordered">
+            <!-- Tableau des traitements en cours de rédaction -->
+            <table class="table">
+                <!-- Titre tableau -->
                 <thead>
-                    <tr>
-                        <th class="thleft col-md-1">
+                        <!-- Etat -->
+                        <th class="col-md-1">
                             <?php echo __d('pannel', 'pannel.motEtat'); ?>
                         </th>
-                        <th class="thleft col-md-9 col-md-offset-1">
-                            <?php echo __d('pannel', 'pannel.motSynthese'); ?>
+
+                        <!-- Nom du traitement -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                         </th>
-                        <th class="thleft col-md-2 col-md-offset-10">
+
+                        <!-- Créé par -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                        </th>
+
+                        <!-- Dernière modification le -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                        </th>
+
+                        <!-- Actions  -->
+                        <th class="col-md-2">
                             <?php echo __d('pannel', 'pannel.motActions'); ?>
                         </th>
-                    </tr>
                 </thead>
                 <tbody>
                     <?php
                     foreach ($traitementRecuEnValidation as $donnee) {
                         ?>
                         <tr>
+                            <!-- Etat du traitement -->
                             <td class='tdleft col-md-1'>
                                 <div class="etatIcone">
                                     <i class="fa fa-check-square-o fa-3x"></i>
+                                    </br>
+                                    <?php echo ("En attente de validation"); ?>
                                 </div>
                             </td>
-                            <td class='tdleft col-md-9 col-md-offset-1'>
+
+                            <!-- Nom du traitement -->
+                            <td class='tdleft'>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
@@ -667,20 +770,27 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                     </div>
 
                                 </div>
-                                <div class="row top15">
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                        </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                </div>
                             </td>
-                            <td class='tdleft col-md-2 col-md-offset-10'>
-                                <div class="btn-group">
+                            
+                            <!-- Créé par -->
+                            <td class='tdleft'>
+                                <?php 
+                                    echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                ?>
+                            </td>
+                            
+                            <!-- Dernière modification le -->
+                            <td class='tdleft'>
+                                <?php 
+                                    echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); 
+                                ?>
+                            </td>
+                            
+                            <!-- Actions -->
+                            <td class='tdleft'>
+                                <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
                                     <?php
+                                    // Visualiser le traitement
                                     echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'show',
@@ -689,7 +799,10 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                         'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
                                         'escapeTitle' => false,
                                         'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
-                                    ]) . $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
+                                    ]);
+                                    
+                                    // Modifier le traitement
+                                    echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
                                         'controller' => 'fiches',
                                         'action' => 'edit',
                                         $donnee['Fiche']['id']
@@ -782,6 +895,8 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                         ?>
                                     </ul>
                                 </div>
+                                
+                                <!-- Refuser le traitement -->
                                 <button type='button'
                                         class='btn btn-default-danger boutonRefuser btn-sm my-tooltip'
                                         title='<?php echo __d('pannel','pannel.commentaireRefuserTraitement'); ?>'
@@ -791,20 +906,25 @@ if ($this->Autorisation->authorized(2, $droits)) {
 
                             </td>
                         </tr>
+                        
+                        <!-- Liste de l'historique du traitement -->
                         <tr class='listeAValider' id='listeAValider<?php echo $donnee['Fiche']['id']; ?>'>
                             <td></td>
-                            <td class='tdleft'>
+
+                            <td class='tdleft' colspan='3'>
                                 <?php
                                 $parcours = $this->requestAction([
                                     'controller' => 'Pannel',
                                     'action' => 'parcours',
                                     $donnee['Fiche']['id']
                                 ]);
+
                                 echo $this->element('parcours', [
-                                    "parcours" => $parcours
+                                    'parcours' => $parcours
                                 ]);
                                 ?>
                             </td>
+
                             <td class="tdleft">
                                 <?php
                                 $historique = $this->requestAction([
@@ -812,13 +932,16 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                     'action' => 'getHistorique',
                                     $donnee['Fiche']['id']
                                 ]);
+
                                 echo $this->element('historique', [
-                                    "historique" => $historique,
-                                    "id" => $donnee['Fiche']['id']
+                                    'historique' => $historique,
+                                    'id' => $donnee['Fiche']['id']
                                 ]);
                                 ?>
                             </td>
+                            <td></td>
                         </tr>
+                        
                         <tr class='commentaireRefus<?php echo $donnee['Fiche']['id']; ?>'>
                             <td></td>
                             <td colspan='2' class='tdleft'>
@@ -848,6 +971,7 @@ if ($this->Autorisation->authorized(2, $droits)) {
                                 ?>
                             </td>
                         </tr>
+                        
                         <tr class='completion'></tr>
                         <?php
                     }
@@ -858,313 +982,378 @@ if ($this->Autorisation->authorized(2, $droits)) {
         } else {
             ?>
             <div class='text-center'>
-                <h3><?php echo __d('pannel', 'pannel.aucunTraitementValidation'); ?></h3>
+                <h3> 
+                    <?php echo __d('pannel', 'pannel.aucunTraitementValidation'); ?>
+                </h3>
             </div>
             <?php
         }
         ?>
     </div>
-</div>
+</div>    
 <?php
 }
 
 if ($this->Autorisation->authorized(3, $droits)) {
 ?>
-<!-- Fiches reçues en consultation -->
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="panel-title">
-                    <?php
-                    echo __d('pannel', 'pannel.traitementConsultation') . $nbTraitementRecuEnConsultation . ')';
+    <!-- Fiches reçues en consultation -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="panel-title">
+                        <?php
+                        echo __d('pannel', 'pannel.traitementConsultation') . $nbTraitementRecuEnConsultation . ')';
 
-                    if ($nbTraitementRecuEnConsultation != 0) {
-                    ?>
-                        <span class="pull-right">
-                                <?php
-                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementRecuConsultation'), [
-                                        'controller' => 'pannel',
-                                        'action' => 'recuConsultation',
-                                            ], [
-                                        'class' => 'btn btn-default-primary',
-                                        'escapeTitle' => false,
-                                ]);
-                                ?>
-                        </span>
-                    <?php
-                    }
-                    ?>
-                </h3>
-            </div>
-        </div>
-    </div>
-    <div class="panel-body panel-body-custom">
-        <?php
-        if (!empty($traitementRecuEnConsultation)) {
-            ?>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th class="thleft col-md-1">
-                            <?php echo __d('pannel', 'pannel.motEtat'); ?>
-                        </th>
-                        <th class="thleft col-md-9 col-md-offset-1">
-                            <?php echo __d('pannel', 'pannel.motSynthese'); ?>
-                        </th>
-                        <th class="thleft col-md-2 col-md-offset-10">
-                            <?php echo __d('pannel', 'pannel.motActions'); ?>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($traitementRecuEnConsultation as $donnee) {
+                        if ($nbTraitementRecuEnConsultation != 0) {
                         ?>
-                        <tr>
-                            <td class='tdleft col-md-1'>
-                                <div class="etatIcone">
-                                    <i class="fa fa-eye fa-3x"></i>
-                                </div>
-                            </td>
-                            <td class='tdleft col-md-9 col-md-offset-1'>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
-                                    </div>
-
-                                </div>
-                                <div class="row top15">
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                        </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class='tdcent col-md-2 col-md-offset-10'>
-                                <div class="btn-group">
+                            <span class="pull-right">
                                     <?php
-                                    echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>', [
-                                        'controller' => 'fiches',
-                                        'action' => 'show',
-                                        $donnee['Fiche']['id']
-                                            ], [
-                                        'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                                        'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
-                                        'escapeTitle' => false
+                                    echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementRecuConsultation'), [
+                                            'controller' => 'pannel',
+                                            'action' => 'recuConsultation',
+                                                ], [
+                                            'class' => 'btn btn-default-primary',
+                                            'escapeTitle' => false,
                                     ]);
                                     ?>
-                                    <button type='button'
-                                            class='btn btn-default-default boutonRepondre boutonsAction5 btn-sm my-tooltip'
-                                            title= '<?php echo __d('pannel', 'pannel.commentaireRepondre'); ?>'
-                                            id="<?php echo $donnee['Fiche']['id']; ?>"
-                                            value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='glyphicon glyphicon-share-alt'></span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class='commentaireRepondre<?php echo $donnee['Fiche']['id']; ?>'>
-                            <td></td>
-                            <td class='tdleft'>
-                                <?php
-                                echo $this->Form->create('EtatFiche', $options = ['action' => 'answerAvis']);
-                                echo $this->Form->input('commentaireRepondre', [
-                                    'div' => 'input-group inputsForm',
-                                    'label' => false,
-                                    'before' => '<span class="labelFormulaire">'. __d('pannel','pannel.textDonnerAvis').'</span><span class="obligatoire">*</span>',
-                                    'required' => true,
-                                    'class' => 'form-control',
-                                    'type' => 'textarea'
-                                ]);
-                                echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
-                                echo $this->Form->hidden('previousUserId', ['value' => $donnee['EtatFiche']['previous_user_id']]);
-                                echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
-                                echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
-                                    'type' => 'button',
-                                    'class' => 'btn btn-default-default repondreCancel',
-                                ));
-                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
-                                    'type' => 'submit',
-                                    'class' => 'btn btn-default-success pull-right'
-                                ]);
-                                echo '</div>';
-                                echo $this->Form->end();
-                                ?>
-                            </td>
-                            <td class="tdleft">
-                            </td>
-                        </tr>
-                        <tr class='completion'></tr>
+                            </span>
                         <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-            <?php
-        } else {
-            ?>
-            <div class='text-center'>
-                <h3><?php echo __d('pannel', 'pannel.aucunTraitementConsultation'); ?></h3>
+                        }
+                        ?>
+                    </h3>
+                </div>
             </div>
+        </div>
+        
+        <div class="panel-body panel-body-custom">
             <?php
-        }
-        ?>
+            if (!empty($traitementRecuEnConsultation)) {
+                ?>
+                <table class="table">
+                    <!-- Titre tableau -->
+                    <thead>
+                        <!-- Etat -->
+                        <th class="col-md-1">
+                            <?php echo __d('pannel', 'pannel.motEtat'); ?>
+                        </th>
+
+                        <!-- Nom du traitement -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
+                        </th>
+
+                        <!-- Créé par -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                        </th>
+
+                        <!-- Dernière modification le -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                        </th>
+
+                        <!-- Actions  -->
+                        <th class="col-md-2">
+                            <?php echo __d('pannel', 'pannel.motActions'); ?>
+                        </th>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($traitementRecuEnConsultation as $donnee) {
+                            ?>
+                            <tr>
+                                <!-- Etat du traitement -->
+                                <td class='tdleft col-md-1'>
+                                    <div class="etatIcone">
+                                        <i class="fa fa-eye fa-3x"></i>
+                                        </br>
+                                        <?php echo ("En attente de consultation"); ?>
+                                    </div>
+                                </td>
+
+                                <!-- Nom du traitement -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $donnee['Fiche']['Valeur'][0]['valeur'];
+                                    ?>
+                                </td>
+                                
+                                <!-- Créé par -->
+                                <td class='tdleft'>
+                                    <?php
+                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                
+                                <!-- Dernière modification le -->
+                                <td class='tdleft'>
+                                    <?php
+                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+
+                                <!-- Actions -->
+                                <td class='tdleft'>
+                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
+                                        <?php
+                                        // Visualiser le traitement
+                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
+                                            'controller' => 'fiches',
+                                            'action' => 'show',
+                                            $donnee['Fiche']['id']
+                                                ], [
+                                            'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
+                                            'escapeTitle' => false
+                                        ]);
+                                        ?>
+
+                                        <!-- Répondre au traitement -->
+                                        <button type='button'
+                                                class='btn btn-default-default boutonRepondre boutonsAction5 btn-sm my-tooltip'
+                                                title= '<?php echo __d('pannel', 'pannel.commentaireRepondre'); ?>'
+                                                id="<?php echo $donnee['Fiche']['id']; ?>"
+                                                value='<?php echo $donnee['Fiche']['id']; ?>'>
+                                            <span class='fa fa-reply fa-lg'></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class='commentaireRepondre<?php echo $donnee['Fiche']['id']; ?>'>
+                                <td></td>
+                                
+                                <td class='tdleft' colspan='3'>
+                                    <?php
+                                    echo $this->Form->create('EtatFiche', $options = ['action' => 'answerAvis']);
+                                    echo $this->Form->input('commentaireRepondre', [
+                                        'div' => 'input-group inputsForm',
+                                        'label' => false,
+                                        'before' => '<span class="labelFormulaire">'. __d('pannel','pannel.textDonnerAvis').'</span><span class="obligatoire">*</span>',
+                                        'required' => true,
+                                        'class' => 'form-control',
+                                        'type' => 'textarea'
+                                    ]);
+                                    echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
+                                    echo $this->Form->hidden('previousUserId', ['value' => $donnee['EtatFiche']['previous_user_id']]);
+                                    echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
+                                    echo '<div class="btn-group">';
+                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
+                                        'type' => 'button',
+                                        'class' => 'btn btn-default-default repondreCancel',
+                                    ));
+                                    echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
+                                        'type' => 'submit',
+                                        'class' => 'btn btn-default-success pull-right'
+                                    ]);
+                                    echo '</div>';
+                                    echo $this->Form->end();
+                                    ?>
+                                </td>
+                                
+                                <td></td>
+                            </tr>
+                            
+                            <tr class='completion'></tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                <?php
+            } else {
+                ?>
+                <div class='text-center'>
+                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementConsultation'); ?></h3>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
     </div>
-</div>
 <?php
 }
 
 if ($this->Autorisation->authorized(1, $droits)) {
 ?>
-<!-- BANNETTE ARCHIVES -->
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="panel-title">
-                    <?php
-                    echo __d('pannel', 'pannel.traitementValidationInsereeRegistre') . $nbTraitementArchives . ')';
+    <!-- BANNETTE ARCHIVES -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="panel-title">
+                        <?php
+                        echo __d('pannel', 'pannel.traitementValidationInsereeRegistre') . $nbTraitementArchives . ')';
 
-                    if ($nbTraitementArchives != 0) {
-                    ?>
-                        <span class="pull-right">
-                           <?php
-                            echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementArchiver'), [
-                                'controller' => 'pannel',
-                                'action' => 'archives',
-                                    ], [
-                                'class' => 'btn btn-default-primary',
-                                'escapeTitle' => false,
-                            ]);
-                            ?>
-                        </span>
-                    <?php
-                    }
-                    ?>
-                </h3>
+                        if ($nbTraitementArchives != 0) {
+                        ?>
+                            <span class="pull-right">
+                               <?php
+                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementArchiver'), [
+                                    'controller' => 'pannel',
+                                    'action' => 'archives',
+                                        ], [
+                                    'class' => 'btn btn-default-primary',
+                                    'escapeTitle' => false,
+                                ]);
+                                ?>
+                            </span>
+                        <?php
+                        }
+                        ?>
+                    </h3>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="panel-body panel-body-custom">
-        <?php
-        if (!empty($traitementArchives)) {
-            ?>
-            <table class="table  table-bordered">
-                <thead>
-                    <tr>
-                        <th class="thleft col-md-1">
+        <div class="panel-body panel-body-custom">
+            <?php
+            if (!empty($traitementArchives)) {
+                ?>
+                <table class="table">
+                    <!-- Titre tableau -->
+                    <thead>
+                        <!-- Etat -->
+                        <th class="col-md-1">
                             <?php echo __d('pannel', 'pannel.motEtat'); ?>
                         </th>
-                        <th class="thleft col-md-9 col-md-offset-1">
-                            <?php echo __d('pannel', 'pannel.motSynthese'); ?>
+
+                        <!-- Nom du traitement -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                         </th>
-                        <th class="thleft col-md-2 col-md-offset-10">
+
+                        <!-- Créé par -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                        </th>
+
+                        <!-- Dernière modification le -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                        </th>
+
+                        <!-- Actions  -->
+                        <th class="col-md-2">
                             <?php echo __d('pannel', 'pannel.motActions'); ?>
                         </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($traitementArchives as $donnee) {
-                        ?>
-                        <tr>
-                            <td class='tdleft col-md-1'>
-                                <?php
-                                if ($donnee['EtatFiche']['etat_id'] == 5){
-                                    $action = 'genereTraitement';
-                                    $icone = '<span class="fa fa-cog fa-lg"></span>';
-                                    $titre = __d('pannel', 'pannel.commentaireGenererTraitement');
-                                    ?>
-                                    <div class="etatIcone">
-                                        <i class="fa fa-check fa-3x fa-success"></i>
-                                    </div>
-                                <?php
-                                } else if ($donnee['EtatFiche']['etat_id'] == 7) {
-                                    $action = 'downloadFileTraitement';
-                                    $icone = '<span class="fa fa-download fa-lg"></span>';
-                                    $titre = __d('pannel', 'pannel.commentaireTelechargerTraitement');
-                                    ?>
-                                    <div class="etatIcone">
-                                        <i class="fa fa-lock fa-3x fa-success"></i>
-                                    </div>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($traitementArchives as $donnee) {
+                            ?>
+                            <tr>
+                                <!-- Etat du traitement -->
+                                <td class='tdleft col-md-1'>
                                     <?php
-                                }
-                                ?>
-                            </td>
-                            <td class='tdleft col-md-9 col-md-offset-1'>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
-                                    </div>
-
-                                </div>
-                                <div class="row top15">
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                        </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class='tdcent col-md-2 col-md-offset-10'>
-                                <div class="btn-group">
+                                    if ($donnee['EtatFiche']['etat_id'] == 5){
+                                        $action = 'genereTraitement';
+                                        $icone = '<span class="fa fa-cog fa-lg"></span>';
+                                        $titre = __d('pannel', 'pannel.commentaireGenererTraitement');
+                                        ?>
+                                        <div class="etatIcone">
+                                            <i class="fa fa-check fa-3x fa-success"></i>
+                                            </br>
+                                            <span class="fa-success">
+                                                <?php echo ("Validé et inséré au registre"); ?>
+                                            </span>
+                                        </div>
                                     <?php
-                                    echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
-                                        'controller' => 'fiches',
-                                        'action' => 'show',
-                                        $donnee['Fiche']['id']
-                                            ], [
-                                        'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                                        'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
-                                        'escapeTitle' => false
-                                    ]);
-                                    
-                                    echo $this->Html->link($icone, [
-                                        'controller' => 'fiches',
-                                        'action' => $action,
-                                        $donnee['Fiche']['id']
-                                            ], [
-                                        'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
-                                        'title' => $titre,
-                                        'escapeTitle' => false
-                                    ]);
+                                    } else if ($donnee['EtatFiche']['etat_id'] == 7) {
+                                        $action = 'downloadFileTraitement';
+                                        $icone = '<span class="fa fa-download fa-lg"></span>';
+                                        $titre = __d('pannel', 'pannel.commentaireTelechargerTraitement');
+                                        ?>
+                                        <div class="etatIcone">
+                                            <i class="fa fa-lock fa-3x fa-success"></i>
+                                            </br>
+                                            <span class="fa-success">
+                                                <?php echo ("Archivé au registre"); ?>
+                                            </span>
+                                        </div>
+                                        <?php
+                                    }
                                     ?>
-                                    <button type='button'
-                                            class='btn btn-default-default boutonList btn-sm my-tooltip'
-                                            title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
-                                            id='<?php echo $donnee['Fiche']['id']; ?>'
-                                            value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='fa fa-history fa-lg'></span>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class='listeValidation'
-                                id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
-                                <td></td>
+                                </td>
+                                
+                                <!-- Nom du traitement -->
                                 <td class='tdleft'>
+                                    <?php
+                                        echo $donnee['Fiche']['Valeur'][0]['valeur'];
+                                    ?>
+                                </td>
+                                
+                                <!-- Créé par -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                
+                                <!-- Dernière modification le -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                
+                                <!-- Actions -->
+                                <td class='tdleft'>
+                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
+                                        <?php
+                                        // Visualiser de traitement
+                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
+                                            'controller' => 'fiches',
+                                            'action' => 'show',
+                                            $donnee['Fiche']['id']
+                                                ], [
+                                            'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
+                                            'escapeTitle' => false
+                                        ]);
+
+                                        // Générer ou télécharger (en fonction de l'état) le traitement
+                                        echo $this->Html->link($icone, [
+                                            'controller' => 'fiches',
+                                            'action' => $action,
+                                            $donnee['Fiche']['id']
+                                                ], [
+                                            'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
+                                            'title' => $titre,
+                                            'escapeTitle' => false
+                                        ]);
+                                        ?>
+                                        
+                                        <!-- Historique -->
+                                        <button type='button'
+                                                class='btn btn-default-default boutonList btn-sm my-tooltip'
+                                                title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
+                                                id='<?php echo $donnee['Fiche']['id']; ?>'
+                                                value='<?php echo $donnee['Fiche']['id']; ?>'>
+                                            <span class='fa fa-history fa-lg'></span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Liste de l'historique du traitement -->
+                            <tr class='listeValidation' id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
+                                <td></td>
+                                
+                                <td class='tdleft' colspan='3'>
                                     <?php
                                     $parcours = $this->requestAction([
                                         'controller' => 'Pannel',
                                         'action' => 'parcours',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('parcours', [
-                                        "parcours" => $parcours
+                                        'parcours' => $parcours
                                     ]);
                                     ?>
                                 </td>
+
                                 <td class="tdleft">
                                     <?php
                                     $historique = $this->requestAction([
@@ -1172,295 +1361,325 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'action' => 'getHistorique',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('historique', [
-                                        "historique" => $historique,
-                                        "id" => $donnee['Fiche']['id']
+                                        'historique' => $historique,
+                                        'id' => $donnee['Fiche']['id']
                                     ]);
                                     ?>
                                 </td>
+                                <td></td>
                             </tr>
-                        <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-            <?php
-        } else {
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                <?php
+            } else {
+                ?>
+                <div class='text-center'>
+                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementValidationInsereeRegistre'); ?></h3>
+                </div>
+                <?php
+            }
             ?>
-            <div class='text-center'>
-                <h3><?php echo __d('pannel', 'pannel.aucunTraitementValidationInsereeRegistre'); ?></h3>
-            </div>
-            <?php
-        }
-        ?>
+        </div>
     </div>
-</div>
-<?php
+    <?php
 }
 
 if ($this->Autorisation->authorized([2,3], $droits)) {
 ?>
-<!-- Bannette consulte -->
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-12">
-                <h3 class="panel-title">
-                    <?php
-                    echo __d('pannel', 'pannel.titreTableauEtatTraitementPasserPossession') . ' (' . count($traitementConnaissance) . ')';
+    <!-- Bannette traitement passés en ma possession -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="panel-title">
+                        <?php
+                        echo __d('pannel', 'pannel.titreTableauEtatTraitementPasserPossession') . ' (' . count($traitementConnaissance) . ')';
 
-                    if (count($traitementConnaissance) != 0) {
-                    ?>
-                        <span class="pull-right">
-                               <?php
-                                echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementPasserPossession'), [
-                                    'controller' => 'pannel',
-                                    'action' => 'consulte',
-                                        ], [
-                                    'class' => 'btn btn-default-primary',
-                                    'escapeTitle' => false,
-                                ]);
-                                ?>
-                        </span>
-                    <?php
-                    }
-                    ?>
-                </h3>
-            </div>
-        </div>
-    </div>
-    <div class="panel-body panel-body-custom">
-        <?php
-        if (!empty($traitementConnaissance)) {
-            ?>
-            <table class="table  table-bordered">
-                <thead>
-                    <tr>
-                        <th class="thleft col-md-1">
-                            <?php echo __d('pannel', 'pannel.motEtat'); ?>
-                        </th>
-                        <th class="thleft col-md-9 col-md-offset-1">
-                            <?php echo __d('pannel', 'pannel.motSynthese'); ?>
-                        </th>
-                        <th class="thleft col-md-2 col-md-offset-10">
-                            <?php echo __d('pannel', 'pannel.motActions'); ?>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($traitementConnaissance as $donnee) {
+                        if (count($traitementConnaissance) != 0) {
                         ?>
-                        <tr>
-                            <td class='tdleft col-md-1'>
-                                <div class="etatIcone">
-                                    <?php
-                                    //Adapter l'icone affiché en fonction de sont état
-                                    if ($donnee['EtatFiche']['etat_id'] == 1 || $donnee['EtatFiche']['etat_id'] == 8) {
-                                        ?>
-                                        <i class="fa fa-pencil-square-o fa-3x"></i>
-                                        <?php
-                                    } elseif ($donnee['EtatFiche']['etat_id'] == 2 || $donnee['EtatFiche']['etat_id'] == 6) {
-                                        ?>
-                                        <i class="fa fa-clock-o fa-3x"></i>
-                                        <?php
-                                    } elseif ($donnee['EtatFiche']['etat_id'] == 3) {
-                                        ?>
-                                        <i class="fa fa-check fa-3x fa-success"></i>
-                                        <?php
-                                    } elseif ($donnee['EtatFiche']['etat_id'] == 4) {
-                                        ?>
-                                        <i class="fa fa-times fa-3x fa-danger"></i>
-                                        <?php
-                                    } elseif ($donnee['EtatFiche']['etat_id'] == 5 || $donnee['EtatFiche']['etat_id'] == 7 || $donnee['EtatFiche']['etat_id'] == 9) {
-                                        ?>
-                                        <i class="fa fa-check fa-3x fa-success"></i>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-                            </td>
-                            
-                            <td class='tdleft col-md-9 col-md-offset-1'>
-                                <!-- Nom du traitement -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
-                                    </div>
-
-                                </div>
-                                
-                                <div class="row top15">
-                                    <!-- Cree par -->
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                        </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                    
-                                    <!-- Dernière modification le -->
-                                    <div class="col-md-6">
-                                        <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                        </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
-                                    </div>
-                                </div>
-                            </td>
-                            
-                            <td class='tdcent col-md-2 col-md-offset-10'>
-                                <div class="btn-group">
-                                    <?php
-                                    echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
-                                        'controller' => 'fiches',
-                                        'action' => 'show',
-                                        $donnee['Fiche']['id']
+                            <span class="pull-right">
+                                   <?php
+                                    echo $this->Html->link('<span class="fa fa-eye fa-fw"></span>' . __d('pannel', 'pannel.btnVoirTraitementPasserPossession'), [
+                                        'controller' => 'pannel',
+                                        'action' => 'consulte',
                                             ], [
-                                        'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                                        'class' => 'btn btn-default-primary',
                                         'escapeTitle' => false,
-                                        'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
                                     ]);
                                     ?>
-                                    
-                                    <button type='button'
-                                            class='btn btn-default-default boutonList btn-sm my-tooltip'
-                                            title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
-                                            id='<?php echo $donnee['Fiche']['id']; ?>'
-                                            value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='fa fa-history fa-lg'></span>
-                                    </button>
-                                    
-                                    <?php
-                                    if ($donnee['EtatFiche']['etat_id'] == 2 && $donnee['EtatFiche']['user_id_actuel'] != $donnee['EtatFiche']['user_id']) {
-                                        ?>
-                                        <button type='button'
-                                                class='btn btn-default-default boutonReorienter btn-sm my-tooltip'
-                                                title='<?php echo __d('pannel', 'pannel.commentaireReorienterTraitement'); ?>'
-                                                value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                            <span class='glyphicon glyphicon-transfer'></span>
-                                        </button>
-                                        <?php
-                                    } elseif ($this->Autorisation->authorized(['5'], $this->Session->read('Droit.liste'))) {
-                                        if ($donnee['EtatFiche']['etat_id'] == 4) {
-                                            echo $this->Html->link('<span class="fa fa-repeat"></span>', [
-                                                'controller' => 'EtatFiches',
-                                                'action' => 'relaunch',
-                                                $donnee['Fiche']['id']
-                                                    ], [
-                                                'escapeTitle' => false,
-                                                'class' => 'btn btn-default-default boutonRelancer btn-sm my-tooltip',
-                                                'title' => __d('pannel', 'pannel.commentaireReplacerTraitementRedactionDansEspace'),
-                                                    ], __d('pannel', 'pannel.confirmationReapproprierTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . '" ?'
-                                            );
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class='listeValidation'
-                            id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
-                            <td></td>
-                            <td class='tdleft'>
-                                <?php
-                                $parcours = $this->requestAction([
-                                    'controller' => 'Pannel',
-                                    'action' => 'parcours',
-                                    $donnee['Fiche']['id']
-                                ]);
-                                echo $this->element('parcours', [
-                                    "parcours" => $parcours
-                                ]);
-                                ?>
-                            </td>
-                            <td class="tdleft">
-                                <?php
-                                $historique = $this->requestAction([
-                                    'controller' => 'Pannel',
-                                    'action' => 'getHistorique',
-                                    $donnee['Fiche']['id']
-                                ]);
-                                echo $this->element('historique', [
-                                    "historique" => $historique,
-                                    "id" => $donnee['Fiche']['id']
-                                ]);
-                                ?>
-                            </td>
-                        </tr>
-                        <tr class='selectDestTrans<?php echo $donnee['Fiche']['id']; ?>'>
-                            <td></td>
-                            <td></td>
-                            <td colspan='2' class='tdleft'>
-                                <?php
-                                echo $this->Form->create('EtatFiche', $options = ['action' => 'reorientation']);
-                                echo $this->Form->input('destinataire', [
-                                    'options' => $validants,
-                                    'class' => 'usersDeroulant transformSelect form-control bottom5',
-                                    'empty' => __d('pannel', 'pannel.textSelectUser'),
-                                    'required' => true,
-                                    'label' => false
-                                ]);
-                                echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
-                                echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
-                                echo '<div class="btn-group">';
-                                echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
-                                    'type' => 'button',
-                                    'class' => 'btn btn-default-default sendCancel',
-                                ));
-                                echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
-                                    'type' => 'submit',
-                                    'class' => 'btn btn-default-success pull-right'
-                                ]);
-                                echo '</div>';
-                                echo $this->Form->end();
-                                ?>
-                            </td>
-                        </tr>
-                        <tr class='listeRefusee' 
-                            id='listeRefusee<?php echo $donnee['Fiche']['id']; ?>'>
-                            <td></td>
-                            <td class='tdleft'>
-                                <?php
-                                $parcours = $this->requestAction([
-                                    'controller' => 'Pannel',
-                                    'action' => 'parcours',
-                                    $donnee['Fiche']['id']
-                                ]);
-
-                                echo $this->element('parcours', [
-                                    "parcours" => $parcours
-                                ]);
-                                ?>
-                            </td>
-                            <td class="tdleft">
-                                <?php
-                                $historique = $this->requestAction([
-                                    'controller' => 'Pannel',
-                                    'action' => 'getHistorique',
-                                    $donnee['Fiche']['id']
-                                ]);
-                                echo $this->element('historique', [
-                                    "historique" => $historique,
-                                    "id" => $donnee['Fiche']['id']
-                                ]);
-                                ?>
-                            </td>
-                        </tr>
+                            </span>
                         <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-            <?php
-        } else {
-            ?>
-            <div class='text-center'>
-                <h3><?php echo __d('pannel', 'pannel.aucunTraitementPasserPossession'); ?></h3>
+                        }
+                        ?>
+                    </h3>
+                </div>
             </div>
+        </div>
+        <div class="panel-body panel-body-custom">
             <?php
-        }
-        ?>
+            if (!empty($traitementConnaissance)) {
+                ?>
+                <table class="table">
+                    <!-- Titre tableau -->
+                    <thead>
+                        <!-- Etat -->
+                        <th class="col-md-1">
+                            <?php echo __d('pannel', 'pannel.motEtat'); ?>
+                        </th>
+
+                        <!-- Nom du traitement -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
+                        </th>
+
+                        <!-- Créé par -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                        </th>
+
+                        <!-- Dernière modification le -->
+                        <th class="col-md-3">
+                            <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                        </th>
+
+                        <!-- Actions  -->
+                        <th class="col-md-2">
+                            <?php echo __d('pannel', 'pannel.motActions'); ?>
+                        </th>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($traitementConnaissance as $donnee) {
+                            ?>
+                            <tr>
+                                <!-- Etat du traitement -->
+                                <td class='tdleft col-md-1'>
+                                    <div class="etatIcone">
+                                        <?php
+                                        //Adapter l'icone affiché en fonction de sont état
+                                        if ($donnee['EtatFiche']['etat_id'] == 1 || $donnee['EtatFiche']['etat_id'] == 2 || $donnee['EtatFiche']['etat_id'] == 6 || $donnee['EtatFiche']['etat_id'] == 8) {
+                                            ?>
+                                            <i class="fa fa-clock-o fa-3x"></i>
+                                            </br>
+                                            <?php 
+                                                echo ("En attente");
+                                        } elseif ($donnee['EtatFiche']['etat_id'] == 3 || $donnee['EtatFiche']['etat_id'] == 5 || $donnee['EtatFiche']['etat_id'] == 7 || $donnee['EtatFiche']['etat_id'] == 9) {
+                                            ?>
+                                            <i class="fa fa-check fa-3x fa-success"></i>
+                                            </br>
+                                            <span class="fa-success">
+                                                <?php echo ("Validé"); ?>
+                                            </span>
+                                            <?php
+                                        } elseif ($donnee['EtatFiche']['etat_id'] == 4) {
+                                            ?>
+                                            <i class="fa fa-times fa-3x fa-danger"></i>
+                                            </br>
+                                            <span class="fa-danger">
+                                                <?php echo ("Refusé"); ?>
+                                            </span>
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </td>
+                                
+                                <!-- Nom du traitement -->
+                                <td class='tdleft'>
+                                    <?php
+                                        echo $donnee['Fiche']['Valeur'][0]['valeur'];
+                                    ?>
+                                </td>
+
+                                <!-- Créé par -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                
+                                <!-- Dernière modification le -->
+                                <td class='tdleft'>
+                                    <?php
+                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+
+                                <!-- Actions -->
+                                <td class='tdleft'>
+                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
+                                        <?php
+                                        // Visualiser le traitement
+                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
+                                            'controller' => 'fiches',
+                                            'action' => 'show',
+                                            $donnee['Fiche']['id']
+                                                ], [
+                                            'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
+                                            'escapeTitle' => false,
+                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement')
+                                        ]);
+                                        ?>
+
+                                        <!-- Historique -->
+                                        <button type='button'
+                                                class='btn btn-default-default boutonList btn-sm my-tooltip'
+                                                title='<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
+                                                id='<?php echo $donnee['Fiche']['id']; ?>'
+                                                value='<?php echo $donnee['Fiche']['id']; ?>'>
+                                            <span class='fa fa-history fa-lg'></span>
+                                        </button>
+
+                                        <?php
+                                        if ($donnee['EtatFiche']['etat_id'] == 2 && $donnee['EtatFiche']['user_id_actuel'] != $donnee['EtatFiche']['user_id']) {
+                                            ?>
+                                            <button type='button'
+                                                    class='btn btn-default-default boutonReorienter btn-sm my-tooltip'
+                                                    title='<?php echo __d('pannel', 'pannel.commentaireReorienterTraitement'); ?>'
+                                                    value='<?php echo $donnee['Fiche']['id']; ?>'>
+                                                <span class='fa fa-exchange fa-lg'></span>
+                                            </button>
+                                            <?php
+                                        } elseif ($this->Autorisation->authorized(['5'], $this->Session->read('Droit.liste'))) {
+                                            if ($donnee['EtatFiche']['etat_id'] == 4) {
+                                                echo $this->Html->link('<span class="fa fa-repeat"></span>', [
+                                                    'controller' => 'EtatFiches',
+                                                    'action' => 'relaunch',
+                                                    $donnee['Fiche']['id']
+                                                        ], [
+                                                    'escapeTitle' => false,
+                                                    'class' => 'btn btn-default-default boutonRelancer btn-sm my-tooltip',
+                                                    'title' => __d('pannel', 'pannel.commentaireReplacerTraitementRedactionDansEspace'),
+                                                        ], __d('pannel', 'pannel.confirmationReapproprierTraitement') . $donnee['Fiche']['Valeur'][0]['valeur'] . '" ?'
+                                                );
+                                            }
+                                        }
+                                        ?>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Liste de l'historique du traitement -->
+                            <tr class='listeValidation' id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
+                                <td></td>
+                                
+                                <td class='tdleft' colspan='3'>
+                                    <?php
+                                    $parcours = $this->requestAction([
+                                        'controller' => 'Pannel',
+                                        'action' => 'parcours',
+                                        $donnee['Fiche']['id']
+                                    ]);
+
+                                    echo $this->element('parcours', [
+                                        'parcours' => $parcours
+                                    ]);
+                                    ?>
+                                </td>
+
+                                <td class="tdleft">
+                                    <?php
+                                    $historique = $this->requestAction([
+                                        'controller' => 'Pannel',
+                                        'action' => 'getHistorique',
+                                        $donnee['Fiche']['id']
+                                    ]);
+
+                                    echo $this->element('historique', [
+                                        'historique' => $historique,
+                                        'id' => $donnee['Fiche']['id']
+                                    ]);
+                                    ?>
+                                </td>
+                                <td></td>
+                            </tr>
+                            
+                            <tr class='selectDestTrans<?php echo $donnee['Fiche']['id']; ?>'>
+                                <td></td>
+                                <td></td>
+                                <td colspan='2' class='tdleft'>
+                                    <?php
+                                    echo $this->Form->create('EtatFiche', $options = ['action' => 'reorientation']);
+                                    echo $this->Form->input('destinataire', [
+                                        'options' => $validants,
+                                        'class' => 'usersDeroulant transformSelect form-control bottom5',
+                                        'empty' => __d('pannel', 'pannel.textSelectUser'),
+                                        'required' => true,
+                                        'label' => false
+                                    ]);
+                                    echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
+                                    echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
+                                    echo '<div class="btn-group">';
+                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
+                                        'type' => 'button',
+                                        'class' => 'btn btn-default-default sendCancel',
+                                    ));
+                                    echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
+                                        'type' => 'submit',
+                                        'class' => 'btn btn-default-success pull-right'
+                                    ]);
+                                    echo '</div>';
+                                    echo $this->Form->end();
+                                    ?>
+                                </td>
+                            </tr>
+                            
+                            <!-- Liste de l'historique du traitement -->
+                            <tr class='listeRefusee' id='listeRefusee<?php echo $donnee['Fiche']['id']; ?>'>
+                                <td></td>
+                                
+                                <td class='tdleft' colspan='3'>
+                                    <?php
+                                    $parcours = $this->requestAction([
+                                        'controller' => 'Pannel',
+                                        'action' => 'parcours',
+                                        $donnee['Fiche']['id']
+                                    ]);
+
+                                    echo $this->element('parcours', [
+                                        'parcours' => $parcours
+                                    ]);
+                                    ?>
+                                </td>
+
+                                <td class="tdleft">
+                                    <?php
+                                    $historique = $this->requestAction([
+                                        'controller' => 'Pannel',
+                                        'action' => 'getHistorique',
+                                        $donnee['Fiche']['id']
+                                    ]);
+
+                                    echo $this->element('historique', [
+                                        'historique' => $historique,
+                                        'id' => $donnee['Fiche']['id']
+                                    ]);
+                                    ?>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+                <?php
+            } else {
+                ?>
+                <div class='text-center'>
+                    <h3><?php echo __d('pannel', 'pannel.aucunTraitementPasserPossession'); ?></h3>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
     </div>
-</div>
-<?php
+    <?php
 }
 ?>
 

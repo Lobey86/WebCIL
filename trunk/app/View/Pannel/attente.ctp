@@ -20,55 +20,79 @@ if ($this->Autorisation->authorized(1, $droits)) {
                 </div>
             </div>
         </div>
+        
         <div class="panel-body panel-body-custom">
             <?php
             if (!empty($traitementEnCoursValidation)) {
                 ?>
-                <table class="table  table-bordered">
+                <!-- Tableau des traitements en cours de rédaction -->
+                <table class="table">
+                    <!-- Titre tableau -->
                     <thead>
-                        <tr>
-                            <th class="thleft col-md-1">
+                            <!-- Etat -->
+                            <th class="col-md-1">
                                 <?php echo __d('pannel', 'pannel.motEtat'); ?>
                             </th>
-                            <th class="thleft col-md-9 col-md-offset-1">
-                                <?php echo __d('pannel', 'pannel.motSynthese'); ?>
+
+                            <!-- Nom du traitement -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
                             </th>
-                            <th class="thleft col-md-2 col-md-offset-10">
+
+                            <!-- Créé par -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motCreee'); ?>
+                            </th>
+
+                            <!-- Dernière modification le -->
+                            <th class="col-md-3">
+                                <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
+                            </th>
+
+                            <!-- Actions  -->
+                            <th class="col-md-2">
                                 <?php echo __d('pannel', 'pannel.motActions'); ?>
                             </th>
-                        </tr>
                     </thead>
+
                     <tbody>
                         <?php
                         foreach ($traitementEnCoursValidation as $donnee) {
                             ?>
                             <tr>
-                                <td class='tdleft col-md-1'>
+                                <!-- Etat du traitement -->
+                                <td class='tdleft col-md-1'> <!-- style="border-right: 1px solid black;"-->
                                     <div class="etatIcone">
                                         <i class="fa fa-clock-o fa-3x"></i>
+                                        </br>
+                                        <?php echo ("En attente"); ?>
                                     </div>
                                 </td>
-                                <td class='tdleft col-md-9 col-md-offset-1'>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
-                                        </div>
-
-                                    </div>
-                                    <div class="row top15">
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motCreee'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE); ?>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong><?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                                            </strong> <?php echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); ?>
-                                        </div>
-                                    </div>
+                                
+                                <!-- Nom du traitement -->
+                                <td class='tdleft'>
+                                    <?php 
+                                        echo $donnee['Fiche']['Valeur'][0]['valeur'];
+                                    ?>
                                 </td>
-                                <td class='tdcent col-md-2 col-md-offset-10'>
-                                    <div class="btn-group">
+                                
+                                <!-- Créé par -->
+                                <td class="tdleft">
+                                    <?php
+                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
+                                    ?>
+                                </td>
+                                
+                                <!-- Dernière modification le -->
+                                <td class="tdleft">
+                                    <?php 
+                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); 
+                                    ?>
+                                </td>
+                                
+                                <!-- Actions -->
+                                <td class='tdleft'>
+                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
                                         <?php
                                         echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
                                             'controller' => 'fiches',
@@ -89,34 +113,38 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         </button>
 
                                         <?php
-                                            echo $this->Html->link('<span class="glyphicon glyphicon-transfer"></span>', ['#' => '#'], [
-                                                'data-id' => $donnee['Fiche']['id'],
-                                                'data-fiche' => $donnee['EtatFiche']['id'],
-                                                'escape' => false,
-                                                'data-toggle' => 'modal',
-                                                'data-target' => '#modalReorienter',
-                                                'class' => 'btn btn-default-default btn_ReorienterTraitement  btn-sm my-tooltip',
-                                                'title' => __d('pannel', 'pannel.commentaireReorienterTraitement')
-                                            ]);
+                                        echo $this->Html->link('<span class="fa fa-exchange fa-lg"></span>', ['#' => '#'], [
+                                            'data-id' => $donnee['Fiche']['id'],
+                                            'data-fiche' => $donnee['EtatFiche']['id'],
+                                            'escape' => false,
+                                            'data-toggle' => 'modal',
+                                            'data-target' => '#modalReorienter',
+                                            'class' => 'btn btn-default-default btn_ReorienterTraitement  btn-sm my-tooltip',
+                                            'title' => __d('pannel', 'pannel.commentaireReorienterTraitement')
+                                        ]);
                                         ?>
                                     </div>
                                 </td>
                             </tr>
-                            <tr class='listeValidation'
-                                id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
+                            
+                            <!-- Liste de l'historique du traitement -->
+                            <tr class='listeValidation' id='listeValidation<?php echo $donnee['Fiche']['id']; ?>'>
                                 <td></td>
-                                <td class='tdleft'>
+                                
+                                <td class='tdleft' colspan='3'>
                                     <?php
                                     $parcours = $this->requestAction([
                                         'controller' => 'Pannel',
                                         'action' => 'parcours',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('parcours', [
-                                        "parcours" => $parcours
+                                        'parcours' => $parcours
                                     ]);
                                     ?>
                                 </td>
+
                                 <td class="tdleft">
                                     <?php
                                     $historique = $this->requestAction([
@@ -124,28 +152,26 @@ if ($this->Autorisation->authorized(1, $droits)) {
                                         'action' => 'getHistorique',
                                         $donnee['Fiche']['id']
                                     ]);
+
                                     echo $this->element('historique', [
-                                        "historique" => $historique,
-                                        "id" => $donnee['Fiche']['id']
+                                        'historique' => $historique,
+                                        'id' => $donnee['Fiche']['id']
                                     ]);
                                     ?>
                                 </td>
+                                <td></td>
                             </tr>
                             <?php
                         }
                         ?>
                     </tbody>
                 </table>
-
-
                 <?php
             } else {
                 ?>
                 <div class='text-center'>
-                    <h3>
-                        <?php 
-                        echo __d('pannel', 'pannel.aucunTraitementEnAttente'); 
-                        ?>
+                    <h3> 
+                        <?php echo __d('pannel', 'pannel.aucunTraitementEnAttente'); ?>
                     </h3>
                 </div>
                 <?php
