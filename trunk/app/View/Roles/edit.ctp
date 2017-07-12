@@ -24,22 +24,15 @@
 
         <div class="col-md-6">
             <?php
-            foreach ($listedroit as $value) {
-                if (in_array($value['ListeDroit']['value'], $tableDroits)) {
-                    echo $this->Form->input('Droits.' . $value['ListeDroit']['value'], array(
-                        'type' => 'checkbox',
-                        'label' => $value['ListeDroit']['libelle'],
-                        'class' => 'checkDroits',
-                        'checked' => 'checked'
-                    ));
-                } else {
-                    echo $this->Form->input('Droits.' . $value['ListeDroit']['value'], array(
-                        'type' => 'checkbox',
-                        'label' => $value['ListeDroit']['libelle'],
-                        'class' => 'checkDroits'
-                    ));
-                }
-            }
+                echo $this->Form->input(
+                    'ListeDroit.ListeDroit',
+                    [
+                        'type' => 'select',
+                        'multiple' => 'checkbox',
+                        'options' => $options['ListeDroit']['ListeDroit'],
+                        'label' => false
+                    ]
+                );
             ?>
         </div>
     </div>

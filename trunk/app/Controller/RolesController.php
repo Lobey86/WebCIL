@@ -4,16 +4,16 @@
  * RolesController
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil V1.0.0
@@ -43,7 +43,7 @@ class RolesController extends AppController {
         }
 
         $this->set('title', __d('role', 'role.titreListeProfil'));
-               
+
         $roles = $this->Role->find('all', [
             'fields' => array_merge(
                 $this->Role->fields(),
@@ -78,34 +78,18 @@ class RolesController extends AppController {
         if (true !== ($this->Droits->authorized(ListeDroit::CREER_PROFIL) || $this->Droits->isSu())) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $this->set('title', __d('role', 'role.titreAjouterProfil'));
-        
+
         if ($this->request->is('post')) {
             $this->request->data['Role']['organisation_id'] = $this->Session->read('Organisation.id');
-            
+
             $success = true;
             $this->Role->begin();
 
             $this->Role->create($this->request->data);
-            $success = $success && false !== $this->Role->save();
 
-            if ($success == true) {
-                foreach ($this->request->data['Droits'] as $key => $donnee) {
-                    if ($success == true) {
-                        if ($donnee) {
-                            $this->RoleDroit->create([
-                                'role_id' => $this->Role->getInsertID(),
-                                'liste_droit_id' => $key
-                            ]);
-
-                            $success = $success && false !== $this->RoleDroit->save();
-                        }
-                    }
-                }
-            }
-
-            if ($success == true) {
+            if (false !== $this->Role->save()) {
                 $this->Role->commit();
                 $this->Session->setFlash(__d('profil', 'profil.flashsuccessProfilEnregistrer'), 'flashsuccess');
                 $this->redirect([
@@ -116,20 +100,32 @@ class RolesController extends AppController {
                 $this->Role->rollback();
                 $this->Session->setFlash(__d('profil', 'profil.flasherrorErreurEnregistrementProfil'), 'flasherror');
             }
-        } else {
-            $this->set('listedroit', $this->ListeDroit->find('all', [
+        }
+
+        $options = [
+            'ListeDroit' => [
+                'ListeDroit' => $this->ListeDroit->find(
+                    'list',
+                    [
                         'conditions' => [
-                            'NOT' => ['ListeDroit.id' => ['11']]
+                            'NOT' => [
+                                'ListeDroit.id' => [
+                                    ListeDroit::CREER_ORGANISATION
+                                ]
+                            ]
                         ],
                         'order' => 'id'
-            ]));
-        }
+                    ]
+                )
+            ]
+        ];
+        $this->set(compact('options'));
     }
 
     /**
      * @param int $id
      * @throws NotFoundException
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -175,113 +171,92 @@ class RolesController extends AppController {
     }
 
     /**
-     * @param int|null $id
+     * @param int $id
      * @throws NotFoundException
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
     public function edit($id = null) {
-        if (($this->Droits->authorized(ListeDroit::MODIFIER_PROFIL) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu()) {
-            $this->set('title', __d('role', 'role.titreEditerProfil'));
-
-            if (!$id) {
-                throw new NotFoundException('Ce profil n\'existe pas');
-            }
-
-            $role = $this->Role->findById($id);
-            
-            if (!$role) {
-                throw new NotFoundException('Ce profil n\'existe pas');
-            }
-
-            if ($this->request->is(['post', 'put'])) {
-                $this->Role->id = $id;
-
-                $success = true;
-                $this->Role->begin();
-
-                $success = $success && false !== $this->Role->save($this->request->data);
-
-                if ($success == true) {
-                    $success = $success && false !== $this->RoleDroit->deleteAll([
-                                'role_id' => $id
-                                    ], false
-                    );
-
-                    if ($success == true) {
-                        foreach ($this->request->data['Droits'] as $key => $donnee) {
-                            if ($success == true) {
-                                if ($donnee) {
-                                    $this->RoleDroit->create([
-                                        'role_id' => $id,
-                                        'liste_droit_id' => $key
-                                    ]);
-                                    $success = $success && false !== $this->RoleDroit->save();
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if ($success == true) {
-                    $this->Role->commit();
-                    $this->Session->setFlash(__d('role', 'role.flashsuccessProfilModifier'), 'flashsuccess');
-                } else {
-                    $this->Role->rollback();
-                    $this->Session->setFlash(__d('role', 'role.flasherrorErreurModificationProfil'), 'flasherror');
-                }
-
-                $this->redirect([
-                    'controller' => 'Roles',
-                    'action' => 'index'
-                ]);
-            } else {
-                $this->set('listedroit', $this->ListeDroit->find('all', [
-                    'conditions' => [
-                        'NOT' => [
-                            'ListeDroit.id' => [
-                                ListeDroit::INSERER_TRAITEMENT_REGISTRE,
-                                ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
-                                ListeDroit::CREER_ORGANISATION
-                            ]
-                        ]
-                    ]
-                ]));
-                
-                $resultat = $this->RoleDroit->find('all', [
-                    'conditions' => ['role_id' => $id],
-                    'fields' => 'liste_droit_id'
-                ]);
-                
-                $result = [];
-                foreach ($resultat as $donnee) {
-                    array_push($result, $donnee['RoleDroit']['liste_droit_id']);
-                }
-                
-                $this->set('tableDroits', $result);
-            }
-
-            if (!$this->request->data) {
-                $this->request->data = $role;
-            }
-        } else {
+        if (true !== (($this->Droits->authorized(ListeDroit::MODIFIER_PROFIL) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu())) {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
             $this->redirect([
                 'controller' => 'pannel',
                 'action' => 'index'
             ]);
         }
+
+        $this->set('title', __d('role', 'role.titreEditerProfil'));
+
+        $role = $this->Role->findById($id);
+        if (true === empty($role)) {
+            throw new NotFoundException('Ce profil n\'existe pas');
+        }
+
+        if ($this->request->is(['post', 'put'])) {
+            $this->Role->id = $id;
+
+            $success = true;
+            $this->Role->begin();
+
+            $this->request->data['Role']['id'] = $id;
+            $this->Role->create($this->request->data);
+
+            if (false !== $this->Role->save()) {
+                $this->Role->commit();
+                $this->Session->setFlash(__d('role', 'role.flashsuccessProfilModifier'), 'flashsuccess');
+                $this->redirect([
+                    'controller' => 'Roles',
+                    'action' => 'index'
+                ]);
+            } else {
+                $this->Role->rollback();
+                $this->Session->setFlash(__d('role', 'role.flasherrorErreurModificationProfil'), 'flasherror');
+            }
+        } else {
+            $this->request->data = $role;
+
+            $this->request->data['ListeDroit']['ListeDroit'] = Hash::extract(
+                $this->RoleDroit->find(
+                    'all',
+                    [
+                        'fields' => 'liste_droit_id',
+                        'conditions' => ['role_id' => $id]
+                    ]
+                ),
+                '{n}.RoleDroit.liste_droit_id'
+            );
+        }
+
+        $options = [
+            'ListeDroit' => [
+                'ListeDroit' => $this->ListeDroit->find(
+                    'list',
+                    [
+                        'conditions' => [
+                            'NOT' => [
+                                'ListeDroit.id' => [
+                                    ListeDroit::INSERER_TRAITEMENT_REGISTRE,
+                                    ListeDroit::MODIFIER_TRAITEMENT_REGISTRE,
+                                    ListeDroit::CREER_ORGANISATION
+                                ]
+                            ]
+                        ]
+                    ]
+                )
+            ]
+        ];
+        $this->set(compact('options'));
     }
 
     /**
      * Suppression d'un rôle
-     * 
+     *
      * @param int|null $id
      * @return type
      * @throws NotFoundException
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -290,7 +265,7 @@ class RolesController extends AppController {
         if (true !== ($this->Droits->authorized(ListeDroit::SUPPRIMER_PROFIL) && $this->Droits->currentOrgaRole($id) || $this->Droits->isSu())) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $role = $this->Role->find(
             'first',
             [
