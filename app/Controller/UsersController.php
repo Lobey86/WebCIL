@@ -4,16 +4,16 @@
  * UsersController
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil V1.0.0
@@ -45,7 +45,7 @@ class UsersController extends AppController {
 
     /**
      * Récupère le beforefilter de AppController (login)
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -56,7 +56,7 @@ class UsersController extends AppController {
 
     /**
      * Index des utilisateurs. Liste les utilisateurs enregistrés
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -161,7 +161,7 @@ class UsersController extends AppController {
             }
         }
         $this->set('users', $users);
-        
+
         $servicesExiste = $this->Service->find('count');
         if ($servicesExiste != 0) {
             $existeService = true;
@@ -205,10 +205,10 @@ class UsersController extends AppController {
 
     /**
      * Affiche les informations sur un utilisateur
-     * 
+     *
      * @param int|null $id
      * @throws NotFoundException
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -265,7 +265,7 @@ class UsersController extends AppController {
 
     /**
      * Affiche le formulaire d'ajout d'utilisateur, ou enregistre l'utilisateur et ses droits
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -287,7 +287,7 @@ class UsersController extends AppController {
 
         if ($this->request->is('post')) {
             if('Cancel' === Hash::get($this->request->data, 'submit')) {
-                $this->redirect(array('action' => 'index'));
+                $this->redirect($this->Referers->get());
             }
 
             $success = true;
@@ -357,11 +357,8 @@ class UsersController extends AppController {
                 if ($success == true) {
                     $this->User->commit();
                     $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), 'flashsuccess');
-                    
-                    $this->redirect([
-                        'controller' => 'users',
-                        'action' => 'index'
-                    ]);
+
+                    $this->redirect($this->Referers->get());
                 } else {
                     $this->User->rollback();
                     $this->Session->setFlash(__d('fiche', 'flasherrorErreurContacterAdministrateur'), 'flasherror');
@@ -388,10 +385,10 @@ class UsersController extends AppController {
 
     /**
      * Modification d'un utilisateur en tant qu'administrateur
-     * 
+     *
      * @param int|null $id
      * @throws NotFoundException
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -408,33 +405,33 @@ class UsersController extends AppController {
         if (!$this->User->exists()) {
             throw new NotFoundException('User Invalide');
         }
-        
+
         /**
          *  Récupération de la liste des services de l'utilisateur en question
          *  sur l'entité en cours
          */
         $this->set('listeservices', $this->_listeServicesUser());
-        
+
         if ($this->request->is('post') || $this->request->is('put')) {
             if('Cancel' === Hash::get($this->request->data, 'submit')) {
-                $this->redirect(array('action' => 'index'));
-                }
-                
+                $this->redirect($this->Referers->get());
+            }
+
             $success = true;
             $this->User->begin();
 
             $message = __d('user', 'user.flasherrorErreurEnregistrementUser');
-            
+
             /**
              * Si le nouveau mot de passe est remplie on vérifie que le nouveau
              * mot de passe correspond bien à la vérification.
              * Si cela est le cas on va enregistré le nouveau mot de passe
              */
             if ($this->request->data['User']['new_password'] != "") {
-                if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) { 
+                if ($this->request->data['User']['new_password'] == $this->request->data['User']['new_passwd']) {
                     if ($this->request->data['User']['new_password'] != "") {
                         $this->request->data['User']['password'] = $this->request->data['User']['new_password'];
-                    } 
+                    }
                 } else {
                     $success = false;
                     $message = __d('user', 'user.flasherrorErreurNewPassword');
@@ -442,7 +439,7 @@ class UsersController extends AppController {
             } else {
                 unset($this->request->data['User']['password']);
             }
-            
+
             // Si le nouveau mot de passe = verification du nouveau mot de passe
 //            if ($this->request->data['User']['new_password'] != $this->request->data['User']['new_passwd']) {
 //                $success = false;
@@ -567,9 +564,9 @@ class UsersController extends AppController {
                         ]);
                     }
                 }
-                
+
                 $success = false !== $this->User->save($this->request->data) && $success;
-                
+
                 if ($success == true) {
                     foreach ($orgas as $value) {
                         if (!in_array($value['Organisation']['id'], $this->request->data['Organisation']['Organisation_id'])) {
@@ -580,8 +577,8 @@ class UsersController extends AppController {
                                 ]
                             ]);
 
-                            /* On supprime dans la table "organisations_users" 
-                             * en base de données l'utilisateur en question 
+                            /* On supprime dans la table "organisations_users"
+                             * en base de données l'utilisateur en question
                              * et de l'organisation en cours.
                              */
                             $success = $success && false !== $this->OrganisationUser->deleteAll([
@@ -589,7 +586,7 @@ class UsersController extends AppController {
                                 'organisation_id' => $value['Organisation']['id']
                             ]);
 
-                            /* On supprime dans la table 
+                            /* On supprime dans la table
                              * "organisation_user_roles" en base de données
                              *  le role de l'utilisateur en question.
                              */
@@ -597,7 +594,7 @@ class UsersController extends AppController {
                                 'organisation_user_id' => $id_user
                             ]);
 
-                            /* On supprime dans la table "droits" en base 
+                            /* On supprime dans la table "droits" en base
                              * de données les droits de l'utilisateur en
                              * question en fonction de son id de l'organisation
                              */
@@ -605,9 +602,9 @@ class UsersController extends AppController {
                                 'organisation_user_id' => $id_user
                             ]);
 
-                            /* On supprime dans la table 
+                            /* On supprime dans la table
                              * "organisation_user_services" en base de données
-                             * les services de l'utilisateur en question 
+                             * les services de l'utilisateur en question
                              * en fonction de son id de l'organisation
                              */
                             $success = $success && false !== $this->OrganisationUserService->deleteAll([
@@ -721,10 +718,7 @@ class UsersController extends AppController {
                 $this->User->commit();
                 $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrer'), "flashsuccess");
 
-                $this->redirect([
-                    'controller' => 'users',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             } else {
                 $this->User->rollback();
                 //$this->Session->setFlash(__d('user', 'user.flasherrorErreurEnregistrementUser'), "flasherror");
@@ -742,11 +736,11 @@ class UsersController extends AppController {
 
         $this->set('options', $this->User->enums());
     }
-    
+
     /**
-     * Récupération de la liste des services de l'utilisateur en question sur 
+     * Récupération de la liste des services de l'utilisateur en question sur
      * l'entité en cours
-     * 
+     *
      * @access protected
      * @created 16/05/2017
      * @version V1.0.0
@@ -765,16 +759,16 @@ class UsersController extends AppController {
         foreach ($listeServices as $value) {
             $listeServicesUser[$value['Service']['organisation_id']][$value['Service']['id']] = $value['Service']['libelle'];
         }
-        
+
         return ($listeServicesUser);
     }
-    
+
     /**
      * Modification du mot de passe par un utilisateur connecté
-     * 
+     *
      * @param int|null $id
      * @throws NotFoundException
-     * 
+     *
      * @access public
      * @created 03/02/2016
      * @version V1.0.0
@@ -803,7 +797,7 @@ class UsersController extends AppController {
                     'action' => 'index'
                 ]);
             }
-            
+
             $success = true;
             $this->User->begin();
 
@@ -811,10 +805,10 @@ class UsersController extends AppController {
 
             /**
              * Si l'ancien mot de passe est vide on enregistre les
-             * nouvelle valeur. 
+             * nouvelle valeur.
              * Sinon on vérifie que le mot de passe soit égale au mot de passe
-             * présent en base de données, si cela correspond on vérifie à la 
-             * suite que le nouveau mot de passe soit égale à la vérification 
+             * présent en base de données, si cela correspond on vérifie à la
+             * suite que le nouveau mot de passe soit égale à la vérification
              * du nouveau mot de passe.
              */
             if ($this->request->data['User']['old_password'] != "") {
@@ -841,7 +835,7 @@ class UsersController extends AppController {
             if ($success == true) {
                 $success = false !== $this->User->save($this->request->data) && $success;
             }
-            
+
             if ($success == true) {
                 $this->User->commit();
                 $this->Session->setFlash(__d('user', 'user.flashsuccessUserEnregistrerReconnecter'), "flashsuccess");
@@ -864,10 +858,10 @@ class UsersController extends AppController {
 
     /**
      * Suppression d'un utilisateur
-     * 
+     *
      * @param int|null $id
      * @throws NotFoundException
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -930,7 +924,7 @@ class UsersController extends AppController {
 
     /**
      * Page de login
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -992,7 +986,7 @@ class UsersController extends AppController {
 
     /**
      * Page de deconnexion
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -1004,7 +998,7 @@ class UsersController extends AppController {
 
     /**
      * Fonction de suppression du cache (sinon pose des problemes lors du login)
-     * 
+     *
      * @access protected
      * @created 17/06/2015
      * @version V1.0.0
@@ -1015,10 +1009,10 @@ class UsersController extends AppController {
 
     /**
      * Fonction de création du tableau de droits pour le add et edit user
-     * 
+     *
      * @param int|null $id
      * @return type
-     * 
+     *
      * @access protected
      * @created 17/06/2015
      * @version V1.0.0
@@ -1137,7 +1131,7 @@ class UsersController extends AppController {
         if (true !== $this->Droits->isSu()) { // @fixme
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $this->set('title', __d('user', 'user.titreUsersApplication'));
 
         $query = [
@@ -1179,7 +1173,7 @@ class UsersController extends AppController {
                 $query['limit'] = 1;
             }
         }
-        
+
         $this->paginate = $query;
         $users = $this->paginate('User');
         $this->set('nbUserAppli', count($users));
@@ -1210,15 +1204,15 @@ class UsersController extends AppController {
         }
 
         $this->set(compact('title', 'users'));
-        
+
         $this->set('orgas', $this->_filtrerOrganisations());
 
         $this->set('utilisateurs', $this->_filtrerUtilisateurs());
-        
+
 //        $this->set('profils', $this->_filtrerProfils());
 //        $this->view = 'index';
     }
-    
+
     protected function _filtrerOrganisations() {
         $orgas = $this->Organisation->find('all', [
             'fields' => [
@@ -1226,15 +1220,15 @@ class UsersController extends AppController {
                 'id'
             ]
         ]);
-        
+
         $organisations = [];
         foreach ($orgas as $value) {
             $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
         }
-        
+
         return ($organisations);
     }
-    
+
     protected function _filtrerUtilisateurs() {
         $utils = $this->User->find('all', [
             'fields' => [
@@ -1244,19 +1238,19 @@ class UsersController extends AppController {
                 'prenom'
             ]
         ]);
-        
+
         $utilisateurs = Hash::combine($utils, '{n}.User.id', array('%s %s %s', '{n}.User.civilite', '{n}.User.prenom', '{n}.User.nom'));
-        
+
         return ($utilisateurs);
     }
-    
+
 //    protected function _filtrerProfils() {
 //        $profils = $this->Role->find('all', [
 //            'recursive' => -1,
 //        ]);
-//        
+//
 //        debug($profils);
 //        die;
-//    }    
+//    }
 
 }
