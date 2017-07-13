@@ -182,10 +182,7 @@ class FormulairesController extends AppController {
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
 
-        $this->redirect(array(
-            'controller' => 'Formulaires',
-            'action' => 'index'
-        ));
+        $this->redirect($this->Referers->get());
     }
     
     /**
@@ -201,8 +198,6 @@ class FormulairesController extends AppController {
         $success = true;
         $this->Formulaire->begin();
 
-        debug($this->request->data);
-        
         $id = $this->request->data['Formulaire']['id'];
         
         // C'est un nouveau formulaire en renseignant les infos
@@ -254,10 +249,7 @@ class FormulairesController extends AppController {
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
 
-        $this->redirect(array(
-            'controller' => 'Formulaires',
-            'action' => 'index'
-        ));
+        $this->redirect($this->Referers->get());
     }
 
     /**
@@ -390,10 +382,7 @@ class FormulairesController extends AppController {
                 $this->Formulaire->commit();
                 $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
 
-                $this->redirect(array(
-                    'controller' => 'formulaires',
-                    'action' => 'index'
-                ));
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Formulaire->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -426,10 +415,7 @@ class FormulairesController extends AppController {
             $this->Formulaire->commit();
             $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
 
-            $this->redirect(array(
-                'controller' => 'formulaires',
-                'action' => 'index'
-            ));
+            $this->redirect($this->Referers->get());
         } else {
             $this->Formulaire->rollback();
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -525,10 +511,7 @@ class FormulairesController extends AppController {
                 $this->Formulaire->commit();
                 $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
 
-                $this->redirect(array(
-                    'controller' => 'formulaires',
-                    'action' => 'index'
-                ));
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Formulaire->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
