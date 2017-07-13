@@ -44,28 +44,22 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        $this->set('title', 'Les entités de l\'application');
-        if ($this->Droits->isSu()) {
-            $organisations = $this->Organisation->find('all');
-            foreach ($organisations as $key => $value) {
-                $organisations[$key]['Count'] = $this->OrganisationUser->find('count', ['conditions' => ['organisation_id' => $value['Organisation']['id']]]);
-            }
-            $this->set('organisations', $organisations);
-        } elseif ($this->Droits->authorized([
-                    ListeDroit::CREER_ORGANISATION,
-                    ListeDroit::MODIFIER_ORGANISATION
-                ])) {
-            $this->set('organisations', $this->OrganisationUser->find('all', [
-                        'conditions' => [
-                            'OrganisationUser.user_id' => $this->Auth->user('id')
-                        ],
-                        'contain' => [
-                            'Organisation'
-                        ]
-            ]));
-        } else {
+        if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+        
+        $this->set('title', 'Les entités de l\'application');
+        
+        $organisations = $this->Organisation->find('all');
+
+        foreach ($organisations as $key => $value) {
+            $organisations[$key]['Count'] = $this->OrganisationUser->find('count', [
+                'conditions' => [
+                    'organisation_id' => $value['Organisation']['id']
+                ]
+            ]);
+        }
+        $this->set('organisations', $organisations);
     }
 
     /**
@@ -76,89 +70,91 @@ class OrganisationsController extends AppController {
      * @version V1.0.0
      */
     public function add() {
-        if ($this->Droits->isSu()) {
-            $this->set('title', 'Créer une entité');
+        if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
+        $this->set('title', 'Créer une entité');
 
-            if ($this->request->is('post')) {
-                $success = false;
-                $this->Organisation->begin();
+        if ($this->request->is('post')) {
+            $success = false;
+            $this->Organisation->begin();
 
-                $recup = $this->Organisation->saveAddEditForm($this->request->data);
+            $recup = $this->Organisation->saveAddEditForm($this->request->data);
 
-                if (is_array($recup)) {
-                    $success = $this->_insertRoles($this->Organisation->getInsertID());
-                }
-
-                if ($success == true) {
-                    $this->Organisation->commit();
-                    $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteEnregistrer'), 'flashsuccess');
-
-                    $compte = $this->Organisation->find('count');
-
-                    if ($compte > 1) {
-                        $this->redirect([
-                            'controller' => 'organisations',
-                            'action' => 'index'
-                        ]);
-                    } else {
-                        $this->redirect([
-                            'controller' => 'users',
-                            'action' => 'logout'
-                        ]);
-                    }
-                } else {
-                    $this->Organisation->rollback();
-                    $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurEnregistrementSEF'), 'flasherror');
-
-                    $this->set('error', $recup);
-                }
+            if (is_array($recup)) {
+                $success = $this->_insertRoles($this->Organisation->getInsertID());
             }
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
 
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            if ($success == true) {
+                $this->Organisation->commit();
+                $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteEnregistrer'), 'flashsuccess');
+
+                $compte = $this->Organisation->find('count');
+
+                if ($compte > 1) {
+                    $this->redirect($this->Referers->get());
+                } else {
+                    $this->redirect([
+                        'controller' => 'users',
+                        'action' => 'logout'
+                    ]);
+                }
+            } else {
+                $this->Organisation->rollback();
+                $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurEnregistrementSEF'), 'flasherror');
+
+                $this->set('error', $recup);
+            }
         }
     }
 
     /**
      * 
-     * @param int|null $id
+     * @param int $id
      * 
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function delete($id = null) {
-        if ($this->Droits->isSu()) {
-            $this->Organisation->delete($id);
-            $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteSupprimer'), 'flashsuccess');
-            $this->redirect([
-                'controller' => 'organisations',
-                'action' => 'index'
-            ]);
-        } else {
-            $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+    public function delete($id) {
+        if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
+        
+        $success = false;
+        $this->Organisation->begin();
+        
+        $success = $success && $this->Organisation->delete($id);
+        
+        if ($success == true) {
+            $this->Organisation->commit();
+            $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteSupprimer'), 'flashsuccess');
+            
+        } else {
+            $this->Organisation->rollback();
+            $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteSupprimer'), 'flasherror');
+        }
+        
+        $this->redirect($this->Referers->get());
     }
 
     /**
      * Gère l'affichage des informations d'une organisation
      * 
-     * @param type $id
+     * @param int $id
      * 
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function show($id = null) {
+    public function show($id) {
+        if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        }
+        
         $this->set('title', 'Informations générales - ' . $this->Session->read('Organisation.raisonsociale'));
+        
         if (!$id) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
@@ -195,12 +191,10 @@ class OrganisationsController extends AppController {
                     ]
                 ]
             ]);
+            
             if (!$organisation) {
                 $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
-                $this->redirect([
-                    'controller' => 'organisations',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             }
         }
         if (!$this->request->data) {
@@ -223,6 +217,10 @@ class OrganisationsController extends AppController {
         }
 
         if ($this->request->is(['post', 'put'])) {
+            if('Cancel' === Hash::get($this->request->data, 'submit')) {
+                $this->redirect($this->Referers->get());
+            }
+            
             $success = true;
             $this->Organisation->begin();
 
@@ -240,10 +238,8 @@ class OrganisationsController extends AppController {
             if ($success == true) {
                 $this->Organisation->commit();
                 $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteModifier'), 'flashsuccess');
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+                
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Organisation->rollback();
                 $this->Session->setFlash(__d('organisation', 'organisation.flasherrorErreurMoficationEntite'), 'flasherror');

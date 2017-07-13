@@ -342,15 +342,19 @@ if ( isset($this->validationErrors[ 'Organisation' ]) && !empty($this->validatio
         </div>
     </div>
 
-    <div class="text-center">
-        <?php
-        echo '<div class="btn-group send">';
-        echo $this->Html->link('<i class="fa fa-arrow-left"></i> Retour', $referer, array(
-            'class' => 'btn btn-default-default',
-            'escape' => false
-        ));
-        echo '</div>';
-        ?>
+    <div class="row">
+        <div class="col-md-12 top17 text-center">
+            <div class="btn-group">
+                <?php
+                echo $this->Html->link('<i class="fa fa-arrow-left fa-lg"></i>' . __d('default', 'default.btnRetour'), $referer, array(
+                    'class' => 'btn btn-default-default',
+                    'escape' => false
+                ));
+                
+                echo $this->Form->end();
+                ?>
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">

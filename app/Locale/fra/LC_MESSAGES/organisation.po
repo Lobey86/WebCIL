@@ -26,6 +26,9 @@ msgid "organisation.flasherrorErreurEnregistrementSEF"
 msgstr "Une erreur s'est produite lors de l'enregistrement SEF"
 
 msgid "organisation.flashsuccessEntiteSupprimer"
+msgstr "Une erreur s'est produite lors de la suppression de l'organisation"
+
+msgid "organisation.flasherrorSupprimerOrganisationImpossible"
 msgstr "L'entité a été supprimée"
 
 msgid "organisation.flasherrorEntiteInexistant"
