@@ -247,7 +247,12 @@
                           text-center h5 text-muted"
                           style="padding-top: 6px;">
                 <?php
-                echo "web-CIL v" . VERSION . " / © Libriciel SCOP 2006-2017 ";
+                    echo "web-CIL v" . VERSION;
+                    $revision = current_revision_number();
+                    if(null !== $revision) {
+                        echo " / révision #" . $revision;
+                    }
+                    echo " / &copy; Libriciel SCOP 2006-2017 ";
                 ?>
                     </span>
 
