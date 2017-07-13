@@ -263,8 +263,6 @@ echo $this->Html->css(array(
                 'class' => 'btn btn-default-default',
                 'escape' => false
             ));
-
-            echo $this->Form->end();
             ?>
         </div>
     </div>
