@@ -382,7 +382,10 @@ class FormulairesController extends AppController {
                 $this->Formulaire->commit();
                 $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
 
-                $this->redirect($this->Referers->get());
+                $this->redirect([
+                    'controller' => 'formulaires',
+                    'action' => 'index'
+                ]);
             } else {
                 $this->Formulaire->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
