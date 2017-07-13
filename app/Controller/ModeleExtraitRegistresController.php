@@ -48,10 +48,7 @@ class ModeleExtraitRegistresController extends AppController {
             $this->Session->setFlash(__d('modele', 'modele.flashwarningAucunFichier'), 'flashwarning');
         }
 
-        $this->redirect(array(
-            'controller' => 'modeleExtraitRegistres',
-            'action' => 'index'
-        ));
+        $this->redirect($this->Referers->get());
     }
     
     /**
@@ -98,7 +95,7 @@ class ModeleExtraitRegistresController extends AppController {
             $this->Session->setFlash(__d('modele', 'modele.flasherrorModeleInexistant'), 'flasherror');
         }
 
-        $this->redirect($this->referer());
+        $this->redirect($this->Referers->get());
     }
     
     public function index() {
