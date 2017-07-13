@@ -286,7 +286,7 @@ class UsersController extends AppController {
         $this->set('listeservices', $this->_listeServicesUser());
 
         if ($this->request->is('post')) {
-            if('Cancel' === Hash::get($this->request->data, 'submit')) {
+            if ('Cancel' === Hash::get($this->request->data, 'submit')) {
                 $this->redirect($this->Referers->get());
             }
 
@@ -386,14 +386,14 @@ class UsersController extends AppController {
     /**
      * Modification d'un utilisateur en tant qu'administrateur
      *
-     * @param int|null $id
+     * @param int $id
      * @throws NotFoundException
      *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function edit($id = null) {
+    public function edit($id) {
         if (true !== ($this->Droits->authorized(ListeDroit::MODIFIER_UTILISATEUR) || $this->Droits->isSu())) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
@@ -766,14 +766,14 @@ class UsersController extends AppController {
     /**
      * Modification du mot de passe par un utilisateur connecté
      *
-     * @param int|null $id
+     * @param int $id
      * @throws NotFoundException
      *
      * @access public
      * @created 03/02/2016
      * @version V1.0.0
      */
-    public function changepassword($id = null) {
+    public function changepassword($id) {
         $this->set('title', __d('user', 'user.titreModificationInfoUser'));
 
         if ($id != $this->Auth->user('id')) {
@@ -791,11 +791,8 @@ class UsersController extends AppController {
         ]);
 
         if ($this->request->is('post') || $this->request->is('put')) {
-            if (Hash::get($this->request->data, 'submit') === 'Cancel') {
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+            if ('Cancel' === Hash::get($this->request->data, 'submit')) {
+                $this->redirect($this->Referers->get());
             }
 
             $success = true;
