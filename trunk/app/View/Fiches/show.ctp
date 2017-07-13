@@ -674,13 +674,11 @@ echo $this->Form->create('Fiche', array(
         <div class="col-md-12 top17 text-center">
             <div class="btn-group">
                 <?php
-                echo $this->Html->link('<i class="fa fa-arrow-left fa-lg"></i>' . __d('fiche', 'fiche.btnRevenir'), array(
-                    'controller' => $nameController,
-                    'action' => $nameView
-                        ), array(
+                echo $this->Html->link('<i class="fa fa-arrow-left fa-lg"></i>' . __d('fiche', 'fiche.btnRevenir'), $referer, array(
                     'class' => 'btn btn-default-default',
                     'escape' => false
                 ));
+                
                 echo $this->Form->end();
                 ?>
             </div>

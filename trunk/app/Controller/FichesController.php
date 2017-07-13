@@ -92,13 +92,13 @@ class FichesController extends AppController {
     /**
      * Gère l'ajout de fiches
      * 
-     * @param int|null $id
+     * @param int $id
      * 
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function add($id = null) {
+    public function add($id) {
         if (true !== $this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
@@ -129,6 +129,10 @@ class FichesController extends AppController {
         $this->set('formulaireid', $id);
 
         if ($this->request->is('POST')) {
+            if('Cancel' === Hash::get($this->request->data, 'submit')) {
+                $this->redirect($this->Referers->get());
+            }
+            
             $success = true;
             $this->Fiche->begin();
 
@@ -190,10 +194,7 @@ class FichesController extends AppController {
                 $this->Fiche->commit();
                 $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementEnregistrer'), 'flashsuccess');
 
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Fiche->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
@@ -245,13 +246,13 @@ class FichesController extends AppController {
     /**
      * Gère l'édition de fiches
      * 
-     * @param int|null $id
+     * @param int $id
      * 
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function edit($id = null) {
+    public function edit($id) {
         $nameTraiment = $this->Valeur->find('first', [
             'conditions' => [
                 'fiche_id' => $id,
@@ -263,10 +264,7 @@ class FichesController extends AppController {
 
         if (!$id && !$this->request->data['Fiche']['id']) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
 
         if (!$id) {
@@ -275,10 +273,7 @@ class FichesController extends AppController {
 
         if (!$this->Droits->isEditable($id)) {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
 
         $idForm = $this->Fiche->find('first', [
@@ -308,6 +303,10 @@ class FichesController extends AppController {
 
         // Si on sauvegarde
         if ($this->request->is(['post', 'put'])) {
+            if('Cancel' === Hash::get($this->request->data, 'submit')) {
+                $this->redirect($this->Referers->get());
+            }
+            
             $success = true;
             $this->Valeur->begin();
 
@@ -399,10 +398,8 @@ class FichesController extends AppController {
             if ($success == true) {
                 $this->Valeur->commit();
                 $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementModifier'), 'flashsuccess');
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+                
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Valeur->rollback();
                 $this->Session->setFlash(__d('fiche', 'Une erreur inattendue est survenue...'), 'flasherror');
@@ -437,13 +434,13 @@ class FichesController extends AppController {
     /**
      * Gère l'affichage des fiches
      * 
-     * @param int|null $id
+     * @param int $id
      * 
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function show($id = null) {
+    public function show($id) {
         $nameTraiment = $this->Valeur->find('first', [
             'conditions' => [
                 'fiche_id' => $id,
@@ -453,18 +450,12 @@ class FichesController extends AppController {
 
         if (!$id) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
 
         if (!$this->Droits->isReadable($id)) {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
         
         //On récupére le CIL de la collectivité
