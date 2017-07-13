@@ -9,7 +9,7 @@
  * @param string $root Le répertoire dans lequel lancer la commande svn info
  * @return integer
  */
-function current_revision_number($root = ROOT) {
+function current_revision_number($root = APP) {
     static $result = null;
 
     if (null === $result) {
