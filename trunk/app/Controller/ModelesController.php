@@ -43,7 +43,7 @@ class ModelesController extends AppController {
      */
     public function index() {
         // Superadmin non autorisé
-        if ($this->Droits->isSu() == true) {
+        if (true == ($this->Droits->authorized($this->Droits->isSu()))) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
         
@@ -62,7 +62,7 @@ class ModelesController extends AppController {
      */
     public function add() {
         // Superadmin non autorisé
-        if ($this->Droits->isSu() == true) {
+        if (true == ($this->Droits->authorized($this->Droits->isSu()))) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
         
@@ -78,10 +78,7 @@ class ModelesController extends AppController {
             $this->Session->setFlash(__d('modele', 'modele.flashwarningAucunFichier'), 'flashwarning');
         }
 
-        $this->redirect(array(
-            'controller' => 'modeles',
-            'action' => 'index'
-        ));
+        $this->redirect($this->Referers->get());
     }
 
     /**
@@ -126,7 +123,7 @@ class ModelesController extends AppController {
             $this->Session->setFlash(__d('modele', 'modele.flasherrorModeleInexistant'), 'flasherror');
         }
 
-        $this->redirect($this->referer());
+        $this->redirect($this->Referers->get());
     }
 
     /**
