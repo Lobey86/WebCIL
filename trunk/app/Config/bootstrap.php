@@ -147,6 +147,7 @@ CakeLog::config('error', array(
 //spl_autoload_register(array('App', 'load'), true, true);
 
 include_once(APP . DS . "Plugin" . DS . "Cakeflow" . DS . "Config" . DS . "cakeflow.conf.php");
+include_once(APP . DS . "Lib" . DS . "basics.php");
 
 $versionFile = file(APP . 'VERSION.txt');
 define('VERSION', trim(array_pop($versionFile)));

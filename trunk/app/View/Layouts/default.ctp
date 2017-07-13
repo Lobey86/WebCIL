@@ -586,7 +586,13 @@ $cakeDescription = 'Web-CIL';
                 </div>
                 <div id="footer" class="container-fluid-custom">
                     <div class="text-center versioning">
-                        <?php echo "Web-CIL v" . VERSION . " - ";?> <a href="https://www.libriciel.fr/" target="_blank">Libriciel SCOP</a>
+                        <?php
+                            echo "Web-CIL v" . VERSION . " - ";
+                            $revision = current_revision_number();
+                            if(null !== $revision) {
+                                echo "révision #" . $revision . " - ";
+                            }
+                        ?> <a href="https://www.libriciel.fr/" target="_blank">Libriciel SCOP</a>
                     </div>
                 </div>
             </div>
