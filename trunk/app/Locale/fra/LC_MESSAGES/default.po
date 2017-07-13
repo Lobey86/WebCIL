@@ -113,6 +113,9 @@ msgstr "Effacer les notifications"
 
 ###################### Utiliser dans toute l'application ######################
 
+msgid "default.btnRetour"
+msgstr " Retour"
+
 msgid "default.btnSave"
 msgstr " Enregistrer"
 
