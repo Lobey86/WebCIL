@@ -425,12 +425,12 @@ class FormulairesController extends AppController {
     /**
      * Permet d'éditer un formulaire
      * 
-     * @param int|null $id
+     * @param int $id
      * 
      * @access public
      * @version V1.0.0
      */
-    public function edit($id = null) {
+    public function edit($id) {
         $formulaire = $this->Formulaire->find('first', [
             'conditions' => [
                 'id' => $id
@@ -510,8 +510,11 @@ class FormulairesController extends AppController {
             if ($success == true) {
                 $this->Formulaire->commit();
                 $this->Session->setFlash(__d('formulaire', 'formulaire.flashsuccessFormulaireEnregistrer'), 'flashsuccess');
-
-                $this->redirect($this->Referers->get());
+//LA
+                $this->redirect([
+                    'controller' => 'formulaires',
+                    'action' => 'index'
+                ]);
             } else {
                 $this->Formulaire->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
