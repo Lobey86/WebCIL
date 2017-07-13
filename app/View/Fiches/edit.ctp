@@ -477,23 +477,10 @@ if (!empty($files)) {
     <div class="col-md-12 top17 text-center">
         <div class="btn-group">
             <?php
-            // Bouton Annuler
-            echo $this->Html->link('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), [
-                'controller' => $nameController,
-                'action' => $nameView
-                    ], [
-                'class' => 'btn btn-default-default',
-                'escape' => false
-            ]);
+                // Groupe de boutons
+                echo $this->WebcilForm->buttons(['Cancel', 'Save']);
 
-            // Bouton Enregistrer
-            echo $this->Form->button('<i class="fa fa-floppy-o fa-lg"></i>' . __d('default', 'default.btnEnregistrer'), [
-                'class' => 'btn btn-default-success',
-                'escape' => false,
-                'type' => 'submit'
-            ]);
-
-            echo $this->Form->end();
+                echo $this->Form->end();
             ?>
         </div>
     </div>
