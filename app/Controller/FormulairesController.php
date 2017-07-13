@@ -433,7 +433,7 @@ class FormulairesController extends AppController {
      * @access public
      * @version V1.0.0
      */
-    public function edit($id) {
+    public function edit($id = null) {
         $formulaire = $this->Formulaire->find('first', [
             'conditions' => [
                 'id' => $id
