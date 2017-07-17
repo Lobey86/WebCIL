@@ -103,12 +103,36 @@ class UsersController extends AppController {
 
         if ($this->Droits->isSu()) {
             if ($this->request->is('post')) {
-                if ($this->request->data['users']['organisation'] != '') {
-                    $query['conditions']['OrganisationUser.organisation_id'] = $this->request->data['users']['organisation'];
+                // Filtre par profil
+                $profil = (string)Hash::get($this->request->data, 'users.profil');
+                if ('' !== $profil) {
+                    $subQuery = [
+                        'alias' => 'organisation_user_roles',
+                        'fields' => ['organisation_user_roles.organisation_user_id'],
+                        'joins' => [
+                            words_replace(
+                                $this->User->OrganisationUserRole->join('Role', ['type' => 'INNER']),
+                                ['Role' => 'roles', 'OrganisationUserRole' => 'organisation_user_roles']
+                            )
+                        ],
+                        'conditions' => [
+                            'roles.libelle' => $profil
+                        ]
+                    ];
+                    $sql = $this->User->OrganisationUserRole->sql($subQuery);
+                    $query['conditions'][] = "OrganisationUser.id IN ({$sql})";
                 }
 
-                if ($this->request->data['users']['nom'] != '') {
-                    $query['conditions']['OrganisationUser.user_id'] = $this->request->data['users']['nom'];
+                // Filtre par entité
+                $organisation_id = (string)Hash::get($this->request->data, 'users.organisation');
+                if ('' !== $organisation_id) {
+                    $query['conditions']['OrganisationUser.organisation_id'] = $organisation_id;
+                }
+
+                // Filtre par utilisateur
+                $user_id = (string)Hash::get($this->request->data, 'users.nom');
+                if ('' !== $user_id) {
+                    $query['conditions']['OrganisationUser.user_id'] = $user_id;
                     $query['limit'] = 1;
                 }
             } else {
@@ -201,6 +225,18 @@ class UsersController extends AppController {
         $this->set(
                 'utilisateurs', Hash::combine($utils, '{n}.User.id', array('%s %s', '{n}.User.prenom', '{n}.User.nom'))
         );
+
+        // Liste des roles
+        $query = [
+            'fields' => ['Role.libelle'],
+            'conditions' => [],
+            'group' => ['Role.libelle'],
+        ];
+        if(false === $this->Droits->isSu()) {
+            $query['conditions'][] = ['Role.organisation_id' => $this->Session->read('Organisation.id')];
+        }
+        $roles = $this->User->OrganisationUserRole->Role->find('all', $query);
+        $this->set('roles', Hash::combine($roles, '{n}.Role.libelle', '{n}.Role.libelle'));
     }
 
     /**
