@@ -38,3 +38,65 @@ function current_revision_number($root = APP) {
 
     return $result;
 }
+
+/**
+ * Remplace les caractères accentués par des caractères non accentués dans
+ * une chaîne de caractères.
+ *
+ * @info il faut utiliser les fonctions mb_internal_encoding et mb_regex_encoding
+ * 	pour que le système sache quels encodages il traite, afin que le remplacement
+ *  d'accents se passe bien.
+ *
+ * @param string $string
+ * @return string
+ */
+function replace_accents($string) {
+    $accents = array(
+        '[ÂÀ]',
+        '[âà]',
+        '[Ç]',
+        '[ç]',
+        '[ÉÊÈË]',
+        '[éêèë]',
+        '[ÎÏ]',
+        '[îï]',
+        '[ÔÖ]',
+        '[ôö]',
+        '[ÛÙ]',
+        '[ûù]'
+    );
+
+    $replace = array(
+        'A',
+        'a',
+        'C',
+        'c',
+        'E',
+        'e',
+        'I',
+        'i',
+        'O',
+        'o',
+        'U',
+        'u'
+    );
+
+    foreach ($accents as $key => $accent) {
+        $string = mb_ereg_replace($accent, $replace[$key], $string);
+    }
+
+    return $string;
+}
+
+/**
+ * Remplace les caractères accentués par des caractères non accentués et met
+ * en majuscules dans une chaîne de caractères.
+ *
+ * @see replace_accents
+ *
+ * @param string $string
+ * @return string
+ */
+function noaccents_upper($string) {
+    return strtoupper(replace_accents($string));
+}

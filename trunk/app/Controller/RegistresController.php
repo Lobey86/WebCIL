@@ -4,16 +4,16 @@
  * RegistresController
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil V1.0.0
@@ -86,7 +86,11 @@ class RegistresController extends AppController {
         if (!empty($this->request->data['Registre']['outil'])) {
             $conditionValeur[] = [
                 'Valeur.champ_name' => 'outilnom',
-                'Valeur.valeur' => $this->request->data['Registre']['outil']
+                'NOACCENTS_UPPER( Valeur.valeur ) LIKE' => '%'.str_replace(
+                    '*',
+                    '%',
+                    noaccents_upper($this->request->data['Registre']['outil'])
+                ).'%'
             ];
             $search = true;
         }
@@ -195,7 +199,7 @@ class RegistresController extends AppController {
             ]
         ]);
 
-        // Service 
+        // Service
         $listeServices = [];
         foreach ($services as $key => $service) {
             $listeServices[$service['Service']['libelle']] = $service['Service']['libelle'];
@@ -205,12 +209,12 @@ class RegistresController extends AppController {
 
     /**
      * Permet la modification d'un traitement inséré dans le registre
-     * 
+     *
      * @param type $idFiche
      *
      * @access public
      * @created 21/09/2015
-     * @version V1.0.0 
+     * @version V1.0.0
      */
     public function edit() {
         $success = true;
@@ -282,7 +286,7 @@ class RegistresController extends AppController {
         if (true !== $this->Droits->authorized($this->Droits->isCil())) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $this->redirect([
             'controller' => 'etat_fiches',
             'action' => 'insertRegistre',
@@ -294,11 +298,11 @@ class RegistresController extends AppController {
     }
 
     /**
-     * Permet d'imprimer tout les traitements selectionné et vérouillé au 
-     * registrer en mes mettent l'un a la suite 
-     * 
+     * Permet d'imprimer tout les traitements selectionné et vérouillé au
+     * registrer en mes mettent l'un a la suite
+     *
      * @param int|null $tabId
-     * 
+     *
      * @access public
      * @created 13/05/2016
      * @version V1.0.0
@@ -307,7 +311,7 @@ class RegistresController extends AppController {
         if (true !== $this->Droits->authorized(ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE)) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $tabId = json_decode($tabId);
 
         if ($tabId != null) {
@@ -333,7 +337,7 @@ class RegistresController extends AppController {
 
             $files_concat = '';
             foreach ($tabId as $ficheID) {
-                //On recupere en BDD le flux de donnee qui a ete enregistre 
+                //On recupere en BDD le flux de donnee qui a ete enregistre
                 //au verrouillage du traitement en fonction de ID
                 $pdf = $this->TraitementRegistre->find('first', [
                     'conditions' => ['fiche_id' => $ficheID],
@@ -341,7 +345,7 @@ class RegistresController extends AppController {
                 ]);
 
                 /**
-                 * On cree un fichier .pdf avec le flux de donnee de la BDD 
+                 * On cree un fichier .pdf avec le flux de donnee de la BDD
                  * qu'on enregistre dans /var/www/webcil/app/tmp/imprimerRegistre
                  *
                  */
@@ -354,7 +358,7 @@ class RegistresController extends AppController {
             }
 
             /**
-             * On concatene tout les PDFs qu'on a cree et on enregistre 
+             * On concatene tout les PDFs qu'on a cree et on enregistre
              * la concatenation dans /var/www/webcil/app/files/registre
              */
             shell_exec('pdftk' . ' ' . $files_concat . 'cat output ' . CHEMIN_REGISTRE . 'Registre_' . $date . '.pdf');

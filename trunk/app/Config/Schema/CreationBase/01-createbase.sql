@@ -371,4 +371,22 @@ CREATE TABLE traitement_registres
     modified timestamp without time zone NOT NULL
 );
 
+-- INFO: voir http://postgresql.developpez.com/sources/?page=chaines
+CREATE OR REPLACE FUNCTION "public"."noaccents_upper" (text) RETURNS text AS
+$body$
+	DECLARE
+		st text;
+
+	BEGIN
+		-- On transforme les caractèes accentués et on passe en majuscule
+		st:=translate($1,'aàäâeéèêëiïîoôöuùûücçñAÀÄÂEÉÈÊËIÏÎOÔÖUÙÛÜCÇÑ','AAAAEEEEEIIIOOOUUUUCCNAAAAEEEEEIIIOOOUUUUCCN');
+		st:=upper(st);
+
+		return st;
+	END;
+$body$
+LANGUAGE 'plpgsql' IMMUTABLE RETURNS NULL ON NULL INPUT SECURITY INVOKER;
+
+CREATE INDEX valeurs_valeur_noaccents_upper ON valeurs( NOACCENTS_UPPER( valeur ) );
+
 COMMIT;
