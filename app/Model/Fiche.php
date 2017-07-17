@@ -4,16 +4,16 @@
  * Model Fiche
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil v0.9.0
@@ -37,7 +37,7 @@ class Fiche extends AppModel {
      * validate associations
      *
      * @var array
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V0.9.0
@@ -53,9 +53,9 @@ class Fiche extends AppModel {
 
     /**
      * hasOne associations
-     * 
+     *
      * @var array
-     * 
+     *
      * @access public
      * @created 04/01/2016
      * @version V1.0.0
@@ -65,13 +65,18 @@ class Fiche extends AppModel {
             'className' => 'ExtraitRegistre',
             'foreignKey' => 'fiche_id'
         ),
+        'Fichier' => array(
+            'className' => 'Fichier',
+            'foreignKey' => 'fiche_id',
+            'dependent' => true,
+        )
     );
 
     /**
      * belongsTo associations
-     * 
+     *
      * @var array
-     * 
+     *
      * @access public
      * @created 29/04/2015
      * @version V1.0.0
@@ -89,19 +94,14 @@ class Fiche extends AppModel {
 
     /**
      * hasMany associations
-     * 
+     *
      * @var array
-     * 
+     *
      * @access public
      * @created 29/04/2015
      * @version V1.0.0
      */
     public $hasMany = array(
-        'Fichier' => array(
-            'className' => 'Fichier',
-            'foreignKey' => 'fiche_id',
-            'dependent' => true,
-        ),
         'EtatFiche' => array(
             'className' => 'EtatFiche',
             'foreignKey' => 'fiche_id',
@@ -138,7 +138,7 @@ class Fiche extends AppModel {
      * @param int|null $idUser
      * @param type|null $fiche
      * @return boolean
-     * 
+     *
      * @access public
      * @created 09/04/2015
      * @version V1.0.0
@@ -154,7 +154,7 @@ class Fiche extends AppModel {
     /**
      * @param type $string
      * @return type
-     * 
+     *
      * @access public
      * @created 26/06/2015
      * @version V1.0.0
@@ -165,7 +165,7 @@ class Fiche extends AppModel {
     }
 
 //    /**
-//     * 
+//     *
 //     * @param int $id
 //     * @param char $numeroRegistre
 //     * @param bool $save
@@ -212,7 +212,7 @@ class Fiche extends AppModel {
 //        $cheminFile = CHEMIN_MODELES;
 //
 //        /**
-//         * On recupere les champs 'deroulant', 'checkboxes', 'radios' qui 
+//         * On recupere les champs 'deroulant', 'checkboxes', 'radios' qui
 //         * sont dans le formulaire associer a la fiche
 //         */
 //        $typeChamps = ['deroulant', 'checkboxes', 'radios'];
@@ -228,7 +228,7 @@ class Fiche extends AppModel {
 //        ]);
 //
 //        /**
-//         * On decode les infos du champ details pour ensuite faire 
+//         * On decode les infos du champ details pour ensuite faire
 //         * un tableau avec le name du champs et les valeurs
 //         */
 //        $choixChampMultiple = [];
@@ -244,7 +244,7 @@ class Fiche extends AppModel {
 //        }
 //
 //        /**
-//         * On vérifie que le tableau qu'on a créé juste au dessus existe. 
+//         * On vérifie que le tableau qu'on a créé juste au dessus existe.
 //         * Si il exite on on prend la valeur de l'id choisit dans le tableau,
 //         * sinon on prend directement la valeur enregistré dans la table Valeur.
 //         */
@@ -314,7 +314,7 @@ class Fiche extends AppModel {
         // On récupère et met en forme les numéro d'enregistrement du traitement
         $donnees = $this->_preparationGenerationNumeroEnregistrement($tabId, $donnees);
 
-        /* On met en forme les valeurs du traitement (informations de 
+        /* On met en forme les valeurs du traitement (informations de
          * l'organisation + champ propre au formulaire + informations du CIL +
          * information sur le déclarant au moment de la création du traitement
          */
@@ -337,11 +337,11 @@ class Fiche extends AppModel {
     /**
      * Récupération les inforations à l'instant T de l'organisation puis
      * mise en forme des informations pour l'envoyer à la génération
-     * 
+     *
      * @param int $idOrganisation -> id de l'organisation en cours (en session)
      * @param array() $donnees -> tableau des valeurs déjà en forme pour la génération
      * @return array()
-     * 
+     *
      * @access private
      * @created 04/04/2017
      * @version V1.0.0
@@ -385,7 +385,7 @@ class Fiche extends AppModel {
             ]
         ]);
 
-        /* On remplace dans $organisation l'id de l'utilisateur CIL par 
+        /* On remplace dans $organisation l'id de l'utilisateur CIL par
          * sa civilité + prénom + nom
          */
         $organisation['Organisation']['cil'] = $cil['User']['civilite'] . $cil['User']['prenom'] . ' ' . $cil['User']['nom'];
@@ -466,18 +466,18 @@ class Fiche extends AppModel {
     /**
      * Récupération du numéro d'enregistrement du traitement au registre et
      * mise en forme des valeurs pour l'envoyer à la génération
-     * 
+     *
      * @param json $tabId -> id des traitements à générer
      * @param array() $donnees -> tableau des valeurs déjà en forme pour la génération
      * @return array()
-     * 
+     *
      * @access private
      * @created 04/04/2017
      * @version V1.0.0
      * @author Théo GUILLON <theo.guillon@libriciel.coop>
      */
     private function _preparationGenerationNumeroEnregistrement($tabId, $donnees) {
-        /* On récupére les valeurs du/des traitement(s) + numéro 
+        /* On récupére les valeurs du/des traitement(s) + numéro
          * d'enregistrement du traitement
          */
         $arrayId = (array)json_decode($tabId);
@@ -505,13 +505,13 @@ class Fiche extends AppModel {
     }
 
     /**
-     * On récupére les valeurs du/des traitement(s) + numéro 
+     * On récupére les valeurs du/des traitement(s) + numéro
      * d'enregistrement du traitement
-     * 
+     *
      * @param json $tabId -> id des traitements à générer
      * @param array() $donnees -> tableau des valeurs déjà en forme pour la génération
      * @return array()
-     * 
+     *
      * @access private
      * @created 04/04/2017
      * @version V1.0.0
@@ -525,7 +525,7 @@ class Fiche extends AppModel {
         ]);
 
         /**
-         * On recupere les champs 'deroulant', 'checkboxes', 'radios' qui 
+         * On recupere les champs 'deroulant', 'checkboxes', 'radios' qui
          * sont dans le formulaire associer a la fiche
          */
         $idForm = $this->find('first', [
@@ -541,7 +541,7 @@ class Fiche extends AppModel {
         ]);
 
         /**
-         * On decode les infos du champ details pour ensuite faire 
+         * On decode les infos du champ details pour ensuite faire
          * un tableau avec le name du champs et les valeurs
          */
         $choixChampMultiple = [];
@@ -557,7 +557,7 @@ class Fiche extends AppModel {
         }
 
         /**
-         * On vérifie que le tableau qu'on a créé juste au dessus existe. 
+         * On vérifie que le tableau qu'on a créé juste au dessus existe.
          * Si il exite on on prend la valeur de l'id choisit dans le tableau,
          * sinon on prend directement la valeur enregistré dans la table Valeur.
          */
@@ -616,16 +616,16 @@ class Fiche extends AppModel {
                 ];
             }
         }
-        
+
         return ($donnees);
     }
 
     /**
-     * 
+     *
      * @param type $id
      * @param array $donnees
      * @return type
-     * 
+     *
      * @access private
      * @created 04/04/2017
      * @version V1.0.0
@@ -654,12 +654,12 @@ class Fiche extends AppModel {
 
     /**
      * Génération PDF à la volée
-     * 
+     *
      * @param type $file
      * @param type $cheminFile
      * @param type $donnees
      * @return type
-     * 
+     *
      * @access public
      * @created 04/01/2016
      * @version V1.0.0

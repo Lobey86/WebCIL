@@ -5,16 +5,16 @@
  * Controller des fiches
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil V1.0.0
@@ -51,7 +51,7 @@ class FichesController extends AppController {
 
     /**
      * La page d'accueil des fiches est celle du pannel général
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -91,9 +91,9 @@ class FichesController extends AppController {
 
     /**
      * Gère l'ajout de fiches
-     * 
+     *
      * @param int $id
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -132,7 +132,7 @@ class FichesController extends AppController {
             if('Cancel' === Hash::get($this->request->data, 'submit')) {
                 $this->redirect($this->Referers->get());
             }
-            
+
             $success = true;
             $this->Fiche->begin();
 
@@ -204,9 +204,9 @@ class FichesController extends AppController {
 
     /**
      * Gère la suppression de traitement
-     * 
+     *
      * @param int|null $id
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -215,10 +215,7 @@ class FichesController extends AppController {
         if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT) && $this->Droits->isOwner($id)) {
             if (!$this->Droits->isDeletable($id)) {
                 $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             }
 
             $success = true;
@@ -237,17 +234,14 @@ class FichesController extends AppController {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorSupprimerTraitementImpossible'), 'flasherror');
         }
 
-        $this->redirect([
-            'controller' => 'pannel',
-            'action' => 'index'
-        ]);
+        $this->redirect($this->Referers->get());
     }
 
     /**
      * Gère l'édition de fiches
-     * 
+     *
      * @param int $id
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -306,16 +300,16 @@ class FichesController extends AppController {
             if('Cancel' === Hash::get($this->request->data, 'submit')) {
                 $this->redirect($this->Referers->get());
             }
-            
+
             $success = true;
             $this->Valeur->begin();
 
-            $success = $success && $this->Fiche->updateAll([
+            $success = $this->Fiche->updateAll([
                         'modified' => "'" . date("Y-m-d H:i:s") . "'"
                             ], [
                         'id' => $id
                             ]
-                    ) !== false;
+                    ) !== false && $success;
 
 //            $success = $success && $this->EtatFiche->updateAll([
 //                        'actif' => false
@@ -349,9 +343,9 @@ class FichesController extends AppController {
                 ]));
 
                 if (empty($idsToDelete) == false) {
-                    $success = $success && $this->Valeur->deleteAll([
+                    $success = $this->Valeur->deleteAll([
                         'Valeur.id' => $idsToDelete
-                    ]);
+                    ]) && $success;
                 }
 
                 if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
@@ -359,7 +353,7 @@ class FichesController extends AppController {
                         if ($key == 'fichiers') {
                             $value = $file;
                         }
-                        
+
                         $value = json_encode($value);
                     }
 
@@ -373,46 +367,36 @@ class FichesController extends AppController {
                     if ($tmpSave == false) {
                         $this->Fiche->invalidate($key, Hash::get($this->Valeur->validationErrors, 'valeur.0'));
                     }
-                    $success = $success && false !== $tmpSave;
+                    $success = false !== $tmpSave && $success;
                 }
             }
 
-            $success = $success && false !== $this->Fichier->saveFichier($this->request->data, $id);
+            $success = false !== $this->Fichier->saveFichier($this->request->data, $id) && $success;
 
-            if ($success == true) {
-                $this->Historique->create([
-                    'Historique' => [
-                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche', 'fiche.textModifierTraitement'),
-                        'fiche_id' => $id
-                    ]
-                ]);
-                $success = $success && false !== $this->Historique->save();
-            }
+            $this->Historique->create([
+                'Historique' => [
+                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche', 'fiche.textModifierTraitement'),
+                    'fiche_id' => $id
+                ]
+            ]);
+            $success = false !== $this->Historique->save() && $success;
 
             if (isset($this->request->data['delfiles']) && !empty($this->request->data['delfiles'])) {
-                foreach ($this->request->data['delfiles'] as $val) {
-                    $success = $success && $this->Fichier->deleteFichier($val, false);
+                foreach (array_unique($this->request->data['delfiles']) as $val) {
+                    $success = $this->Fichier->deleteFichier($val, false) && $success;
                 }
             }
 
             if ($success == true) {
                 $this->Valeur->commit();
                 $this->Session->setFlash(__d('fiche', 'fiche.flashsuccessTraitementModifier'), 'flashsuccess');
-                
+
                 $this->redirect($this->Referers->get());
             } else {
                 $this->Valeur->rollback();
                 $this->Session->setFlash(__d('fiche', 'Une erreur inattendue est survenue...'), 'flasherror');
             }
         } else {
-            $files = $this->Fichier->find('all', [
-                'conditions' => [
-                    'fiche_id' => $id
-                ]
-            ]);
-
-            $this->set(compact('files'));
-
             $valeurs = $this->Valeur->find('all', [
                 'conditions' => [
                     'fiche_id' => $id
@@ -427,15 +411,22 @@ class FichesController extends AppController {
                 }
             }
             $this->set(compact('valeurs'));
-            $this->set('id', $id);
         }
+
+        $files = $this->Fichier->find('all', [
+            'conditions' => [
+                'fiche_id' => $id
+            ]
+        ]);
+        $this->set(compact('files'));
+        $this->set('id', $id);
     }
 
     /**
      * Gère l'affichage des fiches
-     * 
+     *
      * @param int $id
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -457,7 +448,7 @@ class FichesController extends AppController {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorPasAccesTraitement'), 'flasherror');
             $this->redirect($this->Referers->get());
         }
-        
+
         //On récupére le CIL de la collectivité
         $this->set('userCil', $this->_cilOrganisation());
 
@@ -495,9 +486,9 @@ class FichesController extends AppController {
 
     /**
      * Gère le téléchargement des pieces jointes d'une fiche
-     * 
+     *
      * @param int|null $url
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -513,37 +504,34 @@ class FichesController extends AppController {
 
     /**
      * Téléchargement du traitement verrouiller
-     * 
+     *
      * @param int $fiche_id
      * @param type $numeroRegistre
-     * 
+     *
      * @access public
      * @created 04/01/2016
      * @version V1.0.0
      */
     public function downloadFileTraitement($fiche_id) {
         $fiche = $this->Fiche->find('first', [
-           'conditions' => ['id' => $fiche_id] 
+           'conditions' => ['id' => $fiche_id]
         ]);
-        
+
         $nameTraiment = $this->Valeur->find('first', [
             'conditions' => [
                 'fiche_id' => $fiche_id,
                 'champ_name' => 'outilnom'
             ]
         ]);
-        
+
         $pdf = $this->TraitementRegistre->find('first', [
             'conditions' => ['fiche_id' => $fiche_id],
             'fields' => ['data']
         ]);
-        
+
         if (empty($pdf)) {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorErreurPDF'), 'flasherror');
-            $this->redirect([
-                'controller' => 'registres',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
 
         header("content-type: application/pdf");
@@ -554,14 +542,14 @@ class FichesController extends AppController {
 
     /**
      * Téléchargement de l'extrait de registre verrouiller
-     * 
-     * Si aucun fiche_id n'est passé en paramètre, un message d'erreur est 
+     *
+     * Si aucun fiche_id n'est passé en paramètre, un message d'erreur est
      * stocké en session et on est redirigé vers l'écran de visualisation
      * des registres.
-     * 
+     *
      * @param type $fiche_id
      * @param type $numeroRegistre
-     * 
+     *
      * @access public
      * @created 09/01/2017
      * @version V1.0.0
@@ -572,34 +560,28 @@ class FichesController extends AppController {
         if (empty($fiche_id)) {
             $this->Session->setFlash(__d('registre', 'registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
 
-            $this->redirect(array(
-                'controller' => 'registres',
-                'action' => 'index'
-            ));
+            $this->redirect($this->Referers->get());
         }
-        
+
         $fiche = $this->Fiche->find('first', [
-           'conditions' => ['id' => $fiche_id] 
+           'conditions' => ['id' => $fiche_id]
         ]);
-        
+
         $nameTraiment = $this->Valeur->find('first', [
             'conditions' => [
                 'fiche_id' => $fiche_id,
                 'champ_name' => 'outilnom'
             ]
         ]);
-        
+
         $pdf = $this->ExtraitRegistre->find('first', [
             'conditions' => ['fiche_id' => $fiche_id],
             'fields' => ['data']
         ]);
-        
+
         if (empty($pdf)) {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorErreurPDF'), 'flasherror');
-            $this->redirect([
-                'controller' => 'registres',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
 
         header("content-type: application/pdf");
@@ -609,15 +591,15 @@ class FichesController extends AppController {
 
     /**
      * Retourne le PDF du traitement dont l'id est passé en paramètres.
-     * 
+     *
      * Si aucun id n'est passé en paramètre, un message d'erreur est stocké en
      * session et on est redirigé vers l'écran de visualisation des registres.
-     * 
+     *
      * On supprime également la notification concernant le traitement.
-     * 
+     *
      * @param json $tabId
      * @return string
-     * 
+     *
      * @access public
      * @created 07/04/2017
      * @version V1.0.0
@@ -625,15 +607,12 @@ class FichesController extends AppController {
      */
     protected function _genereTraitement($tabId) {
         $id = json_decode($tabId);
-        
+
         // On vérifie que $tadId n'est pas vide
         if (empty($id)) {
             $this->Session->setFlash(__d('registre', 'registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
 
-            $this->redirect(array(
-                'controller' => 'registres',
-                'action' => 'index'
-            ));
+            $this->redirect($this->Referers->get());
         }
 
         $fiche = $this->Fiche->find('first', [
@@ -649,7 +628,7 @@ class FichesController extends AppController {
             ]
         ]);
 
-        // On vérifie que les infos du modèle existe bien 
+        // On vérifie que les infos du modèle existe bien
         if (!empty($modele)) {
             $file = $modele['Modele']['fichier'];
         } else {
@@ -669,15 +648,15 @@ class FichesController extends AppController {
             'action' => 'supprimerLaNotif',
             (int) $id
         ));
-        
+
         return $pdf;
     }
-    
+
     /**
      * On récupére le CIL de la collectivité
-     * 
+     *
      * @return array()
-     * 
+     *
      * @access public
      * @created 17/05/2017
      * @version V1.0.0
@@ -694,16 +673,16 @@ class FichesController extends AppController {
                 'email'
             ]
         ]);
-        
+
         return ($userCil);
     }
 
     /**
      * Genere le traitement de registre
-     * 
+     *
      * @param type $tabId
      * @return data
-     * 
+     *
      * @access public
      * @created 09/01/2017
      * @version V1.0.0
@@ -713,7 +692,7 @@ class FichesController extends AppController {
         if (true !== $this->Droits->authorized(ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE)) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $pdf = $this->_genereTraitement($tabId);
 
         $this->response->disableCache();
@@ -727,13 +706,13 @@ class FichesController extends AppController {
     /**
      * Retourne le PDF des extraits de registre dont les id sont passés en
      * paramètres.
-     * 
+     *
      * Si aucun id n'est passé en paramètre, un message d'erreur est stocké en
      * session et on est redirigé vers l'écran de visualisation des registres.
-     * 
+     *
      * @param json $tabId
      * @return string
-     * 
+     *
      * @access public
      * @created 07/04/2017
      * @version V1.0.0
@@ -744,10 +723,7 @@ class FichesController extends AppController {
         if (empty(json_decode($tabId))) {
             $this->Session->setFlash(__d('registre', 'registre.flasherrorAucunTraitementSelectionner'), 'flasherror');
 
-            $this->redirect(array(
-                'controller' => 'registres',
-                'action' => 'index'
-            ));
+            $this->redirect($this->Referers->get());
         }
 
         // On récupére le modèle de l'extrait de registre
@@ -757,20 +733,17 @@ class FichesController extends AppController {
             ]
         ]);
 
-        // On vérifie que les infos du modèle existe bien 
+        // On vérifie que les infos du modèle existe bien
         if (!empty($modele)) {
             $file = $modele['ModeleExtraitRegistre']['fichier'];
         } else {
             $this->Session->setFlash(__d('fiche', 'fiche.flasherrorRecuperationModele'), 'flasherror');
-            $this->redirect(array(
-                'controller' => 'registres',
-                'action' => 'index'
-            ));
+            $this->redirect($this->Referers->get());
         }
 
         // On appelle la fonction dans le modèle Fiche
         return $this->Fiche->preparationGeneration(
-            $tabId, 
+            $tabId,
             $file,
             CHEMIN_MODELES_EXTRAIT,
             $this->Session->read('Organisation.id')
@@ -779,10 +752,10 @@ class FichesController extends AppController {
 
     /**
      * Genere l'extrait de registre
-     * 
+     *
      * @param json $tabId
      * @return data
-     * 
+     *
      * @access public
      * @created 09/01/2017
      * @version V1.0.0
@@ -792,7 +765,7 @@ class FichesController extends AppController {
         if (true !== $this->Droits->authorized(ListeDroit::TELECHARGER_TRAITEMENT_REGISTRE)) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $pdf = $this->_genereExtraitRegistre($tabId);
 
         $this->response->disableCache();
@@ -805,9 +778,9 @@ class FichesController extends AppController {
 
     /**
      * Gère l'archivage des fiches
-     * 
+     *
      * @param int $id
-     * 
+     *
      * @access public
      * @created 29/04/2015
      * @version V1.0.0
@@ -816,17 +789,14 @@ class FichesController extends AppController {
         if (empty($id)) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
 
-            $this->redirect([
-                'controller' => 'registres',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
-        
+
         $success = true;
         $this->Fiche->begin();
 
         $pdfTraitement = $this->_genereTraitement(json_encode($id));
-        
+
         // Si la génération n'est pas vide on enregistre les data du Traitement en base de données
         if (!empty($pdfTraitement)) {
             $this->TraitementRegistre->create([
@@ -894,9 +864,6 @@ class FichesController extends AppController {
             $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
         }
 
-        $this->redirect(array(
-            'controller' => 'registres',
-            'action' => 'index'
-        ));
+        $this->redirect($this->Referers->get());
     }
 }
