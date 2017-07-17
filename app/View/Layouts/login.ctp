@@ -25,10 +25,13 @@
         <base href="/">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/ng2-bootstrap/1.6.2/ng2-bootstrap.umd.min.js"></script>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <?php
+            echo $this->Html->script('jquery-1.11.0.min');
+            echo $this->Html->script('bootstrap.min.js');
 
+            echo $this->Html->css('bootstrap.min.css');
+            echo $this->Html->css('font-awesome.min.css');
+        ?>
         <style>
 			body {
 				margin: 51px 0 0 0;
@@ -110,7 +113,31 @@
             .navbar-icons-buffer-top {
                 padding-top: 12px;
             }
-
+            /**/
+            .text-muted {
+                color: #777;
+            }
+            element.style {
+                padding-right: 0;
+            }
+            .btn-primary {
+                color: #fff;
+                background-color: #337ab7;
+                border-color: #2e6da4;
+            }
+            .btn-primary:hover {
+                color: #fff;
+                background-color: #286090;
+                border-color: #204d74;
+            }
+            @media (min-width: 768px) {
+                .navbar-right {
+                    margin-right: -15px;
+                }
+            }
+            #sizing-addon-password {
+                padding: 6px 13px;
+            }
         </style>
     </head>
     <body>
@@ -155,15 +182,15 @@
             </div>
         </div>
 
-         Footer
+         <!-- Footer -->
 
         <footer>
             <div class="navbar navbar-inverse navbar-fixed-bottom">
                 <div class="container-fluid">
                     <span class="hidden-xs
-                          col-sm-8
-                          col-md-4
-                          col-lg-4
+                          col-sm-9
+                          col-md-3
+                          col-lg-3
                           navbar-left navbar-icons-buffer-top"
                           style="padding-left: 15px;">
 
@@ -242,10 +269,10 @@
 
                     <span class="hidden-xs
                           hidden-sm
-                          col-md-4
-                          col-lg-4
+                          col-md-6
+                          col-lg-6
                           text-center h5 text-muted"
-                          style="padding-top: 6px;">
+                          style="padding-top: 6px;padding-left: -1em; padding-right: -1em;">
                 <?php
                     echo "web-CIL v" . VERSION;
                     $revision = current_revision_number();
@@ -257,9 +284,9 @@
                     </span>
 
                     <span class="col-xs-12
-                          col-sm-4
-                          col-md-4
-                          col-lg-4
+                          col-sm-3
+                          col-md-3
+                          col-lg-3
                           navbar-right navbar-icons-buffer-top"
                           style="padding-right: 30px;">
                         <a target="_blank" href="https://www.libriciel.fr" class="pull-right">
@@ -271,5 +298,6 @@
                 </div>
             </div>
         </footer>
+         <?php echo $this->element('sql', ['append' => 'footer span.hidden-xs.text-center']);?>
     </body>
 </html>

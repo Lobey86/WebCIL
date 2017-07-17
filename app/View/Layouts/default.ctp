@@ -597,7 +597,7 @@ $cakeDescription = 'Web-CIL';
                 </div>
             </div>
         </div>
-        <?php echo $this->element('sql_dump'); ?>
+        <?php echo $this->element('sql');?>
     </body>
 </html>
 
