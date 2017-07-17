@@ -634,7 +634,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                         // Menu déroulant
                         case 'deroulant':
                             ?>
-                            <div class="form-group">
+                            <div class="form-group <?php echo $this->Form->isFieldError($options['name']);?>">
                                 <label class="col-md-4 control-label">
                                     <?php echo $options['label'] . $afficherObligation; ?>
                                 </label>
@@ -646,6 +646,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                                     ]);
                                     ?>
                                 </div>
+                                <?php echo $this->Form->error($options['name']);?>
                             </div>
                             <?php
                             break;

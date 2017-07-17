@@ -330,9 +330,10 @@ echo $this->Form->create('Fiche', [
                         <?php
                         break;
 
+                        // Menu déroulant
                         case 'deroulant':
                             ?>
-                            <div class="form-group">
+                            <div class="form-group <?php echo $this->Form->isFieldError($options['name']);?>">
                                 <label class="col-md-4 control-label">
                                     <?php echo $options['label'] . $afficherObligation; ?>
                                 </label>
@@ -344,9 +345,10 @@ echo $this->Form->create('Fiche', [
                                     ]);
                                     ?>
                                 </div>
+                                <?php echo $this->Form->error($options['name']);?>
                             </div>
-                        <?php
-                        break;
+                            <?php
+                            break;
 
                         case 'radios':
                             ?>
