@@ -64,12 +64,28 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
                                             </br>
                                             <?php 
                                                 echo ("En attente");
-                                        } elseif ($donnee['EtatFiche']['etat_id'] == 3 || $donnee['EtatFiche']['etat_id'] == 5 || $donnee['EtatFiche']['etat_id'] == 7 || $donnee['EtatFiche']['etat_id'] == 9) {
+                                        } elseif ($donnee['EtatFiche']['etat_id'] == 3 || $donnee['EtatFiche']['etat_id'] == 9) {
                                             ?>
                                             <i class="fa fa-check fa-3x fa-success"></i>
                                             </br>
                                             <span class="fa-success">
                                                 <?php echo ("Validé"); ?>
+                                            </span>
+                                            <?php
+                                        } elseif ($donnee['EtatFiche']['etat_id'] == 5) {
+                                            ?>
+                                            <i class="fa fa-check fa-3x fa-success"></i>
+                                            </br>
+                                            <span class="fa-success">
+                                                <?php echo ("Archivé au registre"); ?>
+                                            </span>
+                                            <?php
+                                        } elseif ($donnee['EtatFiche']['etat_id'] == 7) {
+                                            ?>
+                                            <i class="fa fa-lock fa-3x fa-success"></i>
+                                            </br>
+                                            <span class="fa-success">
+                                                <?php echo ("Archivé au registre"); ?>
                                             </span>
                                             <?php
                                         } elseif ($donnee['EtatFiche']['etat_id'] == 4) {
