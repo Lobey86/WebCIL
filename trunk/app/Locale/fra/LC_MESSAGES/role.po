@@ -31,6 +31,9 @@ msgstr "Une erreur s'est produite lors de l'enregistrement du profil"
 msgid "role.flashsuccessProfilModifier"
 msgstr "Le profil a bien été modifié"
 
+msgid "role.flashsuccessProfilModifierActualiser"
+msgstr "Le profil a bien été modifié. N'oubliez pas d'actualiser tous les droits des utilisateurs."
+
 msgid "role.flasherrorErreurModificationProfil"
 msgstr "Une erreur s'est produite lors de la modification du profil"
 
