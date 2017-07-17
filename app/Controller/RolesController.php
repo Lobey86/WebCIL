@@ -211,7 +211,17 @@ class RolesController extends AppController {
 
             if (false !== $this->Role->save()) {
                 $this->Role->commit();
-                $this->Session->setFlash(__d('role', 'role.flashsuccessProfilModifier'), 'flashsuccess');
+                $query = [
+                    'fields' => ['OrganisationUserRole.id'],
+                    'conditions' => [
+                        'OrganisationUserRole.role_id' => $id
+                    ]
+                ];
+                $exists = $this->Role->OrganisationUserRole->find('first', $query);
+                $message = true === empty($exists)
+                    ? 'role.flashsuccessProfilModifier'
+                    : 'role.flashsuccessProfilModifierActualiser';
+                $this->Session->setFlash(__d('role', $message), 'flashsuccess');
                 $this->redirect($this->Referers->get());
             } else {
                 $this->Role->rollback();
