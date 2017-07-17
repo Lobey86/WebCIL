@@ -1481,7 +1481,7 @@ if ($this->Autorisation->authorized([2,3], $droits)) {
                                             <i class="fa fa-check fa-3x fa-success"></i>
                                             </br>
                                             <span class="fa-success">
-                                                <?php echo ("Archivé au registre"); ?>
+                                                <?php echo ("Validé et inséré au registre"); ?>
                                             </span>
                                             <?php
                                         } elseif ($donnee['EtatFiche']['etat_id'] == 7) {
