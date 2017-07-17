@@ -37,22 +37,28 @@ class Role extends AppModel {
     public $order = array('Role.libelle ASC');
 
     /**
-     * validate associations
+     * Règles de validation supplémentaires.
      *
      * @var array
-     *
-     * @access public
-     * @created 24/10/2015
-     * @version V0.9.0
      */
-    public $validate = array(
-        'libelle' => array(
-            array(
-                'rule' => array('notEmpty'),
+    public $validate = [
+        'libelle' => [
+            'notEmpty' => [
+                'rule' => ['notEmpty'],
                 'message' => 'Un nom de profil est requis'
-            )
-        )
-    );
+            ],
+            'isUniqueMultiple' => [
+                'rule' => ['isUniqueMultiple', ['libelle', 'organisation_id']],
+                'message' => 'Valeur déjà utilisée'
+            ]
+        ],
+        'organisation_id' => [
+            'isUniqueMultiple' => [
+                'rule' => ['isUniqueMultiple', ['libelle', 'organisation_id']],
+                'message' => 'Valeur déjà utilisée'
+            ]
+        ]
+    ];
 
     /**
      * hasAndBelongsToMany associations

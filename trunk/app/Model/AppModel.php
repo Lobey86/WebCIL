@@ -4,16 +4,16 @@
  * Model AppModel
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil v0.9.0
@@ -85,6 +85,37 @@ class AppModel extends Model {
         }
 
         return (array) $this->_appModelCache[$cacheKey];
+    }
+
+    /**
+     * Vérifie qu'un enregistrement soit bien unique avec les valeurs de plusieurs
+     * colonnes (comme lorsdqu'une table possède un INDEX UNIQUE sur plusieurs
+     * colonnes).
+     *
+     * @param array $data Les données du champ envoyées à la validation
+     * @param array $fieldNames La liste des champs à contrôler
+     * @return type
+     */
+    public function isUniqueMultiple(array $data, array $fieldNames) {
+        $query = [
+            'fields' => ["{$this->alias}.{$this->primaryKey}"],
+            'recursive' => -1,
+            'conditions' => []
+        ];
+
+        foreach ($fieldNames as $fieldName) {
+            $fieldName = "{$this->alias}.{$fieldName}";
+            $query['conditions'][$fieldName] = Hash::get($this->data, $fieldName);
+        }
+
+        $primaryKey = Hash::get($this->data, "{$this->alias}.{$this->primaryKey}");
+        $primaryKey = true === empty($primaryKey) ? $this->{$this->primaryKey} : $primaryKey;
+
+        if (false === empty($primaryKey)) {
+            $query['conditions']['NOT'] = ["{$this->alias}.{$this->primaryKey}" => $primaryKey];
+        }
+
+        return [] === $this->find('first', $query);
     }
 
 }
