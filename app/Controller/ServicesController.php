@@ -4,16 +4,16 @@
  * ServicesController
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil V1.0.0
@@ -72,26 +72,21 @@ class ServicesController extends AppController {
             $this->Service->begin();
 
             $this->Service->create($this->request->data);
-            $success = $success && false !== $this->Service->save();
 
-            if ($success == true) {
+            if (false !== $this->Service->save()) {
                 $this->Service->commit();
                 $this->Session->setFlash(__d('service', 'service.flashsuccessServiceEnregistrer'), 'flashsuccess');
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Service->rollback();
                 $this->Session->setFlash(__d('default', 'default.flasherrorErreurEnregistrementService'), 'flasherror');
             }
-
-            $this->redirect(array(
-                'controller' => 'services',
-                'action' => 'index'
-            ));
         }
     }
 
     /**
      * @param int|null $id
-     * 
+     *
      * @access public
      * @created 18/06/2015
      * @version V1.0.0
@@ -103,45 +98,36 @@ class ServicesController extends AppController {
 
         $this->set('title', __d('service', 'service.titreModifierrService'));
         $this->Service->id = $id;
-        $servi = $this->Service->findById($id);
+        $service = $this->Service->findById($id);
 
-        if ($this->Service->exists()) {
+        if (true === empty($service)) {
+            $this->Session->setFlash(__d('service', 'service.flasherrorServiceInexistant'), "flasherror");
+            $this->redirect($this->Referers->get());
+        }
 
-            if (!$this->request->data) {
-                $this->request->data = $servi;
-            }
+        if ($this->request->is('post') || $this->request->is('put')) {
+            $success = true;
+            $this->Service->begin();
 
-            if ($this->request->is('post') || $this->request->is('put')) {
-                $success = true;
-                $this->Service->begin();
+            $this->request->data['Service']['id'] = $id;
+            $this->Service->create($this->request->data);
 
-                $success = $success && false !== $this->Service->save($this->request->data);
-
-                if ($success == true) {
-                    $this->Service->commit();
-                    $this->Session->setFlash(__d('service', 'service.flashsuccessServiceEnregistrer'), "flashsuccess");
-                } else {
-                    $this->Service->rollback();
-                    $this->Session->setFlash(__d('service', 'service.flasherrorErreurEnregistrementService'), 'flasherror');
-                }
-
-                $this->redirect(array(
-                    'controller' => 'services',
-                    'action' => 'index'
-                ));
+            if (false !== $this->Service->save()) {
+                $this->Service->commit();
+                $this->Session->setFlash(__d('service', 'service.flashsuccessServiceEnregistrer'), "flashsuccess");
+                $this->redirect($this->Referers->get());
+            } else {
+                $this->Service->rollback();
+                $this->Session->setFlash(__d('service', 'service.flasherrorErreurEnregistrementService'), 'flasherror');
             }
         } else {
-            $this->Session->setFlash(__d('service', 'service.flasherrorServiceInexistant'), "flasherror");
-            $this->redirect(array(
-                'controller' => 'services',
-                'action' => 'index'
-            ));
+            $this->request->data = $service;
         }
     }
 
     /**
      * @param int|null $id
-     * 
+     *
      * @access public
      * @created 18/06/2015
      * @version V1.0.0
@@ -171,10 +157,7 @@ class ServicesController extends AppController {
             $this->Session->setFlash(__d('service', 'service.flasherrorErreurSupprimerService'), 'flasherror');
         }
 
-        $this->redirect(array(
-            'controller' => 'services',
-            'action' => 'index'
-        ));
+        $this->redirect($this->Referers->get());
     }
 
 }

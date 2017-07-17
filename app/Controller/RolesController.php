@@ -126,10 +126,7 @@ class RolesController extends AppController {
             if (false !== $this->Role->save()) {
                 $this->Role->commit();
                 $this->Session->setFlash(__d('profil', 'profil.flashsuccessProfilEnregistrer'), 'flashsuccess');
-                $this->redirect([
-                    'controller' => 'roles',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Role->rollback();
                 $this->Session->setFlash(__d('profil', 'profil.flasherrorErreurEnregistrementProfil'), 'flasherror');
@@ -176,10 +173,7 @@ class RolesController extends AppController {
             );
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
 
         $this->set('options', $this->_optionsAddEdit());
@@ -196,10 +190,7 @@ class RolesController extends AppController {
     public function edit($id = null) {
         if (true !== (($this->Droits->authorized(ListeDroit::MODIFIER_PROFIL) && $this->Droits->currentOrgaRole($id)) || $this->Droits->isSu())) {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
 
         $this->set('title', __d('role', 'role.titreEditerProfil'));
@@ -221,10 +212,7 @@ class RolesController extends AppController {
             if (false !== $this->Role->save()) {
                 $this->Role->commit();
                 $this->Session->setFlash(__d('role', 'role.flashsuccessProfilModifier'), 'flashsuccess');
-                $this->redirect([
-                    'controller' => 'Roles',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Role->rollback();
                 $this->Session->setFlash(__d('role', 'role.flasherrorErreurModificationProfil'), 'flasherror');
@@ -299,7 +287,7 @@ class RolesController extends AppController {
             $this->Session->setFlash(__d('role', 'role.flasherrorErreurSupprimerProfil'), 'flasherror');
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->Referers->get());
     }
 
     /**
@@ -376,11 +364,7 @@ class RolesController extends AppController {
             $this->Session->setFlash(__d('role', 'role.flasherrorErreurReattributionRole'), 'flasherror');
         }
 
-        //Redirection sur la page d'accueil : roles/index
-        $this->redirect([
-            'controller' => 'roles',
-            'action' => 'index'
-        ]);
+        $this->redirect($this->Referers->get());
     }
 
 }
