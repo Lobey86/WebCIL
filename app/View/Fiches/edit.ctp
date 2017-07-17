@@ -23,7 +23,7 @@ echo $this->Form->create('Fiche', [
         </span>
         <div class="row row35"></div>
     </div>
-    
+
     <div class="col-md-6">
         <?php
         // Champ Nom et prénom *
@@ -41,7 +41,7 @@ echo $this->Form->create('Fiche', [
         ]);
         ?>
     </div>
-    
+
     <div class="col-md-6">
         <?php
         // Champ E-mail *
@@ -59,7 +59,7 @@ echo $this->Form->create('Fiche', [
         ]);
         ?>
     </div>
-    
+
     <div class="col-md-6">
         <?php
         $countService = count($this->Session->read('User.service'));
@@ -69,7 +69,7 @@ echo $this->Form->create('Fiche', [
             foreach ($this->Session->read('User.service') as $service) {
                 $listeUserService[$service] = $service;
             }
-            
+
             echo $this->Form->input('declarantservice', [
                 'options' => $listeUserService,
                 'div' => 'input-group inputsForm',
@@ -133,7 +133,7 @@ echo $this->Form->create('Fiche', [
         <!-- Colonne de gauche -->
         <div class="col-md-6">
                 <?php
-                // Champ Nom du traitement * 
+                // Champ Nom du traitement *
                 echo $this->Form->input('outilnom', [
                     'label' => [
                         'text' => __d('default', 'default.champNomTraitement') . '<span class="obligatoire">*</span>',
@@ -151,7 +151,7 @@ echo $this->Form->create('Fiche', [
                 } else {
                     $readonly = 'readonly';
                 }
-                
+
                 //Champ type de déclaration * , à remplire par le CIL
                 echo $this->Form->input('typedeclaration', [
                     'label' => [
@@ -189,7 +189,7 @@ echo $this->Form->create('Fiche', [
 
 <!-- Champs du formulaire -->
 <div class="row">
-    <div class="row row35"></div> 
+    <div class="row row35"></div>
 
     <hr/>
 
@@ -449,7 +449,7 @@ if (!empty($files)) {
 
 <div class="alert alert-warning" role="alert">
     <?php echo __d('fiche', 'fiche.textTypeFichierAccepter'); ?>
-</div>  
+</div>
 
 <div class="col-md-6 form-horizontal top17">
     <?php
@@ -465,11 +465,14 @@ if (!empty($files)) {
         'after' => '</div>',
         'class' => 'filestyle fichiers draggable',
         'required' => false,
-        'div' => 'form-group'
+        'div' => 'form-group' . true === $this->Form->isFieldError('Fichier.nom') ? ' error' : ''
     ]);
+    if (true === $this->Form->isFieldError('Fichier.nom')) {
+        echo $this->Form->error('Fichier.nom');
+    }
     ?>
 </div>
-    
+
 <div class="row hiddenfields">
     <?php
     echo $this->Form->hidden('id', ['value' => $id]);

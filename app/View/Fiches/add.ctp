@@ -161,7 +161,7 @@ echo $this->Form->create('Fiche', [
     <!-- Colonne de gauche -->
     <div class="col-md-6">
         <?php
-        // Champ Nom et prénom * , du responsable de l'entitée (remplissage automatique) 
+        // Champ Nom et prénom * , du responsable de l'entitée (remplissage automatique)
         echo $this->Form->input('personneresponsable', [
             'label' => [
                 'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
@@ -176,7 +176,7 @@ echo $this->Form->create('Fiche', [
             'value' => $this->Session->read('Organisation.prenomresponsable') . ' ' . $this->Session->read('Organisation.nomresponsable')
         ]);
 
-        // Champ Fonction du responsable * de l'entitée (remplissage automatique) 
+        // Champ Fonction du responsable * de l'entitée (remplissage automatique)
         echo $this->Form->input('fonctionresponsable', [
             'label' => [
                 'text' => __d('organisation', 'organisation.textFonctionResponsable') . '<span class="obligatoire">*</span>',
@@ -196,7 +196,7 @@ echo $this->Form->create('Fiche', [
     <!-- Colonne de droite -->
     <div class='col-md-6'>
         <?php
-        // Champ E-mail du responsable * (remplissage automatique) 
+        // Champ E-mail du responsable * (remplissage automatique)
         echo $this->Form->input('emailresponsable', [
             'label' => [
                 'text' => __d('organisation', 'organisation.textE-mailResponsable') . '<span class="obligatoire">*</span>',
@@ -210,7 +210,7 @@ echo $this->Form->create('Fiche', [
             'value' => $this->Session->read('Organisation.emailresponsable')
         ]);
 
-        // Champ Téléphone du responsable * (remplissage automatique) 
+        // Champ Téléphone du responsable * (remplissage automatique)
         echo $this->Form->input('telephoneresponsable', [
             'label' => [
                 'text' => __d('organisation', 'organisation.textTelephoneResponsable') . '<span class="obligatoire">*</span>',
@@ -244,7 +244,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
     <div class="col-md-6">
         <div class="form-group">
             <?php
-            // Champ Nom et prénom * , du CIL (remplissage automatique) 
+            // Champ Nom et prénom * , du CIL (remplissage automatique)
             echo $this->Form->input('personnecil', [
                 'label' => [
                     'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
@@ -259,7 +259,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                 'value' => $userCil['User']['prenom'] . ' '. $userCil['User']['nom']
             ]);
             ?>
-        
+
             <!-- Champ numerocil * -->
             <?php
             echo $this->Form->input('numerocil', [
@@ -282,7 +282,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
     <!-- Colonne de droite -->
     <div class='col-md-6'>
         <?php
-        // Champ E-mail du CIL  * (remplissage automatique) 
+        // Champ E-mail du CIL  * (remplissage automatique)
         echo $this->Form->input('emailcil', [
             'label' => [
                 'text' => __d('organisation', 'organisation.textEmailCIL') . '<span class="obligatoire">*</span>',
@@ -315,7 +315,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
 
     <div class="col-md-6">
         <?php
-        // Champ Nom et prénom * , du créateur du traitement (remplissage automatique) 
+        // Champ Nom et prénom * , du créateur du traitement (remplissage automatique)
         echo $this->Form->input('declarantpersonnenom', [
             'label' => [
                 'text' => __d('fiche', 'fiche.champNomPrenom') . '<span class="obligatoire">*</span>',
@@ -334,7 +334,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
 
     <div class="col-md-6">
         <?php
-        // Champ E-mail * , du créateur du traitement (remplissage automatique) 
+        // Champ E-mail * , du créateur du traitement (remplissage automatique)
         echo $this->Form->input('declarantpersonneemail', [
             'label' => [
                 'text' => __d('default', 'default.champE-mail') . '<span class="obligatoire">*</span>',
@@ -360,7 +360,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
             foreach ($this->Session->read('User.service') as $service) {
                 $listeUserService[$service] = $service;
             }
-            
+
             echo $this->Form->input('declarantservice', [
                 'options' => $listeUserService,
                 'div' => 'input-group inputsForm',
@@ -400,7 +400,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                 'div' => 'form-group',
                 'value' => $this->Session->read('User.service')
             ]);
-        } 
+        }
         ?>
     </div>
 </div>
@@ -418,7 +418,7 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
         </span>
         <div class="row row35"></div>
     </div>
-    
+
     <!-- Champs des informations du traitement -->
     <div class="row">
         <!-- Colonne de gauche -->
@@ -437,14 +437,14 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
                 'required' => 'required'
             ]);
             ?>
-            
+
             <?php
             if ($this->Autorisation->authorized('5', $this->Session->read('Droit.liste'))) {
                 $readonly = '';
             } else {
                 $readonly = 'readonly';
             }
-            
+
             //Champ type de déclaration * , à remplire par le CIL
             echo $this->Form->input('typedeclaration', [
                 'label' => [
@@ -683,14 +683,14 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
 <hr/>
 
 <!-- Texte Ajouter une pièce jointe -->
-<h4> 
+<h4>
     <?php echo __d('fiche', 'fiche.textAjouterPieceJointe'); ?>
 </h4>
 
 <!-- Texte format fichier accepté -->
 <div class="alert alert-warning" role="alert">
     <?php echo __d('fiche', 'fiche.textTypeFichierAccepter'); ?>
-</div>    
+</div>
 
 <div class="col-md-6 form-horizontal top17">
     <?php
@@ -707,8 +707,11 @@ if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
         'after' => '</div>',
         'class' => 'filestyle fichiers draggable',
         'required' => false,
-        'div' => 'form-group'
+        'div' => 'form-group' . true === $this->Form->isFieldError('Fichier.nom') ? ' error' : ''
     ]);
+    if (true === $this->Form->isFieldError('Fichier.nom')) {
+        echo $this->Form->error('Fichier.nom');
+    }
     ?>
 </div>
 
