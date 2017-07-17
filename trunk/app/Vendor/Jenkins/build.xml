@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="web-CIL" default="build" basedir="../../../">
+	<property name="dir.ant.build" value="${basedir}/app/tmp/build/web-CIL" />
+	<property name="dir.cakephp.app" value="${basedir}/app" />
+	<property name="dir.cakephp.tmp" value="${dir.cakephp.app}/tmp" />
+    <property name="file.phpcs.ruleset" value="${dir.cakephp.app}/Vendor/Jenkins/config/phpcs.xml" />
+	<property name="file.phpmd.ruleset" value="${dir.cakephp.app}/Vendor/Jenkins/config/phpmd.xml" />
+	<property name="file.phpunit.config" value="${dir.cakephp.app}/Vendor/Jenkins/config/phpunit.xml" />
+	<property name="ignorelist" value="*/Config/Schema  /*,*/Test/*,*/Vendor/*" />
+
+	<!-- High level targets -->
+	<target name="quality" depends="clean,lint,phpunit,phploc,phpdoc,phpcs,phpmd,pdepend,phpcpd,phpcb"/>
+	<target name="build" depends="lint,phpunit"/>
+	<target name="lint" depends="bash-lint,xml-lint,php-lint,js-lint,css-lint"/>
+
+	<!-- Log and tmp folders cleanup -->
+	<target name="clear">
+		<delete verbose="true">
+			<fileset dir="${dir.cakephp.tmp}" excludes="**/.svn,**/empty" />
+		</delete>
+        <delete dir="${dir.ant.build}" verbose="true" />
+	</target>
+
+	<!-- Log folders creation -->
+	<target name="clean" depends="clear">
+		<mkdir dir="${dir.ant.build}" />
+		<mkdir dir="${dir.ant.build}/api" />
+		<mkdir dir="${dir.ant.build}/artifacts" />
+		<mkdir dir="${dir.ant.build}/logs" />
+		<mkdir dir="${dir.ant.build}/coverage" />
+		<mkdir dir="${dir.ant.build}/php-code-browser" />
+	</target>
+
+	<!-- Vérification de la syntaxe des fichiers .sh -->
+	<target name="bash-lint">
+		<apply executable="bash" dir="${dir.cakephp.app}" failonerror="on" logerror="on">
+			<arg line="-n"/>
+			<fileset
+				dir="${dir.cakephp.app}"
+				includes="**/*.sh" />
+		</apply>
+	</target>
+
+	<!-- Vérification de la syntaxe des fichiers .xml et .xsl -->
+	<target name="xml-lint">
+		<apply executable="xmllint" dir="${dir.cakephp.app}" failonerror="on" logerror="on">
+			<arg line="--noout"/>
+			<fileset
+				dir="${dir.cakephp.app}"
+				includes="**/*.xml,**/*.xsl" />
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .php and .ctp files -->
+	<target name="php-lint">
+		<apply executable="php" dir="${dir.cakephp.app}" failonerror="on" logerror="on">
+			<arg line="-l"/>
+			<fileset
+				dir="${dir.cakephp.app}"
+				includes="**/*.php,**/*.ctp"
+				excludes="" />
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .sql files (PostgreSQL) -->
+	<target name="sql-lint">
+		<exec executable="bash" failonerror="on" logerror="on">
+		  <arg value="-c"/>
+		  <arg value="find ${dir.cakephp.app} -name '*.sql' | xargs pgsanity"/>
+		</exec>
+	</target>
+
+	<!-- Syntax checking for .po files -->
+	<target name="po-lint">
+		<apply executable="msgfmt" dir="${dir.cakephp.app}" failonerror="on" logerror="on">
+			<arg line="-v"/>
+			<arg line="-C"/>
+			<arg line="-o /dev/null"/>
+			<fileset
+				dir="${dir.cakephp.app}"
+				includes="**/*.po"
+				excludes="" />
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .js files -->
+	<target name="js-lint">
+		<apply executable="esvalidate" dir="${dir.cakephp.app}" failonerror="off" logerror="on">
+			<fileset dir="${dir.cakephp.app}" includes="**/**.js"/>
+		</apply>
+	</target>
+
+	<!-- Syntax checking for .css files -->
+	<target name="css-lint">
+		<apply executable="csslint" dir="${dir.cakephp.app}" failonerror="off" logerror="on">
+			<arg line="--format=compact"/>
+			<arg line="--warnings=display-property-grouping,duplicate-properties,empty-rules,known-properties"/>
+			<fileset dir="${dir.cakephp.app}" includes="**/**.css"/>
+		</apply>
+	</target>
+
+	<!-- Unit tests with coverage report -->
+	<target name="phpunit" depends="clean,lint">
+		<exec executable="lib/Cake/Console/cake" dir="${basedir}" failonerror="true">
+			<arg line="test app AllTests
+				--verbose
+				--strict
+				--no-colors
+				--stderr
+				--debug
+				--configuration ${file.phpunit.config}
+				--log-junit ${dir.ant.build}/logs/phpunit.xml
+				--coverage-clover ${dir.ant.build}/logs/phpunit.coverage.xml
+				--coverage-html ${dir.ant.build}/coverage" />
+		</exec>
+	</target>
+
+	<!-- Unit tests -->
+	<target name="phpunit_only">
+		<exec executable="lib/Cake/Console/cake" dir="${basedir}" failonerror="true">
+			<arg line="test app AllTests
+                       --verbose
+                       --strict
+                       --stderr
+                       --debug
+					   --configuration ${file.phpunit.config}" />
+		</exec>
+	</target>
+
+	<!-- Code metrics (files, classes, etc) -->
+	<target name="phploc" depends="clean,php-lint">
+		<exec executable="phploc">
+			<arg value="--log-csv" />
+			<arg value="${dir.ant.build}/logs/phploc.csv" />
+			<arg path="${dir.cakephp.app}" />
+		</exec>
+	</target>
+
+	<!-- Documentation -->
+	<target name="phpdoc" depends="clean,php-lint">
+		<exec executable="phpdoc" dir="${dir.cakephp.app}" failonerror="false" logerror="on">
+			<arg line="--title '${ant.project.name}'
+				-t ${dir.ant.build}/api
+				-i ${ignorelist}
+				-d ."/>
+			</exec>
+	</target>
+
+	<!-- Checkstyle -->
+	<target name="phpcs" depends="clean,php-lint">
+		<exec executable="phpcs"
+			  dir="${basedir}"
+			  failonerror="false">
+			<arg line="--standard=${file.phpcs.ruleset}
+                       --ignore=${ignorelist}
+                       --extensions=php,ctp
+                       --runtime-set testVersion 5.6-7.0
+                       --report-checkstyle=${dir.ant.build}/logs/phpcs.xml
+                       ${dir.cakephp.app}" />
+		</exec>
+	</target>
+
+	<!-- Mess detector -->
+	<!-- @fixme ? -->
+	<target name="phpmd" depends="clean,php-lint">
+		<exec executable="phpmd"
+			dir="${dir.cakephp.app}"
+			failonerror="false">
+			<arg line="${dir.cakephp.app}
+                       xml ${file.phpmd.ruleset}
+                       --suffixes=.php,.ctp
+				       --exclude ${ignorelist}
+                       --reportfile ${dir.ant.build}/logs/phpmd.xml"/>
+		</exec>
+	</target>
+
+	<!-- Dépendences -->
+	<!-- @fixme ? -->
+	<target name="pdepend" depends="clean,php-lint">
+		<exec executable="pdepend"
+			dir="${dir.cakephp.app}"
+			failonerror="false">
+			<arg line="--jdepend-xml=${dir.ant.build}/logs/jdepend.xml
+				--jdepend-chart=${dir.ant.build}/artifacts/10-dependencies.svg
+				--overview-pyramid=${dir.ant.build}/artifacts/11-overview.svg
+				--ignore=${ignorelist}
+				." />
+		</exec>
+	</target>
+
+	<!-- Copy/paste detector -->
+	<target name="phpcpd" depends="clean,php-lint">
+		<exec executable="phpcpd"
+			dir="${dir.cakephp.app}"
+			failonerror="false">
+			<arg line="--log-pmd ${dir.ant.build}/logs/pmd-cpd.xml
+				--min-lines 5
+				--min-tokens 70
+				--exclude Config/Schema
+				--exclude Plugin
+				--exclude Vendor
+				--exclude Test
+				--names *.php,*.ctp
+				." />
+		</exec>
+	</target>
+
+	<!-- Code browser -->
+	<target name="phpcb" depends="clean,php-lint">
+		<exec executable="phpcb"
+			dir="${dir.cakephp.app}"
+			failonerror="false">
+			<arg line="--log ${dir.ant.build}/logs
+				--source ${dir.cakephp.app}
+				-E /\/(app\/(Plugin|Test|tmp|Vendor|webroot)|lib|index\.php)\//
+				--output ${dir.ant.build}/php-code-browser
+				--crapThreshold=10
+			." />
+		</exec>
+	</target>
+</project>
