@@ -89,7 +89,7 @@ class RegistresController extends AppController {
                 'NOACCENTS_UPPER( Valeur.valeur ) LIKE' => '%'.str_replace(
                     '*',
                     '%',
-                    noaccents_upper($this->request->data['Registre']['outil'])
+                    trim(noaccents_upper($this->request->data['Registre']['outil']))
                 ).'%'
             ];
             $search = true;
