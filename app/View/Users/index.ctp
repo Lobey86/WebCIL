@@ -1,73 +1,73 @@
 <?php
 echo $this->Html->script('users.js');
 
-if (!empty($users)) {
-    // Filtrer les utilisateur que pour le Superadmin
-    if ($this->Autorisation->isSu()) {
-        // Bouton du filtre des utilisateurs
-        echo $this->Form->button('<span class="fa fa-filter fa-lg"></span> Filtrer les utilisateurs', $options = [
-            'type' => 'button',
-            'class' => 'btn btn-default-default pull-right',
-            'id' => 'filtrageUsers'
+// Filtrer les utilisateur que pour le Superadmin
+if ($this->Autorisation->isSu()) {
+    // Bouton du filtre des utilisateurs
+    echo $this->Form->button('<span class="fa fa-filter fa-lg"></span> Filtrer les utilisateurs', $options = [
+        'type' => 'button',
+        'class' => 'btn btn-default-default pull-right',
+        'id' => 'filtrageUsers'
+    ]);
+
+    if (!empty($this->request->data)) {
+        echo '<div id="filtreUsers">';
+    } else {
+        echo '<div id="filtreUsers" style="display: none;">';
+    }
+    ?>
+
+    <div class="row">
+        <?php
+        echo $this->Form->create('users', [
+            'action' => 'index'
         ]);
 
-        if (!empty($this->request->data)) {
-            echo '<div id="filtreUsers">';
-        } else {
-            echo '<div id="filtreUsers" style="display: none;">';
-        }
+        // Filtrer par nom complet
+        echo $this->Form->input('nom', [
+            'empty' => 'Chercher par utilisateur',
+            'class' => 'usersDeroulant transformSelect form-control',
+            'label' => 'Nom complet',
+            'options' => $utilisateurs,
+            'before' => '<div class="col-md-4 col-md-offset-2">',
+            'after' => '</div>'
+        ]);
+
+        // Filtrer par profil
+        echo $this->Form->input('profil', [
+            'empty' => 'Chercher par profil',
+            'class' => 'usersDeroulant transformSelect form-control',
+            'label' => 'Profil',
+            'options' => $roles,
+            'before' => '<div class="col-md-4 col-md-offset-2">',
+            'after' => '</div>'
+        ]);
         ?>
+    </div>
 
-        <div class="row">
+    <!-- Groupe de bouton -->
+    <div class="row top30">
+        <div class="col-md-4 col-md-offset-5 btn-group">
             <?php
-            echo $this->Form->create('users', [
+            // Bouton Réinitialiser le filtre
+            echo $this->Html->link('Réinitialiser', [
+                'controller' => 'users',
                 'action' => 'index'
-            ]);
+                    ], ['class' => 'btn btn-default-danger']
+            );
 
-            // Filtrer par nom complet
-            echo $this->Form->input('nom', [
-                'empty' => 'Chercher par utilisateur',
-                'class' => 'usersDeroulant transformSelect form-control',
-                'label' => 'Nom complet',
-                'options' => $utilisateurs,
-                'before' => '<div class="col-md-4 col-md-offset-2">',
-                'after' => '</div>'
-            ]);
-
-            // Filtrer par profil
-            echo $this->Form->input('profil', [
-                'empty' => 'Chercher par profil',
-                'class' => 'usersDeroulant transformSelect form-control',
-                'label' => 'Profil',
-                'options' => $utilisateurs,
-                'before' => '<div class="col-md-4 col-md-offset-2">',
-                'after' => '</div>'
+            // Bouton Appliquer les filtres
+            echo $this->Form->button('Appliquer les filtres', [
+                'type' => 'submit',
+                'class' => 'btn btn-default-success'
             ]);
             ?>
         </div>
-
-        <!-- Groupe de bouton -->
-        <div class="row top30">
-            <div class="col-md-4 col-md-offset-5 btn-group">
-                <?php
-                // Bouton Réinitialiser le filtre
-                echo $this->Html->link('Réinitialiser', [
-                    'controller' => 'users',
-                    'action' => 'index'
-                        ], ['class' => 'btn btn-default-danger']
-                );
-
-                // Bouton Appliquer les filtres
-                echo $this->Form->button('Appliquer les filtres', [
-                    'type' => 'submit',
-                    'class' => 'btn btn-default-success'
-                ]);
-                ?>
-            </div>
-        </div>
-        </div>
-        <?php
-    }
+    </div>
+    </div>
+    <?php
+}
+if (!empty($users)) {
     ?>
 
     <!-- Tableau -->
@@ -146,7 +146,7 @@ if (!empty($users)) {
                 <tr>
                     <!-- Logo du CiL le cas échéant -->
                     <td class="tdleft">
-                        <?php 
+                        <?php
                         // Si l'utilisateur est CIL on affiche le logo du CIL
                         if ($donnees['User']['id'] == $cil){
                             if (file_exists(IMAGES . DS . 'logos' . DS . 'logo_cil.jpg')) {
@@ -160,8 +160,8 @@ if (!empty($users)) {
 
                     <!-- Nom + prénom utilisateur -->
                     <td class="tdleft">
-                        <?php 
-                            echo $donnees['User']['civilite'] . ' ' .  $donnees['User']['prenom'] . ' ' . $donnees['User']['nom']; 
+                        <?php
+                            echo $donnees['User']['civilite'] . ' ' .  $donnees['User']['prenom'] . ' ' . $donnees['User']['nom'];
                         ?>
                     </td>
 
@@ -228,7 +228,7 @@ if (!empty($users)) {
                         <div class="btn-group">
                             <?php
                             if ($this->Autorisation->authorized(9, $droits)) {
-                                //Bouton de modification 
+                                //Bouton de modification
                                 echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
                                     'controller' => 'users',
                                     'action' => 'edit',
