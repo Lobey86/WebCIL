@@ -48,30 +48,9 @@ class ReferersComponent extends Component {
         $this->settings['clearOnBeforeRedirect'] = (array)$this->settings['clearOnBeforeRedirect'];
     }
 
-    /**
-     *
-     * @todo pas besoin du component
-     * @todo App::uses Router
-     *
-     * @param string|array $url
-     * @return string
-     */
-    public function normalizeUrl($url) {
-        if (false === is_array($url)) {
-            $params = Router::parse($url);
-        } else {
-            $params = $url;
-        }
-
-        $params['url'] = true === isset($params['url']) ? $params['url'] : array();
-        $params['controller'] = Inflector::underscore($params['controller']);
-
-        return Router::normalize(Router::reverse($params));
-    }
-
     public function startup(Controller $controller) {
-        $here = $this->normalizeUrl($controller->request->here(false));
-        $referer = $this->normalizeUrl($controller->request->referer(true));
+        $here = url_to_string($controller->request->here(false));
+        $referer = url_to_string($controller->request->referer(true));
         $sessionKey = "{$this->settings['sessionKeyPrefix']}.{$here}";
         $stored = $this->Session->read($sessionKey);
 
@@ -94,7 +73,7 @@ class ReferersComponent extends Component {
         if (null === $url) {
             $url = $controller->request->here(false);
         }
-        $url = $this->normalizeUrl($url);
+        $url = url_to_string($url);
 
         $sessionKey = "{$this->settings['sessionKeyPrefix']}.{$url}";
         return $this->Session->read($sessionKey);
@@ -113,7 +92,7 @@ class ReferersComponent extends Component {
         $key = Inflector::variable('clear_on_' . $method);
 
         if (true === isset($this->settings[$key]) && false === empty($this->settings[$key])) {
-            $here = $this->normalizeUrl($controller->request->here(false));
+            $here = url_to_string($controller->request->here(false));
             if (true === in_array($here, $this->settings[$key])) {
                 $this->clear();
             }
