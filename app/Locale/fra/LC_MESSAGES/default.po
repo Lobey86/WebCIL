@@ -195,7 +195,7 @@ msgid "default.flasherrorConnexionImpossibleParapheur"
 msgstr "Problème de connexion au parapheur"
 
 msgid "default.flasherrorEnregistrementErreur"
-msgstr "Une erreur d'enregistrement est survenu"
+msgstr "Une erreur d'enregistrement est survenue"
 
 ###############################################################
 
