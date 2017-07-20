@@ -4,16 +4,16 @@
  * Model Organisation
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil v0.9.0
@@ -26,6 +26,8 @@ App::uses('AppModel', 'Model');
 class Organisation extends AppModel {
 
     public $name = 'Organisation';
+
+    public $displayField = 'raisonsociale';
 
     public $actsAs = array(
         'Database.DatabaseFormattable' => array(
@@ -43,7 +45,7 @@ class Organisation extends AppModel {
      * validate associations
      *
      * @var array
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V0.9.0
@@ -117,7 +119,7 @@ class Organisation extends AppModel {
 
     /**
      * @param type|true $cascade
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V0.9.0
@@ -133,7 +135,7 @@ class Organisation extends AppModel {
     /**
      * @param type $data
      * @return boolean
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V0.9.0
@@ -169,7 +171,7 @@ class Organisation extends AppModel {
                 }
             }
         }
-        
+
         return $success;
     }
 
@@ -177,7 +179,7 @@ class Organisation extends AppModel {
      * hasAndBelongsToMany associations
      *
      * @var array
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V0.9.0
@@ -203,7 +205,7 @@ class Organisation extends AppModel {
      * hasMany associations
      *
      * @var array
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V0.9.0
@@ -223,9 +225,9 @@ class Organisation extends AppModel {
 
     /**
      * belongsTo associations
-     * 
+     *
      * @var array
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V0.9.0
@@ -246,7 +248,7 @@ class Organisation extends AppModel {
         //'order'      => ''
         ]
     ];
-    
+
     public function saveFile($data, $id = null) {
         if (isset($data['Modele']['modele']) && !empty($data['Modele']['modele'])) {
             $file = $data['Modele']['modele'];
