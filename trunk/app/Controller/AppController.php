@@ -56,7 +56,8 @@ class AppController extends Controller
         'Translator.TranslatorAutoload' => [
             'translatorClass' => 'WebcilTranslator'
         ],
-        'Referers'
+        'Referers',
+        'WebcilUsers'
     ];
     public $helpers = [
         'WebcilForm'
@@ -79,18 +80,7 @@ class AppController extends Controller
         $this->set('prenom', $this->Auth->user('prenom'));
         $this->set('userId', $this->Auth->user('id'));
 
-        if ($this->Droits->isSu()) {
-            $this->set('organisations', $this->Organisation->find('all', []));
-        } else {
-            $this->set('organisations', $this->OrganisationUser->find('all', [
-                        'conditions' => [
-                            'OrganisationUser.user_id' => $this->Auth->user('id')
-                        ],
-                        'contain' => [
-                            'Organisation'
-                        ]
-            ]));
-        }
+		$this->set('organisations', $this->WebcilUsers->organisations());
         $this->set('droits', $this->Session->read('Droit.liste'));
 
         $notificationsStayed = $this->Notification->find('all', [

@@ -859,3 +859,18 @@ select.form-control + .chosen-container-multi .chosen-results li.result-selected
 .navbar-brand {
     padding: 0 0 0 0;
 }
+
+fieldset.organisation-block {
+    border: 1px solid #d3d3d3;
+    border-radius: 10px;
+    padding: 15px;
+}
+fieldset.organisation-block legend {
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    font-size: 18px;
+    padding: 0;
+    width: auto;
+}

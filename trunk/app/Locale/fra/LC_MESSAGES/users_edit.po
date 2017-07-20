@@ -1,0 +1,24 @@
+# Locale fra
+# users.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Christian Buffin
+# @copyright Libriciel SCOP
+# @link http://libriciel.fr/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+# UsersController::edit
+
+msgid "user.champPassword"
+msgstr "Nouveau mot de passe"
+
+msgid "user.placeholderChampPassword"
+msgstr "Nouveau mot de passe avec minimum 5 caractères"
+
+msgid "user.champPasswd"
+msgstr "Vérification du nouveau mot de passe"
+
+msgid "user.placeholderChampPasswd"
+msgstr "Vérification du nouveau mot de passe (requis)"

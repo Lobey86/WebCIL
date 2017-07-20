@@ -1,228 +1,175 @@
-<div class="users form">
-    <?php
-    echo $this->Html->script('users.js');
-    
-    if (isset($this->validationErrors['User']) && !empty($this->validationErrors['User'])) {
-        ?>
-
-        <div class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span class="sr-only">Error:</span>
-            Ces erreurs se sont produites:
-            <ul>
-                <?php
-                foreach ($this->validationErrors as $donnees) {
-                    foreach ($donnees as $champ) {
-                        foreach ($champ as $error) {
-                            echo '<li>' . $error . '</li>';
-                        }
-                    }
-                }
-                ?>
-            </ul>
-        </div>
-        <?php
-    }
-
-    echo $this->Form->create('User', [
+<?php
+    $title = 'add' === $this->request->params['action']
+        ? __d('user', 'user.titreAjouterUser')
+        : __d('user', 'user.titreEditerUser');
+    $this->set(compact('title'));
+?>
+<?php if (isset($this->validationErrors['User']) && !empty($this->validationErrors['User'])):?>
+	<div class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span>
+		Ces erreurs se sont produites:
+		<ul>
+			<?php
+			foreach ($this->validationErrors as $donnees) {
+				foreach ($donnees as $champ) {
+					foreach ($champ as $error) {
+						echo '<li>' . $error . '</li>';
+					}
+				}
+			}
+			?>
+		</ul>
+	</div>
+<?php endif;?>
+<?php
+    echo $this->WebcilForm->create('User',[
         'autocomplete' => 'off',
         'inputDefaults' => ['div' => false],
         'class' => 'form-horizontal',
         'novalidate' => 'novalidate'
     ]);
-    ?>
-    
-    <div class="col-md-6">
-        <?php
-            echo $this->WebcilForm->inputs([
-                'username' => ['autocomplete' => 'off', 'required' => true]
-            ]);
-        ?>
-        
-        <!-- Encadré bleu -->
-        <div class="alert alert-info">
-            <?php 
-                echo __d('user', 'user.textInfoMotDePasse'); 
-            
-                // Champ caché pour éviter l'autocomplete du navigateur pour le mot de passe
-                echo $this->Form->input('password1', [
-                    'style' => 'display: none;',
-                    'type' => 'password',
-                    'label' => false,
-                    'id' => false
-                ]);
-                
-                echo $this->WebcilForm->inputs([
-                    'new_password' => ['type' => 'password', 'autocomplete' => 'off', 'required' => true],
-                    'new_passwd' => ['type' => 'password', 'autocomplete' => 'off', 'required' => true],
-                ]);
-            ?>
-        </div>
 
-        <?php
-            echo $this->WebcilForm->inputs([
-                'civilite' => ['options' => $options['User']['civilite'], 'empty' => false, 'required' => true],
-                'nom' => ['required' => true],
-                'prenom' => ['required' => true],
-                'email' => ['required' => true],
-                'telephonefixe' => [],
-                'telephoneportable' => []
-            ]);
-        ?>
-    </div>
-    
-    <div class="col-md-6">
-        <!-- Champs Entité * -->
-        <div class="form-group">
-            <?php
-            $listeOrganisations = [];
-            foreach ($tableau['Organisation'] as $key => $datas) {
-                $listeOrganisations[$datas['infos']['id']] = $datas['infos']['raisonsociale'];
-            }
+    echo '<div class="users form">';
+    echo '<div class="col-md-6">';
 
-            echo $this->Form->input('Organisation.Organisation_id', [
-                'options' => $listeOrganisations,
-                'selected' => $tableau['Orgas'],
+    echo $this->WebcilForm->inputs([
+        'User.password' => ['id' => false, 'value' => '', 'type' => 'hidden'],
+        'User.username' => ['id' => 'username', 'autocomplete' => 'off', 'required' => true]
+    ]);
+
+    // Champ caché pour éviter l'autocomplete du navigateur pour le mot de passe
+    $password = $this->WebcilForm->inputs([
+            'User.password' => ['id' => 'password', 'autocomplete' => 'off', 'required' => true],
+            'User.passwd' => ['id' => 'passwd', 'autocomplete' => 'off', 'required' => true],
+        ]);
+
+    if('edit' === $this->request->params['action']) {
+        echo $this->Html->tag(
+            'div',
+            __d('user', 'user.textInfoMotDePasse').$password,
+            ['class' => 'alert alert-info']
+        );
+    } else {
+        echo $password;
+    }
+
+    echo $this->WebcilForm->inputs([
+        'User.civilite' => ['id' => 'civilite', 'options' => $options['User']['civilite'], 'empty' => true, 'required' => true, 'placeholder' => false],
+        'User.nom' => ['id' => 'nom', 'required' => true],
+        'User.prenom' => ['id' => 'prenom', 'required' => true],
+        'User.email' => ['id' => 'email', 'required' => true],
+        'User.telephonefixe' => ['id' => 'telephonefixe'],
+        'User.telephoneportable' => ['id' => 'telephoneportable']
+    ]);
+    echo '</div>';
+
+    echo '<div class="col-md-6">';
+    // Organisations
+    echo $this->WebcilForm->input('User.organisation_id', [
+        'options' => $options['organisation_id'],
+        'class' => 'form-control',
+        'id' => 'deroulant',
+        'label' => [
+            'text' => __d('user', 'user.champEntite') . '<span class="requis">*</span>',
+            'class' => 'col-md-4 control-label'
+        ],
+        'between' => '<div class="col-md-8">',
+        'after' => '</div>',
+        'multiple' => 'multiple',
+        'placeholder' => false
+    ]);
+
+    foreach($options['organisation_id'] as $organisation_id => $raisonsociale) {
+        echo '<div class="form-group">';
+        echo '<fieldset id="organisation-block-'.$organisation_id.'" class="organisation-block">';
+        echo $this->Html->tag('legend', $raisonsociale);
+
+        // Services
+        $services = (array)Hash::get($options, "service_id.{$organisation_id}");
+        if(false === empty($services)) {
+            echo $this->WebcilForm->input('User.service_id', [
+                'options' => $services,
                 'class' => 'form-control',
-                'id' => 'deroulant',
+                'id' => 'service_id'.$organisation_id,
+                'name' => "data[User][{$organisation_id}][service_id]",
                 'label' => [
-                    'text' => __d('user', 'user.champEntite') . '<span class="requis">*</span>',
+                    'text' => __d('user', 'user.champService'),
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
                 'after' => '</div>',
                 'multiple' => 'multiple',
-                'required' => true
+                'empty' => false,
+                'placeholder' => false,
+                'value' => (array)Hash::get($this->request->data, "User.{$organisation_id}.service_id")
             ]);
-            ?>
-        </div>
-
-        <?php
-        foreach ($tableau['Organisation'] as $key => $datas) {
-            $listeroles = [];
-            echo "<script type='text/javascript'>";
-
-            foreach ($datas['roles'] as $clef => $value) {
-                $listeroles[$value['infos']['id']] = $value['infos']['libelle'];
-                echo 'var tableau_js' . $value['infos']['id'] . '= new Array();';
-                foreach ($value['droits'] as $k => $v) {
-                    echo "tableau_js" . $value['infos']['id'] . ".push(" . $v['liste_droit_id'] . ");";
-                }
-            }
-            echo "</script>";
-            ?>
-
-            <div class="form-group droitsVille" id="droitsVille<?php echo $key; ?>">
-                <div class="titreDiv text-center">
-                    <h4><?php echo $datas['infos']['raisonsociale']; ?></h4>
-                </div>  
-
-                <!-- Champs Service -->
-                <div class="form-group">
-                    <?php
-                    //Si des service existe on affiche le champs de selection d'un service
-                    if (!empty($listeservices[$datas['infos']['id']])) {
-                        //Si l'utilisateur est présent dans un service on le pré-selectionne sinon on affiche juste le champs avec tout les services
-                        if (!empty($tableau['UserService'])) {
-                            // On pré-selectionne
-                            echo $this->Form->input('Service.' . $datas['infos']['id'], [
-                                'options' => $listeservices[$datas['infos']['id']],
-                                'selected' => $tableau['UserService'],
-                                'class' => 'form-control',
-                                'id' => 'deroulantservice',
-                                'label' => [
-                                    'text' => __d('user', 'user.champService'),
-                                    'class' => 'col-md-4 control-label'
-                                ],
-                                'between' => '<div class="col-md-8">',
-                                'after' => '</div>',
-                                'multiple' => 'multiple'
-                            ]);
-                        } else {
-                            echo $this->Form->input('Service.' . $datas['infos']['id'], [
-                                'options' => $listeservices[$datas['infos']['id']],
-                                'class' => 'form-control',
-                                'id' => 'deroulantservice',
-                                'label' => [
-                                    'text' => __d('user', 'user.champService'),
-                                    'class' => 'col-md-4 control-label'
-                                ],
-                                'between' => '<div class="col-md-8">',
-                                'after' => '</div>',
-                                'multiple' => 'multiple',
-                            ]);
-                        }
-                    }
-                    ?>
-                </div>
-
-                <!-- Champs Profils au sein de * -->
-                <div class="form-group">
-                    <?php
-                    //Si il existe des profils de droit on les affiches
-                    if (!empty($listeroles)) {
-                        //Si l'utilisateur en question a déjà un type de droit on le pré-selectionne sinon on affiche juste la liste
-                        if (!empty($tableau['UserRoles'])) {
-                                echo $this->Form->input('Role.role_ida.' . $datas['infos']['id'], [
-                                'options' => $listeroles,
-                                'class' => 'form-control deroulantRoles' . $key,
-                                'selected' => $tableau['UserRoles'],
-                                'id' => $key,
-                                    'label' => [
-                                    'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . '<span class="requis"> *</span>',
-                                        'class' => 'col-md-4 control-label'
-                                    ],
-                                    'between' => '<div class="col-md-8">',
-                                    'after' => '</div>',
-                                    //'multiple' => 'multiple',
-                                ]);
-                        } else {
-                            echo $this->Form->input('Role.role_ida.' . $datas['infos']['id'], [
-                                'options' => $listeroles,
-                                'class' => 'form-control deroulantRoles' . $key,
-                                'id' => $key,
-                                    'label' => [
-                                        'text' => __d('user', 'user.champProfilEntite') . $datas['infos']['raisonsociale'] . ' <span class="requis">*</span>',
-                                        'class' => 'col-md-4 control-label'
-                                    ],
-                                    'between' => '<div class="col-md-8">',
-                                    'after' => '</div>',
-                                    //'multiple' => 'multiple',
-                                ]);
-                        }
-                    } else {
-                        echo "Aucun profil n'a été créé pour cette entité";
-                    }
-                    ?>
-                </div>
-            </div>
-            <?php
         }
-        ?>
-    </div>
-</div>
 
-</div>
+        // Rôle
+        $value = array_filter((array)Hash::get($this->request->data, "User.{$organisation_id}.role_id"));
+        $hasError = ($this->request->is('post') || $this->request->is('put')) && true === empty($value);
+        echo $this->WebcilForm->input('User.role_id', [
+            'options' => (array)Hash::get($options, "role_id.{$organisation_id}"),
+            'class' => 'form-control'.(true === $hasError ? ' form-error' : null),
+            'id' => 'role_id'.$organisation_id,
+            'name' => "data[User][{$organisation_id}][role_id]",
+            'label' => [
+                'text' => __d('user', 'user.champProfilEntite') . $raisonsociale . ' <span class="requis">*</span>',
+                'class' => 'col-md-4 control-label'
+            ],
+            'empty' => true,
+            'between' => '<div class="col-md-8">',
+            'after' => '</div>',
+            'placeholder' => false,
+            'value' => $value
+        ]);
+        if(true === $hasError) {
+            echo $this->Html->tag('div', __d('database', 'Validate::notEmpty'), ['class' => 'error-message']);
+        }
+        echo '</fieldset>';
+        echo '</div>';
+    }
+    echo '</div>';
+    echo '</div>';
 
-<?php
-    // Groupe de boutons
+    echo '<div style="clear: both">';
     echo $this->WebcilForm->buttons( array( 'Cancel', 'Save' ) );
+    echo '</div>';
 
-    echo $this->Form->end();
+    echo $this->WebcilForm->end();
 ?>
-
 <script type="text/javascript">
-
     $(document).ready(function () {
         $("#deroulant").select2({
             placeholder: "Sélectionnez une ou plusieurs entités",
             allowClear: true
         });
 
-        $("#deroulantservice").select2({
-            placeholder: "Sélectionnez un ou plusieurs service",
-            allowClear: true
+        <?php $selected = (array)Hash::get($this->request->data, 'User.organisation_id');?>
+        <?php foreach(array_keys($options['organisation_id']) as $organisation_id): ?>
+            $("#<?php echo 'service_id'.$organisation_id;?>").select2({
+                placeholder: "Sélectionnez un ou plusieurs service",
+                allowClear: true
+            });
+
+            <?php if(false === in_array($organisation_id, $selected)):?>
+                $("#organisation-block-<?php echo $organisation_id;?>").hide();
+            <?php endif;?>
+        <?php endforeach;?>
+
+        $('#deroulant').change(function(event) {
+            var select = $(this),
+                values = $.map($(select).children('option'),function(option){return option.value;}),
+                selected = $(select).val();
+
+            $.each(values, function(index, value){
+                if(-1 !== $.inArray(value, selected)) {
+                    $("#organisation-block-"+value).show();
+                } else {
+                    $("#organisation-block-"+value).hide();
+                }
+            });
         });
     });
-
 </script>
