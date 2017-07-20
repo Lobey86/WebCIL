@@ -11,7 +11,7 @@ App::uses('FormHelper', 'View/Helper');
 class WebcilFormHelper extends FormHelper {
 
     public $helpers = ['Html'];
-    
+
     protected function _options( array $defaults, array $options ) {
         $options += $defaults;
 
@@ -30,7 +30,7 @@ class WebcilFormHelper extends FormHelper {
         } else {
             list($modelName, $fieldName) = explode('.', $fieldName);
         }
-        
+
         $defaults = [
             'id' => null,
             'name' => null,
@@ -51,11 +51,11 @@ class WebcilFormHelper extends FormHelper {
         if ($options['id'] === null) {
             $options['id'] = $modelName . ucfirst($fieldName);
         }
-        
+
         if ($options['name'] === null) {
             $options['name'] = 'data['.$modelName.']['.$fieldName.']';
         }
-        
+
         if (null === $options['placeholder']) {
             $options['placeholder'] = __m(Inflector::underscore($modelName) . '.placeholderChamp' . Inflector::camelize($fieldName));
         }
@@ -68,15 +68,11 @@ class WebcilFormHelper extends FormHelper {
             //$options['label']['text'] .= ' <abbr class="requis" title="Champ obligatoire">*</abbr>';
             $options['label']['text'] .= ' <span class="requis">*</span>';
         }
-        
+
         if ($options['value'] === null) {
             $options['value'] = $this->request->data($modelName.'.'.$fieldName);
         }
 
-        if (isset($this->validationErrors['User'][$fieldName]) && !empty($this->validationErrors['User'][$fieldName])) {
-            $options['after'] .= '<div class="error-message">' . $this->validationErrors[$modelName][$fieldName][0] . '</div>';
-        }
-        
         return $this->Html->tag('div', parent::input($fieldName, $options), ['class' => 'form-group']);
     }
 
@@ -85,10 +81,10 @@ class WebcilFormHelper extends FormHelper {
             'fieldset' => false,
             'legend' => false
         ];
-        
+
         return parent::inputs($fields, $blacklist, $options);
     }
-    
+
     public function buttons( array $buttons, array $options = array()) {
         $defaults = [
             'Cancel' => [
@@ -100,16 +96,16 @@ class WebcilFormHelper extends FormHelper {
                 'button' => 'btn-default-success'
             ]
         ];
-        
+
         $options = $this->_options($defaults, $options);
 
         $result = '';
-        
+
         foreach(Hash::normalize($buttons) as $button => $params) {
             $classes = true === isset( $options[$button] )
                 ? $options[$button]
                 : [ 'i' => '', 'button' => 'btn-default-default' ];
-            
+
             $result .= $this->button("<i class=\"fa {$classes['i']} fa-lg\"></i> ".__m("default.btn{$button}"),
                 [
                     'type' => 'submit',
@@ -120,7 +116,7 @@ class WebcilFormHelper extends FormHelper {
                 ]
             );
         }
-        
+
         return $this->Html->tag(
             'div',
             $this->Html->tag( 'div', $result, ['class' => 'btn-group send'] ),
