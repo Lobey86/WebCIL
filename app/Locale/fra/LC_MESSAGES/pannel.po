@@ -254,3 +254,133 @@ msgid "pannel.commentaireReplacerTraitementRedactionDansEspace"
 msgstr "Replacer le traitement en rédaction dans mon espace de travail"
 
 ###############################################################################
+
+########################## View/Pannel/test.ctp ###########################
+
+msgid "pannel.textEtatDemandeAvis"
+msgstr "En attente de consultation"
+
+msgid "pannel.textEtatEnCoursRedaction"
+msgstr "Rédaction"
+
+msgid "pannel.textEtatEnCoursValidation"
+msgstr "En attente de validation"
+
+msgid "pannel.textEtatEnAttente"
+msgstr "En attente"
+
+msgid "pannel.textEtatRefuser"
+msgstr "Refusé"
+
+msgid "pannel.textEtatValiderCIL"
+msgstr "Validé et inséré au registre"
+
+msgid "pannel.textEtatArchiver"
+msgstr "Archivé au registre"
+
+msgid "pannel.textEtatReplacerRedaction"
+msgstr "Replacer en rédaction"
+
+msgid "pannel.commentaireShowTraitement"
+msgstr "Visualiser le traitement"
+
+msgid "pannel.commentaireEditTraitement"
+msgstr "Modifier le traitement"
+
+msgid "pannel.commentaireHistoriqueTraitement"
+msgstr "Historique du traitement"
+
+msgid "pannel.commentaireIndexTraitement"
+msgstr "Refuser le traitement"
+
+msgid "pannel.commentaireReponseTraitement"
+msgstr "Répondre"
+
+msgid "pannel.commentaireDeleteTraitement"
+msgstr "Supprimer le traitement"
+
+msgid "pannel.commentaireRelaunchTraitement"
+msgstr "Replacer le traitement en rédaction"
+
+msgid "pannel.commentaireGenereTraitementTraitement"
+msgstr "Générer le traitement"
+
+msgid "pannel.commentaireDownloadFileTraitementTraitement"
+msgstr "Télécharger le traitement"
+
+# Banette En cours de rédaction
+
+msgid "pannel.aucunTraitementEncoursRedaction"
+msgstr "Vous n'avez aucun traitement en cours de rédaction"
+
+msgid "pannel.btnVoirTraitementEncoursRedaction"
+msgstr "Visualiser tous les traitements en cours de rédaction"
+
+msgid "pannel.traitementEncoursRedaction"
+msgstr "Mes déclarations en cours de rédaction (%d)"
+
+# Banette En attente
+msgid "pannel.aucunTraitementAttente"
+msgstr "Vous n'avez aucun traitement en attente"
+
+msgid "pannel.btnVoirTraitementAttente"
+msgstr "Visualiser tous les traitements en attente"
+
+msgid "pannel.traitementAttente"
+msgstr "Mes déclarations en attente (%d)"
+
+
+# Banette Refuser
+msgid "pannel.aucunTraitementRefuser"
+msgstr "Vous n'avez aucun traitement refusé"
+
+msgid "pannel.btnVoirTraitementRefuser"
+msgstr "Visualiser tous les traitements refusés"
+
+msgid "pannel.traitementRefuser"
+msgstr "Mes déclarations refusées (%d)"
+
+
+# Banette recuValidation
+msgid "pannel.aucunTraitementRecuValidation"
+msgstr "Vous n'avez aucun traitement en attente de validation"
+
+msgid "pannel.btnVoirTraitementRecuValidation"
+msgstr "Visualiser tous les traitements reçus pour validation"
+
+msgid "pannel.traitementRecuValidation"
+msgstr "Traitements reçus pour validation (%d)"
+
+
+# Banette recuConsultation
+msgid "pannel.aucunTraitementRecuConsultation"
+msgstr "Vous n'avez aucun traitement en attente de consultation"
+
+msgid "pannel.btnVoirTraitementRecuValidation"
+msgstr "Visualiser tous les traitements reçus pour consultation"
+
+msgid "pannel.traitementRecuConsultation"
+msgstr "Traitements reçus pour consultation (%d)"
+
+
+# Banette Validés et insérés au registre
+msgid "pannel.aucunTraitementArchives"
+msgstr "Vous n'avez aucun traitement validé et inséré au registre"
+
+msgid "pannel.btnVoirTraitementArchives"
+msgstr "Visualiser tous mes traitements validés et insérés au registre"
+
+msgid "pannel.traitementArchives"
+msgstr "Mes traitements validés et insérés au registre (%d)"
+
+
+# Banette Consulte
+msgid "pannel.aucunTraitementConsulte"
+msgstr "Vous n'avez aucun traitement qui est passé en votre possession et toujours dans un circuit"
+
+msgid "pannel.btnVoirTraitementConsulte"
+msgstr "Visualiser tous les traitements passés en ma possession"
+
+msgid "pannel.traitementConsulte"
+msgstr "Etat des traitements passés en ma possession (%d)"
+

@@ -94,7 +94,11 @@ class WebcilFormHelper extends FormHelper {
             'Save' => [
                 'i' => 'fa-floppy-o',
                 'button' => 'btn-default-success'
-            ]
+            ],
+            'Send' => [
+                'i' => 'fa-paper-plane',
+                'button' => 'btn-default-success'
+            ],
         ];
 
         $options = $this->_options($defaults, $options);

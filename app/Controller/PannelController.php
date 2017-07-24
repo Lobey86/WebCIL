@@ -44,8 +44,12 @@ class PannelController extends AppController {
     public $components = [
         'FormGenerator.FormGen',
         'Droits',
+        'Banettes'
     ];
-
+    public $helpers = [
+        'Banettes'
+    ];
+    
     /**
      * Accueil de la page, listing des fiches et de leurs catégories
      * 
@@ -54,85 +58,71 @@ class PannelController extends AppController {
      * @version V1.0.0
      */
     public function index() {
-        $this->Session->write('nameController', "pannel");
-        $this->Session->write('nameView', "index");
-
+        $banettes = [];
+        $limit = 5;
+        
         $this->set('title', __d('pannel', 'pannel.titreTraitement'));
-
-        $limiteTraitementRecupere = 5;
-
+        
         if ($this->Droits->authorized(ListeDroit::REDIGER_TRAITEMENT)) {
-            // Conditions pour récupére les traitements en cours de rédaction
-            $db = $this->EtatFiche->getDataSource();
-            $subQuery = $this->EtatFiche->sql(
-                    array(
-                        'alias' => 'etats_fiches2',
-                        'fields' => ['etats_fiches2.fiche_id'],
-                        'conditions' => [
-                            'etats_fiches2.etat_id BETWEEN ' . EtatFiche::ENCOURS_VALIDATION . ' AND ' . EtatFiche::VALIDER_CIL,
-                            'etats_fiches2.actif' => true
-                        ]
-                    )
-            );
+            // En cours de rédaction
+            $query = $this->Banettes->queryEnCoursRedaction();
+            $banettes['encours_redaction'] = [
+                'results' => $this->Fiche->find('all', $query + ['limit' => $limit]),
+                'count' => $this->Fiche->find('count', $query)
+            ];
 
-            $conditions[] = $db->conditions(
-                    [
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
-                'EtatFiche.fiche_id NOT IN (' . $subQuery . ')'
-                    ], true, false
-            );
-
-            $conditions[] = $db->conditions([
-                    [
-                    'EtatFiche.etat_id' => [EtatFiche::ENCOURS_REDACTION, EtatFiche::REPLACER_REDACTION]
-                ],
-                'EtatFiche.actif' => true,
-                'EtatFiche.user_id' => $this->Auth->user('id')
-                    ], true, false
-            );
-
-            // Traitement en cours de rédaction
-            $this->set('traitementEnCoursRedaction', $this->_traitementEnCoursRedaction($conditions, $limiteTraitementRecupere));
-            $this->set('nbTraitementEnCoursRedaction', $this->_nbTraitementEnCoursRedaction($conditions));
-
-            // Traitement en cours de validation
-            $this->set('traitementEnCoursValidation', $this->_traitementEnCoursValidation($limiteTraitementRecupere));
-            $this->set('nbTraitementEnCoursValidation', $this->_nbTraitementEnCoursValidation());
-
-
-            $conditions = [];
-            $conditions[] = array(
-                'EtatFiche.etat_id' => EtatFiche::REFUSER,
-                'EtatFiche.actif' => true
-            );
+            // En attente
+            $query = $this->Banettes->queryAttente();
+            $banettes['attente'] = [
+                'results' => $this->Fiche->find('all', $query + ['limit' => $limit]),
+                'count' => $this->Fiche->find('count', $query)
+            ];
 
             // Traitement refusés
-            $this->set('traitementRefuser', $this->_traitementRefuser($conditions, $limiteTraitementRecupere));
-            $this->set('nbTraitementRefuser', $this->_nbTraitementRefuser($conditions));
-
+            $query = $this->Banettes->queryRefuser();
+            $banettes['refuser'] = [
+                'results' => $this->Fiche->find('all', $query + ['limit' => $limit]),
+                'count' => $this->Fiche->find('count', $query)
+            ];
+            
             // Mes traitements validés et insérés au registre
-            $this->set('traitementArchives', $this->_traitementArchives($limiteTraitementRecupere));
-            $this->set('nbTraitementArchives', $this->_nbTraitementArchives());
-        }
-
-        if ($this->Droits->authorized([ListeDroit::VALIDER_TRAITEMENT, ListeDroit::VISER_TRAITEMENT])) {
-            // Tous les traitements passés en ma possession
-            $this->set('traitementConnaissance', $this->_traitementConnaissance($limiteTraitementRecupere));
+            $query = $this->Banettes->queryArchives();
+            $banettes['archives'] = [
+                'results' => $this->Fiche->find('all', $query + ['limit' => $limit]),
+                'count' => $this->Fiche->find('count', $query)
+            ];
         }
         
+
+        // Etat des traitements passés en ma possession
+        if ($this->Droits->authorized([ListeDroit::VALIDER_TRAITEMENT, ListeDroit::VISER_TRAITEMENT])) {
+            $query = $this->Banettes->queryConsulte();
+            $banettes['consulte'] = [
+                'results' => $this->Fiche->find('all', $query + ['limit' => $limit]),
+                'count' => $this->Fiche->find('count', $query)
+            ];
+        }
+        
+        // Traitement reçu pour validation
         if ($this->Droits->authorized(ListeDroit::VALIDER_TRAITEMENT)) {
-            // Traitement reçu pour validation
-            $this->set('traitementRecuEnValidation', $this->_traitementRecuEnValidation($limiteTraitementRecupere));
-            $this->set('nbTaitementRecuEnValidation', $this->_nbTraitementRecuEnValidation());
+            $query = $this->Banettes->queryRecuValidation();
+            $banettes['recuValidation'] = [
+                'results' => $this->Fiche->find('all', $query + ['limit' => $limit]),
+                'count' => $this->Fiche->find('count', $query),
+            ];
         }
-
+        
+        // Traitement reçu pour consultation
         if ($this->Droits->authorized(ListeDroit::VISER_TRAITEMENT)) {
-            // Traitement reçu pour consultation
-            $this->set('traitementRecuEnConsultation', $this->_traitementRecuEnConsultation($limiteTraitementRecupere));
-            $this->set('nbTraitementRecuEnConsultation', $this->_nbTraitementRecuEnConsultation());
+            $query = $this->Banettes->queryRecuConsultation();
+            $banettes['recuConsultation'] = [
+                'results' => $this->Fiche->find('all', $query + ['limit' => $limit]),
+                'count' => $this->Fiche->find('count', $query)
+            ];
         }
-
+        
+        $this->set(compact('banettes'));
+        
         $notifications = $this->Notification->find('all', array(
             'conditions' => array(
                 'Notification.user_id' => $this->Auth->user('id'),
@@ -164,7 +154,7 @@ class PannelController extends AppController {
             ]);
         }
         $this->set('nameOrganisation', $nameOrganisation);
-
+        
         $return = $this->_listValidants();
         $this->set('validants', $return['validants']);
         $this->set('consultants', $return['consultants']);
@@ -189,41 +179,14 @@ class PannelController extends AppController {
         }
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementEnCoursRedaction'));
-
-        $limiteTraitementRecupere = 0;
-
-        // Conditions pour récupére les traitements en cours de rédaction
-        $db = $this->EtatFiche->getDataSource();
-        $subQuery = $this->EtatFiche->sql(
-                array(
-                    'alias' => 'etats_fiches2',
-                    'fields' => ['etats_fiches2.fiche_id'],
-                    'conditions' => [
-                        'etats_fiches2.etat_id BETWEEN ' . EtatFiche::ENCOURS_VALIDATION . ' AND ' . EtatFiche::VALIDER_CIL,
-                        'etats_fiches2.actif' => true
-                    ]
-                )
-        );
-
-        $conditions[] = $db->conditions(
-                [
-            'Fiche.user_id' => $this->Auth->user('id'),
-            'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
-            'EtatFiche.fiche_id NOT IN (' . $subQuery . ')'
-                ], true, false
-        );
-
-        $conditions[] = $db->conditions([
-                [
-                'EtatFiche.etat_id' => [EtatFiche::ENCOURS_REDACTION, EtatFiche::REPLACER_REDACTION]
-            ],
-            'EtatFiche.actif' => true,
-            'EtatFiche.user_id' => $this->Auth->user('id')
-                ], true, false
-        );
-
-        $this->set('traitementEnCoursRedaction', $this->_traitementEnCoursRedaction($conditions, $limiteTraitementRecupere));
-        $this->set('nbTraitementEnCoursRedaction', $this->_nbTraitementEnCoursRedaction($conditions));
+        
+        // En cours de rédaction
+        $query = $this->Banettes->queryEnCoursRedaction();
+        $banettes['encours_redaction'] = [
+            'results' => $this->Fiche->find('all', $query + ['limit' => 0]),
+            'count' => $this->Fiche->find('count', $query)
+        ];
+        $this->set('banettes', $banettes);
 
         $return = $this->_listValidants();
         $this->set('validants', $return['validants']);
@@ -250,14 +213,16 @@ class PannelController extends AppController {
         
         $this->set('title', __d('pannel', 'pannel.titreTraitementEnAttente'));
 
-        $limiteTraitementRecupere = 0;
-
-        $this->set('traitementEnCoursValidation', $this->_traitementEnCoursValidation($limiteTraitementRecupere));
-        $this->set('nbTraitementEnCoursValidation', $this->_nbTraitementEnCoursValidation());
-
+        // En attente
+        $query = $this->Banettes->queryAttente();
+        $banettes['attente'] = [
+            'results' => $this->Fiche->find('all', $query + ['limit' => 0]),
+            'count' => $this->Fiche->find('count', $query)
+        ];
+        $this->set('banettes', $banettes);
+        
         $return = $this->_listValidants();
         $this->set('validants', $return['validants']);
-        $this->set('consultants', $return['consultants']);
     }
 
     /**
@@ -280,20 +245,13 @@ class PannelController extends AppController {
         
         $this->set('title', __d('pannel', 'pannel.titreTraitementRefuser'));
 
-        $limiteTraitementRecupere = 0;
-
-        $conditions = [];
-        $conditions[] = array(
-            'EtatFiche.etat_id' => EtatFiche::REFUSER,
-            'EtatFiche.actif' => true
-        );
-
-        $this->set('traitementRefuser', $this->_traitementRefuser($conditions, $limiteTraitementRecupere));
-        $this->set('nbTraitementRefuser', $this->_nbTraitementRefuser($conditions));
-
-        $return = $this->_listValidants();
-        $this->set('validants', $return['validants']);
-        $this->set('consultants', $return['consultants']);
+        // Traitement refusés
+        $query = $this->Banettes->queryRefuser();
+        $banettes['refuser'] = [
+            'results' => $this->Fiche->find('all', $query + ['limit' => 0]),
+            'count' => $this->Fiche->find('count', $query)
+        ];
+        $this->set('banettes', $banettes);
     }
 
     /**
@@ -316,11 +274,14 @@ class PannelController extends AppController {
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementRecuValidation'));
 
-        $limiteTraitementRecupere = 0;
-
-        $this->set('traitementRecuEnValidation', $this->_traitementRecuEnValidation($limiteTraitementRecupere));
-        $this->set('nbTaitementRecuEnValidation', $this->_nbTraitementRecuEnValidation());
-
+        // Traitement reçu pour validation
+        $query = $this->Banettes->queryRecuValidation();
+        $banettes['recuValidation'] = [
+            'results' => $this->Fiche->find('all', $query + ['limit' => 0]),
+            'count' => $this->Fiche->find('count', $query)
+        ];
+        $this->set('banettes', $banettes);
+        
         $return = $this->_listValidants();
         $this->set('validants', $return['validants']);
         $this->set('consultants', $return['consultants']);
@@ -346,14 +307,13 @@ class PannelController extends AppController {
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementConsultation'));
 
-        $limiteTraitementRecupere = 0;
-
-        $this->set('traitementRecuEnConsultation', $this->_traitementRecuEnConsultation($limiteTraitementRecupere));
-        $this->set('nbTraitementRecuEnConsultation', $this->_nbTraitementRecuEnConsultation());
-
-        $return = $this->_listValidants();
-        $this->set('validants', $return['validants']);
-        $this->set('consultants', $return['consultants']);
+        // Traitement reçu pour consultation
+        $query = $this->Banettes->queryRecuConsultation();
+        $banettes['recuConsultation'] = [
+            'results' => $this->Fiche->find('all', $query + ['limit' => 0]),
+            'count' => $this->Fiche->find('count', $query)
+        ];
+        $this->set('banettes', $banettes);
     }
 
     /**
@@ -372,16 +332,16 @@ class PannelController extends AppController {
         if ($this->Droits->isSu() == true) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
-        $this->Session->write('nameController', "pannel");
-        $this->Session->write('nameView', "archives");
 
         $this->set('title', __d('pannel', 'pannel.titreTraitementValidee'));
 
-        $limiteTraitementRecupere = 0;
-
-        $this->set('validees', $this->_traitementArchives($limiteTraitementRecupere));
-        $this->set('nbTraitementArchives', $this->_nbTraitementArchives());
+        // Mes traitements validés et insérés au registre
+        $query = $this->Banettes->queryArchives();
+        $banettes['archives'] = [
+            'results' => $this->Fiche->find('all', $query + ['limit' => 0]),
+            'count' => $this->Fiche->find('count', $query)
+        ];
+        $this->set('banettes', $banettes);
     }
 
     /**
@@ -456,19 +416,18 @@ class PannelController extends AppController {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
         
-        $this->Session->write('nameController', "pannel");
-        $this->Session->write('nameView', "consulte");
-
         $this->set('title', __d('pannel', 'pannel.titreTraitementVu'));
 
-        $limiteTraitementRecupere = 0;
-
-        $this->set('validees', $this->_traitementConnaissance($limiteTraitementRecupere));
-
+        // Etat des traitements passés en ma possession
+        $query = $this->Banettes->queryConsulte();
+        $banettes['consulte'] = [
+            'results' => $this->Fiche->find('all', $query + ['limit' => 0]),
+            'count' => $this->Fiche->find('count', $query)
+        ];
+        $this->set('banettes', $banettes);
 
         $return = $this->_listValidants();
         $this->set('validants', $return['validants']);
-        $this->set('consultants', $return['consultants']);
     }
 
     /**
@@ -665,867 +624,6 @@ class PannelController extends AppController {
         $return['validants'] = $validants;
 
         return $return;
-    }
-
-    /**
-     * Requète récupérant les traitements en cours de rédaction
-     * 
-     * @param array() $conditions
-     * @param int $limitRecuperation
-     * @return array()
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _traitementEnCoursRedaction($conditions, $limitRecuperation) {
-        $traitementEnCoursRedaction = $this->EtatFiche->find('all', [
-            'conditions' => $conditions,
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-            'limit' => $limitRecuperation
-        ]);
-
-        return ($traitementEnCoursRedaction);
-    }
-
-    /**
-     * Calcule le nombre de traitements en cours de rédaction en base de données
-     * 
-     * @param array() $conditions
-     * @return int
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _nbTraitementEnCoursRedaction($conditions) {
-        $nbTraitementEnCoursRedaction = $this->EtatFiche->find('count', [
-            'conditions' => $conditions,
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-        ]);
-
-        return ($nbTraitementEnCoursRedaction);
-    }
-
-    /**
-     * Requète récupérant les traitements en cours de validation
-     * 
-     * @param int $limiteTraitementRecupere
-     * @return array()
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _traitementEnCoursValidation($limiteTraitementRecupere) {
-        $traitementEnCoursValidation = $this->EtatFiche->find('all', [
-            'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::ENCOURS_VALIDATION,
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-            'limit' => $limiteTraitementRecupere
-        ]);
-
-        return ($traitementEnCoursValidation);
-    }
-
-    /**
-     * Calcule le nombre de traitements en cours de validation en base de données
-     * 
-     * @return int
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _nbTraitementEnCoursValidation() {
-        $nbTraitementEnCoursValidation = $this->EtatFiche->find('count', [
-            'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::ENCOURS_VALIDATION,
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-        ]);
-
-        return ($nbTraitementEnCoursValidation);
-    }
-
-    /**
-     * Requète récupérant les traitements refusées par un validateur
-     * 
-     * @param array() $conditions
-     * @param int $limiteTraitementRecupere
-     * @return array()
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _traitementRefuser($conditions, $limiteTraitementRecupere) {
-        $traitementRefuser = $this->EtatFiche->find('all', [
-            'conditions' => [
-                $conditions,
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-            'limit' => $limiteTraitementRecupere
-        ]);
-
-        return ($traitementRefuser);
-    }
-
-    /**
-     * Calcule le nombre de traitements refusés en base de données
-     * 
-     * @param array() $conditions
-     * @return int
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _nbTraitementRefuser($conditions) {
-        $nbTraitementRefuser = $this->EtatFiche->find('count', [
-            'conditions' => [
-                $conditions,
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ]
-        ]);
-
-        return ($nbTraitementRefuser);
-    }
-
-    /**
-     * 
-     * @param int $limiteTraitementRecupere
-     * @return array()
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _traitementRecuEnValidation($limiteTraitementRecupere) {
-        $traitementRecuEnValidation = $this->EtatFiche->find('all', [
-            'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::ENCOURS_VALIDATION,
-                'EtatFiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ],
-                'PreviousUser' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-            'limit' => $limiteTraitementRecupere
-        ]);
-
-        foreach ($traitementRecuEnValidation as $key => $traitement) {
-            $remplieTypeDeclaration = $this->_typeDeclarationRemplie($traitement['Fiche']['id']);
-
-            $traitementRecuEnValidation[$key]['Fiche']['typedeclaration'] = $remplieTypeDeclaration;
-        }
-
-        return ($traitementRecuEnValidation);
-    }
-
-    /**
-     * 
-     * @return int
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _nbTraitementRecuEnValidation() {
-        $nbTraitementRecuEnValidation = $this->EtatFiche->find('count', [
-            'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::ENCOURS_VALIDATION,
-                'EtatFiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ],
-                'PreviousUser' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ]
-        ]);
-
-        return ($nbTraitementRecuEnValidation);
-    }
-
-    /**
-     * 
-     * @param int $limiteTraitementRecupere
-     * @return array()
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _traitementRecuEnConsultation($limiteTraitementRecupere) {
-        // Requète récupérant les fiches qui demande un avis
-        $traitementRecuEnConsultation = $this->EtatFiche->find('all', [
-            'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::DEMANDE_AVIS,
-                'EtatFiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ],
-                'PreviousUser' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-            'limit' => $limiteTraitementRecupere
-        ]);
-
-        return ($traitementRecuEnConsultation);
-    }
-
-    /**
-     * 
-     * @return int
-     * 
-     * @access protected
-     * @created 10/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _nbTraitementRecuEnConsultation() {
-        // Requète récupérant les fiches qui demande un avis
-        $nbTraitementRecuEnConsultation = $this->EtatFiche->find('count', [
-            'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::DEMANDE_AVIS,
-                'EtatFiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ],
-                'PreviousUser' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ]
-        ]);
-
-        return ($nbTraitementRecuEnConsultation);
-    }
-
-    /**
-     * Requète récupérant les traitements validées par le CIL créé par l'utilisateur
-     * 
-     * @param int $limiteTraitementRecupere
-     * @return array()
-     * 
-     * @access protected
-     * @created 13/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _traitementArchives($limiteTraitementRecupere) {
-        $traitementArchives = $this->EtatFiche->find('all', [
-            'conditions' => [
-                'EtatFiche.etat_id' => [
-                    EtatFiche::VALIDER_CIL ,
-                    EtatFiche::ARCHIVER
-                ],
-                'EtatFiche.actif' => true,
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-            'limit' => $limiteTraitementRecupere
-        ]);
-
-        return ($traitementArchives);
-    }
-
-    /**
-     * Requète récupérant le nombre de traitement validées par le CIL et créé 
-     * par l'utilisateur connecté
-     * 
-     * @return int $nbTraitementArchives --> nombre de traitement avec l'état
-     * archivé 
-     * 
-     * @access protected
-     * @created 13/02/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop>
-     */
-    protected function _nbTraitementArchives() {
-        $nbTraitementArchives = $this->EtatFiche->find('count', [
-            'conditions' => [
-                'EtatFiche.etat_id' => EtatFiche::VALIDER_CIL,
-                'Fiche.user_id' => $this->Auth->user('id'),
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ]
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ]
-        ]);
-
-        return ($nbTraitementArchives);
-    }
-
-    /**
-     * On récupéré tous les traitements ou l'utilisateur connecté a 
-     * effectué une action dessus, qui font partie de l'organisation 
-     * en cours en excluant les traitements ou l'utilisatuer connecté est
-     * à l'origine avec une limite de 5 si c'est pour l'affichage de 
-     * pannel/index sinon on récupére tous.
-     * 
-     * @param type $limiteTraitementRecupere
-     * @return type
-     * 
-     * @access protected
-     * @created 06/03/2017
-     * @version V1.0.0
-     * @author Théo GUILLON <theo.guillon@libriciel.coop> 
-     */
-    protected function _traitementConnaissance($limiteTraitementRecupere) {
-        $sq = array(
-            'alias' => 'etat_fiches',
-            'fields' => array('"etat_fiches"."fiche_id"'),
-            'contain' => false,
-            'limit' => 1
-        );
-
-        $traitementConnaissances = $this->EtatFiche->find('all', [
-            $sq,
-            'conditions' => [
-                'EtatFiche.user_id' => $this->Auth->user('id'),
-                'EtatFiche.fiche_id NOT IN ( ' . $this->EtatFiche->sql($sq) . ')',
-                'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
-                'Fiche.user_id NOT IN ( ' . $this->Auth->user('id') . ')'
-            ],
-            'contain' => [
-                'Fiche' => [
-                    'fields' => [
-                        'id',
-                        'user_id',
-                        'organisation_id',
-                        'created',
-                        'modified'
-                    ],
-                    'User' => [
-                        'fields' => [
-                            'id',
-                            'nom',
-                            'prenom'
-                        ]
-                    ],
-                    'Valeur' => [
-                        'conditions' => [
-                            'champ_name' => 'outilnom'
-                        ],
-                        'fields' => [
-                            'champ_name',
-                            'valeur'
-                        ]
-                    ],
-                ],
-                'User' => [
-                    'fields' => [
-                        'id',
-                        'nom',
-                        'prenom'
-                    ]
-                ]
-            ],
-          //  'limit' => $limiteTraitementRecupere
-        ]);
-
-        if (empty($traitementConnaissances)) {
-            $commentairesUser = $this->Commentaire->find('all', [
-                'order' => ['id' => 'desc'],
-                'conditions' => [
-                    'user_id' => $this->Auth->user('id')
-                ],
-                'fields' => 'etat_fiches_id'
-            ]);
-
-            if (!empty($commentairesUser)) {
-                foreach ($commentairesUser as $commentaireUser){
-                    $idEtatFiche[] = $commentaireUser['Commentaire']['etat_fiches_id'];
-                }
-
-                $idEtatFiche = array_unique($idEtatFiche);
-
-                $traitementConnaissances = $this->EtatFiche->find('all', [
-                    $sq,
-                    'conditions' => [
-                        'EtatFiche.id' => $idEtatFiche, 
-                        'Fiche.organisation_id' => $this->Session->read('Organisation.id'),
-                        'Fiche.user_id NOT IN ( ' . $this->Auth->user('id') . ')'
-                    ],
-                    'contain' => [
-                        'Fiche' => [
-                            'fields' => [
-                                'id',
-                                'created',
-                                'modified'
-                            ],
-                            'User' => [
-                                'fields' => [
-                                    'id',
-                                    'nom',
-                                    'prenom'
-                                ]
-                            ],
-                            'Valeur' => [
-                                'conditions' => [
-                                    'champ_name' => 'outilnom'
-                                ],
-                                'fields' => [
-                                    'champ_name',
-                                    'valeur'
-                                ]
-                            ],
-                        ],
-                        'User' => [
-                            'fields' => [
-                                'id',
-                                'nom',
-                                'prenom'
-                            ]
-                        ]
-                    ],
-                    'limit' => $limiteTraitementRecupere
-                ]);
-            }
-        }
-
-        $return = [];
-        $inArray = [];
-        $validees = [];
-        foreach ($traitementConnaissances as $res) {
-            if (!in_array($res['EtatFiche']['fiche_id'], $inArray)) {
-                array_push($inArray, $res['EtatFiche']['fiche_id']);
-                array_push($return, $res);
-            }
-        }
-        
-
-        
-        $etatFicheActuels = [];
-        foreach ($return as $key => $ret) {
-            //On récupére l'état actuel de la fiche
-            $etatFicheActuels[] = current($this->EtatFiche->find('all', [
-                        'conditions' => [
-                            'fiche_id' => $ret['EtatFiche']['fiche_id'],
-                            'actif' => true
-                        ]
-            ]));
-
-            //On met a jour l'état
-            if ($ret['EtatFiche']['fiche_id'] == $etatFicheActuels[$key]['EtatFiche']['fiche_id']) {
-                $ret['EtatFiche']['etat_id'] = $etatFicheActuels[$key]['EtatFiche']['etat_id'];
-                $ret['EtatFiche']['user_id_actuel'] = $etatFicheActuels[$key]['EtatFiche']['user_id'];
-                $ret['EtatFiche']['id'] = $etatFicheActuels[$key]['EtatFiche']['id'];
-            }
-
-            $validees[] = $ret;
-        }
-        
-        if($limiteTraitementRecupere > 0){
-            return (array_slice($validees, 0, $limiteTraitementRecupere, true));
-        } else {
-            return ($validees);
-        }
     }
 
     /**

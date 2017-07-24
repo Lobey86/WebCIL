@@ -1,517 +1,183 @@
 <?php
+
 echo $this->Html->script('pannel.js');
+echo $this->Html->script('registre.js');
+
+$params = ['limit' => false];
 
 // balise du scrollTo
 $idFicheNotification = $this->Session->read('idFicheNotification');
 unset($_SESSION['idFicheNotification']);
 
-if ($this->Autorisation->authorized(2, $droits)) {
-?>
-    <!-- Banette reçues en validation -->
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3 class="panel-title"><?php
-                        echo __d('pannel', 'pannel.traitementValidation') . $nbTaitementRecuEnValidation . ')';
-                        ?>
-                    </h3>
-                </div>
-            </div>
-        </div>
+// Banette traitements reçus pour validation
+echo $this->Banettes->recuValidation($banettes['recuValidation'], $params);
 
-        <div class="panel-body panel-body-custom">
-            <?php
-            if (!empty($traitementRecuEnValidation)) {
-                ?>
-                <!-- Tableau des traitements en cours de rédaction -->
-                <table class="table">
-                    <!-- Titre tableau -->
-                    <thead>
-                            <!-- Etat -->
-                            <th class="col-md-1">
-                                <?php echo __d('pannel', 'pannel.motEtat'); ?>
-                            </th>
+// Pop-up envoie consultation
+echo $this->element(
+    'modal',
+    [
+        'modalId' => 'modalEnvoieConsultation',
+        'content' => [
+            'title' => __d('pannel', 'pannel.popupEnvoyerTraitementConsultation'),
+            'body' => $this->Html->tag(
+                'div',
+                $this->Form->create('EtatFiche', array('action' => 'askAvis'))
+                .$this->Form->input('destinataire', [
+                    'class' => 'form-control usersDeroulant transformSelect form-control bottom5',
+                    'label' => [
+                        'text' => __d('pannel', 'pannel.textSelectUserConsultant') . '<span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'options' => $consultants,
+                    'empty' => __d('pannel', 'pannel.textSelectUserConsultant'),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'required' => true,
+                    'autocomplete' => 'off',
+                    'id' => 'destinataireCons'
+                ])
+                .$this->Form->hidden('ficheNum', ['id' => 'ficheNumCons'])
+                .$this->Form->hidden('etatFiche', ['id' => 'etatFicheCons']),
+                ['class' => 'form-group']
+            ),
+            'footer' => $this->Html->tag(
+                'div',
+                $this->Form->button(
+                    '<i class="fa fa-times-circle fa-lg"></i>'
+                    .__d('default', 'default.btnAnnuler'),
+                    ['class' => 'btn btn-default-default', 'data-dismiss' => 'modal']
+                )
+                .$this->Form->button("<i class='fa fa-send fa-lg'></i>" . __d('default', 'default.btnEnvoyer'), array(
+                    'type' => 'submit',
+                    'class' => 'btn btn-default-success',
+                    'escape' => false
+                )),
+                ['class' => 'btn-group']
+            )
+            .$this->Form->end()
+        ]
+    ]
+);
 
-                            <!-- Nom du traitement -->
-                            <th class="col-md-3">
-                                <?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                            </th>
+// Pop-up envoie validation
+echo $this->element(
+    'modal',
+    [
+        'modalId' => 'modalEnvoieValidation',
+        'content' => [
+            'title' => __d('pannel', 'pannel.popupEnvoyerTraitementValidation'),
+            'body' => $this->Html->tag(
+                'div',
+                $this->Form->create('EtatFiche', array('action' => 'sendValidation'))
+                .$this->Form->input('destinataire', [
+                    'class' => 'form-control usersDeroulant transformSelect form-control bottom5',
+                    'label' => [
+                        'text' => __d('pannel', 'pannel.textSelectUserValideur') . '<span class="requis">*</span>',
+                        'class' => 'col-md-4 control-label'
+                    ],
+                    'options' => $validants,
+                    'empty' => __d('pannel', 'pannel.textSelectUserValideur'),
+                    'between' => '<div class="col-md-8">',
+                    'after' => '</div>',
+                    'required' => true,
+                    'autocomplete' => 'off',
+                    'id' => 'destinataireVal'
+                ])
+                .$this->Form->hidden('ficheNum', ['id' => 'ficheNumVal'])
+                .$this->Form->hidden('etatFiche', ['id' => 'etatFicheVal']),
+                ['class' => 'form-group']
+            ),
+            'footer' => $this->Html->tag(
+                'div',
+                $this->Form->button(
+                    '<i class="fa fa-times-circle fa-lg"></i>'
+                    .__d('default', 'default.btnAnnuler'),
+                    ['class' => 'btn btn-default-default', 'data-dismiss' => 'modal']
+                )
+                .$this->Form->button("<i class='fa fa-send fa-lg'></i>" . __d('default', 'default.btnEnvoyer'), array(
+                    'type' => 'submit',
+                    'class' => 'btn btn-default-success',
+                    'escape' => false
+                )),
+                ['class' => 'btn-group']
+            )
+            .$this->Form->end()
+        ]
+    ]
+);
 
-                            <!-- Créé par -->
-                            <th class="col-md-3">
-                                <?php echo __d('pannel', 'pannel.motCreee'); ?>
-                            </th>
-
-                            <!-- Dernière modification le -->
-                            <th class="col-md-3">
-                                <?php echo __d('pannel', 'pannel.motDerniereModification'); ?>
-                            </th>
-
-                            <!-- Actions  -->
-                            <th class="col-md-2">
-                                <?php echo __d('pannel', 'pannel.motActions'); ?>
-                            </th>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach ($traitementRecuEnValidation as $donnee) {
-                            ?>
-                            <tr>
-                                <!-- Etat du traitement -->
-                                <td class='tdleft col-md-1'>
-                                    <div class="etatIcone">
-                                        <i class="fa fa-check-square-o fa-3x"></i>
-                                        </br>
-                                        <?php echo ("En attente de validation"); ?>
-                                    </div>
-                                </td>
-
-                                <!-- Nom du traitement -->
-                                <td class='tdleft'>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong><?php echo __d('pannel', 'pannel.motNomTraitement'); ?>
-                                            </strong> <?php echo $donnee['Fiche']['Valeur'][0]['valeur']; ?>
-                                        </div>
-
-                                    </div>
-                                </td>
-
-                                <!-- Créé par -->
-                                <td class='tdleft'>
-                                    <?php 
-                                        echo $donnee['Fiche']['User']['prenom'] . ' ' . $donnee['Fiche']['User']['nom'] . ' le ' . $this->Time->format($donnee['Fiche']['created'], FORMAT_DATE_HEURE);
-                                    ?>
-                                </td>
-
-                                <!-- Dernière modification le -->
-                                <td class='tdleft'>
-                                    <?php 
-                                        echo $this->Time->format($donnee['Fiche']['modified'], FORMAT_DATE_HEURE); 
-                                    ?>
-                                </td>
-
-                                <!-- Actions -->
-                                <td class='tdleft'>
-                                    <div id='<?php echo $donnee['Fiche']['id']; ?>' class="btn-group">
-                                        <?php
-                                        // Visualiser le traitement
-                                        echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', [
-                                            'controller' => 'fiches',
-                                            'action' => 'show',
-                                            $donnee['Fiche']['id']
-                                                ], [
-                                            'class' => 'btn btn-default-default boutonShow btn-sm my-tooltip',
-                                            'escapeTitle' => false,
-                                            'title' => __d('pannel', 'pannel.commentaireVoirTraitement'),
-                                        ]);
-
-                                        // Modifier le traitement
-                                        echo $this->Html->link('<span class="fa fa-pencil fa-lg"></span>', [
-                                            'controller' => 'fiches',
-                                            'action' => 'edit',
-                                            $donnee['Fiche']['id']
-                                                ], [
-                                            'class' => 'btn btn-default-default boutonEdit btn-sm my-tooltip',
-                                            'escapeTitle' => false,
-                                            'title' => __d('pannel', 'pannel.commentaireModifierTraitement')
-                                        ]);
-                                        ?>
-                                        <button type='button'
-                                                class='btn btn-default-default boutonListAValider btn-sm my-tooltip'
-                                                title= '<?php echo __d('pannel', 'pannel.commentaireVoirParcours'); ?>'
-                                                id='<?php echo $donnee['Fiche']['id']; ?>'
-                                                value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                            <span class='fa fa-history fa-lg'></span>
-                                        </button>
-
-                                        <button
-                                            class='btn btn-default-success dropdown-toggle boutonValider btn-sm my-tooltip'
-                                            type='button'
-                                            title= '<?php echo __d('pannel', 'pannel.commentaireValiderTraitement'); ?>'
-                                            id='dropdownMenuValider' data-toggle='dropdown'>
-                                            <span class='fa fa-check fa-lg'></span>
-                                            <span class='caret'></span>
-                                        </button>
-
-                                        <ul class='dropdown-menu' role='menu' aria-labelledby='dropdownMenuValider'>
-                                            <?php
-                                            if (!empty($consultants)){
-                                                ?>
-                                                <!-- Envoyer pour consultation -->
-                                                <li role='presentation'>
-                                                    <?php
-                                                        echo $this->Html->link(__d('pannel', 'pannel.textEnvoyerConsultation'), ['#' => '#'], [
-                                                            'role' => 'menuitem',
-                                                            'tabindex' => -1,
-                                                            'escape' => false,
-                                                            'data-toggle' => 'modal',
-                                                            'data-target' => '#modalEnvoieConsultation',
-                                                            'data-id' => $donnee['Fiche']['id'],
-                                                            'data-fiche' => $donnee['EtatFiche']['id'],
-                                                            'class' => 'btn_envoyerConsultation'
-                                                        ]);
-                                                    ?>
-                                                </li>
-                                            <?php
-                                            }
-
-                                            if (!empty($validants)){
-                                                ?>
-                                                <!-- Envoyer pour validation -->
-                                                <li role='presentation'>
-                                                    <?php
-                                                        echo $this->Html->link(__d('pannel', 'pannel.textValiderEnvoyerValidation'), ['#' => '#'], [
-                                                            'role' => 'menuitem',
-                                                            'tabindex' => -1,
-                                                            'escape' => false,
-                                                            'data-toggle' => 'modal',
-                                                            'data-target' => '#modalEnvoieValidation',
-                                                            'data-id' => $donnee['Fiche']['id'],
-                                                            'data-fiche' => $donnee['EtatFiche']['id'],
-                                                            'class' => 'btn_envoyerValideur'
-                                                        ]);
-                                                    ?>
-                                                </li>
-                                                <?php
-                                            }    
-
-                                            if (!$this->Autorisation->isCil()) {
-                                                echo "<li role='presentation'>" . $this->Html->link(__d('pannel', 'pannel.textValiderEnvoyerCIL'), [
-                                                    'controller' => 'etatFiches',
-                                                    'action' => 'cilValid',
-                                                    $donnee['Fiche']['id']
-                                                        ], [
-                                                    'role' => 'menuitem',
-                                                    'tabindex' => '-1'
-                                                ]) . "</li>";
-                                            } else {
-                                                echo "
-                                                    <li role='presentation'>" . $this->Html->link(__d('pannel', 'pannel.textValiderInsererRegistre'), ['#' => '#'], [
-                                                    'role' => 'menuitem',
-                                                    'tabindex' => '-1',
-                                                    'data-toggle' => 'modal',
-                                                    'data-target' => '#modalValidCil',
-                                                    'data-type' => $donnee['Fiche']['typedeclaration'],
-                                                    'data-id' => $donnee['Fiche']['id'],
-                                                    'class' => 'btn-insert-registre'
-                                                ]) . "</li> ";
-                                            }
-                                            ?>
-                                        </ul>
-                                    </div>
-
-                                    <!-- Refuser le traitement -->
-                                    <button type='button'
-                                            class='btn btn-default-danger boutonRefuser btn-sm my-tooltip'
-                                            title='<?php echo __d('pannel','pannel.commentaireRefuserTraitement'); ?>'
-                                            value='<?php echo $donnee['Fiche']['id']; ?>'>
-                                        <span class='fa fa-times fa-lg'></span>
-                                    </button>
-
-                                </td>
-                            </tr>
-
-                            <!-- Liste de l'historique du traitement -->
-                            <tr class='listeAValider' id='listeAValider<?php echo $donnee['Fiche']['id']; ?>'>
-                                <td></td>
-
-                                <td class='tdleft' colspan='3'>
-                                    <?php
-                                    $parcours = $this->requestAction([
-                                        'controller' => 'Pannel',
-                                        'action' => 'parcours',
-                                        $donnee['Fiche']['id']
-                                    ]);
-
-                                    echo $this->element('parcours', [
-                                        'parcours' => $parcours
-                                    ]);
-                                    ?>
-                                </td>
-
-                                <td class="tdleft">
-                                    <?php
-                                    $historique = $this->requestAction([
-                                        'controller' => 'Pannel',
-                                        'action' => 'getHistorique',
-                                        $donnee['Fiche']['id']
-                                    ]);
-
-                                    echo $this->element('historique', [
-                                        'historique' => $historique,
-                                        'id' => $donnee['Fiche']['id']
-                                    ]);
-                                    ?>
-                                </td>
-                                <td></td>
-                            </tr>
-
-                            <tr class='commentaireRefus<?php echo $donnee['Fiche']['id']; ?>'>
-                                <td></td>
-                                <td colspan='2' class='tdleft'>
-                                    <?php
-                                    echo $this->Form->create('EtatFiche', $options = ['action' => 'refuse']);
-                                    echo $this->Form->input('content', [
-                                        'div' => 'input-group inputsForm',
-                                        'label' => false,
-                                        'before' => '<span class="labelFormulaire">'.__d('pannel','pannel.textExpliquezRaisonRefus').'</span><span class="obligatoire"> *</span>',
-                                        'class' => 'form-control',
-                                        'required' => true,
-                                        'type' => 'textarea'
-                                    ]);
-                                    echo $this->Form->hidden('ficheNum', ['value' => $donnee['Fiche']['id']]);
-                                    echo $this->Form->hidden('etatFiche', ['value' => $donnee['EtatFiche']['id']]);
-                                    echo '<div class="btn-group">';
-                                    echo $this->Form->button('<i class="fa fa-times-circle fa-lg"></i>' . __d('default', 'default.btnAnnuler'), array(
-                                        'type' => 'button',
-                                        'class' => 'btn btn-default-default refusCancel top5'
-                                    ));
-                                    echo $this->Form->button('<i class="fa fa-check"></i>' . __d('default', 'default.btnEnvoyer'), [
-                                        'type' => 'submit',
-                                        'class' => 'btn btn-default-success pull-right top5'
-                                    ]);
-                                    echo '</div>';
-                                    echo $this->Form->end();
-                                    ?>
-                                </td>
-                            </tr>
-
-                            <tr class='completion'></tr>
-                            <?php
-                        }
-                        ?>
-                    </tbody>
-                </table>
-                <?php
-            } else {
-                ?>
-                <div class='text-center'>
-                    <h3> 
-                        <?php echo __d('pannel', 'pannel.aucunTraitementValidation'); ?>
-                    </h3>
-                </div>
-                <?php
-            }
-            ?>
-        </div>
-    </div> 
-    <?php
-}
-?>
-
-<div class="modal fade" id="modalValidCil" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Insertion au registre</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12 text-warning">
-                        <div class="col-md-12 text-center">
-                            <i class="fa fa-fw fa-exclamation-triangle"></i>
-                        </div>
-                        <div class="col-md-12">
-                            <?php echo __d('pannel','pannel.confirmationInsererRegistre');?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row top17">
-                    <div class="col-md-12">
-                        <?php
-                        echo $this->Form->create('Registre', [
-                            'action' => 'add',
-                            'class' => 'form-horizontal'
-                        ]);
-
-                        echo $this->Form->input('numero', [
-                            'label' => [
-                                'text' => 'Numéro d\'enregistrement',
-                                'class' => 'col-md-4 control-label'
-                            ],
-                            'between' => '<div class="col-md-8">',
-                            'after' => '</div>',
-                            'class' => 'form-control',
-                            'div' => 'form-group',
-                        ]);
-                        
-                        echo $this->Form->input('typedeclaration', [
-                            'label' => [
-                                'text' => 'Type de déclaration',
-                                'class' => 'col-md-4 control-label'
-                            ],
-                            'between' => '<div class="col-md-8">',
-                            'after' => '</div>',
-                            'class' => 'form-control',
-                            'div' => 'form-group',
-                            'id' => 'typedeclaration'
-                        ]);
-
-                        echo $this->Form->hidden('idfiche', ['id' => 'idFiche']);
-                        ?>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default-default" data-dismiss="modal">
-                        <i class="fa fa-times-circle fa-lg"></i>
-                        <?php echo __d('default', 'default.btnAnnuler'); ?>
-                    </button>
-                    <?php
-                    echo $this->Form->button("<i class='fa fa-floppy-o fa-lg'></i>" . __d('default', 'default.btnEnregistrer'), array(
-                        'type' => 'submit',
-                        'class' => 'btn btn-default-success',
-                        'escape' => false
-                    ));
-                    ?>
-                </div>
-                <?php
-                echo $this->Form->end();
-                ?>
-            </div> 
-        </div>
-    </div>
-</div>
-
-<!-- Pop-up envoie consultation -->
-<div class="modal fade" id="modalEnvoieConsultation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-                <h4 class="modal-title" id="myModalLabel">
-                    <?php echo __d('pannel', 'pannel.popupEnvoyerTraitementConsultation'); ?>
-                </h4>
-            </div>
-            
-            <div class="modal-body">
-                <div class="form-group">
-                    <?php 
-
-                    echo $this->Form->create('EtatFiche', array('action' => 'askAvis'));
-
-                    echo $this->Form->input('destinataire', [
-                        'class' => 'form-control usersDeroulant transformSelect form-control bottom5',
+// Pop-up inséré traitement registre
+echo $this->element(
+    'modal',
+    [
+        'modalId' => 'modalValidCil',
+        'content' => [
+            'title' => 'Insertion au registre',            
+            'body' => $this->Html->tag(
+                'div',
+                $this->Html->tag(
+                    'div',
+                    $this->Html->tag(
+                        'div',
+                        '<i class="fa fa-fw fa-exclamation-triangle"></i>',
+                        ['class' => 'col-md-12 text-center']
+                    )
+                    .$this->Html->tag(
+                        'div',
+                        __d('pannel','pannel.confirmationInsererRegistre'),
+                        ['class' => 'col-md-12']
+                    ),
+                    ['class' => 'col-md-12 text-warning']
+                ),
+                ['class' => 'row']
+            )
+            .$this->Html->tag(
+                'div',
+                $this->Html->tag(
+                    'div',
+                    $this->Form->create('Registre', array('action' => 'add'))
+                    .$this->Form->input('numero', [
                         'label' => [
-                            'text' => __d('pannel', 'pannel.textSelectUserConsultant') . '<span class="requis">*</span>',
+                            'text' => 'Numéro d\'enregistrement',
                             'class' => 'col-md-4 control-label'
                         ],
-                        'options' => $consultants,
-                        'empty' => __d('pannel', 'pannel.textSelectUserConsultant'),
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'required' => true,
-                        'autocomplete' => 'off'
-                    ]);
-
-                    echo $this->Form->hidden('ficheNum', ['id' => 'ficheNumCons']);
-                    echo $this->Form->hidden('etatFiche', ['id' => 'etatFicheCons']);
-                    ?>
-                </div>
-            </div>
-            
-            </hr>
-            
-            <div class="modal-footer">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default-default" data-dismiss="modal">
-                        <i class="fa fa-times-circle fa-lg"></i>
-                        <?php echo __d('default', 'default.btnAnnuler'); ?>
-                    </button>
-                    <?php
-                    echo $this->Form->button("<i class='fa fa-send fa-lg'></i>" . __d('default', 'default.btnEnvoyer'), array(
-                        'type' => 'submit',
-                        'class' => 'btn btn-default-success',
-                        'escape' => false
-                    ));
-                    ?>
-                </div>
-                <?php
-                echo $this->Form->end();
-                ?>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Pop-up envoie validation -->
-<div class="modal fade" id="modalEnvoieValidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-                <h4 class="modal-title" id="myModalLabel">
-                    <?php echo __d('pannel', 'pannel.popupEnvoyerTraitementValidation'); ?>
-                </h4>
-            </div>
-            
-            <div class="modal-body">
-                <div class="form-group">
-                    <?php 
-                    echo $this->Form->create('EtatFiche', array('action' => 'sendValidation'));
-
-                    echo $this->Form->input('destinataire', [
-                        'class' => 'form-control usersDeroulant transformSelect form-control bottom5',
+                        'class' => 'form-control',
+                        'div' => 'form-group',
+                        'id' => 'numero'
+                    ])
+                    .$this->Form->input('typedeclaration', [
                         'label' => [
-                            'text' => __d('pannel', 'pannel.textSelectUserValideur') . '<span class="requis">*</span>',
+                            'text' => 'Type de déclaration',
                             'class' => 'col-md-4 control-label'
                         ],
-                        'options' => $validants,
-                        'empty' => __d('pannel', 'pannel.textSelectUserValideur'),
                         'between' => '<div class="col-md-8">',
                         'after' => '</div>',
-                        'required' => true,
-                        'autocomplete' => 'off'
-                    ]);
-                    
-                    echo $this->Form->hidden('ficheNum', ['id' => 'ficheNumVal']);
-                    echo $this->Form->hidden('etatFiche', ['id' => 'etatFicheVal']);
-                    ?>
-                </div>
-            </div>
-            
-            </hr>
-            
-            <div class="modal-footer">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default-default" data-dismiss="modal">
-                        <i class="fa fa-times-circle fa-lg"></i>
-                        <?php echo __d('default', 'default.btnAnnuler'); ?>
-                    </button>
-                    <?php
-                    echo $this->Form->button("<i class='fa fa-send fa-lg'></i>" . __d('default', 'default.btnEnvoyer'), array(
-                        'type' => 'submit',
-                        'class' => 'btn btn-default-success',
-                        'escape' => false
-                    ));
-                    ?>
-                </div>
-                <?php
-                echo $this->Form->end();
-                ?>
-            </div>
-        </div>
-    </div>
-</div>      
-
-<script type="text/javascript">
-
-    $(document).ready(function () {
-
-        openTarget("<?php echo $idFicheNotification ?>");
-        
-    });
-
-</script>
+                        'class' => 'form-control',
+                        'div' => 'form-group',
+                        'id' => 'typedeclaration'
+                    ])
+                    .$this->Form->hidden('idfiche', ['id' => 'idFiche']),
+                    ['class' => 'col-md-12 form-horizontal']
+                ),
+                ['class' => 'row top17']
+            ),
+            'footer' => $this->Html->tag(
+                'div',
+                $this->Form->button(
+                    '<i class="fa fa-times-circle fa-lg"></i>'
+                    .__d('default', 'default.btnAnnuler'),
+                    ['class' => 'btn btn-default-default', 'data-dismiss' => 'modal']
+                )
+                .$this->Form->button("<i class='fa fa-floppy-o fa-lg'></i>" . __d('default', 'default.btnEnregistrer'), array(
+                    'type' => 'submit',
+                    'class' => 'btn btn-default-success',
+                    'escape' => false
+                )),
+                ['class' => 'btn-group']
+            )
+            .$this->Form->end()
+        ]
+    ]
+);
