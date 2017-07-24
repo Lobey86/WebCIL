@@ -616,7 +616,7 @@ $cakeDescription = 'Web-CIL';
                 <div class="btn-group">
                     <button type="button" class="btn btn-default-default" data-dismiss="modal">
                         <i class="fa fa-arrow-left fa-fw"></i>
-                        <?php echo 'OK'; ?>
+                        <?php echo 'Retour'; ?>
                     </button>
                 </div>
             </div>
