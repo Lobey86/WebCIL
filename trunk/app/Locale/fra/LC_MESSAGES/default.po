@@ -119,6 +119,9 @@ msgstr " Retour"
 msgid "default.btnSave"
 msgstr " Enregistrer"
 
+msgid "default.btnSend"
+msgstr " Envoyer"
+
 msgid "default.btnCancel"
 msgstr " Annuler"
 
