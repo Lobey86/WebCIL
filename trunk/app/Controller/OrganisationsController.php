@@ -5,16 +5,16 @@
  * Controller des organisations
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil V1.0.0
@@ -38,7 +38,7 @@ class OrganisationsController extends AppController {
 
     /**
      * Accueil de la page, listing des organisations
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -47,9 +47,9 @@ class OrganisationsController extends AppController {
         if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $this->set('title', 'Les entités de l\'application');
-        
+
         $organisations = $this->Organisation->find('all');
 
         foreach ($organisations as $key => $value) {
@@ -64,7 +64,7 @@ class OrganisationsController extends AppController {
 
     /**
      * Gère l'ajout d'organisation
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -73,7 +73,7 @@ class OrganisationsController extends AppController {
         if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $this->set('title', 'Créer une entité');
 
         if ($this->request->is('post')) {
@@ -110,9 +110,9 @@ class OrganisationsController extends AppController {
     }
 
     /**
-     * 
+     *
      * @param int $id
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -121,29 +121,26 @@ class OrganisationsController extends AppController {
         if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
-        $success = false;
+
         $this->Organisation->begin();
-        
-        $success = $success && $this->Organisation->delete($id);
-        
-        if ($success == true) {
-            $this->Organisation->commit();
+
+		if (true === $this->Organisation->delete($id)) {
+			$this->Organisation->commit();
             $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteSupprimer'), 'flashsuccess');
-            
+
         } else {
             $this->Organisation->rollback();
-            $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteSupprimer'), 'flasherror');
+            $this->Session->setFlash(__d('organisation', 'organisation.flasherrorSupprimerOrganisationImpossible'), 'flasherror');
         }
-        
+
         $this->redirect($this->Referers->get());
     }
 
     /**
      * Gère l'affichage des informations d'une organisation
-     * 
+     *
      * @param int $id
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -152,9 +149,9 @@ class OrganisationsController extends AppController {
         if (true !== ($this->Droits->authorized($this->Droits->isSu()))) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
-        
+
         $this->set('title', 'Informations générales - ' . $this->Session->read('Organisation.raisonsociale'));
-        
+
         if (!$id) {
             $this->Session->setFlash(__d('default', 'default.flasherrorTraitementInexistant'), 'flasherror');
             $this->redirect([
@@ -191,7 +188,7 @@ class OrganisationsController extends AppController {
                     ]
                 ]
             ]);
-            
+
             if (!$organisation) {
                 $this->Session->setFlash(__d('organisation', 'organisation.flasherrorEntiteInexistant'), 'flasherror');
                 $this->redirect($this->Referers->get());
@@ -204,9 +201,9 @@ class OrganisationsController extends AppController {
 
     /**
      * Gère l'édition d'une organisation
-     * 
+     *
      * @param type $id
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -220,7 +217,7 @@ class OrganisationsController extends AppController {
             if('Cancel' === Hash::get($this->request->data, 'submit')) {
                 $this->redirect($this->Referers->get());
             }
-            
+
             $success = true;
             $this->Organisation->begin();
 
@@ -230,7 +227,7 @@ class OrganisationsController extends AppController {
 
             $success = false !== $this->Organisation->saveAddEditForm($data) && $success;
             //$success = false !== $this->Organisation->save($this->request->data, $id) && $success;
-            
+
             if (false === empty($this->request->data('Organisation.cil'))) {
                 $success = $this->_attributionRoleCIL($this->request->data('Organisation.cil'), $id) && $success;
             }
@@ -238,7 +235,7 @@ class OrganisationsController extends AppController {
             if ($success == true) {
                 $this->Organisation->commit();
                 $this->Session->setFlash(__d('organisation', 'organisation.flashsuccessEntiteModifier'), 'flashsuccess');
-                
+
                 $this->redirect($this->Referers->get());
             } else {
                 $this->Organisation->rollback();
@@ -309,7 +306,7 @@ class OrganisationsController extends AppController {
 
         $this->set('informationsUsers', $result);
     }
-    
+
     private function _attributionRoleCIL($idCIL, $idOrganisation) {
         $droitsCIL = [
             ListeDroit::REDIGER_TRAITEMENT,
@@ -325,9 +322,9 @@ class OrganisationsController extends AppController {
             ListeDroit::MODIFIER_PROFIL,
             ListeDroit::SUPPRIMER_PROFIL
         ];
-        
+
         $success = true;
-        
+
         // On récupére l'id du nouveau CIL dans l'organisation
         $idOrganisationUser = $this->OrganisationUser->find('first', [
             'conditions' => [
@@ -337,12 +334,12 @@ class OrganisationsController extends AppController {
                 'id'
             ]
         ]);
-        
+
         // On supprime tout les droits du nouveau CIL
         $success = $success &&  $this->Droit->deleteAll([
             'organisation_user_id' => $idOrganisationUser['OrganisationUser']['id']
         ]);
-        
+
         // ON lui attribue de nouveau droits 'administrateur'
         foreach ($droitsCIL as $droitCIL) {
             $this->Droit->create([
@@ -353,7 +350,7 @@ class OrganisationsController extends AppController {
             ]);
             $success = $success && false !== $this->Droit->save();
         }
-        
+
         if ($success == true) {
             // On supprime l'ancien role du nouveau CIL
             $success = $success &&  $this->OrganisationUserRoles->deleteAll([
@@ -369,18 +366,18 @@ class OrganisationsController extends AppController {
             ]);
             $success = $success && false !== $this->OrganisationUserRoles->save();
         }
-      
+
         return $success;
     }
 
     /**
      * Change l'organisation si besoin et redirige vers la bonne view
-     * 
+     *
      * @param int|null $id
      * @param string|null $controller
      * @param string|null $action
      * @param int|0 $idFicheNotification
-     * 
+     *
      * @access public
      * @created 08/01/2016
      * @version V1.0.0
@@ -430,12 +427,12 @@ class OrganisationsController extends AppController {
 
     /**
      * Changement d'organisation
-     * 
+     *
      * @param int|null $id
      * @param type|null $redirect
      * @param type|null $controller
      * @param type|null $action
-     * 
+     *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
@@ -517,7 +514,7 @@ class OrganisationsController extends AppController {
 
     /**
      * @param int|null $id
-     * 
+     *
      * @access protected
      * @created 29/04/2015
      * @version V1.0.0
