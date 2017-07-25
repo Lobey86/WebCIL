@@ -44,200 +44,150 @@ class UsersController extends AppController {
     ];
 
     /**
-     * Récupère le beforefilter de AppController (login)
+     * Liste des utilisateurs (Liste des utilisateurs de l'application)
      *
      * @access public
      * @created 17/06/2015
      * @version V1.0.0
      */
-    public function beforeFilter() {
-        parent::beforeFilter();
-    }
-
-    /**
-     * Index des utilisateurs. Liste les utilisateurs enregistrés
-     *
-     * @access public
-     * @created 17/06/2015
-     * @version V1.0.0
-     */
-    public function index() {
-        if (true !== $this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR])) {
+	public function index() {
+        if ('admin_index' === $this->request->params['action'] && true !== $this->Droits->isSu()) {
+            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
+        } else if ('index' === $this->request->params['action'] && true !== $this->Droits->authorized([ListeDroit::CREER_UTILISATEUR, ListeDroit::MODIFIER_UTILISATEUR, ListeDroit::SUPPRIMER_UTILISATEUR])) {
             throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
         }
 
-        $this->set('title', __d('user', 'user.titreListeUser'));
-
-        // Récupération du CIL de l'entité en cour
-        $cil = $this->Organisation->find('first', [
-            'conditions' => [
-                'id' => $this->Session->read('Organisation.id')
-            ],
-            'fields' => [
-                'cil'
-            ]
-        ]);
-        // On récupére l'id du cil
-        $cil = Hash::get($cil, 'Organisation.cil');
-        $this->set('cil', $cil);
+		$conditions = [];
+		if('admin_index' !== $this->request->params['action']) {
+			$conditions = [
+				'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
+			];
+		}
 
         $query = [
-            'conditions' => [],
+			'fields' => array_merge(
+				$this->User->fields(),
+				['User.nom_complet']
+			),
+			'joins' => [
+				$this->User->join('OrganisationUser', ['type' => 'LEFT OUTER'])
+			],
             'contain' => [
-                'User' => [
-                    'id',
-                    'username',
-                    'civilite',
-                    'nom',
-                    'prenom',
-                    'created'
-                ],
-//                    'OrganisationUserService' => [
-//                        'Service' => ['libelle']
-//                    ],
-                'OrganisationUserRole' => [
-                    'Role' => ['libelle']
-                ]
-            ]
+				'Organisation' => [
+					'fields' => [
+						'Organisation.raisonsociale',
+						'("OrganisationUser"."id" IS NOT NULL AND "Organisation"."cil" IS NOT NULL AND "Organisation"."cil" = "OrganisationUser"."user_id") AS "OrganisationUser__is_cil"',
+					],
+					'order' => ['Organisation.raisonsociale ASC']
+				]
+			],
+			'conditions' => $conditions,
+			'group' => $this->User->fields(),
+			'order' => 'User.nom_complet_court ASC',
+			'limit' => 20
         ];
 
-        if ($this->Droits->isSu()) {
-            if ($this->request->is('post')) {
-                // Filtre par profil
-                $profil = (string)Hash::get($this->request->data, 'users.profil');
-                if ('' !== $profil) {
-                    $subQuery = [
-                        'alias' => 'organisation_user_roles',
-                        'fields' => ['organisation_user_roles.organisation_user_id'],
-                        'joins' => [
-                            words_replace(
-                                $this->User->OrganisationUserRole->join('Role', ['type' => 'INNER']),
-                                ['Role' => 'roles', 'OrganisationUserRole' => 'organisation_user_roles']
-                            )
-                        ],
-                        'conditions' => [
-                            'roles.libelle' => $profil
-                        ]
-                    ];
-                    $sql = $this->User->OrganisationUserRole->sql($subQuery);
-                    $query['conditions'][] = "OrganisationUser.id IN ({$sql})";
-                }
+		// "Transformation" des paramètres nommés en request params pour le filtre et la pagination
+		$named = Hash::expand((array)Hash::get($this->request->params, 'named'));
+		if(false === empty($named)) {
+			$this->request->data = $named;
+		}
 
-                // Filtre par entité
-                $organisation_id = (string)Hash::get($this->request->data, 'users.organisation');
-                if ('' !== $organisation_id) {
-                    $query['conditions']['OrganisationUser.organisation_id'] = $organisation_id;
-                }
+		// Conditions venant implicitement de l'action, de l'utilisateur connecté et des filtres
+		if ($this->request->is('post') || false === empty($named)) {
+			// Filtre par profil
+			$profil = (string)Hash::get($this->request->data, 'users.profil');
+			if ('' !== $profil) {
+				$subQuery = [
+					'alias' => 'organisation_user_roles',
+					'fields' => ['organisation_user_roles.organisation_user_id'],
+					'joins' => [
+						words_replace(
+							$this->User->OrganisationUserRole->join('Role', ['type' => 'INNER']),
+							['Role' => 'roles', 'OrganisationUserRole' => 'organisation_user_roles']
+						)
+					],
+					'conditions' => [
+						'roles.libelle' => $profil
+					]
+				];
+				$sql = $this->User->OrganisationUserRole->sql($subQuery);
+				$query['conditions'][] = "OrganisationUser.id IN ({$sql})";
+			}
 
-                // Filtre par utilisateur
-                $user_id = (string)Hash::get($this->request->data, 'users.nom');
-                if ('' !== $user_id) {
-                    $query['conditions']['OrganisationUser.user_id'] = $user_id;
-                    $query['limit'] = 1;
-                }
-            } else {
-                $query['conditions'] = [
-                    'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
-                ];
-            }
-        } else {
-            $query['conditions'] = [
-                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id'),
-                'OrganisationUser.user_id !=' => 1
-            ];
+			// Filtre par entité
+			$organisation_id = (string)Hash::get($this->request->data, 'users.organisation');
+			if ('' !== $organisation_id) {
+				$query['conditions']['OrganisationUser.organisation_id'] = $organisation_id;
+			}
+
+			// Filtre par utilisateur
+			$user_id = (string)Hash::get($this->request->data, 'users.nom');
+			if ('' !== $user_id) {
+				$query['conditions']['User.id'] = $user_id;
+				$query['limit'] = 1;
+			}
+		}
+
+        if(false === $this->Droits->isSu() && 'admin_index' !== $this->request->params['action']) {
+            $query['conditions'][] = ['User.id <>' => 1];
         }
 
-        $users = $this->OrganisationUser->find('all', $query);
-        foreach ($users as $key => $value) {
-            $orgausers = $this->OrganisationUser->find('all', [
-                'conditions' => [
-                    'OrganisationUser.user_id' => $value['OrganisationUser']['user_id']
-                ]
-            ]);
+		$this->paginate = $query;
+		$results = $this->paginate('User');
 
-            foreach ($orgausers as $clef => $valeur) {
-                $orga = $this->Organisation->find('first', [
-                    'conditions' => [
-                        'Organisation.id' => $valeur['OrganisationUser']['organisation_id']
-                    ],
-                    'fields' => [
-                        'raisonsociale'
-                    ]
-                ]);
-                $users[$key]['Organisations'][] = $orga;
-            }
+		foreach($results as $resultIdx => $result) {
+			if(true === Hash::check($result, 'Organisation.{n}.OrganisationUser')) {
+				foreach($result['Organisation'] as $orgIdx => $organisation) {
+					// Roles
+					$query = [
+						'fields' => [
+							'Role.libelle'
+						],
+						'contain' => [
+							'Role'
+						],
+						'conditions' => [
+							'OrganisationUserRole.organisation_user_id' => $organisation['OrganisationUser']['id']
+						],
+						'order' => ['Role.libelle']
+					];
+					$role = $this->User->OrganisationUser->OrganisationUserRole->find('first', $query);
+					$results[$resultIdx]['Organisation'][$orgIdx]['OrganisationUser']['Role'] = Hash::get($role, 'Role');
 
-            $orgaUserService = $this->OrganisationUserService->find('all', [
-                'conditions' => [
-                    'organisation_user_id' => $users[$key]['OrganisationUser']['id']
-                ]
-            ]);
-            foreach ($orgaUserService as $valeur) {
-                $orgaService = $this->Service->find('first', [
-                    'conditions' => [
-                        'id' => $valeur['OrganisationUserService']['service_id']
-                    ],
-                    'fields' => [
-                        'libelle'
-                    ]
-                ]);
-                $users[$key]['OrganisationUserService'][] = $orgaService;
-            }
-        }
-        $this->set('users', $users);
+					// Services
+					$query = [
+						'fields' => [
+							'Service.libelle'
+						],
+						'contain' => [
+							'Service'
+						],
+						'conditions' => [
+							'OrganisationUserService.organisation_user_id' => $organisation['OrganisationUser']['id']
+						],
+						'order' => ['Service.libelle']
+					];
+					$services = $this->User->OrganisationUser->OrganisationUserService->find('all', $query);
+					$results[$resultIdx]['Organisation'][$orgIdx]['OrganisationUser']['Service'] = Hash::extract($services, '{n}.Service');
+				}
+			}
+		}
 
-        $servicesExiste = $this->Service->find('count');
-        if ($servicesExiste != 0) {
-            $existeService = true;
-        } else {
-            $existeService = false;
-        }
-        $this->set('servicesExiste', $servicesExiste);
+		// Possède-t-on au moins un service ?
+		$hasService = [] !== $this->Service->find('first', ['fields' => ['id']]);
 
-        //On récupére tout les services de l'entitée utilisé à l'instant T
-        $services = $this->Service->find('all', [
-            'conditions' => [
-                'organisation_id' => $this->Session->read('Organisation.id')
-            ]
-        ]);
-        $this->set('services', $services);
+		// Options
+		$restrict = 'index' === $this->request->params['action'];
+		$options = [
+			'organisations' => $this->WebcilUsers->organisations('list', ['restrict' => $restrict]),
+			'roles' => $this->WebcilUsers->roles('list', ['restrict' => $restrict]),
+			'users' => $this->WebcilUsers->users('list', ['restrict' => $restrict])
+		];
 
-        $orgas = $this->Organisation->find('all', [
-            'fields' => [
-                'Organisation.raisonsociale',
-                'id'
-            ]
-        ]);
-        $organisations = [];
-        foreach ($orgas as $value) {
-            $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
-        }
-        $this->set('orgas', $organisations);
-
-        $utils = $this->User->find('all', [
-            'fields' => [
-                'User.nom',
-                'User.prenom',
-                'User.id'
-            ]
-        ]);
-
-        $this->set(
-                'utilisateurs', Hash::combine($utils, '{n}.User.id', array('%s %s', '{n}.User.prenom', '{n}.User.nom'))
-        );
-
-        // Liste des roles
-        $query = [
-            'fields' => ['Role.libelle'],
-            'conditions' => [],
-            'group' => ['Role.libelle'],
-        ];
-        if(false === $this->Droits->isSu()) {
-            $query['conditions'][] = ['Role.organisation_id' => $this->Session->read('Organisation.id')];
-        }
-        $roles = $this->User->OrganisationUserRole->Role->find('all', $query);
-        $this->set('roles', Hash::combine($roles, '{n}.Role.libelle', '{n}.Role.libelle'));
-    }
+		$this->set(compact('results', 'hasService', 'options'));
+		$this->view = 'index';
+	}
 
     /**
      * Affiche les informations sur un utilisateur
@@ -268,35 +218,8 @@ class UsersController extends AppController {
         } else {
             $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
 
-            $this->redirect([
-                'controller' => 'pannel',
-                'action' => 'index'
-            ]);
+            $this->redirect($this->Referers->get());
         }
-    }
-
-    /**
-     * Validation manuelle des champs "Entité" et "Profil": champs obligatoires
-     * et occurences multiples.
-     */
-    protected function _validateEntiteProfil() {
-        $success = true;
-
-        $users_organisations = Hash::get($this->request->data, 'Organisation.Organisation_id');
-        if (empty($users_organisations) == true) {
-            $this->User->Organisation->invalidate('Organisation_id', __d('database', 'Validate::notEmpty'));
-            $success = false;
-        } else {
-            foreach ($users_organisations as $organisation_id) {
-                $value = Hash::get($this->request->data, "Role.{$organisation_id}");
-                if (empty($value)) {
-                    $this->User->Organisation->Role->invalidate($organisation_id, __d('database', 'Validate::notEmpty'));
-                    $success = false;
-                }
-            }
-        }
-
-        return $success;
     }
 
     /**
@@ -327,9 +250,11 @@ class UsersController extends AppController {
 
 		$mesOrganisations = $this->WebcilUsers->organisations(
 			'list',
-			'add' === $this->request->params['action']
-				? ListeDroit::CREER_UTILISATEUR
-				: ListeDroit::MODIFIER_UTILISATEUR
+			[
+				'droits' => 'add' === $this->request->params['action']
+					? ListeDroit::CREER_UTILISATEUR
+					: ListeDroit::MODIFIER_UTILISATEUR
+			]
 		);
 
         if ($this->request->is('post') || $this->request->is('put')) {
@@ -386,7 +311,7 @@ class UsersController extends AppController {
                 $success = $this->User->OrganisationUser->save() && $success;
 
                 // Services
-                $services = (array)Hash::get($this->request->data, "User.{$organisation_id}.service_id");
+                $services = array_filter((array)Hash::get($this->request->data, "User.{$organisation_id}.service_id"));
                 foreach($services as $service_id) {
                     $record = [
                         'OrganisationUserService' => [
@@ -491,8 +416,8 @@ class UsersController extends AppController {
             $this->User->enums(),
             [
                 'organisation_id' => $mesOrganisations,
-                'service_id' => $this->Organisation->OrganisationUser->OrganisationUserService->Service->find('list', ['fields' => ['id', 'libelle', 'organisation_id']]),
-                'role_id' => $this->Organisation->OrganisationUser->OrganisationUserRole->Role->find('list', ['fields' => ['id', 'libelle', 'organisation_id']])
+                'service_id' => $this->WebcilUsers->services('list', ['fields' => ['id', 'libelle', 'organisation_id']]),
+                'role_id' => $this->WebcilUsers->roles('list', ['fields' => ['id', 'libelle', 'organisation_id']])
             ]
         );
 
@@ -638,17 +563,14 @@ class UsersController extends AppController {
                         $this->Session->setFlash(__d('default', 'default.flasherrorEnregistrementErreur'), 'flasherror');
                     }
 
-                    $this->redirect(['action' => 'index']);
+                    $this->redirect($this->Referers->get());
                 }
 
                 $this->Session->setFlash(__d('user', 'user.flasherrorErreurSupprimerUser'), 'flasherror');
-                $this->redirect(['action' => 'index']);
+                $this->redirect($this->Referers->get());
             } else {
                 $this->Session->setFlash(__d('default', 'default.flasherrorPasDroitPage'), 'flasherror');
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             }
         } else {
             $this->Session->setFlash(__d('user', 'user.flasherrorErreurSuppressionImpossibleUser'), 'flasherror');
@@ -710,10 +632,7 @@ class UsersController extends AppController {
             }
         } else {
             if ($this->Session->check('Auth.User.id')) {
-                $this->redirect([
-                    'controller' => 'pannel',
-                    'action' => 'index'
-                ]);
+                $this->redirect($this->Referers->get());
             }
         }
     }
@@ -861,130 +780,10 @@ class UsersController extends AppController {
         return $retour;
     }
 
+	/**
+	 * Liste des utilisateurs de l'application
+	 */
     public function admin_index() {
-        if (true !== $this->Droits->isSu()) { // @fixme
-            throw new ForbiddenException(__d('default', 'default.flasherrorPasDroitPage'));
-        }
-
-        $this->set('title', __d('user', 'user.titreUsersApplication'));
-
-        $query = [
-            'fields' => [
-                'id',
-                'civilite',
-                'username',
-                'nom',
-                'prenom',
-                'created'
-            ],
-            'contain' => [
-                'Organisation' => [
-                    'fields' => [
-                        'id',
-                        'raisonsociale'
-                    ]
-                ]
-            ],
-            'limit' => 20
-        ];
-
-        if ($this->request->is('post')) {
-            if ($this->request->data['users']['organisation'] != '') {
-                $subQuery = array(
-                    'alias' => 'organisations_users',
-                    'fields' => array('organisations_users.user_id'),
-                    'conditions' => array(
-                        'organisations_users.organisation_id' => $this->request->data['users']['organisation']
-                    ),
-                    'contain' => false
-                );
-                $sql = $this->User->OrganisationUser->sql($subQuery);
-                $query['conditions'][] = array( "User.id IN ( {$sql} )" );
-            }
-
-            if ($this->request->data['users']['nom'] != '') {
-                $query['conditions']['User.id'] = $this->request->data['users']['nom'];
-                $query['limit'] = 1;
-            }
-        }
-
-        $this->paginate = $query;
-        $users = $this->paginate('User');
-        $this->set('nbUserAppli', count($users));
-
-        foreach ($users as $key => $user) {
-            foreach ($user['Organisation'] as $userOrganisation) {
-                $organisationUserRole = $this->OrganisationUserRole->find('first', [
-                    'conditions' => [
-                        'organisation_user_id' => $userOrganisation['OrganisationUser']['id']
-                    ]
-                ]);
-
-                $users[$key]['OrganisationUserRole'] = $organisationUserRole['OrganisationUserRole'];
-
-                foreach ($organisationUserRole as $test) {
-                    $userRole = $this->Role->find('first', [
-                        'conditions' => [
-                            'id' => $test['role_id']
-                        ],
-                        'fields' => [
-                            'libelle'
-                        ]
-                    ]);
-
-                    $users[$key]['OrganisationUserRole'] += $userRole;
-                }
-            }
-        }
-
-        $this->set(compact('title', 'users'));
-
-        $this->set('orgas', $this->_filtrerOrganisations());
-
-        $this->set('utilisateurs', $this->_filtrerUtilisateurs());
-
-//        $this->set('profils', $this->_filtrerProfils());
-//        $this->view = 'index';
+        $this->index();
     }
-
-    protected function _filtrerOrganisations() {
-        $orgas = $this->Organisation->find('all', [
-            'fields' => [
-                'Organisation.raisonsociale',
-                'id'
-            ]
-        ]);
-
-        $organisations = [];
-        foreach ($orgas as $value) {
-            $organisations[$value['Organisation']['id']] = $value['Organisation']['raisonsociale'];
-        }
-
-        return ($organisations);
-    }
-
-    protected function _filtrerUtilisateurs() {
-        $utils = $this->User->find('all', [
-            'fields' => [
-                'id',
-                'civilite',
-                'nom',
-                'prenom'
-            ]
-        ]);
-
-        $utilisateurs = Hash::combine($utils, '{n}.User.id', array('%s %s %s', '{n}.User.civilite', '{n}.User.prenom', '{n}.User.nom'));
-
-        return ($utilisateurs);
-    }
-
-//    protected function _filtrerProfils() {
-//        $profils = $this->Role->find('all', [
-//            'recursive' => -1,
-//        ]);
-//
-//        debug($profils);
-//        die;
-//    }
-
 }

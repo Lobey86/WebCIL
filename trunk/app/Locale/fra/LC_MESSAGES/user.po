@@ -18,7 +18,7 @@ msgid "user.titreAjouterUser"
 msgstr "Ajouter un utilisateur"
 
 msgid "user.titreEditerUser"
-msgstr "Editer un utilisateur"
+msgstr "Modifier un utilisateur"
 
 msgid "user.titreModificationInfoUser"
 msgstr "Modifier mes informations personnelles"

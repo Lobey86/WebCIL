@@ -4,16 +4,16 @@
  * Model User
  *
  * WebCIL : Outil de gestion du Correspondant Informatique et Libertés.
- * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via 
- * le registre. Le registre est sous la responsabilité du CIL qui doit en 
+ * Cet outil consiste à accompagner le CIL dans sa gestion des déclarations via
+ * le registre. Le registre est sous la responsabilité du CIL qui doit en
  * assurer la communication à toute personne qui en fait la demande (art. 48 du décret octobre 2005).
- * 
+ *
  * Copyright (c) Adullact (http://www.adullact.org)
  *
  * Licensed under The CeCiLL V2 License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
- * 
+ *
  * @copyright   Copyright (c) Adullact (http://www.adullact.org)
  * @link        https://adullact.net/projects/webcil/
  * @since       webcil v0.9.0
@@ -40,11 +40,21 @@ class User extends AppModel {
         'Password'*/
     );
 
-    /**
+	/**
+ 	 * Champs virtuels du modèle
+	 *
+	 * @var array
+	 */
+    public $virtualFields = array(
+	   'nom_complet' => '( COALESCE( "User"."civilite", \'\' ) || \' \' || COALESCE( "User"."prenom", \'\' ) || \' \' || COALESCE( "User"."nom", \'\' ) )',
+	   'nom_complet_court' => '( COALESCE( "User"."prenom", \'\' ) || \' \' || COALESCE( "User"."nom", \'\' ) )'
+    );
+
+	/**
      * validate associations
      *
      * @var array
-     * 
+     *
      * @access public
      * @created 24/10/2015
      * @version V0.9.0
@@ -110,7 +120,7 @@ class User extends AppModel {
      * hasAndBelongsToMany associations
      *
      * @var array
-     * 
+     *
      * @access public
      * @created 18/12/2015
      * @version V0.9.0
@@ -134,12 +144,12 @@ class User extends AppModel {
 
     /**
      * hasMany associations
-     * 
+     *
      * @var array
-     * 
+     *
      * @access public
      * @created 26/03/2015
-     * @version V0.9.0 
+     * @version V0.9.0
      */
     public $hasMany = array(
         'Fiche' => array(
@@ -180,9 +190,9 @@ class User extends AppModel {
 
     /**
      * hasOne associations
-     * 
+     *
      * @var array
-     * 
+     *
      * @access public
      * @created 26/06/2015
      * @version V0.9.0
@@ -198,7 +208,7 @@ class User extends AppModel {
     /**
      * @param type $options
      * @return boolean
-     * 
+     *
      * @access public
      * @created 29/04/2015
      * @version V0.9.0
@@ -215,7 +225,7 @@ class User extends AppModel {
      * @param type $field
      * @param type|null $compareField
      * @return boolean
-     * 
+     *
      * @access public
      * @created 29/04/2015
      * @version V0.9.0

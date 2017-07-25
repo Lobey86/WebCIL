@@ -874,3 +874,25 @@ fieldset.organisation-block legend {
     padding: 0;
     width: auto;
 }
+
+/* Particularités pour les pages "Liste des utilisateurs" et "Liste des utilisateurs de l'application" */
+
+table.table-striped.users > tbody > tr:nth-child(2n+1) > td, table.table-striped.users > tbody > tr:nth-child(2n+1) > th {
+    background-color: transparent;
+}
+
+table.table.table-striped.users tbody tr.odd {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+table.table.table-striped.users tbody tr.even {
+    background-color: transparent;
+}
+
+table.table.users ul {
+    padding-left: 1em;
+}
+
+table.table-striped.users thead th a {
+    color: #333;
+}

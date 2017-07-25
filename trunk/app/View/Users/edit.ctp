@@ -94,7 +94,7 @@
                 'id' => 'service_id'.$organisation_id,
                 'name' => "data[User][{$organisation_id}][service_id]",
                 'label' => [
-                    'text' => __d('user', 'user.champService'),
+                    'text' => __d('user', 'user.champService') . $raisonsociale,
                     'class' => 'col-md-4 control-label'
                 ],
                 'between' => '<div class="col-md-8">',
