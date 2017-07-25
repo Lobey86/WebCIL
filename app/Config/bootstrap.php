@@ -73,6 +73,10 @@ CakePlugin::loadAll(array(
         'bootstrap' => false,
         'routes' => false
     ),
+    'CakeTest' => array(
+        'bootstrap' => false,
+        'routes' => false
+    ),
     'FusionConv' => array(
         'bootstrap' => true,
         'routes' => false

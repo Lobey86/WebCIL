@@ -50,6 +50,22 @@ class Service extends AppModel {
     ];
 
     /**
+     * belongsTo associations
+     *
+     * @var array
+     *
+     * @access public
+     * @created 17/06/2015
+     * @version V0.9.0
+     */
+    public $belongsTo = [
+        'Organisation' => [
+            'className' => 'Organisation',
+            'foreignKey' => 'organisation_id'
+        ]
+    ];
+
+    /**
      * hasMany associations
      *
      * @var array

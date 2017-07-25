@@ -220,7 +220,12 @@ class Organisation extends AppModel {
             'className' => 'Role',
             'foreignKey' => 'organisation_id',
             'dependent' => TRUE
-        ]
+        ],
+        'Service' => [
+            'className' => 'Service',
+            'foreignKey' => 'organisation_id',
+            'dependent' => TRUE
+        ],
     ];
 
     /**
@@ -236,13 +241,6 @@ class Organisation extends AppModel {
         'Cil' => [
             'className' => 'User',
             'foreignKey' => 'cil',
-        //'conditions' => '',
-        //'fields'     => '',
-        //'order'      => ''
-        ],
-        'Service' => [
-            'className' => 'Service',
-            'foreignKey' => 'organisation_id',
         //'conditions' => '',
         //'fields'     => '',
         //'order'      => ''
