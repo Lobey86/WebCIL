@@ -150,7 +150,7 @@ class FichesController extends AppController {
 
                 if ($success == true) {
                     foreach ($this->request->data['Fiche'] as $key => $value) {
-                        if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
+                        if ($key != 'formulaire_id' && ($value != '' || in_array($key, $this->_requiredFicheVirtualFields))) {
                             if (is_array($value)) {
                                 $value = json_encode($value);
                             }
@@ -341,14 +341,14 @@ class FichesController extends AppController {
                     ],
                     'contain' => false
                 ]));
-
+                
                 if (empty($idsToDelete) == false) {
                     $success = $this->Valeur->deleteAll([
                         'Valeur.id' => $idsToDelete
                     ]) && $success;
                 }
-
-                if ($key != 'formulaire_id' && (!empty($value) || in_array($key, $this->_requiredFicheVirtualFields))) {
+                
+                if ($key != 'formulaire_id' && ($value != '' || in_array($key, $this->_requiredFicheVirtualFields))) {
                     if (is_array($value)) {
                         if ($key == 'fichiers') {
                             $value = $file;
@@ -370,7 +370,7 @@ class FichesController extends AppController {
                     $success = false !== $tmpSave && $success;
                 }
             }
-
+            
             $success = false !== $this->Fichier->saveFichier($this->request->data, $id) && $success;
 
             $this->Historique->create([
