@@ -200,7 +200,8 @@ msgstr "Problème de connexion au parapheur"
 msgid "default.flasherrorEnregistrementErreur"
 msgstr "Une erreur d'enregistrement est survenue"
 
-###############################################################
-
-
 ###############################################################################
+
+# Pagination
+msgid "Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}"
+msgstr "Page {:page} sur {:pages} pour un total de {:count} enregistrements"
