@@ -393,23 +393,9 @@
 				],
 				[
 					'Role' => [
-						'id' => 8,
-						'libelle' => 'Administrateur',
-						'organisation_id' => 2,
-					],
-				],
-				[
-					'Role' => [
 						'id' => 3,
 						'libelle' => 'Consultant',
 						'organisation_id' => 1,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 7,
-						'libelle' => 'Consultant',
-						'organisation_id' => 2,
 					],
 				],
 				[
@@ -421,23 +407,9 @@
 				],
 				[
 					'Role' => [
-						'id' => 5,
-						'libelle' => 'Rédacteur',
-						'organisation_id' => 2,
-					],
-				],
-				[
-					'Role' => [
 						'id' => 2,
 						'libelle' => 'Valideur',
 						'organisation_id' => 1,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 6,
-						'libelle' => 'Valideur',
-						'organisation_id' => 2,
 					],
 				],
 			];
@@ -448,7 +420,7 @@
 			$expected = [
 				'fields' => ['id', 'libelle', 'organisation_id'],
 				'conditions' => [
-					'EXISTS( SELECT "organisations_users"."id" AS "organisations_users__id" FROM "public"."organisations_users" AS "organisations_users"   WHERE "organisations_users"."organisation_id" = "Organisation"."id" AND "organisations_users"."user_id" = 2 )',
+					'Role.organisation_id' => 1,
 				],
 				'joins' => [
 					[
