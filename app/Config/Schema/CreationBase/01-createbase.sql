@@ -389,4 +389,6 @@ LANGUAGE 'plpgsql' IMMUTABLE RETURNS NULL ON NULL INPUT SECURITY INVOKER;
 
 CREATE INDEX valeurs_valeur_noaccents_upper ON valeurs( NOACCENTS_UPPER( valeur ) );
 
+CREATE INDEX users_username_upper_idx ON users( UPPER( username ) );
+
 COMMIT;

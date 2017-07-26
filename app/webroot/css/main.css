@@ -896,3 +896,7 @@ table.table.users ul {
 table.table-striped.users thead th a {
     color: #333;
 }
+
+*.glyphicon.help {
+	cursor: help;
+}

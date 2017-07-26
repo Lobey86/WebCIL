@@ -24,48 +24,81 @@ echo $this->Form->button(
 $filters = $this->request->data;
 unset($filters['sort'], $filters['direction'], $filters['page']);
 ?>
-
 <div id="filtreUsers" <?php if(true === empty($filters)) {echo 'style="display: none;"';}?>>
-    <div class="row">
-        <?php
-            echo $this->Form->create('users', [
-                'controller' => $this->request->params['controller'],
-                'action' => $this->request->params['action']
-            ]);
+	<?php
+		echo $this->Form->create('users', [
+			'controller' => $this->request->params['controller'],
+			'action' => $this->request->params['action']
+		]);
+	?>
+	<div class="row">
+		<?php
+			if( true === $actionAdminIndex ) {
+				// Filtrer par organisation
+				echo $this->Form->input( 'organisation', [
+					'empty' => __d( 'user', 'user.placeholderChoisirOrganisation' ),
+					'class' => 'usersDeroulant transformSelect form-control',
+					'label' => 'Filtrer par organisation',
+					'options' => $options['organisations'],
+					'before' => '<div class="col-md-6">',
+					'after' => '</div>'
+				] );
+			}
 
-            // Filtrer par organisation
-            if( true === $actionAdminIndex ) {
-                echo $this->Form->input( 'organisation', [
-                    'empty' => __d( 'user', 'user.placeholderChoisirOrganisation' ),
-                    'class' => 'usersDeroulant transformSelect form-control',
-                    'label' => 'Filtrer par organisation',
-                    'options' => $options['organisations'],
-                    'before' => '<div class="col-md-4 col-md-offset-1">',
-                    'after' => '</div>'
-                ]);
-            }
+			// Filtrer par organisation
+			echo $this->Form->input( 'cil', [
+				'empty' => 'Chercher par CIL',
+				'class' => 'usersDeroulant transformSelect form-control',
+				'label' => 'CIL',
+				'options' => $options['cil'],
+				'before' => '<div class="col-md-6">',
+				'after' => '</div>'
+			] );
+		?>
+	</div>
+	<div class="row">
+		<?php
+			// Filtrer par nom complet
+			echo $this->Form->input( 'nom', [
+				'empty' => 'Chercher par utilisateur',
+				'class' => 'usersDeroulant transformSelect form-control',
+				'label' => 'Nom complet',
+				'options' => $options['users'],
+				'before' => '<div class="col-md-6">',
+				'after' => '</div>'
+			] );
 
-            // Filtrer par nom complet
-            echo $this->Form->input('nom', [
-                'empty' => 'Chercher par utilisateur',
-                'class' => 'usersDeroulant transformSelect form-control',
-                'label' => 'Nom complet',
-                'options' => $options['users'],
-                'before' => '<div class="col-md-4 col-md-offset-2">',
-                'after' => '</div>'
-            ]);
+			// Filtrer par identifiant
+			echo $this->Form->input( 'username', [
+				'placeholder' => 'Chercher par identifiant',
+				'class' => 'form-control',
+				'label' => 'Identifiant <i class="glyphicon glyphicon-question-sign help" rel="tooltip" title="Recherche insensible à la casse. Le caractère &quot;*&quot; permet de faire des recherches approchantes. Par exemple, &quot;d.*&quot; cherchera tous les identifiants débutant par &quot;d.&quot;."></i>',
+				'before' => '<div class="col-md-6">',
+				'after' => '</div>'
+			] );
+		?>
+	</div>
+	<div class="row">
+		<?php
+			// Filtrer par profil
+			echo $this->Form->input( 'profil', [
+				'empty' => 'Chercher par profil',
+				'class' => 'usersDeroulant transformSelect form-control',
+				'label' => 'Profil',
+				'options' => $options['roles'],
+				'before' => '<div class="col-md-6">',
+				'after' => '</div>'
+			] );
 
-            // Filtrer par profil
-            if( false === $actionAdminIndex ) {
-                echo $this->Form->input( 'profil', [
-                    'empty' => 'Chercher par profil',
-                    'class' => 'usersDeroulant transformSelect form-control',
-                    'label' => 'Profil',
-                    'options' => $options['roles'],
-                    'before' => '<div class="col-md-4 col-md-offset-2">',
-                    'after' => '</div>'
-                ]);
-            }
+			// Filtrer par service
+			echo $this->Form->input( 'service', [
+				'empty' => 'Chercher par service',
+				'class' => 'usersDeroulant transformSelect form-control',
+				'label' => 'Service',
+				'options' => $options['services'],
+				'before' => '<div class="col-md-6">',
+				'after' => '</div>'
+			] );
         ?>
     </div>
 
@@ -90,7 +123,7 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
             ?>
         </div>
     </div>
-    
+
     <?php echo $this->Form->end();?>
 </div>
 
@@ -245,7 +278,7 @@ if(false === empty($results)) {
             <?php echo __d('user', 'user.textAucunUserCollectiviter'); ?>
         </h3>
     </div>
-    <?php 
+    <?php
 }
 
 // Ajout d'un nouveau utilisateur en fonction des droits de l'utilisateur connecté pour la création
@@ -263,7 +296,7 @@ if ($this->Autorisation->authorized(8, $droits)):
             ]);
         ?>
     </div>
-    <?php 
+    <?php
 endif;
 
 echo $pagination;
