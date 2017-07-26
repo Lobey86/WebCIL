@@ -72,7 +72,7 @@ msgid "fiche.textInfoTraitement"
 msgstr "Information concernant le traitement :"
 
 msgid "fiche.champNomPrenom"
-msgstr "Nom et prénom "
+msgstr "Prénom et nom "
 
 msgid "fiche.champFichier"
 msgstr "Fichier"
