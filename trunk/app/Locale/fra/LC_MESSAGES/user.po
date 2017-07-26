@@ -110,6 +110,9 @@ msgstr " Ajouter un utilisateur"
 msgid "user.titreTableauEntite"
 msgstr "Entité"
 
+msgid "user.titreTableauCil"
+msgstr "CIL"
+
 msgid "user.titreTableauIdentifiant"
 msgstr "Identifiant"
 
