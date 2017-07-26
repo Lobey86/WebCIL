@@ -95,6 +95,64 @@ class UsersController extends AppController {
 
 		// Conditions venant implicitement de l'action, de l'utilisateur connecté et des filtres
 		if ($this->request->is('post') || false === empty($named)) {
+			// Filtre par entité
+			$organisation_id = (string)Hash::get($this->request->data, 'users.organisation');
+			if ('' !== $organisation_id) {
+				$query['conditions']['OrganisationUser.organisation_id'] = $organisation_id;
+			}
+
+			// Filtre par CIL
+			$cil = (string)Hash::get($this->request->data, 'users.cil');
+			if ('' !== $cil) {
+				$subQuery = [
+					'alias' => 'organisations',
+					'fields' => ['organisations.id'],
+					'conditions' => [
+						'organisations.cil = User.id',
+						'organisations.id' => array_keys(
+							$this->WebcilUsers->organisations(
+								'list',
+								['restrict' => 'index' === $this->request->params['action']]
+							)
+						)
+					]
+				];
+				$sql = $this->User->Organisation->sql($subQuery);
+				$query['conditions'][] = '1' === $cil ? "EXISTS ({$sql})" : "NOT EXISTS ({$sql})";
+			}
+
+			// Filtre par utilisateur
+			$user_id = (string)Hash::get($this->request->data, 'users.nom');
+			if ('' !== $user_id) {
+				$query['conditions']['User.id'] = $user_id;
+			}
+
+			// Filtre par identifiant
+			$username = trim((string)Hash::get($this->request->data, 'users.username'));
+			if ('' !== $username) {
+				$query['conditions']['UPPER(User.username) LIKE'] = mb_convert_case(str_replace('*', '%', $username), MB_CASE_UPPER);
+			}
+
+			// Filtre par service
+			$service = (string)Hash::get($this->request->data, 'users.service');
+			if ('' !== $service) {
+				$subQuery = [
+					'alias' => 'organisation_user_services',
+					'fields' => ['organisation_user_services.organisation_user_id'],
+					'joins' => [
+						words_replace(
+							$this->User->OrganisationUser->OrganisationUserService->join('Service', ['type' => 'INNER']),
+							['Service' => 'services', 'OrganisationUserService' => 'organisation_user_services']
+						)
+					],
+					'conditions' => [
+						'services.libelle' => $service
+					]
+				];
+				$sql = $this->User->OrganisationUser->OrganisationUserService->sql($subQuery);
+				$query['conditions'][] = "OrganisationUser.id IN ({$sql})";
+			}
+
 			// Filtre par profil
 			$profil = (string)Hash::get($this->request->data, 'users.profil');
 			if ('' !== $profil) {
@@ -113,19 +171,6 @@ class UsersController extends AppController {
 				];
 				$sql = $this->User->OrganisationUserRole->sql($subQuery);
 				$query['conditions'][] = "OrganisationUser.id IN ({$sql})";
-			}
-
-			// Filtre par entité
-			$organisation_id = (string)Hash::get($this->request->data, 'users.organisation');
-			if ('' !== $organisation_id) {
-				$query['conditions']['OrganisationUser.organisation_id'] = $organisation_id;
-			}
-
-			// Filtre par utilisateur
-			$user_id = (string)Hash::get($this->request->data, 'users.nom');
-			if ('' !== $user_id) {
-				$query['conditions']['User.id'] = $user_id;
-				$query['limit'] = 1;
 			}
 		}
 
@@ -180,9 +225,11 @@ class UsersController extends AppController {
 		// Options
 		$restrict = 'index' === $this->request->params['action'];
 		$options = [
-			'organisations' => $this->WebcilUsers->organisations('list', ['restrict' => $restrict]),
-			'roles' => $this->WebcilUsers->roles('list', ['restrict' => $restrict]),
-			'users' => $this->WebcilUsers->users('list', ['restrict' => $restrict])
+			'organisations' => $this->WebcilUsers->organisations( 'list', [ 'restrict' => $restrict ] ),
+			'roles' => $this->WebcilUsers->roles( 'list', [ 'restrict' => $restrict ] ),
+			'services' => $this->WebcilUsers->services( 'list', [ 'restrict' => $restrict ] ),
+			'users' => $this->WebcilUsers->users( 'list', [ 'restrict' => $restrict ] ),
+			'cil' => [ 0 => 'Non', 1 => 'Oui' ]
 		];
 
 		$this->set(compact('results', 'hasService', 'options'));
