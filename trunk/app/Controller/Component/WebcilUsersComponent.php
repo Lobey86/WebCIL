@@ -154,7 +154,17 @@ class WebcilUsersComponent extends Component {
 		];
 
 		if( false === $this->Droits->isSu() || true === $params['restrict'] ) {
-			$query['conditions']['Role.organisation_id'] = $this->Session->read('Organisation.id');
+			// Limitation au niveau de mes entités
+			$subQuery = [
+				'alias' => 'organisations_users',
+				'fields' => [ 'organisations_users.id' ],
+				'conditions' => [
+					'organisations_users.organisation_id = Organisation.id',
+					'organisations_users.user_id' => $this->Session->read( 'Auth.User.id' )
+				]
+			];
+			$sql = $controller->Role->OrganisationUserRole->OrganisationUser->sql( $subQuery );
+			$query['conditions'][] = "EXISTS( {$sql} )";
 		}
 
 		if('list' === $type && null === $params['fields']) {
