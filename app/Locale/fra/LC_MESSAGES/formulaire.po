@@ -126,10 +126,10 @@ msgid "formulaire.popupInfoGeneraleFormulaireDuplication"
 msgstr "Informations générales du formulaire pour la duplication"
 
 msgid "formulaire.popupInfoGeneraleFormulaireDuplicationOrganisation"
-msgstr "Informations générales du formulaire pour la duplication dans une autre organisation"
+msgstr "Informations générales du formulaire pour la duplication dans une autre entité"
 
 msgid "formulaire.placeholderDupliquerFormulaireOrganisation"
-msgstr "Dupliquer le formulaire dans une autre organisation"
+msgstr "Dupliquer le formulaire dans une autre entité"
 
 ###############################################################################
 

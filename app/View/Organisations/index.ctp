@@ -10,7 +10,7 @@ echo $this->Html->script('organisations.js');
             
             <!-- Organisation -->
             <th class="thleft col-md-8">
-                <?php echo __d('organisation', 'organisation.titreTableauOrganisation'); ?>
+                <?php echo __d('organisation', 'organisation.titreTableauNbUtilisateur'); ?>
             </th>
             
             <!-- Actions -->
@@ -26,11 +26,13 @@ echo $this->Html->script('organisations.js');
                 <td class="tdleft">
                     <?php echo $donnees[ 'Organisation' ][ 'raisonsociale' ]; ?>
                 </td>
+                
                 <td class="tdleft">
                     <div class="col-md-6">
-                        <strong>Utilisateurs: </strong> <?php echo $donnees[ 'Count' ]; ?>
+                        <?php echo $donnees[ 'Count' ]; ?>
                     </div>
                 </td>
+                
                 <td class="tdleft">
                     <div class="btn-group">
                         <?php echo $this->Html->link('<span class="fa fa-eye fa-lg"></span>', array(
@@ -53,16 +55,19 @@ echo $this->Html->script('organisations.js');
                                 'escapeTitle' => false
                             ));
                         }
-                        if ( $this->Autorisation->isSu() ) {
-                            echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', array(
-                                'controller' => 'organisations',
-                                'action' => 'delete',
-                                $donnees[ 'Organisation' ][ 'id' ]
-                            ), array(
-                                'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
-                                'title' => 'Supprimer cette organisation',
-                                'escapeTitle' => false
-                            ), 'Voulez vous vraiment supprimer l\'entité ' . $donnees[ 'Organisation' ][ 'raisonsociale' ]);
+
+                        if ($donnees[ 'Count' ] == 0) {
+                            if ( $this->Autorisation->isSu() ) {
+                                echo $this->Html->link('<span class="fa fa-trash fa-lg"></span>', array(
+                                    'controller' => 'organisations',
+                                    'action' => 'delete',
+                                    $donnees[ 'Organisation' ][ 'id' ]
+                                ), array(
+                                    'class' => 'btn btn-default-danger boutonDelete btn-sm my-tooltip',
+                                    'title' => 'Supprimer cette organisation',
+                                    'escapeTitle' => false
+                                ), 'Voulez vous vraiment supprimer l\'entité ' . $donnees[ 'Organisation' ][ 'raisonsociale' ]);
+                            }
                         }
                         ?>
                     </div>

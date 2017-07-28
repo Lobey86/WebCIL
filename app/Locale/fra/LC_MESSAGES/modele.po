@@ -107,7 +107,7 @@ msgid "modele.sousTitreVariableFormulaire"
 msgstr "Variable dans le traitement"
 
 msgid "modele.sousTitreEntité"
-msgstr "L'organisation"
+msgstr "L'entité"
 
 msgid "modele.textOrganisation"
 msgstr "organisation_"
@@ -116,7 +116,7 @@ msgid "modele.textValeur"
 msgstr "valeur_"
 
 msgid "modele.sousTitreResponsableEntité"
-msgstr "Responsable de l'organisation"
+msgstr "Responsable de l'entité"
 
 msgid "modele.sousTitreCIL"
 msgstr "Le CIL"

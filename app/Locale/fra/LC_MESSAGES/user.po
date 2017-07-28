@@ -123,7 +123,7 @@ msgid "user.titreTableauService"
 msgstr "Service"
 
 msgid "user.textAucunUserCollectiviter"
-msgstr "Il n'y a aucun utilisateur dans cette organisation "
+msgstr "Il n'y a aucun utilisateur dans cette entité "
 
 ###############################################################################
 
@@ -280,7 +280,7 @@ msgid "user.btnReinitialiserFiltre"
 msgstr " Réinitialiser les filtres"
 
 msgid "user.placeholderChoisirOrganisation"
-msgstr "Choisir une organisation"
+msgstr "Choisir une entité"
 
 ###############################################################################
 

@@ -63,8 +63,8 @@ msgstr "Visualiser les informations"
 msgid "organisation.titreTableauEntite"
 msgstr "Entité"
 
-msgid "organisation.titreTableauOrganisation"
-msgstr "Organisation"
+msgid "organisation.titreTableauNbUtilisateur"
+msgstr "Nombre d'utilisateurs"
 
 msgid "organisation.titreTableauActions"
 msgstr "Actions"
