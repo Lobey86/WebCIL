@@ -174,7 +174,7 @@ $cakeDescription = 'Web-CIL';
                                                                             ], $this->Session->read('Droit.liste'))
                                                             ) {
 
-                                                                echo '<li>' . $this->Html->link('<i class="fa fa-check fa-fw"></i>' . __d('default', 'default.sousTitreTraitementValidees'), [
+                                                                echo '<li>' . $this->Html->link('<i class="fa fa-check fa-fw"></i>' . __d('default', 'default.sousTitreTraitementValideesInsereRegistre'), [
                                                                     'controller' => 'pannel',
                                                                     'action' => 'archives'
                                                                         ], ['escape' => false]) . '</li>';

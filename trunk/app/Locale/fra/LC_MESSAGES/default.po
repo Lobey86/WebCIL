@@ -36,8 +36,8 @@ msgstr "Mes déclarations reçues pour consultation"
 msgid "default.sousTitreTraitementRecues"
 msgstr "Les déclarations reçus"
 
-msgid "default.sousTitreTraitementValidees"
-msgstr "Mes déclarations validées"
+msgid "default.sousTitreTraitementValideesInsereRegistre"
+msgstr "Mes déclarations validées et insérés au registre"
 
 msgid "default.sousTitreTraitementVu"
 msgstr "Mes déclarations vues"
