@@ -122,8 +122,14 @@ msgstr "Profil"
 msgid "user.titreTableauService"
 msgstr "Service"
 
+msgid "user.textAucunUser"
+msgstr "Il n'y a aucun utilisateur "
+
 msgid "user.textAucunUserCollectiviter"
 msgstr "Il n'y a aucun utilisateur dans cette entité "
+
+msgid "user.textAucunUserFiltre"
+msgstr "Il n'y a aucun utilisateur pour ces filtres"
 
 ###############################################################################
 

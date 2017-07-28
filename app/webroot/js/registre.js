@@ -1,8 +1,6 @@
 $(document).ready(function () {
-
-    $('#filtrage').click(function () {
-        $('#divFiltrage').show();
-        $('#filtrage').hide();
+    $("#filtrage").click(function () {
+        $("#divFiltrage").slideToggle(400);
     });
 
     $('#checkArch').change(function () {
@@ -11,5 +9,4 @@ $(document).ready(function () {
     $('#checkNonArch').change(function () {
         $('#checkArch').prop('checked', false);
     });
-
 });
