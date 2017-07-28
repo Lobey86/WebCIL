@@ -33,7 +33,7 @@
 		 *
 		 * @var mixed null
 		 */
-		public $uses = ['Users'];
+		public $uses = ['User'];
 
 		/**
 		 * components property
@@ -61,10 +61,12 @@
 		 * @var array
 		 */
 		public $fixtures = [
+			'app.Admin',
 			'app.ListeDroit',
 			'app.Organisation',
 			'app.OrganisationUser',
 			'app.OrganisationUserRole',
+			'app.OrganisationUserService',
 			'app.Role',
 			'app.RoleDroit',
 			'app.Service',
@@ -187,6 +189,20 @@
 				1 => 'Montpellier Méditerranée Métropole',
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 5. Type "list" avec la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->organisations( 'list', [ 'restrict' => true ] );
+			$expected = [
+				1 => 'Montpellier Méditerranée Métropole'
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 6. Type "list" avec la clé "restrict" à true et le paramètre "droits"
+			$result = $this->Controller->WebcilUsers->organisations( 'list', [ 'restrict' => true, 'droits' => ListeDroit::CREER_UTILISATEUR ] );
+			$expected = [
+				1 => 'Montpellier Méditerranée Métropole'
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}
 
 		/**
@@ -249,6 +265,20 @@
 				1 => 'Montpellier Méditerranée Métropole'
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 5. Type "list" avec la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->organisations( 'list', [ 'restrict' => true ] );
+			$expected = [
+				1 => 'Montpellier Méditerranée Métropole'
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 6. Type "list" avec la clé "restrict" à true et le paramètre "droits"
+			$result = $this->Controller->WebcilUsers->organisations( 'list', [ 'restrict' => true, 'droits' => ListeDroit::CREER_UTILISATEUR ] );
+			$expected = [
+				1 => 'Montpellier Méditerranée Métropole'
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}
 
 		/**
@@ -308,6 +338,18 @@
 				'order' => ['Role.libelle ASC', 'Role.id ASC']
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 4. Type "list" avec la clé "fields" et la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->roles('list', ['restrict' => true, 'fields' => ['id', 'libelle', 'organisation_id']]);
+			$expected = [
+				1 => [
+					4 => 'Administrateur',
+					3 => 'Consultant',
+					1 => 'Rédacteur',
+					2 => 'Valideur',
+				]
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}
 
 		/**
@@ -350,7 +392,7 @@
 			$expected = [
 				'fields' => ['id', 'libelle', 'organisation_id'],
 				'conditions' => [
-					'EXISTS( SELECT "organisations_users"."id" AS "organisations_users__id" FROM "public"."organisations_users" AS "organisations_users"   WHERE "organisations_users"."organisation_id" = "Organisation"."id" AND "organisations_users"."user_id" = 2 )',
+					'EXISTS( SELECT "organisations_users"."id" AS "organisations_users__id" FROM "public"."organisations_users" AS "organisations_users"   WHERE "organisations_users"."organisation_id" = "Role"."organisation_id" AND "organisations_users"."user_id" = 2 )',
 				],
 				'joins' => [
 					[
@@ -361,6 +403,18 @@
 					]
 				],
 				'order' => ['Role.libelle ASC', 'Role.id ASC']
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 4. Type "list" avec la clé "fields" et la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->roles('list', ['restrict' => true, 'fields' => ['id', 'libelle', 'organisation_id']]);
+			$expected = [
+				1 => [
+					4 => 'Administrateur',
+					3 => 'Consultant',
+					1 => 'Rédacteur',
+					2 => 'Valideur',
+				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}
@@ -416,6 +470,18 @@
 				'order' => ['Service.libelle ASC', 'Service.id ASC']
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 4. Type "list" avec la clé "fields" et la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->services('list', ['restrict' => true, 'fields' => ['id', 'libelle', 'organisation_id']]);
+			$expected = [
+				1 => [
+					2 => 'Service Abonnements',
+					1 => 'Service Gratuité',
+					3 => 'Service Immobilier',
+					4 => 'Service Transport'
+				]
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}
 
 		/**
@@ -429,9 +495,11 @@
 			$result = $this->Controller->WebcilUsers->services('list');
 			$expected = [
 				'Service Abonnements' => 'Service Abonnements',
+				'Service cuillère' => 'Service cuillère',
+				'Service des armées' => 'Service des armées',
 				'Service Gratuité' => 'Service Gratuité',
 				'Service Immobilier' => 'Service Immobilier',
-				'Service Transport' => 'Service Transport',
+				'Service Transport' => 'Service Transport'
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
@@ -443,6 +511,10 @@
 					1 => 'Service Gratuité',
 					3 => 'Service Immobilier',
 					4 => 'Service Transport'
+				],
+				2 => [
+					5 => 'Service cuillère',
+					6 => 'Service des armées'
 				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
@@ -452,7 +524,7 @@
 			$expected = [
 				'fields' => ['id', 'libelle', 'organisation_id'],
 				'conditions' => [
-					['Service.organisation_id' => 1]
+					'EXISTS( SELECT "organisations_users"."id" AS "organisations_users__id" FROM "public"."organisations_users" AS "organisations_users"   WHERE "organisations_users"."organisation_id" = "Service"."organisation_id" AND "organisations_users"."user_id" = 2 )',
 				],
 				'joins' => [
 					[
@@ -463,6 +535,18 @@
 					]
 				],
 				'order' => ['Service.libelle ASC', 'Service.id ASC']
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 4. Type "list" avec la clé "fields" et la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->services('list', ['restrict' => true, 'fields' => ['id', 'libelle', 'organisation_id']]);
+			$expected = [
+				1 => [
+					2 => 'Service Abonnements',
+					1 => 'Service Gratuité',
+					3 => 'Service Immobilier',
+					4 => 'Service Transport'
+				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}
@@ -505,8 +589,18 @@
 			$expected = [
 				'fields' => ['id', 'username'],
 				'conditions' => [],
-//				'joins' => [],
 				'order' => ['User.nom_complet_court ASC'],
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 4. Type "list" avec la clé "fields" et la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->users('list', ['restrict' => true, 'fields' => ['id', 'username']]);
+			$expected = [
+				3 => 'a.mont',
+				7 => 'c.hallepee',
+				5 => 'd.gaillard',
+				2 => 'm.huetter',
+				4 => 't.guillon'
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}
@@ -523,6 +617,7 @@
 			$expected = [
 				3 => 'Mme. Amélie MONT',
 				7 => 'Mme. Camille Hallépée',
+				6 => 'M. David CHANTALOU',
 				5 => 'M. David Gaillard',
 				2 => 'Mme. Marjorie HUETTER',
 				4 => 'M. Théo Guillon'
@@ -534,6 +629,7 @@
 			$expected = [
 				3 => 'a.mont',
 				7 => 'c.hallepee',
+				6 => 'd.chantalou',
 				5 => 'd.gaillard',
 				2 => 'm.huetter',
 				4 => 't.guillon'
@@ -545,9 +641,20 @@
 			$expected = [
 				'fields' => ['id', 'username'],
 				'conditions' => [
-					'User.id IN ( SELECT "organisations_users"."user_id" AS "organisations_users__user_id" FROM "public"."organisations_users" AS "organisations_users" INNER JOIN "public"."organisations" AS "organisations" ON ("organisations_users"."organisation_id" = "organisations"."id")  WHERE "organisations_users"."user_id" = "User"."id" AND "organisations_users"."organisation_id" = 1 )',
+					'User.id IN ( SELECT "organisations_users"."user_id" AS "organisations_users__user_id" FROM "public"."organisations_users" AS "organisations_users"   WHERE "organisations_users"."organisation_id" IN ( SELECT "organisations"."organisation_id" AS organisations__organisation_id FROM "public"."organisations_users" AS organisations   WHERE "organisations"."user_id" = 2  GROUP BY "organisations"."organisation_id" ) AND "organisations_users"."user_id" = "User"."id" )',
 				],
 				'order' => ['User.nom_complet_court ASC'],
+			];
+			$this->assertEqual( $result, $expected, var_export( $result, true ) );
+
+			// 4. Type "list" avec la clé "fields" et la clé "restrict" à true
+			$result = $this->Controller->WebcilUsers->users('list', ['restrict' => true, 'fields' => ['id', 'username']]);
+			$expected = [
+				3 => 'a.mont',
+				7 => 'c.hallepee',
+				5 => 'd.gaillard',
+				2 => 'm.huetter',
+				4 => 't.guillon'
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 		}

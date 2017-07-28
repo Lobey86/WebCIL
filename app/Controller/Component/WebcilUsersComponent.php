@@ -32,6 +32,11 @@ class WebcilUsersComponent extends Component {
 	 *
 	 * @param string $type "query" ou une des valeurs de find de CakePHP
 	 * @param array $params Les clés suivantes sont prises en compte:
+	 *	- "restrict": boolean|string, false par défaut
+	 *		- "false" pour restreindre à l'ensemble des organisations auxquelles
+	 *			l'utilisateur a accès
+	 *		- "true" pour restreindre à l'organisation actuellement sélectionnée
+	 *			(en session)
 	 *	- "droits": integer|array, vide par défaut; voir les constantes définies
 	 *		dans le modèle ListeDroit
 	 *	- "fields": array, par défaut, tous les champs du modèle Organisation et
@@ -42,6 +47,7 @@ class WebcilUsersComponent extends Component {
 	public function organisations($type = 'all', array $params = []) {
 		$controller = $this->_Collection->getController();
 		$params += [
+			'restrict' => false,
 			'droits' => [],
 			'fields' => null
 		];
@@ -79,10 +85,15 @@ class WebcilUsersComponent extends Component {
 					],
 					'conditions' => [
 						'OrganisationUser.organisation_id = Organisation.id',
-						'OrganisationUser.user_id' => $this->Session->read('Auth.User.id'),
 						'ListeDroit.value' => $params['droits']
 					]
 				];
+
+				if (true === $params['restrict']) {
+					$subQuery['conditions'][] = ['OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')];
+				} else {
+					$subQuery['conditions'][] = ['OrganisationUser.user_id' => $this->Session->read('Auth.User.id')];
+				}
 
 				$sql = $controller->User->OrganisationUser->sql(words_replace($subQuery, $aliases));
 				$query['conditions'][] = "EXISTS( {$sql} )";
@@ -92,13 +103,21 @@ class WebcilUsersComponent extends Component {
 					'alias' => 'organisations_users',
 					'fields' => ['organisations_users.id'],
 					'conditions' => [
-						'organisations_users.organisation_id = Organisation.id',
-						'organisations_users.user_id' => $this->Session->read('Auth.User.id')
+						'organisations_users.organisation_id = Organisation.id'
 					]
 				];
+
+				if (true === $params['restrict']) {
+					$subQuery['conditions'][] = ['organisations_users.organisation_id' => $this->Session->read('Organisation.id')];
+				} else {
+					$subQuery['conditions'][] = ['organisations_users.user_id' => $this->Session->read('Auth.User.id')];
+				}
+
 				$sql = $controller->User->OrganisationUser->sql($subQuery);
 				$query['conditions'][] = "EXISTS( {$sql} )";
 			}
+		} elseif (true === $params['restrict']) {
+			$query['conditions'][] = ['Organisation.id' => $this->Session->read('Organisation.id')];
 		}
 
 		if('list' === $type && null === $params['fields']) {
@@ -123,8 +142,11 @@ class WebcilUsersComponent extends Component {
 	 *
 	 * @param string $type "query" ou une des valeurs de find de CakePHP
 	 * @param array $params Les clés suivantes sont prises en compte:
-	 *	- "restrict": boolean, false par défaut, true pour restreindre à
-	 *		l'organisation en cours
+	 *	- "restrict": boolean|string, false par défaut
+	 *		- "false" pour restreindre à l'ensemble des organisations auxquelles
+	 *			l'utilisateur a accès
+	 *		- "true" pour restreindre à l'organisation actuellement sélectionnée
+	 *			(en session)
 	 *	- "fields": array, par défaut, tous les champs des modèles Role et
 	 *		Organisation et lorsque le type est "list", les valeurs de displayField,
 	 *		uniques, du modèle Role
@@ -153,13 +175,16 @@ class WebcilUsersComponent extends Component {
 			'order' => ["Role.{$controller->Role->displayField} ASC", "Role.{$controller->Role->primaryKey} ASC"]
 		];
 
-		if( false === $this->Droits->isSu() || true === $params['restrict'] ) {
-			// Limitation au niveau de mes entités
+		// Limitation à l'entité actuellement sélectionnée
+		if( true === $params['restrict'] ) {
+			$query['conditions']['Role.organisation_id'] = $this->Session->read( 'Organisation.id' );
+		// Limitation au niveau de mes entités (en base de données si je ne suis pas super admin)
+		} elseif( false === $this->Droits->isSu() ) {
 			$subQuery = [
 				'alias' => 'organisations_users',
 				'fields' => [ 'organisations_users.id' ],
 				'conditions' => [
-					'organisations_users.organisation_id = Organisation.id',
+					'organisations_users.organisation_id = Role.organisation_id',
 					'organisations_users.user_id' => $this->Session->read( 'Auth.User.id' )
 				]
 			];
@@ -190,8 +215,11 @@ class WebcilUsersComponent extends Component {
 	 *
 	 * @param string $type "query" ou une des valeurs de find de CakePHP
 	 * @param array $params Les clés suivantes sont prises en compte:
-	 *	- "restrict": boolean, false par défaut, true pour restreindre à
-	 *		l'organisation en cours
+	 *	- "restrict": boolean|string, false par défaut
+	 *		- "false" pour restreindre à l'ensemble des organisations auxquelles
+	 *			l'utilisateur a accès
+	 *		- "true" pour restreindre à l'organisation actuellement sélectionnée
+	 *			(en session)
 	 *	- "fields": array, par défaut, tous les champs du modèle Service et
 	 *		lorsque le type est "list", les valeurs de displayField, uniques, du
 	 *		modèle Service
@@ -220,8 +248,21 @@ class WebcilUsersComponent extends Component {
 			'order' => ["Service.{$controller->Service->displayField} ASC", "Service.{$controller->Service->primaryKey} ASC"]
 		];
 
-		if( false === $this->Droits->isSu() || true === $params['restrict'] ) {
-			$query['conditions'][] = [ 'Service.organisation_id' => $this->Session->read( 'Organisation.id' ) ];
+		// Limitation à l'entité actuellement sélectionnée
+		if( true === $params['restrict'] ) {
+			$query['conditions']['Service.organisation_id'] = $this->Session->read( 'Organisation.id' );
+		// Limitation au niveau de mes entités (en base de données si je ne suis pas super admin)
+		} elseif( false === $this->Droits->isSu() ) {
+			$subQuery = [
+				'alias' => 'organisations_users',
+				'fields' => [ 'organisations_users.id' ],
+				'conditions' => [
+					'organisations_users.organisation_id = Service.organisation_id',
+					'organisations_users.user_id' => $this->Session->read( 'Auth.User.id' )
+				]
+			];
+			$sql = $controller->Service->OrganisationUserService->OrganisationUser->sql( $subQuery );
+			$query['conditions'][] = "EXISTS( {$sql} )";
 		}
 
 		if('list' === $type && null === $params['fields']) {
@@ -247,8 +288,11 @@ class WebcilUsersComponent extends Component {
 	 *
 	 * @param string $type "query" ou une des valeurs de find de CakePHP
 	 * @param array $params Les clés suivantes sont prises en compte:
-	 *	- "restrict": boolean, false par défaut, true pour restreindre à
-	 *		l'organisation en cours
+	 *	- "restrict": boolean|string, false par défaut
+	 *		- "false" pour restreindre à l'ensemble des organisations auxquelles
+	 *			l'utilisateur a accès
+	 *		- "true" pour restreindre à l'organisation actuellement sélectionnée
+	 *			(en session)
 	 *	- "fields": array, par défaut, tous les champs du modèle User et
 	 *		lorsque le type est "list", les valeurs de primaryKey et de
 	 *		displayField du modèle User
@@ -282,24 +326,52 @@ class WebcilUsersComponent extends Component {
 			$query['fields'] = $params['fields'];
 		}
 
-		if( false === $this->Droits->isSu() || true === $params['restrict'] ) {
-			$replacements = [
-				'OrganisationUser' => 'organisations_users',
-				'Organisation' => 'organisations'
-			];
-
-			$subQuery = [
-				'alias' => 'OrganisationUser',
-				'fields' => ['OrganisationUser.user_id'],
-				'joins' => [
-					$controller->User->OrganisationUser->join('Organisation', ['type' => 'INNER'])
-				],
+		// Limitation à l'entité actuellement sélectionnée
+		if( true === $params['restrict'] ) {
+			$subQueryOrganisationUser = [
+				'alias' => 'organisations_users',
+				'fields' => ['organisations_users.user_id'],
 				'conditions' => [
-					'OrganisationUser.user_id = User.id',
-					'OrganisationUser.organisation_id' => $this->Session->read( 'Organisation.id' )
+					'organisations_users.user_id = User.id',
+					'organisations_users.organisation_id' => $this->Session->read( 'Organisation.id' )
 				]
 			];
-			$sql = $controller->User->OrganisationUser->sql(words_replace($subQuery, $replacements));
+			$sqlOrganisationUser = $controller->User->OrganisationUser->sql($subQueryOrganisationUser);
+
+			$subQueryAdmin = [
+				'alias' => 'admins',
+				'fields' => [ 'admins.user_id' ],
+				'conditions' => [
+					'admins.user_id = User.id'
+				]
+			];
+			$sqlAdmin = $controller->User->Admin->sql( $subQueryAdmin );
+
+			$query['conditions'][] = [
+				"User.id IN ( {$sqlOrganisationUser} )",
+				"User.id NOT IN ( {$sqlAdmin} )"
+			];
+		// Limitation au niveau de mes entités (en base de données si je ne suis pas super admin)
+		} elseif( false === $this->Droits->isSu() ) {
+			$subQueryOrganisations = [
+				'alias' => 'organisations',
+				'fields' => [ 'organisations.organisation_id' ],
+				'conditions' => [
+					'organisations.user_id' => $this->Session->read( 'Auth.User.id' )
+				],
+				'group' => [ 'organisations.organisation_id' ]
+			];
+			$sqlOrganisations = $controller->User->OrganisationUser->sql( $subQueryOrganisations );
+
+			$subQuery = [
+				'alias' => 'organisations_users',
+				'fields' => [ 'organisations_users.user_id' ],
+				'conditions' => [
+					"organisations_users.organisation_id IN ( {$sqlOrganisations} )",
+					'organisations_users.user_id = User.id'
+				]
+			];
+			$sql = $controller->User->OrganisationUser->sql( $subQuery );
 			$query['conditions'][] = "User.id IN ( {$sql} )";
 		}
 

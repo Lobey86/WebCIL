@@ -73,13 +73,11 @@ class RegistresController extends AppController {
             'Fiche.organisation_id' => $this->Session->read('Organisation.id')
         ];
 
-        $search = false;
         $conditionValeur = [];
 
         // Filtre sur l'utilisateur à l'origine du traitement
         if (!empty($this->request->data['Registre']['user'])) {
             $condition['Fiche.user_id'] = $this->request->data['Registre']['user'];
-            $search = true;
         }
 
         // Filtre sur le nom du traitement
@@ -92,7 +90,6 @@ class RegistresController extends AppController {
                     trim(noaccents_upper($this->request->data['Registre']['outil']))
                 ).'%'
             ];
-            $search = true;
         }
 
         // Filtre sur le service à l'origine du traitement
@@ -101,19 +98,16 @@ class RegistresController extends AppController {
                 'Valeur.champ_name' => 'declarantservice',
                 'Valeur.valeur' => $this->request->data['Registre']['service']
             ];
-            $search = true;
         }
 
         // Filtre sur le traitement verrouillées
         if (isset($this->request->data['Registre']['archive']) && $this->request->data['Registre']['archive'] == 1) {
             $condition['EtatFiche.etat_id'] = EtatFiche::ARCHIVER;
-            $search = true;
         }
 
         // Filtre sur le traitement non verrouillées
         if (isset($this->request->data['Registre']['nonArchive']) && $this->request->data['Registre']['nonArchive'] == 1) {
             $condition['EtatFiche.etat_id'] = EtatFiche::VALIDER_CIL;
-            $search = true;
         }
 
         if (false === empty($conditionValeur)) {
@@ -167,44 +161,13 @@ class RegistresController extends AppController {
             }
         }
 
-        $this->set('search', $search);
         $this->set('fichesValid', $fichesValid);
 
-
-        // Listing des utilisateurs de l'organisation
-        $liste = $this->OrganisationUser->find('all', [
-            'conditions' => [
-                'OrganisationUser.organisation_id' => $this->Session->read('Organisation.id')
-            ],
-            'contain' => [
-                'User' => [
-                    'id',
-                    'nom',
-                    'prenom'
-                ]
-            ]
-        ]);
-
-        $listeUsers = [];
-        foreach ($liste as $key => $value) {
-            $listeUsers[$value['User']['id']] = $value['User']['prenom'] . ' ' . $value['User']['nom'];
-        }
-        $this->set('listeUsers', $listeUsers);
-
-
-        // Listing des service de l'organisation
-        $services = $this->Service->find('all', [
-            'conditions' => [
-                'organisation_id' => $this->Session->read('Organisation.id')
-            ]
-        ]);
-
-        // Service
-        $listeServices = [];
-        foreach ($services as $key => $service) {
-            $listeServices[$service['Service']['libelle']] = $service['Service']['libelle'];
-        }
-        $this->set('listeServices', $listeServices);
+		$options = [
+			'users' => $this->WebcilUsers->users('list', ['restrict' => true]),
+			'services' => $this->WebcilUsers->services('list', ['restrict' => true])
+		];
+        $this->set(compact('options'));
     }
 
     /**

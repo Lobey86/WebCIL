@@ -34,7 +34,7 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
         </span>
         <?php
         echo $this->Form->input('user', [
-            'options' => $listeUsers,
+            'options' => $options['users'],
             'class' => 'usersDeroulant transformSelect form-control',
             'empty' => true,
             'data-placeholder' => __d('registre', 'registre.placeholderSelectionnerUser'),
@@ -62,7 +62,7 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
         </span>
         <?php
         echo $this->Form->input('service', [
-            'options' => $listeServices,
+            'options' => $options['services'],
             'class' => 'usersDeroulant transformSelect form-control',
             'empty' => true,
             'data-placeholder' => __d('registre', 'registre.placeholderSelectionnerService'),
