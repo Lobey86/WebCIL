@@ -62,9 +62,6 @@ msgstr "Information sur l'entité :"
 msgid "fiche.textInfoResponsableEntite"
 msgstr "Information sur le responsable de l'entité :"
 
-msgid "fiche.textInfoOrganisation"
-msgstr "Information sur l'organisation :"
-
 msgid "fiche.textInfoContact"
 msgstr "Information sur le rédacteur :"
 
