@@ -223,7 +223,7 @@ class UsersController extends AppController {
 		$hasService = [] !== $this->Service->find('first', ['fields' => ['id']]);
 
 		// Options
-		$restrict = 'index' === $this->request->params['action'];
+		$restrict = 'index' === $this->request->params['action'] ? true : false;
 		$options = [
 			'organisations' => $this->WebcilUsers->organisations( 'list', [ 'restrict' => $restrict ] ),
 			'roles' => $this->WebcilUsers->roles( 'list', [ 'restrict' => $restrict ] ),
