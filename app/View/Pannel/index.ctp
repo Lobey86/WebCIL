@@ -35,9 +35,9 @@ if(true === isset($banettes['recuConsultation'])) {
 }
 
 // Banette mes traitements validés et insérés au registre
-if(true === isset($banettes['archives'])) {
-    echo $this->Banettes->archives($banettes['archives'], $params);
-}
+//if(true === isset($banettes['archives'])) {
+//    echo $this->Banettes->archives($banettes['archives'], $params);
+//}
 
 // Banette etat des traitements passés en ma possession
 if(true === isset($banettes['consulte'])) {
