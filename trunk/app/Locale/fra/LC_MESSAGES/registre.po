@@ -80,8 +80,8 @@ msgstr "Uniquement les traitements non verrouillées"
 msgid "registre.btnFiltre"
 msgstr "Filtrer"
 
-msgid "registre.btnSupprimerFiltre"
-msgstr "Supprimer les filtres"
+msgid "registre.btnReinitialiserFiltre"
+msgstr "Réinitialiser les filtres"
 
 msgid "registre.placeholderNomTraitement"
 msgstr "Nom du traitement"
