@@ -36,7 +36,7 @@ msgid "element.Archivee"
 msgstr "Modifiée et validée au registre"
 
 msgid "element.ArchiveePar"
-msgstr "Validée par"
+msgstr "Validé par"
 
 msgid "element.ModificationTraitementRegistre"
 msgstr "Modification du traitement inséré dans le registre"
@@ -45,10 +45,10 @@ msgid "element.ModificationTraitementRegistrePar"
 msgstr "Modification du traitement inséré dans le registre par"
 
 msgid "element.Validee"
-msgstr "Validée"
+msgstr "Validé"
 
 msgid "element.ValideePar"
-msgstr "Validée par"
+msgstr "Validé par"
 
 msgid "element.Refusee"
 msgstr "Refusé"
@@ -57,10 +57,10 @@ msgid "element.RefuseePar"
 msgstr "Refusé par"
 
 msgid "element.ValideeInsereeRegistre"
-msgstr "Validée et inscrit au registre"
+msgstr "Validé et inscrit au registre"
 
 msgid "element.ValideePar"
-msgstr "Validée par"
+msgstr "Validé par"
 
 msgid "element.CommenterPar"
 msgstr "Commenté par"
@@ -69,9 +69,9 @@ msgid "element.AttenteConsultation"
 msgstr "En attente de consultation"
 
 msgid "element.ReplacerRedaction"
-msgstr "Replacer en rédaction" 
+msgstr "Replacé en rédaction" 
 
 msgid "element.ReplacerRedactionPar"
-msgstr "Replacer en rédaction par" 
+msgstr "Replacé en rédaction par" 
 
 ###############################################################################
