@@ -243,7 +243,7 @@ class EtatFichesController extends AppController {
             $this->Commentaire->create([
                 'Commentaire' => [
                     'etat_fiches_id' => $id,
-                    'content' => $this->request->data['EtatFiche']['content'],
+                    'content' => $this->request->data['EtatFiche']['commentaireRepondre'],
                     'user_id' => $this->Auth->user('id'),
                     'destinataire_id' => $idDestinataire
                 ]
