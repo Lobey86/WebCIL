@@ -143,26 +143,29 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->organisations('all', ['fields' => ['id', 'raisonsociale']]);
+			// 2. Type "first"
+			$result = $this->Controller->WebcilUsers->organisations('first');
 			$expected = [
-				[
-					'Organisation' => [
-						'id' => 3,
-						'raisonsociale' => 'CISV',
-					]
-				],
-				[
-					'Organisation' => [
-						'id' => 2,
-						'raisonsociale' => 'Librishop',
-					]
-				],
-				[
-					'Organisation' => [
-						'id' => 1,
-						'raisonsociale' => 'Montpellier Méditerranée Métropole',
-					]
+				'Organisation' => [
+					'id' => 3,
+					'raisonsociale' => 'CISV',
+					'telephone' => '0101010101',
+					'fax' => '0101010102',
+					'adresse' => "666 avenue Général Leclerc\n34470 Pérols",
+					'email' => 'cisv@cil.fr',
+					'sigle' => NULL,
+					'siret' => '49101169800025',
+					'ape' => '6661A',
+					'logo' => NULL,
+					'nomresponsable' => 'ORWELL',
+					'prenomresponsable' => 'George',
+					'emailresponsable' => 'g.orwell@cisv.fr',
+					'telephoneresponsable' => '0101010103',
+					'fonctionresponsable' => 'Président directeur général',
+					'cil' => NULL,
+					'numerocil' => NULL,
+					'created' => '2017-07-25 09:08:28',
+					'modified' => '2017-07-25 09:08:28',
 				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
@@ -176,8 +179,8 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 4. Avec le paramètre "droits"
-			$result = $this->Controller->WebcilUsers->organisations('list', ['droits' => ListeDroit::CREER_UTILISATEUR]);
+			// 4. Type "list" avec le paramètre "droits"
+			$result = $this->Controller->WebcilUsers->organisations('list',['droits' => ListeDroit::CREER_UTILISATEUR]);
 			$expected = [
 				3 => 'CISV',
 				2 => 'Librishop',
@@ -201,20 +204,29 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->organisations('all', ['fields' => ['id', 'raisonsociale']]);
+			// 2. Type "first"
+			$result = $this->Controller->WebcilUsers->organisations('first');
 			$expected = [
-				[
-					'Organisation' => [
-						'id' => 2,
-						'raisonsociale' => 'Librishop',
-					]
-				],
-				[
-					'Organisation' => [
-						'id' => 1,
-						'raisonsociale' => 'Montpellier Méditerranée Métropole',
-					]
+				'Organisation' => [
+					'id' => 2,
+					'raisonsociale' => 'Librishop',
+					'telephone' => '0400000000',
+					'fax' => NULL,
+					'adresse' => '42 rue du blizzard',
+					'email' => 'david@example.org',
+					'sigle' => 'LS',
+					'siret' => '65050134900015',
+					'ape' => '12321',
+					'logo' => NULL,
+					'nomresponsable' => 'GAILLARD',
+					'prenomresponsable' => 'David',
+					'emailresponsable' => 'david@example.org',
+					'telephoneresponsable' => '0400000000',
+					'fonctionresponsable' => 'DG',
+					'cil' => 7,
+					'numerocil' => '002',
+					'created' => '2017-07-25 09:08:25',
+					'modified' => '2017-07-25 09:09:21',
 				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
@@ -230,7 +242,7 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 4. Avec le paramètre "droits"
+			// 4. Type "list" avec le paramètre "droits"
 			$result = $this->Controller->WebcilUsers->organisations('list', ['droits' => ListeDroit::CREER_UTILISATEUR]);
 			$expected = [
 				2 => 'Librishop',
@@ -256,93 +268,27 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->roles('all', ['fields' => ['id', 'libelle', 'organisation_id']]);
+			// 2. Type "list" avec la clé "fields"
+			$result = $this->Controller->WebcilUsers->roles('list', ['fields' => ['id', 'libelle', 'organisation_id']]);
 			$expected = [
-				[
-					'Role' => [
-						'id' => 4,
-						'libelle' => 'Administrateur',
-						'organisation_id' => 1,
-					],
+				1 => [
+					4 => 'Administrateur',
+					3 => 'Consultant',
+					1 => 'Rédacteur',
+					2 => 'Valideur',
 				],
-				[
-					'Role' => [
-						'id' => 8,
-						'libelle' => 'Administrateur',
-						'organisation_id' => 2,
-					],
+				2 => [
+					8 => 'Administrateur',
+					7 => 'Consultant',
+					5 => 'Rédacteur',
+					6 => 'Valideur',
 				],
-				[
-					'Role' => [
-						'id' => 12,
-						'libelle' => 'Administrateur',
-						'organisation_id' => 3,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 3,
-						'libelle' => 'Consultant',
-						'organisation_id' => 1,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 7,
-						'libelle' => 'Consultant',
-						'organisation_id' => 2,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 11,
-						'libelle' => 'Consultant',
-						'organisation_id' => 3,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 1,
-						'libelle' => 'Rédacteur',
-						'organisation_id' => 1,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 5,
-						'libelle' => 'Rédacteur',
-						'organisation_id' => 2,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 9,
-						'libelle' => 'Rédacteur',
-						'organisation_id' => 3,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 2,
-						'libelle' => 'Valideur',
-						'organisation_id' => 1,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 6,
-						'libelle' => 'Valideur',
-						'organisation_id' => 2,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 10,
-						'libelle' => 'Valideur',
-						'organisation_id' => 3,
-					],
-				],
+				3 => [
+					12 => 'Administrateur',
+					11 => 'Consultant',
+					9 => 'Rédacteur',
+					10 => 'Valideur',
+				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
@@ -381,37 +327,21 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->roles('all', ['fields' => ['id', 'libelle', 'organisation_id']]);
+			// 2. Type "list" avec la clé "fields"
+			$result = $this->Controller->WebcilUsers->roles('list', ['fields' => ['id', 'libelle', 'organisation_id']]);
 			$expected = [
-				[
-					'Role' => [
-						'id' => 4,
-						'libelle' => 'Administrateur',
-						'organisation_id' => 1,
-					],
+				1 => [
+					4 => 'Administrateur',
+					3 => 'Consultant',
+					1 => 'Rédacteur',
+					2 => 'Valideur'
 				],
-				[
-					'Role' => [
-						'id' => 3,
-						'libelle' => 'Consultant',
-						'organisation_id' => 1,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 1,
-						'libelle' => 'Rédacteur',
-						'organisation_id' => 1,
-					],
-				],
-				[
-					'Role' => [
-						'id' => 2,
-						'libelle' => 'Valideur',
-						'organisation_id' => 1,
-					],
-				],
+				2 => [
+					8 => 'Administrateur',
+					7 => 'Consultant',
+					5 => 'Rédacteur',
+					6 => 'Valideur'
+				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
@@ -420,7 +350,7 @@
 			$expected = [
 				'fields' => ['id', 'libelle', 'organisation_id'],
 				'conditions' => [
-					'Role.organisation_id' => 1,
+					'EXISTS( SELECT "organisations_users"."id" AS "organisations_users__id" FROM "public"."organisations_users" AS "organisations_users"   WHERE "organisations_users"."organisation_id" = "Organisation"."id" AND "organisations_users"."user_id" = 2 )',
 				],
 				'joins' => [
 					[
@@ -454,45 +384,19 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->services('all', ['fields' => ['id', 'libelle']]);
+			// 2. Type "list" avec la clé "fields"
+			$result = $this->Controller->WebcilUsers->services('list', ['fields' => ['id', 'libelle', 'organisation_id']]);
 			$expected = [
-				[
-					'Service' => [
-						'id' => 2,
-						'libelle' => 'Service Abonnements'
-					]
+				1 => [
+					2 => 'Service Abonnements',
+					1 => 'Service Gratuité',
+					3 => 'Service Immobilier',
+					4 => 'Service Transport'
 				],
-				[
-					'Service' => [
-						'id' => 5,
-						'libelle' => 'Service cuillère'
-					]
-				],
-				[
-					'Service' => [
-						'id' => 6,
-						'libelle' => 'Service des armées'
-					]
-				],
-				[
-					'Service' => [
-						'id' => 1,
-						'libelle' => 'Service Gratuité'
-					]
-				],
-				[
-					'Service' => [
-						'id' => 3,
-						'libelle' => 'Service Immobilier'
-					]
-				],
-				[
-					'Service' => [
-						'id' => 4,
-						'libelle' => 'Service Transport'
-					]
-				],
+				2 => [
+					5 => 'Service cuillère',
+					6 => 'Service des armées'
+				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
@@ -531,33 +435,15 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->services('all', ['fields' => ['id', 'libelle']]);
+			// 2. Type "list" avec la clé "fields"
+			$result = $this->Controller->WebcilUsers->services('list', ['fields' => ['id', 'libelle', 'organisation_id']]);
 			$expected = [
-				[
-					'Service' => [
-						'id' => 2,
-						'libelle' => 'Service Abonnements'
-					]
-				],
-				[
-					'Service' => [
-						'id' => 1,
-						'libelle' => 'Service Gratuité'
-					]
-				],
-				[
-					'Service' => [
-						'id' => 3,
-						'libelle' => 'Service Immobilier'
-					]
-				],
-				[
-					'Service' => [
-						'id' => 4,
-						'libelle' => 'Service Transport'
-					]
-				],
+				1 => [
+					2 => 'Service Abonnements',
+					1 => 'Service Gratuité',
+					3 => 'Service Immobilier',
+					4 => 'Service Transport'
+				]
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
@@ -601,51 +487,16 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->users('all', ['fields' => ['id', 'username']]);
+			// 2. Type "list" avec la clé "fields"
+			$result = $this->Controller->WebcilUsers->users('list', ['fields' => ['id', 'username']]);
 			$expected = [
-				[
-					'User' => [
-						'id' => 3,
-						'username' => 'a.mont'
-					]
-				],
-				[
-					'User' => [
-						'id' => 7,
-						'username' => 'c.hallepee'
-					]
-				],
-				[
-					'User' => [
-						'id' => 6,
-						'username' => 'd.chantalou'
-					]
-				],
-				[
-					'User' => [
-						'id' => 5,
-						'username' => 'd.gaillard'
-					]
-				],
-				[
-					'User' => [
-						'id' => 2,
-						'username' => 'm.huetter'
-					]
-				],
-				[
-					'User' => [
-						'id' => 1,
-						'username' => 'superadmin'
-					]
-				],
-				[
-					'User' => [
-						'id' => 4,
-						'username' => 't.guillon'
-					]
-				],
+				3 => 'a.mont',
+				7 => 'c.hallepee',
+				6 => 'd.chantalou',
+				5 => 'd.gaillard',
+				2 => 'm.huetter',
+				1 => 'superadmin',
+				4 => 't.guillon'
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
@@ -678,39 +529,14 @@
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
-			// 2. Type "all" avec la clé "fields"
-			$result = $this->Controller->WebcilUsers->users('all', ['fields' => ['id', 'username']]);
+			// 2. Type "list" avec la clé "fields"
+			$result = $this->Controller->WebcilUsers->users('list', ['fields' => ['id', 'username']]);
 			$expected = [
-				[
-					'User' => [
-						'id' => 3,
-						'username' => 'a.mont'
-					]
-				],
-				[
-					'User' => [
-						'id' => 7,
-						'username' => 'c.hallepee'
-					]
-				],
-				[
-					'User' => [
-						'id' => 5,
-						'username' => 'd.gaillard'
-					]
-				],
-				[
-					'User' => [
-						'id' => 2,
-						'username' => 'm.huetter'
-					]
-				],
-				[
-					'User' => [
-						'id' => 4,
-						'username' => 't.guillon'
-					]
-				],
+				3 => 'a.mont',
+				7 => 'c.hallepee',
+				5 => 'd.gaillard',
+				2 => 'm.huetter',
+				4 => 't.guillon'
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
 
@@ -721,7 +547,6 @@
 				'conditions' => [
 					'User.id IN ( SELECT "organisations_users"."user_id" AS "organisations_users__user_id" FROM "public"."organisations_users" AS "organisations_users" INNER JOIN "public"."organisations" AS "organisations" ON ("organisations_users"."organisation_id" = "organisations"."id")  WHERE "organisations_users"."user_id" = "User"."id" AND "organisations_users"."organisation_id" = 1 )',
 				],
-//				'joins' => [],
 				'order' => ['User.nom_complet_court ASC'],
 			];
 			$this->assertEqual( $result, $expected, var_export( $result, true ) );
