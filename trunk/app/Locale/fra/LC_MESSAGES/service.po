@@ -56,8 +56,8 @@ msgstr "Actions"
 msgid "service.textTableauOrganisation"
 msgstr "Entité"
 
-msgid "service.textTableauMembre"
-msgstr "Membre"
+msgid "service.titreTableauNbUtilisateur"
+msgstr "Nombre d'utilisateurs"
 
 msgid "service.commentaireModifierService"
 msgstr "Modifier le nom du service"
