@@ -1,16 +1,29 @@
 $(document).ready(function () {
-    $('#modalNotif').modal();
+	try {
+		$('#modalNotif').modal();
+	} catch(exception) {
+		console.log(exception);
+	}
 
-    $(".usersDeroulant").chosen({
-        no_results_text: "Aucun résultat trouvé pour", 
-        width: '100%'
-    });
-    
-    $('.my-tooltip').tooltip({
-        delay: {"show": 800, "hide": 0},
-        container: "body"
-    }
-    );
+	try {
+		$(".chosen-select, .usersDeroulant").chosen({
+			no_results_text: "Aucun résultat trouvé pour",
+			allow_single_deselect: true,
+			width: '100%'
+		});
+	} catch(exception) {
+		console.log(exception);
+	}
+
+	try {
+		$('.my-tooltip').tooltip({
+			delay: {"show": 800, "hide": 0},
+			container: "body"
+		}
+		);
+	} catch(exception) {
+		console.log(exception);
+	}
 
     $('[id^="collapse"]').on('shown.bs.collapse', function () {
         var coucou = $(this).attr('id');
@@ -28,7 +41,7 @@ $(document).ready(function () {
         var new_element = jQuery('<input type="hidden" class="hiddenFile' + value + '" name="delfiles[]" value="' + value + '"/>');
         $('.hiddenfields').append(new_element);
     });
-    
+
     $('.btn-cancel-file').click(function () {
         var value = $(this).attr('data');
         $('.tr-file-' + value).css('color', '#000000');
@@ -37,24 +50,24 @@ $(document).ready(function () {
         $('.hiddenFile' + value).remove();
 
     });
-    
+
     $('.btn-edit-registre').click(function () {
         var id = $(this).attr('data');
         $('#idEditRegistre').val(id);
     })
-    
+
     $('.btn-insert-registre').click(function () {
         var id = $(this).attr('data-id');
         $('#idFiche').val(id);
-        
+
         if ($(this).attr('data-type') === 'false'){
             $('#typedeclaration').parent().parent().show();
         } else{
             $('#typedeclaration').parent().parent().hide();
         }
-        
+
     })
-    
+
     $('.btn_envoyerValideur').click(function () {
         var id = $(this).attr('data-id');
         $('#ficheNumVal').val(id);
@@ -62,7 +75,7 @@ $(document).ready(function () {
         var fiche = $(this).attr('data-fiche');
         $('#etatFicheVal').val(fiche);
     })
-    
+
     $('.btn_envoyerConsultation').click(function () {
         var id = $(this).attr('data-id');
         $('#ficheNumCons').val(id);
@@ -70,7 +83,7 @@ $(document).ready(function () {
         var fiche = $(this).attr('data-fiche');
         $('#etatFicheCons').val(fiche);
     })
-    
+
     $('.btn_ReorienterTraitement').click(function () {
         var id = $(this).attr('data-id');
         $('#ficheNumReo').val(id);
@@ -78,7 +91,7 @@ $(document).ready(function () {
         var fiche = $(this).attr('data-fiche');
         $('#etatFicheReo').val(fiche);
     })
-    
+
     $('.btn-upload-modele').click(function () {
         var id = $(this).attr('data');
         $('#idUploadModele').val(id);
@@ -115,8 +128,66 @@ function verificationExtension() {
             if (ctrlName[ctrlName.length - 1] !== 'odt' && ctrlName[ctrlName.length - 1] !== 'pdf') {
                 $(this).val("");
                 $('#errorExtentionAnnexe').modal('show');
-            } 
+            }
         }
     }
 });
 }
+
+var WebcilForm = {
+	chosenFields: function(form) {
+		var selects;
+		if (true === $.isFunction( $.fn.chosen )) {
+			try {
+				selects = $(form).find('select').chosen();
+			} catch(exception) {
+				selects = [];
+			}
+		} else {
+			selects = [];
+		}
+
+		return $(selects);
+	},
+	reset: function(event) {
+		var form = $(event.target).closest('form'),
+			typesWithValue = ['color', 'date', 'datetime', 'email', 'month', 'number', 'password', 'range', 'research', 'search', 'tel', 'text', 'url', 'week'],
+			typesWithChecked = ['checkbox', 'radio'],
+			fieldsWithValue = $(form).find('input[type="'+typesWithValue.join('"], input[type="')+'"]'+', select, textarea'),
+			fieldsWithChecked = $(form).find('input[type="'+typesWithChecked.join('"], input[type="')+'"]');
+
+		$(fieldsWithValue).val('');
+		$(fieldsWithValue).trigger('change');
+
+		$(fieldsWithChecked).prop('checked', false);
+		$(fieldsWithValue).trigger('click');
+
+		// On indique au plugin chosen qu'il doit mettre à jour les champs
+		WebcilForm.chosenFields(form).trigger('chosen:updated');
+
+		event.preventDefault();
+		event.stopPropagation();
+	},
+	init: function(form) {
+		$(form).find('.search-reset').bind('click', WebcilForm.reset);
+
+		WebcilForm.chosenFields(form).each(function(idx, select){
+			var chosen = $('#'+$(select).attr('id')+'_chosen'),
+				span = $(chosen).find('a.chosen-single.chosen-default span');
+
+			$(select).on('change', function(event, params) {
+				if('undefined' === typeof params) {
+					$(span).addClass('text-muted');
+				} else {
+					$(span).removeClass('text-muted');
+				}
+			});
+
+			$(span).addClass('text-muted');
+		});
+	}
+};
+
+$(function(){
+	$('form.search-form').each(function(idx, form){WebcilForm.init(form)});
+});

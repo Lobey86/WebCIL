@@ -1,23 +1,33 @@
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-
 <?php
 echo $this->Html->script('pannel.js');
 echo $this->Html->script('registre.js');
-echo $this->Form->button('<span class="fa fa-filter fa-lg"></span>' . __d('registre', 'registre.btnFiltrerListe'), $options = [
-    'type' => 'button',
-    'class' => 'btn btn-default-primary',
-    'id' => 'filtrage'
-]);
 
 $idFicheNotification = $this->Session->read('idFicheNotification');
 unset($_SESSION['idFicheNotification']);
 ?>
+<?php
+// Filtrer la liste
+// Bouton du filtre de la liste
+echo $this->Form->button(
+	'<span class="fa fa-filter fa-lg"></span>' . __d('registre', 'registre.btnFiltrerListe'),
+	[
+		'type' => 'button',
+		'class' => 'btn btn btn-default-primary',
+		'id' => 'filtrage'
+	]
+);
 
-<div id="divFiltrage">
-    <?php
-    echo $this->Form->create('Registre', $options = ['action' => 'index']);
-    ?>
-    
+$filters = $this->request->data;
+unset($filters['sort'], $filters['direction'], $filters['page']);
+?>
+<div id="divFiltrage" <?php if(true === empty($filters)) {echo 'style="display: none;"';}?>>
+	<?php
+		echo $this->Form->create('Registre', ['url' => [
+			'controller' => $this->request->params['controller'],
+			'action' => $this->request->params['action']
+		], 'class' => 'search-form']);
+	?>
+
     <div class="input-group login">
         <span class="input-group-addon">
             <span class="fa fa-user fa-lg"></span>
@@ -26,12 +36,13 @@ unset($_SESSION['idFicheNotification']);
         echo $this->Form->input('user', [
             'options' => $listeUsers,
             'class' => 'usersDeroulant transformSelect form-control',
-            'empty' => __d('registre', 'registre.placeholderSelectionnerUser'),
+            'empty' => true,
+            'data-placeholder' => __d('registre', 'registre.placeholderSelectionnerUser'),
             'label' => false
         ]);
         ?>
     </div>
-    
+
     <div class="input-group login">
         <span class="input-group-addon">
             <span class="fa fa-tag fa-lg"></span>
@@ -44,24 +55,23 @@ unset($_SESSION['idFicheNotification']);
         ]);
         ?>
     </div>
-    
+
     <div class="input-group login">
         <span class="input-group-addon">
-            <span class="fa fa-user fa-lg"></span>
+            <span class="fa fa-sitemap fa-lg"></span>
         </span>
         <?php
         echo $this->Form->input('service', [
             'options' => $listeServices,
             'class' => 'usersDeroulant transformSelect form-control',
-            'empty' => __d('registre', 'registre.placeholderSelectionnerService'),
+            'empty' => true,
+            'data-placeholder' => __d('registre', 'registre.placeholderSelectionnerService'),
             'label' => false
         ]);
         ?>
     </div>
-    
-    <?php
-    if ($this->Autorisation->isCil() || $this->Autorisation->isSu()) {
-        ?>
+
+    <?php if ($this->Autorisation->isCil() || $this->Autorisation->isSu()) :?>
         <div class = "input-group login">
             <?php
             echo $this->Form->input('archive', [
@@ -69,29 +79,47 @@ unset($_SESSION['idFicheNotification']);
                 'label' => __d('registre', 'registre.radioFicheVerouillee'),
                 'id' => 'checkArch'
             ]);
-            
+
             echo $this->Form->input('nonArchive', [
                 'type' => 'checkbox',
                 'label' => __d('registre', 'registre.radioFicheNonVerouillee'),
                 'id' => 'checkNonArch'
             ]);
             ?>
+		</div>
+	<?php endif;?>
+
+    <!-- Groupe de bouton -->
+    <div class="row top30">
+        <div class="col-md-4 col-md-offset-5 btn-group">
+            <?php
+                // Bouton Réinitialiser le filtre
+                echo $this->Html->link(
+					'<i class="fa fa-undo fa-lg"></i> ' . __d('registre', 'registre.btnReinitialiserFiltre'),
+					[
+						'controller' => $this->request->params['controller'],
+						'action' => $this->request->params['action']
+					],
+					[
+						'class' => 'btn btn-default-danger search-reset',
+						'escape' => false,
+					]
+				);
+
+                // Bouton Appliquer les filtres
+                echo $this->Form->button(
+					'<i class="fa fa-filter fa-lg"></i> ' . __d('registre', 'registre.btnFiltre'),
+					[
+						'type' => 'submit',
+						'class' => 'btn btn-default-primary'
+					]
+				);
+            ?>
         </div>
-        <?php
-    }
+    </div>
 
-    echo $this->Html->link(__d('registre', 'registre.btnSupprimerFiltre'), [
-        'controller' => 'registres',
-        'action' => 'index'
-        ], [
-            'class' => 'btn btn-default-danger pull-right'
-        ]
-    );
-    echo $this->Form->submit(__d('registre', 'registre.btnFiltre'), ['class' => 'btn btn-default-primary']);
-    echo $this->Form->end();
-    ?>
+    <?php echo $this->Form->end();?>
 </div>
-
 <?php
 if (!empty($fichesValid)) {
     ?>
@@ -105,7 +133,7 @@ if (!empty($fichesValid)) {
             'class' => 'btn btn-default-primary pull-left'
         ]);
     }
-    
+
     if ($idCil['Organisation']['cil'] == $this->Session->read('Auth.User.id')) {
         echo $this->Form->button('<span class="fa fa-download fa-lg"></span>' . __d('registre', 'registre.btnImprimerTraitementRegistrePDF'), [
             'onclick' => "sendData()",
@@ -113,7 +141,7 @@ if (!empty($fichesValid)) {
         ]);
     }
     ?>
-    
+
     <table class="table">
         <thead>
             <?php
@@ -123,27 +151,27 @@ if (!empty($fichesValid)) {
                 <th class="thleft col-md-1">
                     <input id="extraitRegistreCheckbox" type="checkbox" class = "extraitRegistreCheckbox_checkbox" />
                 </th>
-            
+
                 <!-- Nom du traitement -->
                 <th class="thleft col-md-2">
                     <?php echo __d('registre', 'registre.titreTableauNomTraitement'); ?>
                 </th>
-                
+
                 <!-- Synthèse -->
                 <th class="thleft col-md-6">
                     <?php echo __d('registre', 'registre.titreTableauSynthese'); ?>
                 </th>
-                
+
                 <!-- Outils -->
                 <th class="thleft col-md-2">
                     <?php echo __d('registre', 'registre.titreTableauOutil'); ?>
                 </th>
-                
+
                 <!-- checkbox traitement -->
                 <th class="thleft col-md-1">
                     <input id="masterCheckbox" type="checkbox" class = "masterCheckbox_checkbox" />
                 </th>
-                
+
                 <?php
             } else {
                 if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
@@ -155,17 +183,17 @@ if (!empty($fichesValid)) {
                     <?php
                 }
                 ?>
-                
+
                 <!-- Nom du traitement -->
                 <th class="thleft col-md-3">
                     <?php echo __d('registre', 'registre.titreTableauNomTraitement'); ?>
                 </th>
-                
+
                 <!-- Synthèse -->
                 <th class="thleft col-md-6">
                     <?php echo __d('registre', 'registre.titreTableauSynthese'); ?>
                 </th>
-                
+
                 <!-- Outils -->
                 <th class="thleft col-md-2">
                     <?php echo __d('registre', 'registre.titreTableauOutil'); ?>
@@ -184,7 +212,7 @@ if (!empty($fichesValid)) {
                     $DlOrGenerate = 'genereTraitement';
                     $docExtrait = 'genereExtraitRegistre';
                     $idExtrait = json_encode([$value['Fiche']['id']]);
-                    
+
                 } else {
                     $DlOrGenerate = 'downloadFileTraitement';
                     $docExtrait = 'downloadFileExtrait';
@@ -206,7 +234,7 @@ if (!empty($fichesValid)) {
                         ?>
                         <td class="tdleft">
                             <?php
-                            echo $value['Fiche']['Valeur'][1]['valeur']; 
+                            echo $value['Fiche']['Valeur'][1]['valeur'];
                             ?>
                         </td>
 
@@ -235,7 +263,7 @@ if (!empty($fichesValid)) {
                                         <?php echo $value['Fiche']['Valeur'][2]['valeur']; ?>
                                 </div>
                             </div>
-                            
+
                             <div class="row">
                                 <div class="col-md-12">
                                     <strong>
@@ -275,7 +303,7 @@ if (!empty($fichesValid)) {
                                         'escapeTitle' => false
                                     ]
                                 );
-                                
+
                                 // Bouton de visualisation de l'historique du traitement
                                 ?>
                                 <button type='button'
@@ -285,7 +313,7 @@ if (!empty($fichesValid)) {
                                     value='<?php echo $value['Fiche']['id']; ?>'>
                                     <span class='fa fa-history fa-lg'></span>
                                 </button>
-                                
+
                                 <?php
                                 if ($this->Autorisation->authorized('7', $this->Session->read('Droit.liste'))) {
                                     // Bouton de téléchargement de l'extrait de registre en PDF
@@ -300,7 +328,7 @@ if (!empty($fichesValid)) {
                                         ]
                                     );
                                 }
-                                
+
                                 if (($this->Autorisation->isCil() || $this->Autorisation->isSu()) && $value['EtatFiche']['etat_id'] != 7) {
                                     // Bouton de modification du traitement
                                     echo $this->Form->button('<span class="fa fa-pencil fa-lg"></span>', [
@@ -345,7 +373,7 @@ if (!empty($fichesValid)) {
                         }
                         ?>
                     </tr>
-                    
+
                     <tr class='listeValidation' id='listeValidation<?php echo $value['Fiche']['id']; ?>'>
                         <td></td>
                         <td></td>
@@ -362,7 +390,7 @@ if (!empty($fichesValid)) {
                             ]);
                             ?>
                         </td>
-                        
+
                         <td class="tdleft">
                             <?php
                             $historique = $this->requestAction([
@@ -370,7 +398,7 @@ if (!empty($fichesValid)) {
                                 'action' => 'getHistorique',
                                 $value['Fiche']['id']
                             ]);
-                        
+
                             echo $this->element('historique', [
                                 'historique' => $historique,
                                 'id' => $value['Fiche']['id']
@@ -387,32 +415,18 @@ if (!empty($fichesValid)) {
     </table>
     <?php
 } else {
-    if ($search) {
-        ?>
-        <div class='text-center'>
-            <h3>
-                <?php echo __d('registre', 'registre.textAucunTraitementFiltre'); ?>
-                <small>
-                    <?php
-                    echo $this->Html->link(' ' . __d('registre', 'registre.lienAnnulerFiltres'), [
-                       'controller' => 'registres',
-                        'action' => 'index'
-                    ]);
-                    ?>
-                </small>
-            </h3>
-        </div>
-        <?php
-    } else {
-        ?>
-    <div class='text-center'>
-        <h3>
-            <?php echo __d('registre', 'registre.textAucunTraitementRegistre'); ?>
-        </h3>
-    </div>
-    <?php
-    }
-}
+?>
+	<div class='text-center'>
+		<h3>
+			<?php
+				echo [] === Hash::filter($filters)
+					? __d('registre', 'registre.textAucunTraitementRegistre')
+					: __d('registre', 'registre.textAucunTraitementFiltre');
+			?>
+		</h3>
+	</div>
+<?php
+	}
 ?>
 
 <!-- Pop-up modification du traitement enregistré au registre  -->
@@ -457,9 +471,9 @@ if (!empty($fichesValid)) {
                             'div' => 'form-group',
                             'required' => 'required'
                         ]);
-                        
+
                         echo $this->Form->hidden('idEditRegistre', [
-                            'value' => '', 
+                            'value' => '',
                             'id' => "toModif"
                         ]);
                         ?>
@@ -482,7 +496,6 @@ if (!empty($fichesValid)) {
 </div>
 
 <script type="text/javascript">
-
     var currentTraitementId = 0;
 
     $(document).ready(function () {
@@ -498,7 +511,7 @@ if (!empty($fichesValid)) {
         $('input[type="checkbox"]').not("#masterCheckbox").change(function () {
             $('#masterCheckbox').prop('checked', $('input[type="checkbox"]').not('#masterCheckbox').not(':disabled').not(':checked').length === 0);
         });
-        
+
         // Lors d'action sur une checkbox : extraitRegistreCheckbox
         $("#extraitRegistreCheckbox").change(function () {
             $(".extraitRegistreCheckbox").not(':disabled').prop('checked', $(this).prop('checked'));
@@ -532,7 +545,7 @@ if (!empty($fichesValid)) {
         url = url + '/' + JSON.stringify(selectedList);
         window.location.href = url;
     }
-    
+
     function sendDataExtrait() {
         var url = "<?php echo Router::url(['controller' => 'fiches', 'action' => 'genereExtraitRegistre']); ?>";
         var selectedList = [];
@@ -545,5 +558,4 @@ if (!empty($fichesValid)) {
         url = url + '/' + JSON.stringify(selectedList);
         window.location.href = url;
     }
-
 </script>

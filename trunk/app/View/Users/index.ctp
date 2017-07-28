@@ -26,19 +26,20 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 ?>
 <div id="filtreUsers" <?php if(true === empty($filters)) {echo 'style="display: none;"';}?>>
 	<?php
-		echo $this->Form->create('users', [
+		echo $this->Form->create('users', ['url' => [
 			'controller' => $this->request->params['controller'],
 			'action' => $this->request->params['action']
-		]);
+		], 'class' => 'search-form']);
 	?>
 	<div class="row">
 		<?php
 			if( true === $actionAdminIndex ) {
 				// Filtrer par organisation
 				echo $this->Form->input( 'organisation', [
-					'empty' => __d( 'user', 'user.placeholderChoisirOrganisation' ),
+					'empty' => true,
+					'data-placeholder' => __d( 'user', 'user.placeholderChoisirOrganisation' ),
 					'class' => 'usersDeroulant transformSelect form-control',
-					'label' => 'Filtrer par organisation',
+					'label' => 'Filtrer par entité',
 					'options' => $options['organisations'],
 					'before' => '<div class="col-md-6">',
 					'after' => '</div>'
@@ -47,7 +48,8 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 
 			// Filtrer par organisation
 			echo $this->Form->input( 'cil', [
-				'empty' => 'Chercher par CIL',
+				'empty' => true,
+				'data-placeholder' => 'Chercher par CIL',
 				'class' => 'usersDeroulant transformSelect form-control',
 				'label' => 'CIL',
 				'options' => $options['cil'],
@@ -60,7 +62,8 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 		<?php
 			// Filtrer par nom complet
 			echo $this->Form->input( 'nom', [
-				'empty' => 'Chercher par utilisateur',
+				'empty' => true,
+				'data-placeholder' => 'Chercher par utilisateur',
 				'class' => 'usersDeroulant transformSelect form-control',
 				'label' => 'Nom complet',
 				'options' => $options['users'],
@@ -82,7 +85,8 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 		<?php
 			// Filtrer par profil
 			echo $this->Form->input( 'profil', [
-				'empty' => 'Chercher par profil',
+				'empty' => true,
+				'data-placeholder' => 'Chercher par profil',
 				'class' => 'usersDeroulant transformSelect form-control',
 				'label' => 'Profil',
 				'options' => $options['roles'],
@@ -92,7 +96,8 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 
 			// Filtrer par service
 			echo $this->Form->input( 'service', [
-				'empty' => 'Chercher par service',
+				'empty' => true,
+				'data-placeholder' => 'Chercher par service',
 				'class' => 'usersDeroulant transformSelect form-control',
 				'label' => 'Service',
 				'options' => $options['services'],
@@ -107,19 +112,23 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
         <div class="col-md-4 col-md-offset-5 btn-group">
             <?php
                 // Bouton Réinitialiser le filtre
-                echo $this->Html->link('<i class="fa fa-undo fa-lg"></i>' . __d('user','user.btnReinitialiserFiltre'), [
-                    'controller' => $this->request->params['controller'],
-                    'action' => $this->request->params['action']
+                echo $this->Html->link(
+						'<i class="fa fa-undo fa-lg"></i> ' . __d('user','user.btnReinitialiserFiltre'), [
+						'controller' => $this->request->params['controller'],
+						'action' => $this->request->params['action']
                             ], [
-                    'class' => 'btn btn-default-danger',
-                    'escape' => false,
+						'class' => 'btn btn-default-danger search-reset',
+						'escape' => false,
                 ]);
 
                 // Bouton Appliquer les filtres
-                echo $this->Form->button('<i class="fa fa-filter fa-lg"></i>' . __d('user','user.btnFiltrer'), [
-                    'type' => 'submit',
-                    'class' => 'btn btn-default-success'
-                ]);
+                echo $this->Form->button(
+					'<i class="fa fa-filter fa-lg"></i>' . __d('user','user.btnFiltrer'),
+					[
+						'type' => 'submit',
+						'class' => 'btn btn-default-success'
+					]
+				);
             ?>
         </div>
     </div>
@@ -274,10 +283,16 @@ if(false === empty($results)) {
     echo '</table>';
 } else {?>
     <div class='text-center'>
-        <h3>
-            <?php echo __d('user', 'user.textAucunUserCollectiviter'); ?>
-        </h3>
-    </div>
+		<h3><?php
+			if ([] === Hash::filter($filters)) {
+				echo 'admin_index' === $this->request->params['action']
+					? __d('user', 'user.textAucunUser')
+					: __d('user', 'user.textAucunUserCollectiviter');
+			} else {
+				echo __d('user', 'user.textAucunUserFiltre');
+			}
+		?>
+    </div></h3>
     <?php
 }
 
