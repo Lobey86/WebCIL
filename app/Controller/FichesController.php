@@ -172,7 +172,7 @@ class FichesController extends AppController {
 
                     $this->Historique->create([
                         'Historique' => [
-                            'content' => 'Création du traitement par ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
+                            'content' => __d('historique', 'historique.creationTraitement') . ' ' . $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom'),
                             'fiche_id' => $last
                         ]
                     ]);
@@ -375,7 +375,7 @@ class FichesController extends AppController {
 
             $this->Historique->create([
                 'Historique' => [
-                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('fiche', 'fiche.textModifierTraitement'),
+                    'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('historique', 'historique.modifierTraitementRegistre'),
                     'fiche_id' => $id
                 ]
             ]);

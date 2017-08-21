@@ -66,11 +66,14 @@ class EtatFichesController extends AppController {
                 ],
                 'fields' => 'id'
             ]);
-
+            
             if (!empty($idEncoursValid)) {
                 $id = $idEncoursValid['EtatFiche']['id'];
                 $this->EtatFiche->id = $id;
                 $this->EtatFiche->saveField('etat_id', 3);
+                $messageHistorique = __d('historique', 'historique.valideEnvoieTraitement');
+            } else {
+                $messageHistorique = __d('historique', 'historique.envoieTraitement');
             }
 
             $this->EtatFiche->create([
@@ -102,7 +105,7 @@ class EtatFichesController extends AppController {
 
                     $this->Historique->create([
                         'Historique' => [
-                            'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche à ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' pour validation',
+                            'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . $messageHistorique . ' ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'] . ' ' . __d('historique', 'historique.validation'),
                             'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
                         ]
                     ]);
@@ -339,7 +342,7 @@ class EtatFichesController extends AppController {
 
                 $this->Historique->create([
                     'Historique' => [
-                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' demande l\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('historique', 'historique.demandeAvis') . ' ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
                         'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
                     ]
                 ]);
@@ -419,7 +422,7 @@ class EtatFichesController extends AppController {
 
                 $this->Historique->create([
                     'Historique' => [
-                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' répond à la demande d\'avis de ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
+                        'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('historique', 'historique.repondDemandeAvis') . ' ' . $destinataire['User']['prenom'] . ' ' . $destinataire['User']['nom'],
                         'fiche_id' => $this->request->data['EtatFiche']['ficheNum']
                     ]
                 ]);
@@ -637,7 +640,7 @@ class EtatFichesController extends AppController {
                 if ($success == true) {
                     $this->Historique->create([
                         'Historique' => [
-                            'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' envoie la fiche pour validation du CIL',
+                            'content' => $this->Auth->user('prenom') . ' ' . $this->Auth->user('nom') . ' ' . __d('historique', 'historique.valideEnvoieTraitementCIL'),
                             'fiche_id' => $id
                         ]
                     ]);

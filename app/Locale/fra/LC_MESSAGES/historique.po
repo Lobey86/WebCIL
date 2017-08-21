@@ -1,0 +1,43 @@
+# Locale fra
+# historique.po
+#
+# WebCil : https://adullact.net/projects/webcil
+#
+# @author Théo Guillon
+# @copyright Libriciel SCOP
+# @link https://www.libriciel.fr/
+# @license http://www.cecill.info/licences/Licence_CeCILL_V2-fr.txt CeCiLL v2
+#
+
+####################### Controller/FichesController.php #######################
+
+msgid "historique.creationTraitement"
+msgstr "Création du traitement par"
+
+msgid "historique.modifierTraitementRegistre"
+msgstr "a modifié le traitement enregistré au registre"
+
+###############################################################################
+
+
+####################### Controller/EtatFichesController.php #######################
+
+msgid "historique.envoieTraitement"
+msgstr "a envoyé le traitement à"
+
+msgid "historique.valideEnvoieTraitement"
+msgstr "a validé et envoyé le traitement à"
+
+msgid "historique.validation"
+msgstr "pour validation"
+
+msgid "historique.valideEnvoieTraitementCIL"
+msgstr "valide et envoie le traitement pour validation du CIL"
+
+msgid "historique.repondDemandeAvis"
+msgstr "a répondu à la demande d'avis de"
+
+msgid "historique.demandeAvis"
+msgstr "a demandé l'avis de"
+
+###############################################################################
