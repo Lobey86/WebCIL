@@ -161,7 +161,7 @@ class UsersController extends AppController {
 					'fields' => ['organisation_user_roles.organisation_user_id'],
 					'joins' => [
 						words_replace(
-							$this->User->OrganisationUserRole->join('Role', ['type' => 'INNER']),
+							$this->User->OrganisationUser->OrganisationUserRole->join('Role', ['type' => 'INNER']),
 							['Role' => 'roles', 'OrganisationUserRole' => 'organisation_user_roles']
 						)
 					],
@@ -169,7 +169,7 @@ class UsersController extends AppController {
 						'roles.libelle' => $profil
 					]
 				];
-				$sql = $this->User->OrganisationUserRole->sql($subQuery);
+				$sql = $this->User->OrganisationUser->OrganisationUserRole->sql($subQuery);
 				$query['conditions'][] = "OrganisationUser.id IN ({$sql})";
 			}
 		}
