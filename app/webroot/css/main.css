@@ -898,3 +898,7 @@ table.table-striped.users thead th a {
 *.glyphicon.help {
 	cursor: help;
 }
+
+span.input-group-addon label {
+	margin-bottom: 0;
+}

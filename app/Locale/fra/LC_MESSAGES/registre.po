@@ -86,11 +86,20 @@ msgstr "Réinitialiser les filtres"
 msgid "registre.placeholderNomTraitement"
 msgstr "Nom du traitement"
 
+msgid "registre.filtreNomTraitement"
+msgstr "Filtrer par nom du traitement"
+
 msgid "registre.placeholderSelectionnerUser"
 msgstr "Selectionnez un utilisateur"
 
+msgid "registre.filtreUser"
+msgstr "Filtrer par utilisateur"
+
 msgid "registre.placeholderSelectionnerService"
 msgstr "Selectionnez un service"
+
+msgid "registre.filtreService"
+msgstr "Filtrer par service"
 
 msgid "registre.popupTitreEditionTraitementRegistre"
 msgstr "Edition d'un traitement du registre"
