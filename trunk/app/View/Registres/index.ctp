@@ -30,7 +30,7 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 
     <div class="input-group login">
         <span class="input-group-addon">
-            <span class="fa fa-user fa-lg"></span>
+			<?php echo $this->Form->label('user', '', ['class' => 'fa fa-user fa-lg', 'title' => __d('registre', 'registre.filtreUser')]);?>
         </span>
         <?php
         echo $this->Form->input('user', [
@@ -45,7 +45,7 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 
     <div class="input-group login">
         <span class="input-group-addon">
-            <span class="fa fa-tag fa-lg"></span>
+            <?php echo $this->Form->label('outil', '', ['class' => 'fa fa-tag fa-lg', 'title' => __d('registre', 'registre.filtreNomTraitement')]);?>
         </span>
         <?php
         echo $this->Form->input('outil', [
@@ -58,7 +58,7 @@ unset($filters['sort'], $filters['direction'], $filters['page']);
 
     <div class="input-group login">
         <span class="input-group-addon">
-            <span class="fa fa-sitemap fa-lg"></span>
+			<?php echo $this->Form->label('service', '', ['class' => 'fa fa-sitemap fa-lg', 'title' => __d('registre', 'registre.filtreService')]);?>
         </span>
         <?php
         echo $this->Form->input('service', [
