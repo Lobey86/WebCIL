@@ -15,7 +15,7 @@ msgid "element.Redaction"
 msgstr "Rédaction"
 
 msgid "element.CreePar"
-msgstr "Créé par : "
+msgstr "Créé par"
 
 msgid "element.Le"
 msgstr "le"

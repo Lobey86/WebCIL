@@ -20,9 +20,6 @@ msgstr "Aperçu du traitement : "
 msgid "fiche.titreEditionFiche"
 msgstr "Edition du traitement : "
 
-msgid "fiche.textModifierTraitement"
-msgstr "modifie le traitement enregistré au registre"
-
 ###################### Session->setFlash ######################
 
 msgid "fiche.flasherrorPasAccesTraitement"
